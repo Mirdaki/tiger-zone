@@ -43,6 +43,21 @@ public abstract class TileObject {
 				numVertices,
 				orientation;
 	
+	protected char type;
+	
+	//constructors
+	public TileObject() { 
+		
+	}
+	
+	public TileObject(int tileID, int value, int x, int y)
+	{
+		this.tileID = tileID;
+		this.value = value;
+		this.x = x;
+		this.y = y;
+	}
+	
 	//accessor methods
 	public int getTileID() {
 		return tileID;
@@ -71,8 +86,7 @@ public abstract class TileObject {
 	public int getOrientation() { 
 		return orientation;
 	}
-	
-	
+		
 	//mutator methods
 	public void setTileID(int tileID) {
 		this.tileID = tileID;
@@ -99,6 +113,10 @@ public abstract class TileObject {
 	}
 	
 	//normal methods
+	public String toString() {
+		return "ID: " + this.tileID + "\nCard value: " + this.value + "\n(x,y) coordinate: (" + this.x + "," + this.y + ")\nEdge count: " 
+				+ this.numEdges + "\nVertex count: " + this.numVertices + "\nOrientation: " + this.orientation;
+	}//end toSring
 	
 	
 } //end TileObject

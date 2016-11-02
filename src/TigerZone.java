@@ -6,18 +6,27 @@ import java.io.InputStreamReader;
 public class TigerZone {
 		
 	public static void main(String[] args) {
-		TileObject test;
+		SquareTile test;
 
-		test = new SquareTile(5,2,3,0);
+		test = new SquareTile(1,2,3,4,'A');
 		
-		System.out.println(test.toString());
+		//System.out.println(test.toString() + "\n");
 		
-		HexTile testHex;
-		testHex = new HexTile(5,2,3,0);
+		test.printOut();
+
+		System.out.println();
 		
-		System.out.println(testHex.toString());
+		test.rotateRight();
+//		test.rotateLeft();
 		
-		/*Scanner input = new Scanner(System.in);
+		test.printOut();
+		
+		/*HexTile testHex;
+		testHex = new HexTile(5,1,7,8);
+		
+		System.out.println("\n"+testHex.toString());
+		
+		Scanner input = new Scanner(System.in);
 		String test = "";
 		
 		do 
