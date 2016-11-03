@@ -4,7 +4,6 @@ public class HexTile extends TileObject {
 	} //end constructor
 	
 	public HexTile(int tileID, int value, int x, int y) {
-		super(tileID, value, x, y);
 		this.numEdges = 6;
 		this.numVertices = 6;
 		this.orientation = 0;

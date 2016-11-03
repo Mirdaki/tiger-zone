@@ -1,3 +1,10 @@
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 /*
  * This is the TileObject that will handle a basic tile of the TigerZone game implementation.
  * 
@@ -35,27 +42,30 @@
 
 public abstract class TileObject {
 	
+	protected static final char FIELD = 'F';		//0
+	protected static final char ROAD = 'R';  		//1
+	protected static final char CITY = 'C';  		//2
+	protected static final char MONASTERY = 'M';	//3
+	protected static final char CROSSING = 'X';	//4
+	
 	protected int tileID, 
 				value,
-				x, 
-				y,
 				numEdges,
 				numVertices,
 				orientation;
 	
 	protected char type;
+	protected Location coord;
 	
 	//constructors
 	public TileObject() { 
 		
 	}
 	
-	public TileObject(int tileID, int value, int x, int y)
-	{
+	public TileObject(int tileID, int value, Location coord) {
 		this.tileID = tileID;
 		this.value = value;
-		this.x = x;
-		this.y = y;
+		this.coord = coord;
 	}
 	
 	//accessor methods
@@ -67,12 +77,8 @@ public abstract class TileObject {
 		return value;
 	}
 	
-	public int getX() { 
-		return x;
-	}
-	
-	public int getY() { 
-		return y;
+	public Location getX() { 
+		return coord;
 	}
 	
 	public int getNumEdges() {
@@ -96,14 +102,10 @@ public abstract class TileObject {
 		this.value = value;
 	}
 	
-	public void setX(int x) { 
-		this.x = x;
+	public void setX(Location coord) { 
+		this.coord = coord;
 	}
-	
-	public void setY(int y) {
-		this.y = y;
-	}
-	
+		
 	public void setNumEdges(int numEdges) {
 		this.numEdges = numEdges;
 	}
@@ -114,7 +116,7 @@ public abstract class TileObject {
 	
 	//normal methods
 	public String toString() {
-		return "ID: " + this.tileID + "\nCard value: " + this.value + "\n(x,y) coordinate: (" + this.x + "," + this.y + ")\nEdge count: " 
+		return "ID: " + this.tileID + "\nCard value: " + this.value + "\n(x,y) coordinate: " + this.coord.toString() + "\nEdge count: " 
 				+ this.numEdges + "\nVertex count: " + this.numVertices + "\nOrientation: " + this.orientation;
 	}//end toSring
 	

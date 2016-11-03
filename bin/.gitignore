@@ -1,8 +1,7 @@
-/BoardObject.class
-/HexTile.class
-/KeyEventDemo$1.class
-/KeyEventDemo.class
-/MeepleObject.class
-/SquareTile.class
-/TigerZone.class
+/Object.class
 /TileObject.class
+/Location.class
+/BoardLocation.class
+/edge.class
+/TileObject$structure.class
+/TileObject$test.class
