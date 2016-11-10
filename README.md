@@ -1,5 +1,3 @@
-# tiger-zone
+# Tiger Zone
 
-Game for CEN3031
-
-Good luck everyone
+Game based on carcassonne for CEN3031
