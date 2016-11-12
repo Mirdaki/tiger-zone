@@ -222,7 +222,9 @@ public class SquareTile extends TileObject {
 		}//end switch case
 	}//end constructor
 	
-	
+	public edge[] getEdges() {
+		return edges;
+	}
 	
 	public SquareTile rotateRight() {
 		
@@ -258,5 +260,13 @@ public class SquareTile extends TileObject {
 				edges[3].toString() + "\n" +
 				"Mid: " + this.center;
 	}//end printOut
+	
+	public boolean similarEdge(SquareTile edge) {
+		
+		
+		
+		
+		return false;
+	}
 	
 }//end SquareTile
