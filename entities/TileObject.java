@@ -53,10 +53,14 @@ public abstract class TileObject {
 				numEdges,
 				numVertices,
 				orientation;
-	
+
 	protected char type;
-	protected Location coord;
 	
+	protected Location coord;
+	protected Player owner;
+	protected MeepleObject meeple;
+	
+		
 	//constructors
 	public TileObject() { 
 		
@@ -72,47 +76,56 @@ public abstract class TileObject {
 	public int getTileID() {
 		return tileID;
 	}
-	
+
+	public void setTileID(int tileID) {
+		this.tileID = tileID;
+	}
+
 	public int getValue() {
 		return value;
+	}
+
+	public void setValue(int value) { 
+		this.value = value;
 	}
 	
 	public Location getX() { 
 		return coord;
 	}
 	
+	public void setX(Location coord) { 
+		this.coord = coord;
+	}
+
 	public int getNumEdges() {
 		return numEdges;
 	}
 	
+	public void setNumEdges(int numEdges) {
+		this.numEdges = numEdges;
+	}
+
 	public int getNumVertices() { 
 		return numVertices;
+	}
+
+	public void setNumVertices(int numVertices) { 
+		this.numVertices = numVertices;
 	}
 	
 	public int getOrientation() { 
 		return orientation;
 	}
 		
-	//mutator methods
-	public void setTileID(int tileID) {
-		this.tileID = tileID;
+	public Player getOwner() {
+		return owner;
 	}
 	
-	public void setValue(int value) { 
-		this.value = value;
+	public void setOwner(Player owner) {
+		this.owner = owner;
 	}
 	
-	public void setX(Location coord) { 
-		this.coord = coord;
-	}
-		
-	public void setNumEdges(int numEdges) {
-		this.numEdges = numEdges;
-	}
 	
-	public void setNumVertices(int numVertices) { 
-		this.numVertices = numVertices;
-	}
 	
 	//normal methods
 	public String toString() {

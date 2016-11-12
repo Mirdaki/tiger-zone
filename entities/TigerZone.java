@@ -17,16 +17,73 @@ public class TigerZone extends JFrame {
 	}
 	
 	public static void main(String[] args) {
+
+		
+		
+		
 		
 		BoardObject test = new BoardObject();
 		
 		Map<String, SquareTile> testing = test.getMap();
+
+		Player player1 = test.getPlayer(0),
+				player2 = test.getPlayer(1);
+
 		
-		System.out.println(testing.get("P0").toString() + "\n");
-		System.out.println(testing.get("P90").toString() + "\n");
-		System.out.println(testing.get("P180").toString() + "\n");
-		System.out.println(testing.get("P270").toString() + "\n");
+		player1.setFirst(false);
+		player1.setFirst(true);
 		
+		player2.setAI(true);
+		
+		player1.setMeeple(player1.getMeeple()-5);
+		
+		player2.addScore(50);
+		player2.addScore(150);
+
+		System.out.println(player1.toString());
+		System.out.println(player2.toString());
+
+		test.setPlayer(1, player1);
+
+		System.out.println(player1.toString());
+		System.out.println(player2.toString());
+		
+		
+		
+		
+		
+		
+		
+//		Player player1 = test.getPlayer(0);
+//		Player player2 = test.getPlayer(1);
+//		
+//		player1.setFirst(false);
+//		player1.setFirst(true);
+//		
+//		player2.setAI(true);
+//		
+//		player1.setMeeple(player1.getMeeple()-5);
+//		
+//		player2.addScore(50);
+//		player2.addScore(150);
+//
+//		System.out.println(player1.toString());
+//		System.out.println(player2.toString());
+		
+		//System.out.println(testing.get("P0").toString() + "\n");
+		//System.out.println(testing.get("P90").toString() + "\n");
+		//System.out.println(testing.get("P180").toString() + "\n");
+		//System.out.println(testing.get("P270").toString() + "\n");
+		
+		SquareTile tester = testing.get("A0");
+		//System.out.println(tester.toString());
+		
+		//edge edges[] = tester.getEdges();
+		
+		//for (int i = 0; i < edges.length; i++) 
+		//{
+		//	System.out.println(edges[i].toString());
+		//}
 		
 	/*	SquareTile test = new SquareTile(1,new Location(),'A');
 		

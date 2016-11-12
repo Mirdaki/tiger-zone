@@ -9,18 +9,17 @@
 public class MeepleObject 
 {
 	//Attributes
-	protected double theMeepleID;
-	protected string theMeepleType;
-	protected string theMeepleOwner;
-	protected double theMeepleTerrainID;
+	protected int id;
+	protected char type;
+	protected Player owner;
+	protected int terrainID;
 		
 	//Constructors
-	public Meeple(double aMeepleID, string aMeepleType, string aMeepleOwner, double theMeepleTerrainID)
-	{
-		theMeepleID = aMeepleID;
-		theMeepleType = aMeepleType;
-		theMeepleOwner = aMeepleOwner;
-		theMeepleTerrainID = aMeepleTerrainID;
+	public MeepleObject(int id, char type, Player owner, int terrainID) {
+		this.id = id;
+		this.type = type;
+		this.owner = owner;
+		this.terrainID = terrainID;
 	}
 	
 	//Getters
@@ -28,52 +27,47 @@ public class MeepleObject
 	* Get Meeple ID
 	* @return double
 	*/
-	public double getMeepleID()
+	public int getID()
 	{
-		return theMeepleID;
+		return id;
 	}
 	
 	/**
 	* Get Meeple Type
 	* @return string
 	*/
-	public string getMeepleType()
-	{
-		if (theMeepleType == null)
-		{
-			return "None";
-		}
-		return theMeepleType;
+	public char getType() {
+		return type;
 	}
 	
 	/**
 	* Get Meeple Owner
 	* @return string
 	*/
-	public string getMeepleOwner()
+	public Player getMeepleOwner()
 	{
-		return theMeepleOwner;
+		return owner;
 	}
 	
 	/**
 	* Get Meeple's Terrain ID
 	* @return double
 	*/
-	public double getMeepleTerrainID()
+	public int getTerrainID()
 	{
-		return theMeepleTerrainID;
+		return terrainID;
 	}
 	
 	//Mutators
 	//Changes the Meeple Type
-	public void setMeepleType(string aMeepleType)
+	public void setType(char type)
 	{
-		this.theMeepleType = aMeepleType;
+		this.type = type;
 	}
 	
 	//Changes the Terrain ID of the Meeple
-	public void setMeepleTerrainID(double aMeepleTerrainID)
+	public void setTerrainID(int type)
 	{
-		this.theMeepleTerrainID = aMeepleTerrainID;
+		this.terrainID = terrainID;
 	}
 }

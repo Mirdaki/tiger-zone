@@ -11,6 +11,9 @@ public class BoardObject {
 
 	
 	protected Map<String, SquareTile> tiles = new HashMap<String, SquareTile>();
+	protected Map<Location, SquareTile> board = new HashMap<Location, SquareTile>();
+	Player players[] = new Player[2];
+	MeepleObject meeple; 
 	
 	public BoardObject()
 	{
@@ -26,11 +29,26 @@ public class BoardObject {
 			tiles.put(i + "180", tile180);
 			tiles.put(i + "270", tile270);
 		}
+		
+		players[0] = new Player(50);
+		players[1] = new Player(51);
 	} //end constructor
 	
 	public Map<String, SquareTile> getMap()
 	{
 		return tiles;
+	}
+	
+	public Player getPlayer(int index) {
+		return players[index];
+	}
+	
+	public void setPlayer(int index, Player player) {
+		players[index].setID(player.getID());
+		players[index].setFirst(player.isFirst());
+		players[index].setAI(player.isAI());
+		players[index].setMeeple(player.getMeeple());
+		players[index].setScore(player.getScore());
 	}
 	
 }
