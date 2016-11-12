@@ -25,7 +25,7 @@ public class MeepleObject
 	//Getters
 	/**
 	* Get Meeple ID
-	* @return double
+	* @return int
 	*/
 	public int getID()
 	{
@@ -42,7 +42,7 @@ public class MeepleObject
 	
 	/**
 	* Get Meeple Owner
-	* @return string
+	* @return char
 	*/
 	public Player getMeepleOwner()
 	{
@@ -51,7 +51,7 @@ public class MeepleObject
 	
 	/**
 	* Get Meeple's Terrain ID
-	* @return double
+	* @return int
 	*/
 	public int getTerrainID()
 	{
@@ -66,7 +66,7 @@ public class MeepleObject
 	}
 	
 	//Changes the Terrain ID of the Meeple
-	public void setTerrainID(int type)
+	public void setTerrainID(int terrainID)
 	{
 		this.terrainID = terrainID;
 	}
