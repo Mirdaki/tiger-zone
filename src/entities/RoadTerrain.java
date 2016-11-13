@@ -29,7 +29,7 @@ public class RoadTerrain extends Terrain
 	// Getters
 	/**
 	 * Check if the road terminates on this terrain.
-	 * @return boolean 
+	 * @return boolean
 	 */
 	public boolean isEndOfRoad()
 	{

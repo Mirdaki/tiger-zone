@@ -7,7 +7,7 @@ public class FieldTerrain extends Terrain
 {
 
 	// Properties
-	protected int theNumberOfNeighboringCities;
+	// protected int theNumberOfNeighboringCities;
 
 	/**
 	 * A field terrain that can have a number of neighboring cities.
@@ -22,27 +22,27 @@ public class FieldTerrain extends Terrain
 		theTerrainID                 = aTerrainID;
 		theTileConnections           = aTileConnections;
 		theType                      = "Field";
-		theNumberOfNeighboringCities = 0;
+		// theNumberOfNeighboringCities = 0;
 	}
 
-	// These may be better in the FieldRegion
-	// Getters and setters
-	/**
-	 * Get number of neighboring cities
-	 * @return int
-	 */
-	public int getNumberOfNeighboringCities()
-	{
-		return theNumberOfNeighboringCities;
-	}
-
-	/**
-	 * Set the number of neighboring cities
-	 * @param aNumberOfNeighboringCities int
-	 */
-	public void setNumberOfNeighboringCities(int aNumberOfNeighboringCities)
-	{
-		theNumberOfNeighboringCities = aNumberOfNeighboringCities;
-	}
+	// // These may be better in the FieldRegion
+	// // Getters and setters
+	// /**
+	//  * Get number of neighboring cities
+	//  * @return int
+	//  */
+	// public int getNumberOfNeighboringCities()
+	// {
+	// 	return theNumberOfNeighboringCities;
+	// }
+	//
+	// /**
+	//  * Set the number of neighboring cities
+	//  * @param aNumberOfNeighboringCities int
+	//  */
+	// public void setNumberOfNeighboringCities(int aNumberOfNeighboringCities)
+	// {
+	// 	theNumberOfNeighboringCities = aNumberOfNeighboringCities;
+	// }
 
 }

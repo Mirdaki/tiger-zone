@@ -117,6 +117,23 @@ public abstract class Terrain
 		return result;
 	}
 
-	// TODO: Make toString
+	/**
+	 * String of the terrain ID, type, if there is a meeple, and number of tile
+	 * connections
+	 * @return String description
+	 */
+	public String toString()
+	{
+		String terrainID = String.valueOf(theTerrainID);
+		String terrainType = theType;
+		String hasMeeple = "no";
+		if (hasMeeple())
+		{
+			hasMeeple = "a";
+		}
+		String numberOfConnections = String.valueOf(theTileConnections.size());
+		return "The terrain " + terrainID + " of type " + terrainType + " has " +
+				hasMeeple + " Meepel and " + numberOfConnections + " tile connection(s)";
+	}
 
 }

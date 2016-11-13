@@ -8,7 +8,7 @@ public class CityTerrain extends Terrain
 
 	// City specifc properties
 	protected boolean theShield;
-	protected boolean theCompleted;
+	// protected boolean theCompleted;
 
 	/**
 	 * A city terrain that can be completed and have a shield.
@@ -25,7 +25,7 @@ public class CityTerrain extends Terrain
 		theTileConnections = aTileConnections;
 		theType            = "City";
 		theShield          = aShield;
-		theCompleted       = false;
+		// theCompleted       = false;
 	}
 
 	// Getters
@@ -38,22 +38,22 @@ public class CityTerrain extends Terrain
 		return theShield;
 	}
 
-	/**
-	 * Checks if the city is complete
-	 * @return boolean
-	 */
-	public boolean isCompleted()
-	{
-		return theCompleted;
-	}
-
-	// Setters
-	/**
-	 * Makes the city complete. Does not remove meeples. 
-	 */
-	public void makeCompleted()
-	{
-		theCompleted = true;
-	}
+	// /**
+	//  * Checks if the city is complete
+	//  * @return boolean
+	//  */
+	// public boolean isCompleted()
+	// {
+	// 	return theCompleted;
+	// }
+	//
+	// // Setters
+	// /**
+	//  * Makes the city complete. Does not remove meeples.
+	//  */
+	// public void makeCompleted()
+	// {
+	// 	theCompleted = true;
+	// }
 
 }

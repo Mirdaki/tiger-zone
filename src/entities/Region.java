@@ -20,29 +20,47 @@ public abstract class Region
 
 	/**
 	 * Region is an object of the board that describes cities, fields,
-	 * roads, and monasteries.
+	 * roads, and monasteries. Use this if there is no starting terrain.
 	 * @param aRegionID A unique ID derived from the tile and region
 	 * @return Region
 	 */
-	public Region(double aTerrainID)
+	public Region(double aRegionID)
 	{
-		theRegionID = aTerrainID;
+		theRegionID = aRegionID;
 		theTerrains = new ArrayList<Terrain>();
 		theMeeples  = new ArrayList<MeepleObject>();
 	}
 
 	/**
+	* Region is an object of the board that describes cities, fields,
+	* roads, and monasteries. Use this if there is a single terrain.
+	* @param aTerrain Single terrain that is included in the region.
+	* @return Region
+	*/
+	public Region(Terrain aTerrain)
+	{
+		// Region ID becomes the terrain's ID
+		theRegionID = aTerrain.getTerrainID();
+		theTerrains = new ArrayList<Terrain>();
+		theMeeples  = new ArrayList<MeepleObject>();
+		// Add all and update meepels
+		addTerain(aTerrain);
+	}
+
+	/**
 	 * Region is an object of the board that describes cities, fields,
-	 * roads, and monasteries.
-	 * @param aRegionID A unique ID derived from the tile and region
+	 * roads, and monasteries. Use this if there is a set of terrain.
 	 * @param aTerrains Set of terrain that is included in the region.
 	 * @return Region
 	 */
-	public Region(double aTerrainID, ArrayList<Terrain> aTerrains)
+	public Region(ArrayList<Terrain> aTerrains)
 	{
-		theRegionID = aTerrainID;
-		// Add terrains,meeples
-		//theTerrains = aTerrains;
+		// Region ID becomes the first terrain's ID
+		theRegionID = aTerrains.get(0).getTerrainID();
+		theTerrains = new ArrayList<Terrain>();
+		theMeeples  = new ArrayList<MeepleObject>();
+		// Add all and update meepels
+		addTerain(aTerrains);
 	}
 
 	// Getters
@@ -85,6 +103,15 @@ public abstract class Region
 			result = "None";
 		}
 		return result;
+	}
+
+	/**
+	 * Gets number of terrain in a region
+	 * @return int
+	 */
+	public int getNumberOfTerrains()
+	{
+		return theTerrains.size();
 	}
 
 	// Checks
@@ -174,6 +201,33 @@ public abstract class Region
 		}
 	}
 
-	// TODO: Make toString
+	/**
+	 * Merge an existing region into the current one
+	 * @param aRegion Of the same type
+	 */
+	public void addRegion(Region aRegion)
+	{
+		// Check if the type is right
+		if (theType != aRegion.getType())
+		{
+			throw new IllegalArgumentException("Mismatch Region");
+		}
+
+		addTerain(aRegion.getTerrains());
+	}
+
+	/**
+	 * Prints out the region ID, type, number of meeples, and number of terrains
+	 * @return String description
+	 */
+	public String toString()
+	{
+		String regionID = String.valueOf(theRegionID);
+		String regionType = theType;
+		String numberOfMeeples = String.valueOf(theMeeples.size());
+		String numberOfTerrain = String.valueOf(theTerrains.size());
+		return "The region " + regionID + " of type " + regionType + " has " +
+				numberOfMeeples + " Meepel(s) and " + numberOfTerrain + " Terrain(s)";
+	}
 
 }
