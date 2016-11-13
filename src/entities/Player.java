@@ -1,12 +1,15 @@
+import java.util.ArrayList;
 
 public class Player {
 
 	protected int numMeeple, score, id;
+	protected ArrayList<MeepleObject> meeples;
 	boolean isFirst, isAI; 
 	
 	public Player(int id) { 
 		this.id = id;
-		numMeeple = 8;
+		numMeeple = 7;
+		meeples = new ArrayList<MeepleObject>();
 		score = 0;
 	}
 	
@@ -35,6 +38,15 @@ public class Player {
 	
 	public void setID(int id) {
 		this.id = id;
+	}
+	
+	/**
+	 * Returns array list of meeples the player owns.
+	 * @return ArrayList<MeepleObject>
+	 */
+	public ArrayList<MeepleObject> getMeeples()
+	{
+		return meeples;
 	}
 	
 	public boolean isFirst() { 
