@@ -7,7 +7,7 @@ public class JungleRegion extends Region
 {
 
 	// Jungle specifc properties
-	protected ArrayList<CityRegion> neighboringCities;
+	protected ArrayList<LakeRegion> theNeighboringLakes;
 
 	/**
 	 * JungleRegion is an object of the board that describes Jungles regions.
@@ -15,13 +15,13 @@ public class JungleRegion extends Region
 	 * @param aRegionID A unique ID derived from the tile and region
 	 * @return JungleRegion
 	 */
-	public JungleRegion(double aRegionID)
+	public JungleRegion(int aRegionID)
 	{
-		theRegionID       = aRegionID;
-		theTerrains       = new ArrayList<Terrain>();
-		theTigers        = new ArrayList<TigerObject>();
-		theType           = "Jungle";
-		neighboringCities = new ArrayList<CityRegion>();
+		theRegionID         = aRegionID;
+		theTerrains         = new ArrayList<Terrain>();
+		theTigers           = new ArrayList<TigerObject>();
+		theType             = "Jungle";
+		theNeighboringLakes = new ArrayList<LakeRegion>();
 	}
 
 	/**
@@ -33,11 +33,11 @@ public class JungleRegion extends Region
 	public JungleRegion(Terrain aTerrain)
 	{
 		// Region ID becomes the terrain's ID
-		theRegionID       = aTerrain.getTerrainID();
-		theTerrains       = new ArrayList<Terrain>();
-		theTigers        = new ArrayList<TigerObject>();
-		theType           = "Jungle";
-		neighboringCities = new ArrayList<CityRegion>();
+		theRegionID         = aTerrain.getTerrainID();
+		theTerrains         = new ArrayList<Terrain>();
+		theTigers           = new ArrayList<TigerObject>();
+		theType             = "Jungle";
+		theNeighboringLakes = new ArrayList<LakeRegion>();
 		// Add and update meepels
 		addTerain(aTerrain);
 	}
@@ -51,11 +51,11 @@ public class JungleRegion extends Region
 	public JungleRegion(ArrayList<Terrain> aTerrains)
 	{
 		// Region ID becomes the first terrain's ID
-		theRegionID       = aTerrains.get(0).getTerrainID();
-		theTerrains       = new ArrayList<Terrain>();
-		theTigers        = new ArrayList<TigerObject>();
-		theType           = "Jungle";
-		neighboringCities = new ArrayList<CityRegion>();
+		theRegionID         = aTerrains.get(0).getTerrainID();
+		theTerrains         = new ArrayList<Terrain>();
+		theTigers           = new ArrayList<TigerObject>();
+		theType             = "Jungle";
+		theNeighboringLakes = new ArrayList<LakeRegion>();
 		// Add all and update meepels
 		addTerain(aTerrains);
 	}
@@ -65,17 +65,17 @@ public class JungleRegion extends Region
 	 * Get number of neighboring cities
 	 * @return int
 	 */
-	public int getNumberOfNeighboringCities()
+	public int getNumberOfNeighboringLakes()
 	{
-		updateNeighboringCities();
-		return neighboringCities.size();
+		updateNeighboringLakes();
+		return theNeighboringLakes.size();
 	}
 
 	// Mutators
 	/**
 	 * Update the list of neighboring cities. NOT WORKING YET.
 	 */
-	public void updateNeighboringCities()
+	public void updateNeighboringLakes()
 	{
 		// TODO: Some method to check neighboriung tiles for cities
 	}
@@ -103,7 +103,7 @@ public class JungleRegion extends Region
 		}
 
 		// Update neignoring cities
-		updateNeighboringCities();
+		updateNeighboringLakes();
 	}
 
 }

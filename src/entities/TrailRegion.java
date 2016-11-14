@@ -15,13 +15,13 @@ public class TrailRegion extends Region
 	 * @param aRegionID A unique ID derived from the tile and region
 	 * @return TrailRegion
 	 */
-	public TrailRegion(double aRegionID)
+	public TrailRegion(int aRegionID)
 	{
-		theRegionID      = aRegionID;
-		theTerrains      = new ArrayList<Terrain>();
-		theTigers       = new ArrayList<TigerObject>();
-		theType          = "Field";
-		theCompleted     = false;
+		theRegionID  = aRegionID;
+		theTerrains  = new ArrayList<Terrain>();
+		theTigers    = new ArrayList<TigerObject>();
+		theType      = "Field";
+		theCompleted = false;
 	}
 
 	/**
@@ -33,11 +33,11 @@ public class TrailRegion extends Region
 	public TrailRegion(Terrain aTerrain)
 	{
 		// Region ID becomes the terrain's ID
-		theRegionID      = aTerrain.getTerrainID();
-		theTerrains      = new ArrayList<Terrain>();
-		theTigers       = new ArrayList<TigerObject>();
-		theType          = "Field";
-		theCompleted     = false;
+		theRegionID  = aTerrain.getTerrainID();
+		theTerrains  = new ArrayList<Terrain>();
+		theTigers    = new ArrayList<TigerObject>();
+		theType      = "Field";
+		theCompleted = false;
 		// Add and update meepels
 		addTerain(aTerrain);
 	}
@@ -53,7 +53,7 @@ public class TrailRegion extends Region
 		// Region ID becomes the first terrain's ID
 		theRegionID      = aTerrains.get(0).getTerrainID();
 		theTerrains      = new ArrayList<Terrain>();
-		theTigers       = new ArrayList<TigerObject>();
+		theTigers        = new ArrayList<TigerObject>();
 		theType          = "Field";
 		theCompleted     = false;
 		// Add all and update meepels

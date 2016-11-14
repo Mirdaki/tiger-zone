@@ -1,61 +1,61 @@
 import java.util.ArrayList;
 
 /**
- * A monastery Region. Collection of terrain that exist on a board.
+ * A den Region. Collection of terrain that exist on a board.
  */
-public class MonasteryRegion extends Region
+public class DenRegion extends Region
 {
 
 	// Field specifc properties
-	protected ArrayList<Terrain> neighboringTiles;
+	protected ArrayList<Terrain> theNeighboringTiles;
 
 	/**
-	 * MonasteryRegion is an object of the board that describes fields regions.
+	 * DenRegion is an object of the board that describes fields regions.
 	 * Use this if there is no starting terrain.
 	 * @param aRegionID A unique ID derived from the tile and region
-	 * @return MonasteryRegion
+	 * @return DenRegion
 	 */
-	public MonasteryRegion(double aRegionID)
+	public DenRegion(int aRegionID)
 	{
-		theRegionID      = aRegionID;
-		theTerrains      = new ArrayList<Terrain>();
-		theTigers       = new ArrayList<TigerObject>();
-		theType          = "Field";
-		neighboringTiles = new ArrayList<Terrain>();
+		theRegionID         = aRegionID;
+		theTerrains         = new ArrayList<Terrain>();
+		theTigers           = new ArrayList<TigerObject>();
+		theType             = "Den";
+		theNeighboringTiles = new ArrayList<Terrain>();
 	}
 
 	/**
-	 * MonasteryRegion is an object of the board that describes fields regions.
+	 * DenRegion is an object of the board that describes fields regions.
 	 * Use this if there is no starting terrain.
 	 * @param aTerrain Single terrain that is included in the region.
-	 * @return MonasteryRegion
+	 * @return DenRegion
 	 */
-	public MonasteryRegion(Terrain aTerrain)
+	public DenRegion(Terrain aTerrain)
 	{
 		// Region ID becomes the terrain's ID
-		theRegionID      = aTerrain.getTerrainID();
-		theTerrains      = new ArrayList<Terrain>();
-		theTigers       = new ArrayList<TigerObject>();
-		theType          = "Field";
-		neighboringTiles = new ArrayList<Terrain>();
+		theRegionID         = aTerrain.getTerrainID();
+		theTerrains         = new ArrayList<Terrain>();
+		theTigers           = new ArrayList<TigerObject>();
+		theType             = "Den";
+		theNeighboringTiles = new ArrayList<Terrain>();
 		// Add and update meepels
 		addTerain(aTerrain);
 	}
 
 	// /**
-	//  * MonasteryRegion is an object of the board that describes fields regions.
+	//  * DenRegion is an object of the board that describes fields regions.
 	//  * Use this if there is no starting terrain.
 	//  * @param aTerrains Set of terrain that is included in the region.
-	//  * @return MonasteryRegion
+	//  * @return DenRegion
 	//  */
-	// public MonasteryRegion(ArrayList<Terrain> aTerrains)
+	// public DenRegion(ArrayList<Terrain> aTerrains)
 	// {
 	// 	// Region ID becomes the first terrain's ID
 	// 	theRegionID      = aTerrains.get(0).getTerrainID();
 	// 	theTerrains      = new ArrayList<Terrain>();
 	// 	theTigers       = new ArrayList<TigerObject>();
 	// 	theType          = "Field";
-	// 	neighboringTiles = new ArrayList<Terrain>();
+	// 	theNeighboringTiles = new ArrayList<Terrain>();
 	// 	// Add all and update meepels
 	// 	addTerain(aTerrains);
 	// }
@@ -68,7 +68,7 @@ public class MonasteryRegion extends Region
 	public int getNumberOfNeighboringCities()
 	{
 		updateNeighboringTiles();
-		return neighboringTiles.size();
+		return theNeighboringTiles.size();
 	}
 
 	// Mutators

@@ -21,14 +21,14 @@ public class TrailTerrain extends Terrain
 	public TrailTerrain(int aTerrainID) {
 		theTerrainID = aTerrainID;
 	}
-	
+
 	public TrailTerrain(int aTerrainID, ArrayList<Integer> aTileConnections,
 			boolean aEndOfTrail)
 	{
 		theTerrainID       = aTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = "Trail";
-		theEndOfTrail       = aEndOfTrail;
+		theEndOfTrail      = aEndOfTrail;
 	}
 
 	// Getters

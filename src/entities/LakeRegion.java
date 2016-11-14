@@ -8,7 +8,7 @@ public class LakeRegion extends Region
 
 	// Lake specifc properties
 	protected boolean theCompleted;
-	protected int numberOfShields;
+	protected int theNumberOfShields;
 
 	/**
 	 * LakeRegion is an object of the board that describes cities regions.
@@ -16,14 +16,14 @@ public class LakeRegion extends Region
 	 * @param aRegionID A unique ID derived from the tile and region
 	 * @return LakeRegion
 	 */
-	public LakeRegion(double aRegionID)
+	public LakeRegion(int aRegionID)
 	{
-		theRegionID     = aRegionID;
-		theTerrains     = new ArrayList<Terrain>();
-		theTigers      = new ArrayList<TigerObject>();
-		theCompleted    = false;
-		theType         = "Lake";
-		numberOfShields = 0;
+		theRegionID        = aRegionID;
+		theTerrains        = new ArrayList<Terrain>();
+		theTigers          = new ArrayList<TigerObject>();
+		theCompleted       = false;
+		theType            = "Lake";
+		theNumberOfShields = 0;
 	}
 
 	/**
@@ -35,12 +35,12 @@ public class LakeRegion extends Region
 	public LakeRegion(Terrain aTerrain)
 	{
 		// Region ID becomes the terrain's ID
-		theRegionID     = aTerrain.getTerrainID();
-		theTerrains     = new ArrayList<Terrain>();
-		theTigers      = new ArrayList<TigerObject>();
-		theType         = "Lake";
-		theCompleted    = false;
-		numberOfShields = 0;
+		theRegionID        = aTerrain.getTerrainID();
+		theTerrains        = new ArrayList<Terrain>();
+		theTigers          = new ArrayList<TigerObject>();
+		theType            = "Lake";
+		theCompleted       = false;
+		theNumberOfShields = 0;
 		// Add and update meepels and shields
 		addTerain(aTerrain);
 	}
@@ -54,12 +54,12 @@ public class LakeRegion extends Region
 	public LakeRegion(ArrayList<Terrain> aTerrains)
 	{
 		// Region ID becomes the first terrain's ID
-		theRegionID     = aTerrains.get(0).getTerrainID();
-		theTerrains     = new ArrayList<Terrain>();
-		theTigers      = new ArrayList<TigerObject>();
-		theType         = "Lake";
-		theCompleted    = false;
-		numberOfShields = 0;
+		theRegionID        = aTerrains.get(0).getTerrainID();
+		theTerrains        = new ArrayList<Terrain>();
+		theTigers          = new ArrayList<TigerObject>();
+		theType            = "Lake";
+		theCompleted       = false;
+		theNumberOfShields = 0;
 		// Add all and update meepels and shields
 		addTerain(aTerrains);
 	}
@@ -80,7 +80,7 @@ public class LakeRegion extends Region
 	 */
 	public int getShields()
 	{
-		return numberOfShields;
+		return theNumberOfShields;
 	}
 
 	// Setters
@@ -148,7 +148,7 @@ public class LakeRegion extends Region
 		// Add shield
 		if (((LakeTerrain) aTerrain).hasShield() == true)
 		{
-			numberOfShields++;
+			theNumberOfShields++;
 		}
 
 		updateCompletion();

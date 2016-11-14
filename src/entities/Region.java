@@ -28,7 +28,7 @@ public abstract class Region
 	{
 		theRegionID = aRegionID;
 		theTerrains = new ArrayList<Terrain>();
-		theTigers  = new ArrayList<TigerObject>();
+		theTigers   = new ArrayList<TigerObject>();
 	}
 
 	/**
@@ -42,7 +42,7 @@ public abstract class Region
 		// Region ID becomes the terrain's ID
 		theRegionID = aTerrain.getTerrainID();
 		theTerrains = new ArrayList<Terrain>();
-		theTigers  = new ArrayList<TigerObject>();
+		theTigers   = new ArrayList<TigerObject>();
 		// Add all and update meepels
 		addTerain(aTerrain);
 	}
@@ -58,7 +58,7 @@ public abstract class Region
 		// Region ID becomes the first terrain's ID
 		theRegionID = aTerrains.get(0).getTerrainID();
 		theTerrains = new ArrayList<Terrain>();
-		theTigers  = new ArrayList<TigerObject>();
+		theTigers   = new ArrayList<TigerObject>();
 		// Add all and update meepels
 		addTerain(aTerrains);
 	}

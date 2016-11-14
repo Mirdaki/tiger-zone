@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 /**
- * A Monastery terrain. Part of a tile. 
+ * A Den terrain. Part of a tile.
  */
-public class MonasteryTerrain extends Terrain
+public class DenTerrain extends Terrain
 {
 
 	// Properties
@@ -12,19 +12,19 @@ public class MonasteryTerrain extends Terrain
 	// protected static final int NUMBEROFTILESTOSURROUND = 8;
 
 	/**
-	 * A monastery terrain that can be completed and number of tiles.
+	 * A den terrain that can be completed and number of tiles.
 	 * @param aTerrainID A unique ID derived from the tile and type
 	 * @param aTileConnections A set of connections the terrain makes with
 	 *                         the tile
 	 * @param theNumberOfNeighboringTiles Number of tiles around the
-	 *                                    monastery.
-	 * @return MonasteryTerrain
+	 *                                    den.
+	 * @return DenTerrain
 	 */
-	public MonasteryTerrain(double aTerrainID, ArrayList<Integer> aTileConnections)
+	public DenTerrain(int aTerrainID, ArrayList<Integer> aTileConnections)
 	{
-		theTerrainID                = aTerrainID;
-		theTileConnections          = aTileConnections;
-		theType                     = "Monastery";
+		theTerrainID       = aTerrainID;
+		theTileConnections = aTileConnections;
+		theType            = "Den";
 		// theNumberOfNeighboringTiles = 0;
 	}
 
