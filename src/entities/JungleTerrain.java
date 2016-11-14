@@ -18,8 +18,11 @@ public class JungleTerrain extends Terrain
 	 * @return JungleTerrain
 	 */
 
-	public JungleTerrain(int aTerrainID)
-	{
+	public JungleTerrain() {
+		theTerrainID = terrainNum++;
+	}
+
+	public JungleTerrain(int aTerrainID) {
 			theTerrainID = aTerrainID;
 	}
 	public JungleTerrain(int aTerrainID, ArrayList<Integer> aTileConnections)

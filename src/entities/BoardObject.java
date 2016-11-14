@@ -9,20 +9,23 @@ import java.util.Map;
  */
 public class BoardObject {
 
-
-	protected Map<String, SquareTile> tiles = new HashMap<String, SquareTile>();
+	/*
+		initialize dictionary of possible tiles based on type
+		initialize board based on tiles and location
+		initialize players
+	*/
+	protected Map<Character, SquareTile> tiles = new HashMap<Character, SquareTile>();
 	protected Map<Location, SquareTile> board = new HashMap<Location, SquareTile>();
 	Player players[] = new Player[2];
 	TigerObject Tiger;
 
-	public BoardObject()
-	{
+	public BoardObject() {
+		
 		for (char i = 'A', j = 0; i <= 'X'; i++, j+=4) {
-
 			SquareTile tile0 = new SquareTile(j, new Location(),i);
-			SquareTile tile90 = new SquareTile(j, new Location(),i).rotateRight();
-			SquareTile tile180 = new SquareTile(j, new Location(),i).rotateRight().rotateRight();
-			SquareTile tile270 = new SquareTile(j, new Location(),i).rotateRight().rotateRight().rotateRight();
+			SquareTile tile90 = new SquareTile(tile0).rotateRight();
+			SquareTile tile180 = new SquareTile(tile90).rotateRight();
+			SquareTile tile270 = new SquareTile(tile180).rotateRight();
 
 			tiles.put(i + "0", tile0);
 			tiles.put(i + "90", tile90);

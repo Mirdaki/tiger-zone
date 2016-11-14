@@ -21,12 +21,19 @@ import java.util.StringTokenizer;
 */
 public class SquareTile extends TileObject {
 
-	protected edge[] edges;
-	protected char type, center;
-	Location coord;
-	protected Terrain terrains[];
-
-
+	public SquareTile(SquareTile tile) {
+		tileID = tile.tileID;
+		coord = tile.coord;
+		numEdges = tile.numEdges;
+		numVertices = tile.numVertices;
+		orientation = tile.orientation;
+		type = tile.type;
+		owner = tile.owner;
+		Tiger = tile.Tiger;
+		center = tile.center;
+		edges = Arrays.copyOf(tile.edges, tile.edges.length);
+		terrains = Arrays.copyOf(tile.terrains, tile.terrains.length);
+	}
 
 	public SquareTile(int tileID, Location coord, char type) {
 
@@ -78,29 +85,27 @@ public class SquareTile extends TileObject {
 
 					int i = 0;
 
-
-
-						for (int j = 0; j < jungles.getLength(); j++) {
-							Element element = (Element)jungles.item(j);
-							if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-								terrains[i++] = new JungleTerrain(Integer.parseInt(element.getAttribute("id")));
-							}
+					for (int j = 0; j < jungles.getLength(); j++) {
+						Element element = (Element)jungles.item(j);
+						if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+							terrains[i++] = new JungleTerrain();
 						}
+					}
 
 
-						for (int j = 0; j < trails.getLength(); j++) {
-							Element element = (Element)trails.item(j);
-							if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-								terrains[i++] = new TrailTerrain(Integer.parseInt(element.getAttribute("id")));
-							}
+					for (int j = 0; j < trails.getLength(); j++) {
+						Element element = (Element)trails.item(j);
+						if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+							terrains[i++] = new TrailTerrain();
 						}
+					}
 
-						for (int j = 0; j < lakes.getLength(); j++) {
-							Element element = (Element)lakes.item(j);
-							if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-								terrains[i++] = new LakeTerrain(Integer.parseInt(element.getAttribute("id")));
-							}
+					for (int j = 0; j < lakes.getLength(); j++) {
+						Element element = (Element)lakes.item(j);
+						if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+							terrains[i++] = new LakeTerrain();
 						}
+					}
 
 
 				}
@@ -114,9 +119,6 @@ public class SquareTile extends TileObject {
 
 	}//end constructor
 
-	public edge[] getEdges() {
-		return edges;
-	}
 
 	public SquareTile rotateRight() {
 

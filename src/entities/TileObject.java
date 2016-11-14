@@ -54,12 +54,14 @@ public abstract class TileObject {
 				numVertices,
 				orientation;
 
-	protected char type;
+	protected char type, center;
 
 	protected Location coord;
 	protected Player owner;
 	protected TigerObject Tiger;
 
+	protected edge[] edges;
+	protected Terrain terrains[];
 
 	//constructors
 	public TileObject() {
@@ -125,6 +127,25 @@ public abstract class TileObject {
 		this.owner = owner;
 	}
 
+	public edge[] getEdges() {
+		return edges;
+	}
+
+	public Terrain[] getTerrains() {
+		return terrains;
+	}
+
+	public char getCenter() {
+		return center;
+	}
+
+	public char getType() {
+		return type;
+	}
+
+	public TigerObject getTiger() {
+		return Tiger;
+	}
 	//normal methods
 	public String toString() {
 		return "ID: " + this.tileID + "\nCard value: " + this.value + "\n(x,y) coordinate: " + this.coord.toString() + "\nEdge count: "

@@ -19,12 +19,15 @@ public class LakeTerrain extends Terrain
 	 * @return LakeTerrain
 	 */
 
+	public LakeTerrain() {
+ 		theTerrainID = terrainNum++;
+ 	}
+
 	public LakeTerrain(int aTerrainID) {
 		theTerrainID = aTerrainID;
 	}
-	public LakeTerrain(int aTerrainID, ArrayList<Integer> aTileConnections,
-			boolean aShield)
-	{
+
+	public LakeTerrain(int aTerrainID, ArrayList<Integer> aTileConnections, boolean aShield) {
 		theTerrainID       = aTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = "Lake";

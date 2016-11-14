@@ -11,10 +11,13 @@ public abstract class Terrain
 	protected ArrayList<Integer> theTileConnections;
 	protected TigerObject theTiger;
 	protected String theType;
+	public static int terrainNum;
+
 
 	// Constructors
 	public Terrain()
 	{
+		theTerrainID = terrainNum++;
 		// Empty for inheretance
 	}
 

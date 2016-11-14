@@ -18,6 +18,10 @@ public class TrailTerrain extends Terrain
 	 * @return  TrailTerrain
 	 */
 
+	public TrailTerrain() {
+ 		theTerrainID = terrainNum++;
+ 	}
+
 	public TrailTerrain(int aTerrainID) {
 		theTerrainID = aTerrainID;
 	}
