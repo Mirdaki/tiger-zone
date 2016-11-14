@@ -7,9 +7,9 @@ import java.util.ArrayList;
 public abstract class Terrain
 {
 	// The attributes
-	protected double theTerrainID;
+	protected int theTerrainID;
 	protected ArrayList<Integer> theTileConnections;
-	protected MeepleObject theMeeple;
+	protected TigerObject theTiger;
 	protected String theType;
 
 	// Constructors
@@ -26,7 +26,7 @@ public abstract class Terrain
 	 *                         the tile
 	 * @return Terrain
 	 */
-	public Terrain(double aTerrainID, ArrayList<Integer> aTileConnections)
+	public Terrain(int aTerrainID, ArrayList<Integer> aTileConnections)
 	{
 		theTerrainID       = aTerrainID;
 		theTileConnections = aTileConnections;
@@ -37,7 +37,7 @@ public abstract class Terrain
 	 * Get terrain ID
 	 * @return double
 	 */
-	public double getTerrainID()
+	public int getTerrainID()
 	{
 		return theTerrainID;
 	}
@@ -52,12 +52,12 @@ public abstract class Terrain
 	}
 
 	/**
-	 * Get meeple on terrain
-	 * @return MeepleObject
+	 * Get Tiger on terrain
+	 * @return TigerObject
 	 */
-	public MeepleObject getMeeple()
+	public TigerObject getTiger()
 	{
-		return theMeeple;
+		return theTiger;
 	}
 
 	/**
@@ -74,15 +74,15 @@ public abstract class Terrain
 		return result;
 	}
 
-	// Meeple Methods
+	// Tiger Methods
 	/**
-	 * Checks if there is a meeple on this terrain
+	 * Checks if there is a Tiger on this terrain
 	 * @return boolean True if there, false if not
 	 */
-	public boolean hasMeeple()
+	public boolean hasTiger()
 	{
 		boolean result = true;
-		if (theMeeple == null)
+		if (theTiger == null)
 		{
 			result = false;
 		}
@@ -90,35 +90,35 @@ public abstract class Terrain
 	}
 
 	/**
-	 * Adds a meeple to the terrain. Can only be one per.
-	 * @param aMeeple MeepleObject
+	 * Adds a Tiger to the terrain. Can only be one per.
+	 * @param aTiger TigerObject
 	 */
-	public void addMeeple(MeepleObject aMeeple)
+	public void addTiger(TigerObject aTiger)
 	{
-		// Check that there isn't an exisiting meeple
-		if (this.hasMeeple() == true)
+		// Check that there isn't an exisiting Tiger
+		if (this.hasTiger() == true)
 		{
-			throw new IllegalArgumentException("Tile already has a meeple!");
+			throw new IllegalArgumentException("Tile already has a Tiger!");
 		}
 		else
 		{
-			theMeeple = aMeeple;
+			theTiger = aTiger;
 		}
 	}
 
 	/**
-	 * Removes the meeple on this terrain.
-	 * @return MeepleObject Null if no meeple on terrain.
+	 * Removes the Tiger on this terrain.
+	 * @return TigerObject Null if no Tiger on terrain.
 	 */
-	public MeepleObject removeMeeple()
+	public TigerObject removeTiger()
 	{
-		MeepleObject result = theMeeple;
-		theMeeple = null;
+		TigerObject result = theTiger;
+		theTiger = null;
 		return result;
 	}
 
 	/**
-	 * String of the terrain ID, type, if there is a meeple, and number of tile
+	 * String of the terrain ID, type, if there is a Tiger, and number of tile
 	 * connections
 	 * @return String description
 	 */
@@ -126,14 +126,14 @@ public abstract class Terrain
 	{
 		String terrainID = String.valueOf(theTerrainID);
 		String terrainType = theType;
-		String hasMeeple = "no";
-		if (hasMeeple())
+		String hasTiger = "no";
+		if (hasTiger())
 		{
-			hasMeeple = "a";
+			hasTiger = "a";
 		}
 		String numberOfConnections = String.valueOf(theTileConnections.size());
 		return "The terrain " + terrainID + " of type " + terrainType + " has " +
-				hasMeeple + " Meepel and " + numberOfConnections + " tile connection(s)";
+				hasTiger + " Meepel and " + numberOfConnections + " tile connection(s)";
 	}
 
 }

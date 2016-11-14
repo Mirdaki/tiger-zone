@@ -7,9 +7,9 @@ import java.util.ArrayList;
 public abstract class Region
 {
 	// The attributes
-	protected double theRegionID;
+	protected int theRegionID;
 	protected ArrayList<Terrain> theTerrains;
-	protected ArrayList<MeepleObject> theMeeples;
+	protected ArrayList<TigerObject> theTigers;
 	protected String theType;
 
 	// Constructors
@@ -24,11 +24,11 @@ public abstract class Region
 	 * @param aRegionID A unique ID derived from the tile and region
 	 * @return Region
 	 */
-	public Region(double aRegionID)
+	public Region(int aRegionID)
 	{
 		theRegionID = aRegionID;
 		theTerrains = new ArrayList<Terrain>();
-		theMeeples  = new ArrayList<MeepleObject>();
+		theTigers  = new ArrayList<TigerObject>();
 	}
 
 	/**
@@ -42,7 +42,7 @@ public abstract class Region
 		// Region ID becomes the terrain's ID
 		theRegionID = aTerrain.getTerrainID();
 		theTerrains = new ArrayList<Terrain>();
-		theMeeples  = new ArrayList<MeepleObject>();
+		theTigers  = new ArrayList<TigerObject>();
 		// Add all and update meepels
 		addTerain(aTerrain);
 	}
@@ -58,7 +58,7 @@ public abstract class Region
 		// Region ID becomes the first terrain's ID
 		theRegionID = aTerrains.get(0).getTerrainID();
 		theTerrains = new ArrayList<Terrain>();
-		theMeeples  = new ArrayList<MeepleObject>();
+		theTigers  = new ArrayList<TigerObject>();
 		// Add all and update meepels
 		addTerain(aTerrains);
 	}
@@ -83,12 +83,12 @@ public abstract class Region
 	}
 
 	/**
-	 * Returns array list of meeples in this region.
-	 * @return ArrayList<MeepleObject>
+	 * Returns array list of Tigers in this region.
+	 * @return ArrayList<TigerObject>
 	 */
-	public ArrayList<MeepleObject> getMeeples()
+	public ArrayList<TigerObject> getTigers()
 	{
-		return theMeeples;
+		return theTigers;
 	}
 
 	/**
@@ -117,14 +117,14 @@ public abstract class Region
 	// Checks
 
 	/**
-	 * Check if there are any meeples in this region.
+	 * Check if there are any Tigers in this region.
 	 * @return boolean
 	 */
-	public boolean hasMeeples()
+	public boolean hasTigers()
 	{
 		boolean result = false;
-		// Are any meeples in the array
-		if (theMeeples.size() != 0)
+		// Are any Tigers in the array
+		if (theTigers.size() != 0)
 		{
 			result = true;
 		}
@@ -134,40 +134,40 @@ public abstract class Region
 	// Mutator
 
 	// /**
-	//  * Adds a meeple to the region. Should only be added
+	//  * Adds a Tiger to the region. Should only be added
 	//  * @param aMeepel
 	//  */
-	// public void addMeeple(MeepleObject aMeepel)
+	// public void addTiger(TigerObject aMeepel)
 	// {
-	// 	theMeeples.add(aMeepel);
+	// 	theTigers.add(aMeepel);
 	// }
 
 	/**
-	 * Goes through the current train and updates the held meeples.
+	 * Goes through the current train and updates the held Tigers.
 	 */
-	public void updateMeeples()
+	public void updateTigers()
 	{
-		// Go through all the Terrain adding meeples
+		// Go through all the Terrain adding Tigers
 		for (int i = 0; i < theTerrains.size(); i++)
 		{
-			if (theTerrains.get(i).hasMeeple() == true)
+			if (theTerrains.get(i).hasTiger() == true)
 			{
-				theMeeples.add(theTerrains.get(i).getMeeple());
+				theTigers.add(theTerrains.get(i).getTiger());
 			}
 		}
 	}
 
-	// Remove all meeples
+	// Remove all Tigers
 	/**
-	 * Removes all meeples from this region. Not the individual tiles.
+	 * Removes all Tigers from this region. Not the individual tiles.
 	 */
-	public void removeAllMeeples()
+	public void removeAllTigers()
 	{
-		theMeeples.clear();
+		theTigers.clear();
 	}
 
 	/**
-	 * Check if a single terrain is valid, and adds meeples and terrain to region.
+	 * Check if a single terrain is valid, and adds Tigers and terrain to region.
 	 * @param aTerrain A single terrain
 	 */
 	public void addTerain(Terrain aTerrain)
@@ -181,15 +181,15 @@ public abstract class Region
 		// Add terrain
 		theTerrains.add(aTerrain);
 
-		// Add meeple
-		if (aTerrain.hasMeeple() == true)
+		// Add Tiger
+		if (aTerrain.hasTiger() == true)
 		{
-			theMeeples.add(aTerrain.getMeeple());
+			theTigers.add(aTerrain.getTiger());
 		}
 	}
 
 	/**
-	 * Check if an array list of terrain is valid, and adds meeples and terrain
+	 * Check if an array list of terrain is valid, and adds Tigers and terrain
 	 * to region.
 	 * @param aTerrains An arrayList of terrain
 	 */
@@ -217,17 +217,17 @@ public abstract class Region
 	}
 
 	/**
-	 * Prints out the region ID, type, number of meeples, and number of terrains
+	 * Prints out the region ID, type, number of Tigers, and number of terrains
 	 * @return String description
 	 */
 	public String toString()
 	{
 		String regionID = String.valueOf(theRegionID);
 		String regionType = theType;
-		String numberOfMeeples = String.valueOf(theMeeples.size());
+		String numberOfTigers = String.valueOf(theTigers.size());
 		String numberOfTerrain = String.valueOf(theTerrains.size());
 		return "The region " + regionID + " of type " + regionType + " has " +
-				numberOfMeeples + " Meepel(s) and " + numberOfTerrain + " Terrain(s)";
+				numberOfTigers + " Meepel(s) and " + numberOfTerrain + " Terrain(s)";
 	}
 
 }

@@ -3,39 +3,39 @@ import java.util.ArrayList;
 /**
  * A monastery Region. Collection of terrain that exist on a board.
  */
-public class RoadRegion extends Region
+public class TrailRegion extends Region
 {
 
 	// Field specifc properties
 	protected boolean theCompleted;
 
 	/**
-	 * RoadRegion is an object of the board that describes fields regions.
+	 * TrailRegion is an object of the board that describes fields regions.
 	 * Use this if there is no starting terrain.
 	 * @param aRegionID A unique ID derived from the tile and region
-	 * @return RoadRegion
+	 * @return TrailRegion
 	 */
-	public RoadRegion(double aRegionID)
+	public TrailRegion(double aRegionID)
 	{
 		theRegionID      = aRegionID;
 		theTerrains      = new ArrayList<Terrain>();
-		theMeeples       = new ArrayList<MeepleObject>();
+		theTigers       = new ArrayList<TigerObject>();
 		theType          = "Field";
 		theCompleted     = false;
 	}
 
 	/**
-	 * RoadRegion is an object of the board that describes fields regions.
+	 * TrailRegion is an object of the board that describes fields regions.
 	 * Use this if there is no starting terrain.
 	 * @param aTerrain Single terrain that is included in the region.
-	 * @return RoadRegion
+	 * @return TrailRegion
 	 */
-	public RoadRegion(Terrain aTerrain)
+	public TrailRegion(Terrain aTerrain)
 	{
 		// Region ID becomes the terrain's ID
 		theRegionID      = aTerrain.getTerrainID();
 		theTerrains      = new ArrayList<Terrain>();
-		theMeeples       = new ArrayList<MeepleObject>();
+		theTigers       = new ArrayList<TigerObject>();
 		theType          = "Field";
 		theCompleted     = false;
 		// Add and update meepels
@@ -43,17 +43,17 @@ public class RoadRegion extends Region
 	}
 
 	/**
-	 * RoadRegion is an object of the board that describes fields regions.
+	 * TrailRegion is an object of the board that describes fields regions.
 	 * Use this if there is no starting terrain.
 	 * @param aTerrains Set of terrain that is included in the region.
-	 * @return RoadRegion
+	 * @return TrailRegion
 	 */
-	public RoadRegion(ArrayList<Terrain> aTerrains)
+	public TrailRegion(ArrayList<Terrain> aTerrains)
 	{
 		// Region ID becomes the first terrain's ID
 		theRegionID      = aTerrains.get(0).getTerrainID();
 		theTerrains      = new ArrayList<Terrain>();
-		theMeeples       = new ArrayList<MeepleObject>();
+		theTigers       = new ArrayList<TigerObject>();
 		theType          = "Field";
 		theCompleted     = false;
 		// Add all and update meepels
@@ -72,8 +72,8 @@ public class RoadRegion extends Region
 
 	// Mutators
 	/**
-	 * Updates the status of road completion by checking if every segment has
-	 * two connections. Requires that endOfRoads don't count as null.
+	 * Updates the status of Trail completion by checking if every segment has
+	 * two connections. Requires that endOfTrails don't count as null.
 	 */
 	public void updateCompletion()
 	{
@@ -82,7 +82,7 @@ public class RoadRegion extends Region
 		{
 			// Check for a a front and back to everything
 			// TODO: getInFront() and getBehind() for terrain in front and behind
-			// beind the road
+			// beind the Trail
 			/*if (theTerrains.get(i).getInFront() == null ||
 			theTerrains.get(i).getBehind() == null)
 			{
@@ -93,7 +93,7 @@ public class RoadRegion extends Region
 	}
 
 	/**
-	 * Check if a single terrain is valid, and adds meeples, and terrain
+	 * Check if a single terrain is valid, and adds Tigers, and terrain
 	 * to region. Updates completion status.
 	 * @param aTerrain A single terrain
 	 */
@@ -108,16 +108,16 @@ public class RoadRegion extends Region
 		// Check if region is already complete
 		if (theCompleted == true)
 		{
-			throw new IllegalArgumentException("Road already complete");
+			throw new IllegalArgumentException("Trail already complete");
 		}
 
 		// Add terrain
 		theTerrains.add(aTerrain);
 
-		// Add meeple
-		if (aTerrain.hasMeeple() == true)
+		// Add Tiger
+		if (aTerrain.hasTiger() == true)
 		{
-			theMeeples.add(aTerrain.getMeeple());
+			theTigers.add(aTerrain.getTiger());
 		}
 
 		// Update neighboring tiles

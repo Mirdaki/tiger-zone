@@ -19,7 +19,7 @@ public class MonasteryRegion extends Region
 	{
 		theRegionID      = aRegionID;
 		theTerrains      = new ArrayList<Terrain>();
-		theMeeples       = new ArrayList<MeepleObject>();
+		theTigers       = new ArrayList<TigerObject>();
 		theType          = "Field";
 		neighboringTiles = new ArrayList<Terrain>();
 	}
@@ -35,7 +35,7 @@ public class MonasteryRegion extends Region
 		// Region ID becomes the terrain's ID
 		theRegionID      = aTerrain.getTerrainID();
 		theTerrains      = new ArrayList<Terrain>();
-		theMeeples       = new ArrayList<MeepleObject>();
+		theTigers       = new ArrayList<TigerObject>();
 		theType          = "Field";
 		neighboringTiles = new ArrayList<Terrain>();
 		// Add and update meepels
@@ -53,7 +53,7 @@ public class MonasteryRegion extends Region
 	// 	// Region ID becomes the first terrain's ID
 	// 	theRegionID      = aTerrains.get(0).getTerrainID();
 	// 	theTerrains      = new ArrayList<Terrain>();
-	// 	theMeeples       = new ArrayList<MeepleObject>();
+	// 	theTigers       = new ArrayList<TigerObject>();
 	// 	theType          = "Field";
 	// 	neighboringTiles = new ArrayList<Terrain>();
 	// 	// Add all and update meepels
@@ -81,7 +81,7 @@ public class MonasteryRegion extends Region
 	}
 
 	/**
-	 * Check if a single terrain is valid, and adds meeples, tiles and terrain
+	 * Check if a single terrain is valid, and adds Tigers, tiles and terrain
 	 * to region.
 	 * @param aTerrain A single terrain
 	 */
@@ -96,10 +96,10 @@ public class MonasteryRegion extends Region
 		// Add terrain
 		theTerrains.add(aTerrain);
 
-		// Add meeple
-		if (aTerrain.hasMeeple() == true)
+		// Add Tiger
+		if (aTerrain.hasTiger() == true)
 		{
-			theMeeples.add(aTerrain.getMeeple());
+			theTigers.add(aTerrain.getTiger());
 		}
 
 		// Update neighboring tiles

@@ -1,60 +1,60 @@
 import java.util.ArrayList;
 
 /**
- * A field Region. Collection of terrain that exist on a board.
+ * A Jungle Region. Collection of terrain that exist on a board.
  */
-public class FieldRegion extends Region
+public class JungleRegion extends Region
 {
 
-	// Field specifc properties
+	// Jungle specifc properties
 	protected ArrayList<CityRegion> neighboringCities;
 
 	/**
-	 * FieldRegion is an object of the board that describes fields regions.
+	 * JungleRegion is an object of the board that describes Jungles regions.
 	 * Use this if there is no starting terrain.
 	 * @param aRegionID A unique ID derived from the tile and region
-	 * @return FieldRegion
+	 * @return JungleRegion
 	 */
-	public FieldRegion(double aRegionID)
+	public JungleRegion(double aRegionID)
 	{
 		theRegionID       = aRegionID;
 		theTerrains       = new ArrayList<Terrain>();
-		theMeeples        = new ArrayList<MeepleObject>();
-		theType           = "Field";
+		theTigers        = new ArrayList<TigerObject>();
+		theType           = "Jungle";
 		neighboringCities = new ArrayList<CityRegion>();
 	}
 
 	/**
-	 * FieldRegion is an object of the board that describes fields regions.
+	 * JungleRegion is an object of the board that describes Jungles regions.
 	 * Use this if there is no starting terrain.
 	 * @param aTerrain Single terrain that is included in the region.
-	 * @return FieldRegion
+	 * @return JungleRegion
 	 */
-	public FieldRegion(Terrain aTerrain)
+	public JungleRegion(Terrain aTerrain)
 	{
 		// Region ID becomes the terrain's ID
 		theRegionID       = aTerrain.getTerrainID();
 		theTerrains       = new ArrayList<Terrain>();
-		theMeeples        = new ArrayList<MeepleObject>();
-		theType           = "Field";
+		theTigers        = new ArrayList<TigerObject>();
+		theType           = "Jungle";
 		neighboringCities = new ArrayList<CityRegion>();
 		// Add and update meepels
 		addTerain(aTerrain);
 	}
 
 	/**
-	 * FieldRegion is an object of the board that describes fields regions.
+	 * JungleRegion is an object of the board that describes Jungles regions.
 	 * Use this if there is no starting terrain.
 	 * @param aTerrains Set of terrain that is included in the region.
-	 * @return FieldRegion
+	 * @return JungleRegion
 	 */
-	public FieldRegion(ArrayList<Terrain> aTerrains)
+	public JungleRegion(ArrayList<Terrain> aTerrains)
 	{
 		// Region ID becomes the first terrain's ID
 		theRegionID       = aTerrains.get(0).getTerrainID();
 		theTerrains       = new ArrayList<Terrain>();
-		theMeeples        = new ArrayList<MeepleObject>();
-		theType           = "Field";
+		theTigers        = new ArrayList<TigerObject>();
+		theType           = "Jungle";
 		neighboringCities = new ArrayList<CityRegion>();
 		// Add all and update meepels
 		addTerain(aTerrains);
@@ -81,7 +81,7 @@ public class FieldRegion extends Region
 	}
 
 	/**
-	 * Check if a single terrain is valid, and adds meeples, cities and terrain
+	 * Check if a single terrain is valid, and adds Tigers, cities and terrain
 	 * to region.
 	 * @param aTerrain A single terrain
 	 */
@@ -96,10 +96,10 @@ public class FieldRegion extends Region
 		// Add terrain
 		theTerrains.add(aTerrain);
 
-		// Add meeple
-		if (aTerrain.hasMeeple() == true)
+		// Add Tiger
+		if (aTerrain.hasTiger() == true)
 		{
-			theMeeples.add(aTerrain.getMeeple());
+			theTigers.add(aTerrain.getTiger());
 		}
 
 		// Update neignoring cities

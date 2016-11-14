@@ -1,44 +1,44 @@
 import java.util.ArrayList;
 
 /**
- * A city Region. Collection of terrain that exist on a board.
+ * A Lake Region. Collection of terrain that exist on a board.
  */
-public class CityRegion extends Region
+public class LakeRegion extends Region
 {
 
-	// City specifc properties
+	// Lake specifc properties
 	protected boolean theCompleted;
 	protected int numberOfShields;
 
 	/**
-	 * CityRegion is an object of the board that describes cities regions.
+	 * LakeRegion is an object of the board that describes cities regions.
 	 * Use this if there is no starting terrain.
 	 * @param aRegionID A unique ID derived from the tile and region
-	 * @return CityRegion
+	 * @return LakeRegion
 	 */
-	public CityRegion(double aRegionID)
+	public LakeRegion(double aRegionID)
 	{
 		theRegionID     = aRegionID;
 		theTerrains     = new ArrayList<Terrain>();
-		theMeeples      = new ArrayList<MeepleObject>();
+		theTigers      = new ArrayList<TigerObject>();
 		theCompleted    = false;
-		theType         = "City";
+		theType         = "Lake";
 		numberOfShields = 0;
 	}
 
 	/**
-	 * CityRegion is an object of the board that describes cities regions.
+	 * LakeRegion is an object of the board that describes cities regions.
 	 * Use this if there is no starting terrain.
 	 * @param aTerrain Single terrain that is included in the region.
-	 * @return CityRegion
+	 * @return LakeRegion
 	 */
-	public CityRegion(Terrain aTerrain)
+	public LakeRegion(Terrain aTerrain)
 	{
 		// Region ID becomes the terrain's ID
 		theRegionID     = aTerrain.getTerrainID();
 		theTerrains     = new ArrayList<Terrain>();
-		theMeeples      = new ArrayList<MeepleObject>();
-		theType         = "City";
+		theTigers      = new ArrayList<TigerObject>();
+		theType         = "Lake";
 		theCompleted    = false;
 		numberOfShields = 0;
 		// Add and update meepels and shields
@@ -46,18 +46,18 @@ public class CityRegion extends Region
 	}
 
 	/**
-	 * CityRegion is an object of the board that describes cities regions.
+	 * LakeRegion is an object of the board that describes cities regions.
 	 * Use this if there is no starting terrain.
 	 * @param aTerrains Set of terrain that is included in the region.
-	 * @return CityRegion
+	 * @return LakeRegion
 	 */
-	public CityRegion(ArrayList<Terrain> aTerrains)
+	public LakeRegion(ArrayList<Terrain> aTerrains)
 	{
 		// Region ID becomes the first terrain's ID
 		theRegionID     = aTerrains.get(0).getTerrainID();
 		theTerrains     = new ArrayList<Terrain>();
-		theMeeples      = new ArrayList<MeepleObject>();
-		theType         = "City";
+		theTigers      = new ArrayList<TigerObject>();
+		theType         = "Lake";
 		theCompleted    = false;
 		numberOfShields = 0;
 		// Add all and update meepels and shields
@@ -66,7 +66,7 @@ public class CityRegion extends Region
 
 	// Getters
 	/**
-	 * Checks if the city is complete
+	 * Checks if the Lake is complete
 	 * @return boolean
 	 */
 	public boolean isCompleted()
@@ -85,7 +85,7 @@ public class CityRegion extends Region
 
 	// Setters
 	/**
-	 * Makes the city complete. Does not remove meeples.
+	 * Makes the Lake complete. Does not remove Tigers.
 	 */
 	public void makeCompleted()
 	{
@@ -94,21 +94,21 @@ public class CityRegion extends Region
 
 	// Mutators
 	/**
-	 * Updates the status of city completion by checking if every segment has
+	 * Updates the status of Lake completion by checking if every segment has
 	 * cities attached to it's connection points.
 	 */
 	public void updateCompletion()
 	{
 		theCompleted = true;
-		ArrayList<Integer> currentCityConnections;
+		ArrayList<Integer> currentLakeConnections;
 		for (int i = 0; i < theTerrains.size(); i++)
 		{
 			// Check every cities terrain connections
-			currentCityConnections = theTerrains.get(i).getTileConnections();
-			for (int j = 0; j < currentCityConnections.size(); j++)
+			currentLakeConnections = theTerrains.get(i).getTileConnections();
+			for (int j = 0; j < currentLakeConnections.size(); j++)
 			{
 				// TODO: Get types of connections from tile connections
-				/*if (currentCityConnections.get(j).getType() != "City")
+				/*if (currentLakeConnections.get(j).getType() != "Lake")
 				{
 					theCompleted = false;
 					break;
@@ -118,7 +118,7 @@ public class CityRegion extends Region
 	}
 
 	/**
-	 * Check if a single terrain is valid, and adds meeples, shields and terrain
+	 * Check if a single terrain is valid, and adds Tigers, shields and terrain
 	 * to region. Updates completion status.
 	 * @param aTerrain A single terrain
 	 */
@@ -139,14 +139,14 @@ public class CityRegion extends Region
 		// Add terrain
 		theTerrains.add(aTerrain);
 
-		// Add meeple
-		if (aTerrain.hasMeeple() == true)
+		// Add Tiger
+		if (aTerrain.hasTiger() == true)
 		{
-			theMeeples.add(aTerrain.getMeeple());
+			theTigers.add(aTerrain.getTiger());
 		}
 
 		// Add shield
-		if (((CityTerrain) aTerrain).hasShield() == true)
+		if (((LakeTerrain) aTerrain).hasShield() == true)
 		{
 			numberOfShields++;
 		}
