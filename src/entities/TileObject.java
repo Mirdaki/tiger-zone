@@ -1,10 +1,3 @@
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 /*
  * This is the TileObject that will handle a basic tile of the TigerZone game implementation.
  *
@@ -42,17 +35,11 @@ import java.awt.event.ActionEvent;
 
 public abstract class TileObject {
 
-	protected static final char JUNGLE = 'J';		//0
-	protected static final char TRAIL = 'T';  		//1
-	protected static final char LAKE = 'L';  		//2
-	protected static final char CROSSING = 'X';		//3
-	protected static final char DEN = 'D'; 			//4
+	protected  int value,
+				orientation,
+				tileID;
 
-	protected int tileID,
-				value,
-				numEdges,
-				numVertices,
-				orientation;
+	protected static int tileNum;
 
 	protected char type, center;
 
@@ -69,9 +56,9 @@ public abstract class TileObject {
 	}
 
 	public TileObject(int tileID, int value, Location coord) {
-		this.tileID = tileID;
-		this.value = value;
-		this.coord = coord;
+		// this.tileID = tileID;
+		// this.value = value;
+		// this.coord = coord;
 	}
 
 	//accessor methods
@@ -97,22 +84,6 @@ public abstract class TileObject {
 
 	public void setX(Location coord) {
 		this.coord = coord;
-	}
-
-	public int getNumEdges() {
-		return numEdges;
-	}
-
-	public void setNumEdges(int numEdges) {
-		this.numEdges = numEdges;
-	}
-
-	public int getNumVertices() {
-		return numVertices;
-	}
-
-	public void setNumVertices(int numVertices) {
-		this.numVertices = numVertices;
 	}
 
 	public int getOrientation() {
@@ -149,7 +120,7 @@ public abstract class TileObject {
 	//normal methods
 	public String toString() {
 		return "ID: " + this.tileID + "\nCard value: " + this.value + "\n(x,y) coordinate: " + this.coord.toString() + "\nEdge count: "
-				+ this.numEdges + "\nVertex count: " + this.numVertices + "\nOrientation: " + this.orientation;
+				+ "\nOrientation: " + this.orientation;
 	}//end toSring
 
 
