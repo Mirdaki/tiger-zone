@@ -1,3 +1,4 @@
+package entities;
 import java.util.ArrayList;
 
 /**
@@ -20,7 +21,7 @@ public class TrailRegion extends Region
 		theRegionID  = aRegionID;
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
-		theType      = "Field";
+		theType      = "Trail";
 		theCompleted = false;
 	}
 
@@ -36,7 +37,7 @@ public class TrailRegion extends Region
 		theRegionID  = aTerrain.getTerrainID();
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
-		theType      = "Field";
+		theType      = "Trail";
 		theCompleted = false;
 		// Add and update meepels
 		addTerain(aTerrain);
@@ -54,7 +55,7 @@ public class TrailRegion extends Region
 		theRegionID      = aTerrains.get(0).getTerrainID();
 		theTerrains      = new ArrayList<Terrain>();
 		theTigers        = new ArrayList<TigerObject>();
-		theType          = "Field";
+		theType          = "Trail";
 		theCompleted     = false;
 		// Add all and update meepels
 		addTerain(aTerrains);

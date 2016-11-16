@@ -1,3 +1,4 @@
+package entities;
 import java.util.ArrayList;
 
 /**
@@ -66,9 +67,9 @@ public abstract class Region
 	// Getters
 	/**
 	 * Get region ID
-	 * @return double
+	 * @return int
 	 */
-	public double getRegionID()
+	public int getRegionID()
 	{
 		return theRegionID;
 	}

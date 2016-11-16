@@ -13,7 +13,7 @@ public class PlayerTest {
 		Player p1 = new Player(1);
 		
 		assertEquals(1, p1.getID());
-		assertEquals(7, p1.getMeeple());
+		assertEquals(7, p1.getTiger());
 		assertEquals(0, p1.getScore());
 	}
 
@@ -44,9 +44,8 @@ public class PlayerTest {
 		Player p1 = new Player(1);
 		
 		p1.setScore(200);
-		p1.setMeeple(7);
 		p1.setFirst(true);
 		p1.setAI(false);
-		assertEquals("Player ID: 1\nScore: 200\nMeeple: 7\nThis is the first player.\nThis is not an AI player.", p1.toString());
+		assertEquals("Player ID: 1\nScore: 200\nTiger: 7\nThis is the first player.\nThis is not an AI player.", p1.toString());
 	}
 }

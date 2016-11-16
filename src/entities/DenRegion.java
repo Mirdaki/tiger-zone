@@ -1,3 +1,4 @@
+package entities;
 import java.util.ArrayList;
 
 /**
@@ -65,7 +66,7 @@ public class DenRegion extends Region
 	 * Get number of neighboring tiles
 	 * @return int
 	 */
-	public int getNumberOfNeighboringCities()
+	public int getNumberOfNeighboringLakes()
 	{
 		updateNeighboringTiles();
 		return theNeighboringTiles.size();
