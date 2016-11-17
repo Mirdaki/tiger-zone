@@ -1,3 +1,5 @@
+package entities;
+
 /*
  * This is the TigerObject to handle the Tigers that will be placeable on a tile.
  * A typical Tiger should have:

@@ -1,3 +1,5 @@
+package entities;
+
 import java.util.ArrayList;
 
 public class Player {
@@ -20,7 +22,7 @@ public class Player {
 	public void setTiger(int numTiger) {
 		this.numTiger = numTiger;
 	}
-	
+
 	public int getScore() {
 		return score;
 	}

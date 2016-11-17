@@ -1,3 +1,5 @@
+package entities;
+
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import javax.xml.parsers.DocumentBuilder;

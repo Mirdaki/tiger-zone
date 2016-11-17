@@ -1,3 +1,5 @@
+package entities;
+
 public abstract class TileObject {
 
 	//attributes
@@ -195,5 +197,5 @@ public abstract class TileObject {
 		"\nCenter: " + this.center +
 		"\nOwner: " + this.owner;
 	}//end toSring
-	
+
 } //end TileObject

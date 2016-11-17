@@ -29,18 +29,19 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
- 
+
+
 /*
 * KeyEventDemo
 */
- 
+package entities;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.*;
 import javax.swing.*;
- 
+
 public class KeyEventDemo extends JFrame
         implements KeyListener,
         ActionListener
@@ -48,7 +49,7 @@ public class KeyEventDemo extends JFrame
     JTextArea displayArea;
     JTextField typingArea;
     static final String newline = System.getProperty("line.separator");
-     
+
     public static void main(String[] args) {
         /* Use an appropriate Look and Feel */
         try {
@@ -66,7 +67,7 @@ public class KeyEventDemo extends JFrame
         }
         /* Turn off metal's use of bold fonts */
         UIManager.put("swing.boldMetal", Boolean.FALSE);
-         
+
         //Schedule a job for event dispatch thread:
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -75,7 +76,7 @@ public class KeyEventDemo extends JFrame
             }
         });
     }
-     
+
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
@@ -85,24 +86,24 @@ public class KeyEventDemo extends JFrame
         //Create and set up the window.
         KeyEventDemo frame = new KeyEventDemo("KeyEventDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         
+
         //Set up the content pane.
         frame.addComponentsToPane();
-         
-         
+
+
         //Display the window.
         frame.pack();
         frame.setVisible(true);
     }
-     
+
     private void addComponentsToPane() {
-         
+
         JButton button = new JButton("Clear");
         button.addActionListener(this);
-         
+
         typingArea = new JTextField(20);
         typingArea.addKeyListener(this);
-         
+
         //Uncomment this if you wish to turn off focus
         //traversal.  The focus subsystem consumes
         //focus traversal keys, such as Tab and Shift Tab.
@@ -110,47 +111,47 @@ public class KeyEventDemo extends JFrame
         //disables focus traversal and the Tab events will
         //become available to the key event listener.
         //typingArea.setFocusTraversalKeysEnabled(false);
-         
+
         displayArea = new JTextArea();
         displayArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(displayArea);
         scrollPane.setPreferredSize(new Dimension(375, 125));
-         
+
         getContentPane().add(typingArea, BorderLayout.PAGE_START);
         getContentPane().add(scrollPane, BorderLayout.CENTER);
         getContentPane().add(button, BorderLayout.PAGE_END);
     }
-     
+
     public KeyEventDemo(String name) {
         super(name);
     }
-     
-     
+
+
     /** Handle the key typed event from the text field. */
     public void keyTyped(KeyEvent e) {
         displayInfo(e, "KEY TYPED: ");
     }
-     
+
     /** Handle the key pressed event from the text field. */
     public void keyPressed(KeyEvent e) {
         displayInfo(e, "KEY PRESSED: ");
     }
-     
+
     /** Handle the key released event from the text field. */
     public void keyReleased(KeyEvent e) {
         displayInfo(e, "KEY RELEASED: ");
     }
-     
+
     /** Handle the button click. */
     public void actionPerformed(ActionEvent e) {
         //Clear the text components.
         displayArea.setText("");
         typingArea.setText("");
-         
+
         //Return the focus to the typing area.
         typingArea.requestFocusInWindow();
     }
-     
+
     /*
      * We have to jump through some hoops to avoid
      * trying to print non-printing characters
@@ -159,7 +160,7 @@ public class KeyEventDemo extends JFrame
      * afterward won't show up in the text area.)
      */
     private void displayInfo(KeyEvent e, String keyStatus){
-         
+
         //You should only rely on the key char if the event
         //is a key typed event.
         int id = e.getID();
@@ -174,7 +175,7 @@ public class KeyEventDemo extends JFrame
                     + KeyEvent.getKeyText(keyCode)
                     + ")";
         }
-         
+
         int modifiersEx = e.getModifiersEx();
         String modString = "extended modifiers = " + modifiersEx;
         String tmpString = KeyEvent.getModifiersExText(modifiersEx);
@@ -183,14 +184,14 @@ public class KeyEventDemo extends JFrame
         } else {
             modString += " (no extended modifiers)";
         }
-         
+
         String actionString = "action key? ";
         if (e.isActionKey()) {
             actionString += "YES";
         } else {
             actionString += "NO";
         }
-         
+
         String locationString = "key location: ";
         int location = e.getKeyLocation();
         if (location == KeyEvent.KEY_LOCATION_STANDARD) {
@@ -204,7 +205,7 @@ public class KeyEventDemo extends JFrame
         } else { // (location == KeyEvent.KEY_LOCATION_UNKNOWN)
             locationString += "unknown";
         }
-         
+
         displayArea.append(keyStatus + newline
                 + "    " + keyString + newline
                 + "    " + modString + newline

@@ -3,6 +3,7 @@
 Terrain: String type, public String getType(), removeMeeple() {should remove all meeples and return to respective players?}, getMeeples() {should return ArrayList instead of array}
 City: int numPennants
 Farmland: public ArrayList getNeighbouringCities() */
+package score;
 
 import java.util.*;
 public class ScoringSystem {
@@ -23,7 +24,7 @@ public class ScoringSystem {
 			switch(temptype)
 			{
 				case "farmland":
-				// Special case scored only at end of game, so do nothing. 
+				// Special case scored only at end of game, so do nothing.
 					break;
 				case "road":
 					// step 3: see if it is complete
@@ -55,7 +56,7 @@ public class ScoringSystem {
 					{
 						// step 4: find score according to rules
 						possiblePoints = 9;
-						// complete monastery gets 9 points. 
+						// complete monastery gets 9 points.
 						// step 5: Monastery has only 1 monk maximum, if present award points to that player.
 						if (temp.meeples.size()>0)
 						temp.meeples.get(0).player.addScore(possiblePoints);
@@ -71,15 +72,15 @@ public class ScoringSystem {
 						// Note: This method should remove all meeples (can't think of any case you'd need to remove individual ones.
 		}
 	}
-	
+
 	// Scores incomplete terrains according to meeples present there
 	// and scores farmers, adds to players scores, then calls declareWinnerA();
 	void ScoringEndGame()
-	{ 
+	{
 		int possiblePoints; // declare here for scope purposes.
 		ArrayList<Terrain> TerrainList = new ArrayList<Terrain>();
 		// this belongs to board is fully populated by this point, so later put in = Board.TerrainList;
-		// Step 1: run through list of all terrains on board 
+		// Step 1: run through list of all terrains on board
 		for(int index = 0; index < TerrainList.size(); index++)
 		{
 			Terrain temp = TerrainList.get(index);
@@ -118,7 +119,7 @@ public class ScoringSystem {
 					{
 						// step 4: find score according to rules
 						possiblePoints = 1 + temp.numSurroundTiles;
-						// incomplete monastery gets 1 point for cloister and 1 per surrounding tile. 
+						// incomplete monastery gets 1 point for cloister and 1 per surrounding tile.
 						// step 5: Monastery has only 1 monk maximum, if present award points to that player.
 						if (temp.meeples.size()>0)
 						temp.meeples.get(0).player.addScore(possiblePoints);
@@ -155,7 +156,7 @@ public class ScoringSystem {
 			case 2: System.out.println("Player 2 wins!");
 				break;
 			case 3: System.out.println("Both players win!");
-				break;	
+				break;
 		}
 	}
 	public void awardScore(Terrain temp, int possiblePoints){
@@ -201,35 +202,35 @@ public class ScoringSystem {
 		else if (A == B){ return 3; } //draw
 		return -1; //error condition (impossible to reach unless values can't be loaded)
 	}
-	
+
 	public int declareWinnerB(int condition, int playerID)
 	{ //fail case.  Either time ran out or an illegal move was made.
 		//condition is why it was called.  1 for time out, 2 for illegal move
 		if (condition == 1)
 		{
 			//error message for time out
-			if (playerID == 1) 
-			{ 
+			if (playerID == 1)
+			{
 				System.out.println("Player 1 has exceeded time allowed.\n");
 				return 2;
 			}
-			if (playerID == 2) 
-			{ 
+			if (playerID == 2)
+			{
 				System.out.println("Player 2 has exceeded time allowed.\n");
 				return 1;
 			}
-			
+
 		}
 		if (condition == 2)
 		{
 			//error message for illegal move
-			if (playerID == 1) 
-			{ 
+			if (playerID == 1)
+			{
 				System.out.println("Player 1 has made an illegal move.\n");
 				return 2;
 			}
-			if (playerID == 2) 
-			{ 
+			if (playerID == 2)
+			{
 				System.out.println("Player 2 has made an illegal move.\n");
 				return 1;
 			}

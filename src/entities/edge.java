@@ -1,3 +1,5 @@
+package entities;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class edge {
 		points = new ArrayList<Character>();
 	}
 
-	//getters and setters, will comment later 
+	//getters and setters, will comment later
 	public char getType() {
 		return type;
 	}
