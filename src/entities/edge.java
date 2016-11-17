@@ -11,11 +11,11 @@ public class edge {
 
 	//constructor
 	public edge(char top, char mid, char bot) {
+		points = new ArrayList<Character>();
 		points.add(top);
 		points.add(mid);
 		points.add(bot);
 		this.type = mid;
-		points = new ArrayList<Character>();
 	}
 
 	//getters and setters, will comment later

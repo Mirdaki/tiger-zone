@@ -32,14 +32,15 @@ public class TileStack {
 	 */
     public TileStack() {
 
-        tileStack = tileStack = new HashMap<Character, ArrayList<SquareTile>>();
+        tileStack = new HashMap<Character, ArrayList<SquareTile>>();
         tileCount = 0;
 
         try { //attempt to parse XML file of tiles
 
             //file to parse
-       		File file = new File("tiles.xml");
+       		File file = new File("entities/tiles.xml");
        		DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+
        		Document doc = dBuilder.parse(file);
 
             //if there was stuff inside of the XML file
@@ -60,6 +61,7 @@ public class TileStack {
                     char type = eElement.getAttribute("type").charAt(0);
                     int multiplicity = Integer.parseInt(eElement.getAttribute("count"));
 
+
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
                         //add a tile of said type for each multiplicity into array list
@@ -67,7 +69,11 @@ public class TileStack {
                             newTile.add(new SquareTile(eElement));
 
                         //place tile types and their multiplicities into the tileStack
+
                         tileStack.put(type,newTile);
+
+
+
                     }
                 }
             }

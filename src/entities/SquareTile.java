@@ -45,7 +45,9 @@ public class SquareTile extends TileObject {
 		edges = new edge[4];
 
 		//setup edge data, mappings: {i=O:north, i=1:east, i=2:south, i=4:west}
+
 		String north = eElement.getElementsByTagName("north").item(0).getTextContent();
+
 		String east = eElement.getElementsByTagName("east").item(0).getTextContent();
 		String south = eElement.getElementsByTagName("south").item(0).getTextContent();
 		String west = eElement.getElementsByTagName("west").item(0).getTextContent();
@@ -54,6 +56,7 @@ public class SquareTile extends TileObject {
 		edges[1] = new edge(east.charAt(0), east.charAt(2), east.charAt(4));
 		edges[2] = new edge(south.charAt(0), south.charAt(2), south.charAt(4));
 		edges[3] = new edge(west.charAt(0), west.charAt(2), west.charAt(4));
+
 		center = mid.charAt(0);
 
 		//setup terrain data
@@ -104,8 +107,8 @@ public class SquareTile extends TileObject {
 
 	//checks to see if there are any similar edges to place against
 	public boolean similarEdge(SquareTile edge) {
-		edge[] edges1 = this.getEdges(this.orientation);
-		edge[] edges2 = edge.getEdges(edge.orientation);
+		edge[] edges1 = this.getEdges();
+		edge[] edges2 = edge.getEdges();
 
 		//check to see if there is a similar edge on any of the edges
 		for(int i = 0; i < 4; i++) {
