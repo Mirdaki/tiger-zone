@@ -16,7 +16,7 @@ public class BoardObject {
 
 	protected static final int ROWSIZE = 11, COLSIZE = 11;
 	protected TileStack tileStack;
-	protected Map<Character, ArrayList<SquareTile>> tiles = new HashMap<Character, ArrayList<SquareTile>>();
+	// protected Map<Character, ArrayList<SquareTile>> tiles = new HashMap<Character, ArrayList<SquareTile>>()
 	protected SquareTile[][] board;
 	protected boolean state; //right now this serves as just a if we started or not
 	protected ArrayList<Location> availableSpots;
@@ -31,6 +31,7 @@ public class BoardObject {
 		board = new SquareTile[ROWSIZE][COLSIZE];
 		tileStack = new TileStack();
 		tiles = tileStack.getTiles();
+		players = new Player[2]
 		state = false;
 	} //end constructor
 
