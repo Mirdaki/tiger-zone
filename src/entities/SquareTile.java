@@ -104,8 +104,8 @@ public class SquareTile extends TileObject {
 
 	//checks to see if there are any similar edges to place against
 	public boolean similarEdge(SquareTile edge) {
-		edge[] edges1 = this.getEdges(this.orientation);
-		edge[] edges2 = edge.getEdges(edge.orientation);
+		edge[] edges1 = this.getEdges();
+		edge[] edges2 = edge.getEdges();
 
 		//check to see if there is a similar edge on any of the edges
 		for(int i = 0; i < 4; i++) {
