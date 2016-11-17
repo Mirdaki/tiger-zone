@@ -11,7 +11,7 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="1">0</jungle>
+                <jungle id="1">0 1 2 3 4 5 6 7 8 9 10 11 12</jungle>
             </jungles>
         </regions>
     </tile>
@@ -26,7 +26,7 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="2">0</jungle>
+                <jungle id="2">0 1 2 3 4 5 6 7 8 9 10 11 12</jungle>
             </jungles>
         </regions>
     </tile>
@@ -41,10 +41,10 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="3">0</jungle>
+                <jungle id="3">0 1 2 3 4 5 6 8 9 10 11</jungle>
             </jungles>
             <trails>
-                <trail id="1">1</trail>
+                <trail id="1">7 12</trail>
             </trails>
         </regions>
     </tile>
@@ -59,16 +59,16 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="4">0</jungle>
-                <jungle id="5">0</jungle>
-                <jungle id="6">0</jungle>
-                <jungle id="7">0</jungle>
+                <jungle id="4">0 11</jungle>
+                <jungle id="5">2 3</jungle>
+                <jungle id="6">5 6</jungle>
+                <jungle id="7">8 9</jungle>
             </jungles>
             <trails>
                 <trail id="2">1</trail>
-                <trail id="3">1</trail>
-                <trail id="4">1</trail>
-                <trail id="5">1</trail>
+                <trail id="3">4</trail>
+                <trail id="4">7</trail>
+                <trail id="5">10</trail>
             </trails>
         </regions>
     </tile>
@@ -83,11 +83,11 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="8">0</jungle>
-                <jungle id="9">0</jungle>
+                <jungle id="8">0 8 9 10 11</jungle>
+                <jungle id="9">2 3 4 5 6</jungle>
             </jungles>
             <trails>
-                <trail id="6">2</trail>
+                <trail id="6">1 7 12</trail>
             </trails>
         </regions>
     </tile>
@@ -102,11 +102,11 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="10">0</jungle>
-                <jungle id="11">0</jungle>
+                <jungle id="10">0 11</jungle>
+                <jungle id="11">2 3 4 5 6 7 8 9</jungle>
             </jungles>
             <trails>
-                <trail id="7">2</trail>
+                <trail id="7">1 10 12</trail>
             </trails>
         </regions>
     </tile>
@@ -121,14 +121,14 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="12">0</jungle>
-                <jungle id="13">0</jungle>
-                <jungle id="14">0</jungle>
+                <jungle id="12">0 11</jungle>
+                <jungle id="13">2 3 4 5 6</jungle>
+                <jungle id="14">8 9</jungle>
             </jungles>
             <trails>
                 <trail id="8">1</trail>
-                <trail id="9">1</trail>
-                <trail id="10">1</trail>
+                <trail id="9">7</trail>
+                <trail id="10">10</trail>
             </trails>
         </regions>
     </tile>
@@ -143,7 +143,7 @@
         </edges>
         <regions>
             <lakes>
-                <lake id="1">4</lake>
+                <lake id="1">0 1 2 3 4 5 6 7 8 9 10 11 12</lake>
             </lakes>
         </regions>
     </tile>
@@ -158,10 +158,10 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="15">0</jungle>
+                <jungle id="15">0 1 2</jungle>
             </jungles>
             <lakes>
-                <lake id="2">3</lake>
+                <lake id="2">3 4 5 6 7 8 9 10 11 12</lake>
             </lakes>
         </regions>
     </tile>
@@ -176,10 +176,10 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="16">0</jungle>
+                <jungle id="16">6 7 8 9 10 11</jungle>
             </jungles>
             <lakes>
-                <lake id="3">2</lake>
+                <lake id="3">0 1 2 3 4 5 12</lake>
             </lakes>
         </regions>
     </tile>
@@ -194,11 +194,11 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="17">0</jungle>
-                <jungle id="18">0</jungle>
+                <jungle id="17">0 1 2</jungle>
+                <jungle id="18">6 7 8</jungle>
             </jungles>
             <lakes>
-                <lake id="4">2</lake>
+                <lake id="4">3 4 5 9 10 11 12</lake>
             </lakes>
         </regions>
     </tile>
@@ -213,11 +213,11 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="19">0</jungle>
+                <jungle id="19">3 4 5 9 10 11 12</jungle>
             </jungles>
             <lakes>
-                <lake id="5">1</lake>
-                <lake id="6">1</lake>
+                <lake id="5">0 1 2</lake>
+                <lake id="6">6 7 8</lake>
             </lakes>
         </regions>
     </tile>
@@ -232,10 +232,10 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="20">0</jungle>
+                <jungle id="20">3 4 5 6 7 8 9 10 11 12</jungle>
             </jungles>
             <lakes>
-                <lake id="7">1</lake>
+                <lake id="7">0 1 2</lake>
             </lakes>
         </regions>
     </tile>
@@ -250,11 +250,11 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="21">0</jungle>
+                <jungle id="21">0 1 2 9 10 11 12</jungle>
             </jungles>
             <lakes>
-                <lake id="8">1</lake>
-                <lake id="9">1</lake>
+                <lake id="8">3 4 5</lake>
+                <lake id="9">6 7 8</lake>
             </lakes>
         </regions>
     </tile>
@@ -269,14 +269,14 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="22">0</jungle>
-                <jungle id="23">0</jungle>
+                <jungle id="22">0 11</jungle>
+                <jungle id="23">2 6 7 8</jungle>
             </jungles>
             <lakes>
-                <lake id="10">1</lake>
+                <lake id="10">3 4 5</lake>
             </lakes>
             <trails>
-                <trail id="11">1</trail>
+                <trail id="11">1 10 12</trail>
             </trails>
         </regions>
     </tile>
@@ -291,14 +291,14 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="24">0</jungle>
-                <jungle id="25">0</jungle>
+                <jungle id="24">0 11</jungle>
+                <jungle id="25">2 6 7 8</jungle>
             </jungles>
             <lakes>
-                <lake id="11">1</lake>
+                <lake id="11">3 4 5</lake>
             </lakes>
             <trails>
-                <trail id="12">2</trail>
+                <trail id="12">1 10 12</trail>
             </trails>
         </regions>
         <penant>boar</penant>
@@ -314,14 +314,14 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="26">0</jungle>
-                <jungle id="27">0</jungle>
+                <jungle id="26">0 1 2 6 11</jungle>
+                <jungle id="27">8 9</jungle>
             </jungles>
             <lakes>
-                <lake id="12">1</lake>
+                <lake id="12">3 4 5</lake>
             </lakes>
             <trails>
-                <trail id="13">2</trail>
+                <trail id="13">7 10 12</trail>
             </trails>
         </regions>
     </tile>
@@ -336,14 +336,14 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="28">0</jungle>
-                <jungle id="29">0</jungle>
+                <jungle id="28">0 1 2 6 11</jungle>
+                <jungle id="29">8 9</jungle>
             </jungles>
             <lakes>
-                <lake id="13">1</lake>
+                <lake id="13">3 4 5</lake>
             </lakes>
             <trails>
-                <trail id="14">2</trail>
+                <trail id="14">7 10 12</trail>
             </trails>
         </regions>
         <penant>buffalo</penant>
@@ -359,14 +359,14 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="30">0</jungle>
-                <jungle id="31">0</jungle>
+                <jungle id="30">0 8 9 10 11</jungle>
+                <jungle id="31">2 6</jungle>
             </jungles>
             <lakes>
-                <lake id="14">1</lake>
+                <lake id="14">3 4 5</lake>
             </lakes>
             <trails>
-                <trail id="15">2</trail>
+                <trail id="15">1 7 12</trail>
             </trails>
         </regions>
     </tile>
@@ -381,14 +381,14 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="32">0</jungle>
-                <jungle id="33">0</jungle>
+                <jungle id="32">0 8 9 10 11</jungle>
+                <jungle id="33">2 6</jungle>
             </jungles>
             <lakes>
-                <lake id="15">1</lake>
+                <lake id="15">3 4 5</lake>
             </lakes>
             <trails>
-                <trail id="16">2</trail>
+                <trail id="16">1 7 12</trail>
             </trails>
         </regions>
         <penant>deer</penant>
@@ -405,10 +405,10 @@
         <regions>
             <jungles>
                 <jungle id="34">0</jungle>
-                <jungle id="35">0</jungle>
+                <jungle id="35">2</jungle>
             </jungles>
             <lakes>
-                <lake id="16">3</lake>
+                <lake id="16">3 4 5 6 7 8 9 10 11 12</lake>
             </lakes>
             <trails>
                 <trail id="17">1</trail>
@@ -426,17 +426,17 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="36">0</jungle>
-                <jungle id="37">0</jungle>
-                <jungle id="38">0</jungle>
+                <jungle id="36">0 11</jungle>
+                <jungle id="37">2 6</jungle>
+                <jungle id="38">8 9</jungle>
             </jungles>
             <lakes>
-                <lake id="17">1</lake>
+                <lake id="17">3 4 5</lake>
             </lakes>
             <trails>
                 <trail id="18">1</trail>
-                <trail id="19">1</trail>
-                <trail id="20">1</trail>
+                <trail id="19">7</trail>
+                <trail id="20">10</trail>
             </trails>
         </regions>
     </tile>
@@ -451,17 +451,17 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="39">0</jungle>
-                <jungle id="40">0</jungle>
-                <jungle id="41">0</jungle>
+                <jungle id="39">0 11</jungle>
+                <jungle id="40">2 6</jungle>
+                <jungle id="41">8 9</jungle>
             </jungles>
             <lakes>
-                <lake id="18">1</lake>
+                <lake id="18">3 4 5</lake>
             </lakes>
             <trails>
                 <trail id="21">1</trail>
-                <trail id="22">1</trail>
-                <trail id="23">1</trail>
+                <trail id="22">7</trail>
+                <trail id="23">10</trail>
             </trails>
         </regions>
         <penant>boar</penant>
@@ -477,14 +477,14 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="42">0</jungle>
-                <jungle id="43">0</jungle>
+                <jungle id="42">0 11</jungle>
+                <jungle id="43">2 9</jungle>
             </jungles>
             <lakes>
-                <lake id="19">2</lake>
+                <lake id="19">3 4 5 6 7 8</lake>
             </lakes>
             <trails>
-                <trail id="24">2</trail>
+                <trail id="24">1 10</trail>
             </trails>
         </regions>
     </tile>
@@ -499,14 +499,14 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="44">0</jungle>
-                <jungle id="45">0</jungle>
+                <jungle id="44">0 11</jungle>
+                <jungle id="45">2 9</jungle>
             </jungles>
             <lakes>
-                <lake id="20">2</lake>
+                <lake id="20">3 4 5 6 7 8</lake>
             </lakes>
             <trails>
-                <trail id="25">2</trail>
+                <trail id="25">1 10</trail>
             </trails>
         </regions>
         <penant>buffalo</penant>
@@ -522,14 +522,14 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="46">0</jungle>
-                <jungle id="47">0</jungle>
+                <jungle id="46">3 4 5 6</jungle>
+                <jungle id="47">8 9 10</jungle>
             </jungles>
             <lakes>
-                <lake id="21">1</lake>
+                <lake id="21">0 1 2</lake>
             </lakes>
             <trails>
-                <trail id="25">1</trail>
+                <trail id="25">7</trail>
             </trails>
         </regions>
     </tile>
@@ -544,14 +544,14 @@
         </edges>
         <regions>
             <jungles>
-                <jungle id="48">0</jungle>
-                <jungle id="49">0</jungle>
+                <jungle id="48">3 4 5 6</jungle>
+                <jungle id="49">8 9 10</jungle>
             </jungles>
             <lakes>
-                <lake id="22">1</lake>
+                <lake id="22">0 1 2</lake>
             </lakes>
             <trails>
-                <trail id="26">1</trail>
+                <trail id="26">7</trail>
             </trails>
         </regions>
         <penant>deer</penant>

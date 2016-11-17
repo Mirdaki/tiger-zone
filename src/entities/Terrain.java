@@ -13,7 +13,6 @@ public abstract class Terrain
 	protected String theType;
 	public static int terrainNum;
 
-
 	// Constructors
 	public Terrain()
 	{

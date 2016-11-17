@@ -1,127 +1,199 @@
-/*
- * This is the TileObject that will handle a basic tile of the TigerZone game implementation.
- *
- * According to the official rules, there are 72 total tiles in a game of Carcassonne.
- * There are 26 total types of tiles. See following for their ID and multiplicity:
- * 		A - 2x		B - 4x		C - 1x		D - 4x		E - 5x		F - 2x
- * 		G - 1x 		H - 3x		I - 2x 		J - 3x		K - 3x 		L - 3x
- * 		M - 2x 		N - 2x 		O - 2x		P - 3x 		Q - 1x		R - 3x
- * 		S - 2x 		T - 1x 		U - 8x 		V - 9x		W - 4x 		X - 1x
- *
- * A typical tile will need to describe:
- * 		1.) an ID to identify type
- * 		2.) its coordinate location on the board
- * 		3.) its card value (1 or 2)
- * 		4.) its orientation (which direction the "top" is facing")
- * 		5.) its edges
- * 			a.) the number of
- * 			b.) list of?
- * 		6.) the number of vertices
- * 			a.) the number of
- * 			b.) list of?
- * 		7.) its farm land
- * 		8.) its roads
- * 		9.) its monasteries
- * 		10.) its center (castle, road, farm land, monastery, village)
- * 		11.) its Tigers
- * 			a.) the number of
- * 			b.) the placeable locations
- * 			c.) list of?
- *
- */
-
-
-//NEED TO CREATE AN ABSTRACT TILEOBJECT THAT WE CAN TAKE FROM
-
 public abstract class TileObject {
 
-	protected  int value,
-				orientation,
-				tileID;
+	//attributes
+	protected static int tileNum; //global int to unique tileID
 
-	protected static int tileNum;
-
-	protected char type, center;
+	protected int tileID;
+	protected int orientation; //orientation mappings: {i=0:0, 1:90, 2:180, 3:270}
+	protected char type;
+	protected char center;
 
 	protected Location coord;
 	protected Player owner;
-	protected TigerObject Tiger;
+	protected TigerObject tiger;
 
 	protected edge[] edges;
 	protected Terrain terrains[];
 
-	//constructors
+	//default constructor for inheritance
 	public TileObject() {
-
 	}
 
-	public TileObject(int tileID, int value, Location coord) {
-		// this.tileID = tileID;
-		// this.value = value;
-		// this.coord = coord;
+	/**
+	 *	getTileNum() will get the total number of tiles that have
+	 *	been created using this class.
+	 *	@return the total number of tiles created
+	 */
+	public int getTileNum() {
+		return tileNum;
 	}
 
-	//accessor methods
+	/**
+	 *	setTileNum() sets the tile number count to a new amount
+	 *	@param tileNum the new tile amount
+	 */
+	public void setTileNum(int tileNum) {
+		this.tileNum = tileNum;
+	}
+
+	/**
+	 *	getTileID() gets the current tile's ID
+	 *	@return the current tile's ID
+	 */
 	public int getTileID() {
 		return tileID;
 	}
 
+	/**
+	 *	setTileID() sets the current tile's ID to a new ID
+	 *	@param tileID the new tile ID
+	 */
 	public void setTileID(int tileID) {
 		this.tileID = tileID;
 	}
 
-	public int getValue() {
-		return value;
-	}
-
-	public void setValue(int value) {
-		this.value = value;
-	}
-
-	public Location getX() {
-		return coord;
-	}
-
-	public void setX(Location coord) {
-		this.coord = coord;
-	}
-
+	/**
+	 * getOrientation() will get the current tile's orientation
+	 * @return the current tile's orientation
+	 */
 	public int getOrientation() {
 		return orientation;
 	}
 
-	public Player getOwner() {
-		return owner;
+	/**
+	 * setOrientation() will set the current tile's orientation
+	 * @param orientation the new orientation
+	 */
+	public void setOrientation(int orientation) {
+		this.orientation = orientation;
 	}
 
-	public void setOwner(Player owner) {
-		this.owner = owner;
-	}
-
-	public edge[] getEdges() {
-		return edges;
-	}
-
-	public Terrain[] getTerrains() {
-		return terrains;
-	}
-
-	public char getCenter() {
-		return center;
-	}
-
+	/**
+	 * getType() will get the current tile's type
+	 * See Tile Type.png for more information
+	 * @return the current tile's type
+	 */
 	public char getType() {
 		return type;
 	}
 
-	public TigerObject getTiger() {
-		return Tiger;
+	/**
+	 * setType() set's the current tile's type
+	 * @param type the new tile type to set
+	 */
+	public void setType(char type) {
+		this.type = type;
 	}
-	//normal methods
+
+	/**
+	 * getCenter() gets the current tile's type
+	 * @return the current tile's type
+	 */
+	public char getCenter() {
+		return center;
+	}
+
+	/**
+     * setCenter() sets the current tile's type
+	 * @param center sets the current tile's type
+	 */
+	public void setCenter(char center) {
+		this.center = center;
+	}
+
+	/**
+	 * getCoord() gets the current tile's coordinate
+	 * @return the current tile's coordinate
+	 */
+	public Location getCoord() {
+		return coord;
+	}
+
+	/**
+	 * setCoord() sets the current tile's coordinate
+	 * @param coord sets the current tile's coordinate to the new coordinate
+	 */
+	public void setCoord(Location coord) {
+		this.coord = coord;
+	}
+
+	/**
+	 * getOwner() gets the current tile's owner
+	 * @return the current tile's owner
+	 */
+	public Player getOwner() {
+		return owner;
+	}
+
+	/**
+	 * setOwner() sets the current tile's owner
+	 * @param owner is the new owner
+	 */
+	public void setOwner(Player owner) {
+		this.owner = owner;
+	}
+
+	/**
+	 * getTiger() gets the tile's current tiger
+	 * @return the tile's current tiger
+	 */
+	public TigerObject getTiger() {
+		return tiger;
+	}
+
+	/**
+	 * setTiger() sets the tile's object to the specified tiger
+	 * @param tiger the new tiger to set
+	 */
+	public void setTiger(TigerObject tiger) {
+		this.tiger = tiger;
+	}
+
+	/**
+	 * getEdges() gets the current tile's edges and maps them according
+	 * to the orientation set on the tile
+	 * @return the edges
+	 */
+	public edge[] getEdges() {
+		edge[] test = {edges[Math.floorMod((0 - orientation + 4),4)],edges[Math.floorMod((0 - orientation + 4),4)],edges[Math.floorMod((0 - orientation + 4),4)],edges[Math.floorMod((0 - orientation + 4),4)]};
+		return test;
+	}
+
+	/**
+	 * setEdges() sets the tile's current edges to a new set of edges
+	 * @param edges the new edges to be set on the current tile
+	 */
+	public void setEdges(edge[] edges) {
+		this.edges = edges;
+	}
+
+	/**
+	 * getTerrains() gets the terrains associated with the tile
+	 * @return the terrains
+	 */
+	public Terrain[] getTerrains() {
+		return terrains;
+	}
+
+	/**
+	 * setTerrains() sets the current tile's terrains to a new set of terrains
+	 * @param terrains sets the terrains to the specified set of terrains
+	 */
+	public void setTerrains(Terrain[] terrains) {
+		this.terrains = terrains;
+	}
+
+	/**
+	 * toString() formats the tile information to be printable
+	 * @return the String of formatted information
+ 	 */
 	public String toString() {
-		return "ID: " + this.tileID + "\nCard value: " + this.value + "\n(x,y) coordinate: " + this.coord.toString() + "\nEdge count: "
-				+ "\nOrientation: " + this.orientation;
+		return "ID: " + this.tileID +
+		"\n(x,y) coordinate: " + this.coord.toString() +
+		"\nOrientation: " + this.orientation +
+		"\nType: " + this.type +
+		"\nCenter: " + this.center +
+		"\nOwner: " + this.owner;
 	}//end toSring
-
-
+	
 } //end TileObject

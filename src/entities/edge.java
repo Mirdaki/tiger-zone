@@ -2,17 +2,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class edge {
-	List<Character> points = new ArrayList<Character>();
+
+	protected List<Character> points;
 
 	protected char type;
 
+	//constructor
 	public edge(char top, char mid, char bot) {
 		points.add(top);
 		points.add(mid);
 		points.add(bot);
 		this.type = mid;
+		points = new ArrayList<Character>();
 	}
 
+	//getters and setters, will comment later 
 	public char getType() {
 		return type;
 	}
@@ -45,6 +49,11 @@ public class edge {
 		points.set(1, type);
 	}
 
+	/**
+	 * equals() compares two edges with one another
+	 * @param edge the edge to compare
+	 * @return true or false based on if they were equal or not
+	 */
 	public boolean equals(edge edge) {
 
 		//if equals
@@ -56,6 +65,10 @@ public class edge {
 		return false;
 	}
 
+	/**
+	 * toString() formats the edge information to be printable
+	 * @return the String of formatted information
+ 	 */
 	public String toString() {
 		return "Top: " + points.get(0) + " Mid: " + points.get(1) + " Bot: " + points.get(2);
 	}
