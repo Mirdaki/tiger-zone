@@ -14,9 +14,9 @@ public class TigerZone {
 	public static void main(String[] args) {
 
 
-		SquareTile tile = new SquareTile('A',0);
-		SquareTile tile2 = new SquareTile('S',0);
-		SquareTile tile3 = new SquareTile('S',3);
+		SquareTile tile = new SquareTile("JJJJ-",0);
+		SquareTile tile2 = new SquareTile("TLTJ-",0);
+		SquareTile tile3 = new SquareTile("TLTJ-",3);
 
 		System.out.println(tile.toString());
 		System.out.println(tile2.toString());

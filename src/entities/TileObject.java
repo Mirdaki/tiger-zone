@@ -7,7 +7,7 @@ public abstract class TileObject {
 
 	protected int tileID;
 	protected int orientation; //orientation mappings: {i=0:0, 1:90, 2:180, 3:270}
-	protected char type;
+	protected String type;
 	protected char center;
 
 	protected Location coord;
@@ -75,7 +75,7 @@ public abstract class TileObject {
 	 * See Tile Type.png for more information
 	 * @return the current tile's type
 	 */
-	public char getType() {
+	public String getType() {
 		return type;
 	}
 
@@ -83,7 +83,7 @@ public abstract class TileObject {
 	 * setType() set's the current tile's type
 	 * @param type the new tile type to set
 	 */
-	public void setType(char type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

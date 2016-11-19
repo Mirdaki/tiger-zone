@@ -24,7 +24,7 @@ import java.util.Map;
 public class TileStack {
 
     //class members
-    protected Map<Character, ArrayList<SquareTile>> tileStack;
+    protected Map<String, ArrayList<SquareTile>> tileStack;
     protected int tileCount;
 
     /**
@@ -32,7 +32,7 @@ public class TileStack {
 	 */
     public TileStack() {
 
-        tileStack = new HashMap<Character, ArrayList<SquareTile>>();
+        tileStack = new HashMap<String, ArrayList<SquareTile>>();
         tileCount = 0;
 
         try { //attempt to parse XML file of tiles
@@ -58,7 +58,7 @@ public class TileStack {
                     //take ith element and find multiplicity
                     Node nNode = nList.item(i);
                     Element eElement = (Element) nNode;
-                    char type = eElement.getAttribute("type").charAt(0);
+                    string type = eElement.getAttribute("type");
                     int multiplicity = Integer.parseInt(eElement.getAttribute("count"));
 
 
@@ -86,11 +86,11 @@ public class TileStack {
 	 * getTiles() will return the tile stack
      * @return the tileStack
 	 */
-    public Map<Character, ArrayList<SquareTile>> getTiles() {
+    public Map<String, ArrayList<SquareTile>> getTiles() {
         return tileStack;
     }
 
-    public ArrayList<SquareTile> getList(char type) {
+    public ArrayList<SquareTile> getList(string type) {
         return tileStack.get(type);
     }
 
@@ -98,7 +98,7 @@ public class TileStack {
 	 * setTiles() will set the current tile stack to a new tile stack
      * @param tileStack will set the tileStack to a new tileStack
 	 */
-    public void setTiles(Map<Character, ArrayList<SquareTile>> tileStack) {
+    public void setTiles(Map<String, ArrayList<SquareTile>> tileStack) {
         this.tileStack = tileStack;
     }
 

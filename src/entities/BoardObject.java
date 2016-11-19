@@ -16,7 +16,7 @@ public class BoardObject {
 
 	protected static final int ROWSIZE = 11, COLSIZE = 11;
 	protected TileStack tileStack;
-	protected Map<Character, ArrayList<SquareTile>> tiles = new HashMap<Character, ArrayList<SquareTile>>();
+	protected Map<String, ArrayList<SquareTile>> tiles = new HashMap<String, ArrayList<SquareTile>>();
 	protected SquareTile[][] board;
 	protected boolean state; //right now this serves as just a if we started or not
 	protected ArrayList<Location> availableSpots;
@@ -54,7 +54,7 @@ public class BoardObject {
 		this.availableSpots = availableSpots;
 	}
 
-	// public Map<Character, ArrayList<SquareTile>> getMap() {
+	// public Map<String, ArrayList<SquareTile>> getMap() {
 	// 	return tiles;
 	// }
 
@@ -202,7 +202,7 @@ public class BoardObject {
 	*	@param orientation The desired orientation (0=0, 1=90, 2=180, 3=270)
 	*	@return the corresponding SquareTile
 	*/
-	public SquareTile getTile(char type, int orientation) {;
+	public SquareTile getTile(String type, int orientation) {;
 		return tileStack.getTile(type,orientation);
 	}
 
