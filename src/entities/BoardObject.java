@@ -65,29 +65,55 @@ public class BoardObject {
 	 *	spots.
 		 *
 	 * 	TO DO: check if the adjacent tiles at that location can accept the tile
-	 *
+	 *  @param tile the tile to be potentially placed
 	 *	@param coord The Location on the board for the tile to be placed.
 	 *	@return true if valid placement, false if not
 	 */
-	public boolean valid(Location coord) {
+	public boolean valid(SquareTile tile, Location coord) {
+
+		char type = tile.getType();
+        ArrayList<SquareTile> tileMatches = tileStack.getList(type);
+		if(tileMatches.isEmpty()) return false;
 
 		//get queried placement
-		int x = coord.getX();
-		int y = coord.getY();
+		int row = coord.getRow();
+		int col = coord.getCol();
 
 		//if out of bounds of the board, return false automatically
-		if ((x<0 || x>COLSIZE-1) || (y<0 || y>ROWSIZE-1)) return false;
+		if ((row<0 || row>ROWSIZE-1) || (col<0 || col>COLSIZE-1)) return false;
+		//if spot is already filled, return false
+		if(board[row][col] != null) return false;
 
-		//find if the requested spot is in the list of available spots, return true
+		//find if the requested spot is in the list of available spots
+		boolean found = false;
+		int index = 0;
 		for (int i = 0; i < availableSpots.size(); i++) {
 			if (availableSpots.get(i).equals(coord)) {
-				availableSpots.remove(i);
-				return true;
+				index = i;
+				found = true;
+				break;
 			}
 		}
 
-		//if not found, return false
-		return false;
+		//if wasn't found in the list, return false
+		if (!found) return false;
+
+		//get adjacent tiles
+		SquareTile up = null, right = null, down = null, left = null;
+		if(row > 0) up = board[row - 1][col];
+		if(col < COLSIZE-1) right = board[row][col + 1];
+		if(row < ROWSIZE-1) down = board[row + 1][col];
+		if(col > 0) left = board[row][col - 1];
+
+		//if tile edges dont match up with adjacent touching edges, return false
+		if(up != null && !up.getEdge(2).equals(tile.getEdge(0))) return false;
+		if(right != null && !right.getEdge(3).equals(tile.getEdge(1))) return false;
+		if(down != null && !down.getEdge(0).equals(tile.getEdge(2))) return false;
+		if(left != null && !left.getEdge(1).equals(tile.getEdge(3))) return false;
+
+		//else remove location from available spots list, return true
+		availableSpots.remove(index);
+		return true;
 	}
 
 	/**
@@ -105,42 +131,51 @@ public class BoardObject {
 	public boolean place(SquareTile tile, Location coord) {
 
 		//proceed if valid placement/game is starting
-		if (valid(coord) || !state) {
+		if (valid(tile,coord) || !state) {
 
 			//get coordinates
-			int x = coord.getX();
-			int y = coord.getY();
+			int row = coord.getRow();
+			int col = coord.getCol();
+			char type = tile.getType();
 
-			//get adjacent tiles (fix this for boundary conditions)
-			SquareTile up = board[x - 1][y];
-			SquareTile right = board[x][y + 1];
-			SquareTile down = board[x + 1][y];
-			SquareTile left = board[x][y - 1];
+			//get adjacent tiles, if any
+			SquareTile up = null, right = null, down = null, left = null;
+			if(row > 0) up = board[row - 1][col];
+			if(col < COLSIZE-1) right = board[row][col + 1];
+			if(row < ROWSIZE-1) down = board[row + 1][col];
+			if(col > 0) left = board[row][col - 1];
 
 			//initialize potential locations to be added to available spots list
-			Location addUp = new Location(x - 1, y);
-			Location addRight = new Location(x, y + 1);
-			Location addDown = new Location(x + 1, y);
-			Location addLeft = new Location(x, y - 1);
+			Location addUp = null, addRight = null, addLeft = null, addDown = null;
+
+			if(row > 0) addUp = new Location(row - 1, col);
+			if(col < COLSIZE-1) addRight = new Location(row, col + 1);
+			if(row < ROWSIZE-1) addDown = new Location(row + 1, col);
+			if(col > 0) addLeft = new Location(row, col - 1);
 
 			//remove potential duplicate values (is there a better way to do this?)
 			for (int i = 0; i < availableSpots.size(); i++) {
-				if (availableSpots.get(i).equals(addUp) || availableSpots.get(i).equals(addLeft) || availableSpots.get(i).equals(addRight) || availableSpots.get(i).equals(addDown) || availableSpots.get(i).equals(coord))
+				if ((addUp != null && availableSpots.get(i).equals(addUp)) ||
+				(addLeft != null && availableSpots.get(i).equals(addLeft)) ||
+				(addRight != null && availableSpots.get(i).equals(addRight)) ||
+				(addDown != null && availableSpots.get(i).equals(addDown)) ||
+				availableSpots.get(i).equals(coord))
 					availableSpots.remove(i);
 			}
 
 			//if adjacent tiles were empty, add them to available spots to place
-			if (up == null) availableSpots.add(addUp);
-			if (right == null) availableSpots.add(addRight);
-			if (down == null) availableSpots.add(addDown);
-			if (left == null) availableSpots.add(addLeft);
+			if (up == null && addUp != null) availableSpots.add(addUp);
+			if (right == null && addRight != null) availableSpots.add(addRight);
+			if (down == null && addDown != null) availableSpots.add(addDown);
+			if (left == null && addLeft != null) availableSpots.add(addLeft);
 
 			//if the game is starting, set this true
 			if(!state) state = true;
 
 			//set the tile's coordinate to it's new spot, place it
 			tile.setCoord(coord);
-			board[x][y] = tile;
+			board[row][col] = tile;
+			tileStack.getList(type).remove(0);
 
 			return true;
 		}
@@ -151,7 +186,7 @@ public class BoardObject {
 	*	in the center of the game board.
 	*/
 	public void start() {
-		SquareTile startingTile = getTile('L',0);
+		SquareTile startingTile = tileStack.getTile('S',0);
 		place(startingTile, new Location(ROWSIZE/2,COLSIZE/2));
 	}
 
@@ -167,7 +202,7 @@ public class BoardObject {
 	*	@param orientation The desired orientation (0=0, 1=90, 2=180, 3=270)
 	*	@return the corresponding SquareTile
 	*/
-	public SquareTile getTile(char type, int orientation) {
+	public SquareTile getTile(char type, int orientation) {;
 		return tileStack.getTile(type,orientation);
 	}
 
@@ -244,7 +279,7 @@ public class BoardObject {
 	 *  If empty list, print none
      */
 	public void printSpots() {
-		System.out.println("Available spots:" );
+		System.out.println("Available spots (" + availableSpots.size() + "):");
 		if (availableSpots.isEmpty()) System.out.println("None");
 		else
 			for (int i = 0; i < availableSpots.size(); i++) {

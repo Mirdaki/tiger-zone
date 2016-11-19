@@ -2,35 +2,36 @@ package entities;
 
 public class Location {
 
-	protected int x, y;
+	protected int row, col;
 
 	public Location() {
-		this.x = 0;
-		this.y = 0;
+		this.row = 0;
+		this.col = 0;
 	}
 
-	public Location(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public Location(int row, int col) {
+		this.row = row;
+		this.col = col;
 	}
 
 	public Location(Location coord) {
-		x = coord.x;
-		y = coord.y;
+		row = coord.row;
+		col = coord.col;
 	}
 
-	public int getX() {
-		return x;
+	public int getRow() {
+		return row;
 	}
 
-	public int getY() {
-		return y;
+	public int getCol() {
+		return col;
 	}
 	public boolean equals(Location coord) {
-		if (this.x != coord.x || this.y != coord.y) return false;
+		if (this.row != coord.row || this.col != coord.col) return false;
 		return true;
 	}
+
 	public String toString() {
-		return "(" + this.x + "," + this.y + ")";
+		return "(" + this.row + "," + this.col + ")";
 	}
 }

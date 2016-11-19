@@ -90,6 +90,10 @@ public class TileStack {
         return tileStack;
     }
 
+    public ArrayList<SquareTile> getList(char type) {
+        return tileStack.get(type);
+    }
+
     /**
 	 * setTiles() will set the current tile stack to a new tile stack
      * @param tileStack will set the tileStack to a new tileStack
@@ -115,6 +119,7 @@ public class TileStack {
         //pull first match, reset its orientation
         SquareTile tile = tileMatches.get(0);
         tile.setOrientation(orientation);
+        tileMatches.remove(0);
 
         return tile;
     }

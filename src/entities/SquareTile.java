@@ -28,6 +28,79 @@ import java.util.ArrayList;
  */
 public class SquareTile extends TileObject {
 
+
+	public SquareTile(char type, int orientation) {
+		try { //attempt to parse XML file of tiles
+
+            //file to parse
+       		File file = new File("entities/tiles.xml");
+       		DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+       		Document doc = dBuilder.parse(file);
+
+            //if there was stuff inside of the XML file
+    	   	if (doc.hasChildNodes()) {
+
+				//find tile type
+				XPathFactory xPathfactory = XPathFactory.newInstance();
+				XPath xpath = xPathfactory.newXPath();
+				XPathExpression expr = xpath.compile("//tile[@type=\"" + type +"\"]");
+				NodeList nList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+
+                Node nNode = nList.item(0);
+                Element eElement = (Element) nNode;
+
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					tileID = tileNum++; //ensures uniqueID to a tile
+					this.orientation = orientation;
+					coord = new Location();
+					this.type = type;
+					edges = new edge[4];
+
+					String north = eElement.getElementsByTagName("north").item(0).getTextContent();
+
+					String east = eElement.getElementsByTagName("east").item(0).getTextContent();
+					String south = eElement.getElementsByTagName("south").item(0).getTextContent();
+					String west = eElement.getElementsByTagName("west").item(0).getTextContent();
+					String mid = eElement.getElementsByTagName("center").item(0).getTextContent();
+					edges[Math.floorMod((0 - orientation + 4),4)] = new edge(north.charAt(0), north.charAt(2), north.charAt(4));
+					edges[Math.floorMod((1 - orientation + 4),4)] = new edge(east.charAt(0), east.charAt(2), east.charAt(4));
+					edges[Math.floorMod((2 - orientation + 4),4)] = new edge(south.charAt(0), south.charAt(2), south.charAt(4));
+					edges[Math.floorMod((3 - orientation + 4),4)] = new edge(west.charAt(0), west.charAt(2), west.charAt(4));
+
+					center = mid.charAt(0);
+
+					//setup terrain data
+					NodeList jungles = eElement.getElementsByTagName("jungle"); //find all jungle terrains
+					NodeList trails = eElement.getElementsByTagName("trail"); //find all trail terrains
+					NodeList lakes = eElement.getElementsByTagName("lake"); //find all lake terrains
+					terrains = new Terrain[jungles.getLength() + trails.getLength() + lakes.getLength()];
+					int i = 0;
+
+					//find all jungles
+					for (int j = 0; j < jungles.getLength(); j++) {
+						Element element = (Element)jungles.item(j);
+						terrains[i++] = new JungleTerrain();
+					}
+
+					//find all trails
+					for (int j = 0; j < trails.getLength(); j++) {
+						Element element = (Element)trails.item(j);
+						terrains[i++] = new TrailTerrain();
+					}
+
+					//find all lakes
+					for (int j = 0; j < lakes.getLength(); j++) {
+						Element element = (Element)lakes.item(j);
+						terrains[i++] = new LakeTerrain();
+					}
+
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
+	}
+
 	/**
 	 * Creates a square tile object based on XML element.
 	 * Each square tile has an associated list of representations.
@@ -52,10 +125,10 @@ public class SquareTile extends TileObject {
 		String south = eElement.getElementsByTagName("south").item(0).getTextContent();
 		String west = eElement.getElementsByTagName("west").item(0).getTextContent();
 		String mid = eElement.getElementsByTagName("center").item(0).getTextContent();
-		edges[0] = new edge(north.charAt(0), north.charAt(2), north.charAt(4));
-		edges[1] = new edge(east.charAt(0), east.charAt(2), east.charAt(4));
-		edges[2] = new edge(south.charAt(0), south.charAt(2), south.charAt(4));
-		edges[3] = new edge(west.charAt(0), west.charAt(2), west.charAt(4));
+		edges[Math.floorMod((0 - orientation + 4),4)] = new edge(north.charAt(0), north.charAt(2), north.charAt(4));
+		edges[Math.floorMod((1 - orientation + 4),4)] = new edge(east.charAt(0), east.charAt(2), east.charAt(4));
+		edges[Math.floorMod((2 - orientation + 4),4)] = new edge(south.charAt(0), south.charAt(2), south.charAt(4));
+		edges[Math.floorMod((3 - orientation + 4),4)] = new edge(west.charAt(0), west.charAt(2), west.charAt(4));
 
 		center = mid.charAt(0);
 
@@ -106,19 +179,40 @@ public class SquareTile extends TileObject {
 	}//end constructor
 
 	//checks to see if there are any similar edges to place against
-	public boolean similarEdge(SquareTile edge) {
-		edge[] edges1 = this.getEdges();
-		edge[] edges2 = edge.getEdges();
+	// public boolean similarEdge(SquareTile edge) {
+	// 	edge[] edges1 = this.getEdges();
+	// 	edge[] edges2 = edge.getEdges();
+	//
+	// 	//check to see if there is a similar edge on any of the edges
+	// 	for(int i = 0; i < 4; i++) {
+	// 		for (int j = 0; j < 4; j++) {
+	// 			if(edges1[i].equals(edges2[j])) return true;
+	// 		}
+	// 	}
+	//
+	// 	return false;
+	//}//end similarEdge
 
-		//check to see if there is a similar edge on any of the edges
-		for(int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				if(edges1[i].equals(edges2[j])) return true;
-			}
-		}
+	//checks to see if there are any similar edges to place against
+	public boolean similarEdge(edge edge) {
 
-		return false;
+	 	//check to see if there is a similar edge on any of the edges
+	 	for(int i = 0; i < 4; i++) {
+ 			if(edges[i].equals(edge)) return true;
+	 	}
+
+	 	return false;
 	}//end similarEdge
+
+
+	/**
+	 * getEdge() gets a specified edge to compare against
+	 * @param edge the specified edge to compare against
+	 * @return the specified edge
+	 */
+	 public edge getEdge(int edge) {
+		 return edges[Math.floorMod((edge + orientation + 4),4)];
+	 }
 
 	@Override
 	public String toString() {
@@ -129,10 +223,10 @@ public class SquareTile extends TileObject {
 		"\nType: " + this.type +
 		"\nCenter: " + this.center +
 		"\nOwner: " + this.owner +
-		"\n\nEdges:\n" + edges[Math.floorMod((0 - orientation + 4),4)].toString() + "\n" +
-				edges[Math.floorMod((1 - orientation + 4),4)].toString() + "\n" +
-				edges[Math.floorMod((2 - orientation + 4),4)].toString() + "\n" +
-				edges[Math.floorMod((3 - orientation + 4),4)].toString() + "\n";
+		"\n\nEdges:\n" + edges[0].toString() + "\n" +
+				edges[1].toString() + "\n" +
+				edges[2].toString() + "\n" +
+				edges[3].toString() + "\n";
 
 	}//end printOut
 }//end SquareTile

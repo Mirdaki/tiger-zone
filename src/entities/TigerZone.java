@@ -14,17 +14,33 @@ public class TigerZone {
 	public static void main(String[] args) {
 
 
-		BoardObject test = new BoardObject(); //create the board
-		test.start();
+		SquareTile tile = new SquareTile('A',0);
+		SquareTile tile2 = new SquareTile('S',0);
+		SquareTile tile3 = new SquareTile('S',3);
 
-		SquareTile test1 = test.getTile('A',0);
+		System.out.println(tile.toString());
+		System.out.println(tile2.toString());
+		System.out.println(tile3.toString());
 
-		if (test.place(test1,new Location(6,5)) == false) {
-			System.out.println("Invalid placement!");
-		}
-
-		test.print();
-		test.printSpots();
+		// BoardObject test = new BoardObject(); //create the board
+		// test.start();
+		//
+		// SquareTile test1 = test.getTile('S',2);
+		// SquareTile test2 = test.getTile('S',0);
+		//
+		// System.out.println(test1.toString());
+		// System.out.println(test2.toString());
+		//
+		// // if (test.place(test1,new Location(5,6)) == false) {
+		// // 	System.out.println("Invalid placement!");
+		// // }
+		//
+		// // if (test.place(test2,new Location(5,7)) == false) {
+		// // 	System.out.println("Invalid placement!");
+		// // }
+		//
+		// test.print();
+		// test.printSpots();
 
 		//SquareTile test1 = test.getTile('A',0);
 		//SquareTile test2 = test.getTile('A',0);
