@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class SquareTile extends TileObject {
 
 
-	public SquareTile(char type, int orientation) {
+	public SquareTile(String type, int orientation) {
 		try { //attempt to parse XML file of tiles
 
             //file to parse
@@ -114,7 +114,7 @@ public class SquareTile extends TileObject {
 		tileID = tileNum++; //ensures uniqueID to a tile
 		orientation = 0;
 		coord = new Location();
-		type = eElement.getAttribute("type").charAt(0);
+		type = eElement.getAttribute("type");
 		edges = new edge[4];
 
 		//setup edge data, mappings: {i=O:north, i=1:east, i=2:south, i=4:west}
