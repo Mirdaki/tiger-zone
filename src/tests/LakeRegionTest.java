@@ -117,14 +117,14 @@ public class LakeRegionTest {
 	}
 	
 	@Test
-	public void makeCompletedTest() {
+	public void setCompletedTest() {
 		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(1, 2, 8));
 		LakeTerrain t1 = new LakeTerrain(7, c1, true);
 		ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(3, 4, 7));
 		LakeTerrain t2 = new LakeTerrain(8, c2, true);
 		LakeRegion r1 = new LakeRegion(t1);
 		r1.addTerain(t2);
-		r1.makeCompleted();
+		r1.setCompleted();
 		
 		assertEquals(true, r1.isCompleted());
 	}

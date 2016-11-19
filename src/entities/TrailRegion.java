@@ -10,21 +10,9 @@ public class TrailRegion extends Region
 
 	// Field specifc properties
 	protected boolean theCompleted;
+	protected ArrayList<Animal> theAnimals;
 
-	/**
-	 * TrailRegion is an object of the board that describes fields regions.
-	 * Use this if there is no starting terrain.
-	 * @param aRegionID A unique ID derived from the tile and region
-	 * @return TrailRegion
-	 */
-	public TrailRegion(int aRegionID)
-	{
-		theRegionID  = aRegionID;
-		theTerrains  = new ArrayList<Terrain>();
-		theTigers    = new ArrayList<TigerObject>();
-		theType      = "Trail";
-		theCompleted = false;
-	}
+	// Constructor
 
 	/**
 	 * TrailRegion is an object of the board that describes fields regions.
@@ -40,6 +28,7 @@ public class TrailRegion extends Region
 		theTigers    = new ArrayList<TigerObject>();
 		theType      = "Trail";
 		theCompleted = false;
+		theAnimals   = new ArrayList<Animal>();
 		// Add and update meepels
 		addTerain(aTerrain);
 	}
@@ -53,16 +42,18 @@ public class TrailRegion extends Region
 	public TrailRegion(ArrayList<Terrain> aTerrains)
 	{
 		// Region ID becomes the first terrain's ID
-		theRegionID      = aTerrains.get(0).getTerrainID();
-		theTerrains      = new ArrayList<Terrain>();
-		theTigers        = new ArrayList<TigerObject>();
-		theType          = "Trail";
-		theCompleted     = false;
+		theRegionID  = aTerrains.get(0).getTerrainID();
+		theTerrains  = new ArrayList<Terrain>();
+		theTigers    = new ArrayList<TigerObject>();
+		theType      = "Trail";
+		theCompleted = false;
+		theAnimals   = new ArrayList<Animal>();
 		// Add all and update meepels
 		addTerain(aTerrains);
 	}
 
 	// Getters
+
 	/**
 	 * Return the completed status
 	 * @return boolean
@@ -72,7 +63,17 @@ public class TrailRegion extends Region
 		return theCompleted;
 	}
 
+	/**
+	 * Get number of aniamls in the region
+	 * @return int
+	 */
+	public int getNumberOfAnimals()
+	{
+		return theAnimals.size();
+	}
+
 	// Mutators
+
 	/**
 	 * Updates the status of Trail completion by checking if every segment has
 	 * two connections. Requires that endOfTrails don't count as null.
@@ -124,6 +125,24 @@ public class TrailRegion extends Region
 
 		// Update neighboring tiles
 		updateCompletion();
+	}
+
+	// Deprecated
+
+	/**
+	 * DO NOT USE, testing only. TrailRegion is an object of the board that describes fields regions.
+	 * Use this if there is no starting terrain.
+	 * @param aRegionID A unique ID derived from the tile and region
+	 * @return TrailRegion
+	 */
+	public TrailRegion(int aRegionID)
+	{
+		theRegionID  = aRegionID;
+		theTerrains  = new ArrayList<Terrain>();
+		theTigers    = new ArrayList<TigerObject>();
+		theType      = "Trail";
+		theCompleted = false;
+		theAnimals   = null;
 	}
 
 }

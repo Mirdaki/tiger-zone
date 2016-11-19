@@ -11,20 +11,7 @@ public class JungleRegion extends Region
 	// Jungle specifc properties
 	protected ArrayList<LakeRegion> theNeighboringLakes;
 
-	/**
-	 * JungleRegion is an object of the board that describes Jungles regions.
-	 * Use this if there is no starting terrain.
-	 * @param aRegionID A unique ID derived from the tile and region
-	 * @return JungleRegion
-	 */
-	public JungleRegion(int aRegionID)
-	{
-		theRegionID         = aRegionID;
-		theTerrains         = new ArrayList<Terrain>();
-		theTigers           = new ArrayList<TigerObject>();
-		theType             = "Jungle";
-		theNeighboringLakes = new ArrayList<LakeRegion>();
-	}
+	// Constructor
 
 	/**
 	 * JungleRegion is an object of the board that describes Jungles regions.
@@ -106,6 +93,23 @@ public class JungleRegion extends Region
 
 		// Update neignoring cities
 		updateNeighboringLakes();
+	}
+
+	// Deprecated
+
+	/**
+	 * DO NOT USE, testing only. JungleRegion is an object of the board that describes Jungles regions.
+	 * Use this if there is no starting terrain.
+	 * @param aRegionID A unique ID derived from the tile and region
+	 * @return JungleRegion
+	 */
+	public JungleRegion(int aRegionID)
+	{
+		theRegionID         = aRegionID;
+		theTerrains         = new ArrayList<Terrain>();
+		theTigers           = new ArrayList<TigerObject>();
+		theType             = "Jungle";
+		theNeighboringLakes = new ArrayList<LakeRegion>();
 	}
 
 }

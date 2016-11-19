@@ -9,12 +9,14 @@ import java.util.ArrayList;
 public abstract class Region
 {
 	// The attributes
+	
 	protected int theRegionID;
 	protected ArrayList<Terrain> theTerrains;
 	protected ArrayList<TigerObject> theTigers;
 	protected String theType;
 
 	// Constructors
+
 	public Region()
 	{
 		// Empty for inheretance
@@ -66,6 +68,7 @@ public abstract class Region
 	}
 
 	// Getters
+
 	/**
 	 * Get region ID
 	 * @return int

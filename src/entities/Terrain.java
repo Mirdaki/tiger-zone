@@ -13,6 +13,7 @@ public abstract class Terrain
 	protected ArrayList<Integer> theTileConnections;
 	protected TigerObject theTiger;
 	protected String theType;
+	// The IDs
 	public static int terrainNum;
 
 	// Constructors
@@ -32,6 +33,19 @@ public abstract class Terrain
 	public Terrain(int aTerrainID, ArrayList<Integer> aTileConnections)
 	{
 		theTerrainID       = aTerrainID;
+		theTileConnections = aTileConnections;
+	}
+
+	/**
+	 * Terrain is an object of tiles that describes cities, fields,
+	 * roads, and monasteries.
+	 * @param aTileConnections A set of connections the terrain makes with
+	 *                         the tile
+	 * @return Terrain
+	 */
+	public Terrain(ArrayList<Integer> aTileConnections)
+	{
+		theTerrainID       = terrainNum++;
 		theTileConnections = aTileConnections;
 	}
 
