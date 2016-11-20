@@ -17,7 +17,7 @@
     </tile>
 
     <tile type="JJJJX" count="4">
-        <center>D</center>
+        <center>X</center>
         <edges>
             <north>J J J</north>
             <east>J J J</east>
@@ -32,7 +32,7 @@
     </tile>
 
     <tile type="JJTJX" count="2">
-        <center>D</center>
+        <center>X</center>
         <edges>
             <north>J J J</north>
             <east>J J J</east>

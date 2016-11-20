@@ -13,34 +13,63 @@ public class TigerZone {
 
 	public static void main(String[] args) {
 
+		// SquareTile tile = new SquareTile("JJJJ-",0);
+		// SquareTile tile2 = new SquareTile("TLTJ-",0);
+		// SquareTile tile3 = new SquareTile("TLTJ-",3);
+		//
+		// System.out.println(tile.toString());
+		// System.out.println(tile2.toString());
+		// System.out.println(tile3.toString());
 
-		SquareTile tile = new SquareTile("JJJJ-",0);
-		SquareTile tile2 = new SquareTile("TLTJ-",0);
-		SquareTile tile3 = new SquareTile("TLTJ-",3);
+		BoardObject test = new BoardObject(); //create the board
+		test.start();
 
-		System.out.println(tile.toString());
-		System.out.println(tile2.toString());
-		System.out.println(tile3.toString());
+		SquareTile test1 = test.getTile("JJTJX",0);
+		SquareTile test2 = test.getTile("TJTJ-",0);
+		SquareTile test3 = test.getTile("JLJL-",0);
+		SquareTile test4 = test.getTile("JJJJ-",0);
+		SquareTile test5 = test.getTile("JJJJX",0);
 
-		// BoardObject test = new BoardObject(); //create the board
-		// test.start();
-		//
-		// SquareTile test1 = test.getTile('S',2);
-		// SquareTile test2 = test.getTile('S',0);
-		//
-		// System.out.println(test1.toString());
-		// System.out.println(test2.toString());
-		//
-		// // if (test.place(test1,new Location(5,6)) == false) {
-		// // 	System.out.println("Invalid placement!");
-		// // }
-		//
-		// // if (test.place(test2,new Location(5,7)) == false) {
-		// // 	System.out.println("Invalid placement!");
-		// // }
-		//
-		// test.print();
-		// test.printSpots();
+		if (test.place(test1,new Location(-1,0)) == false) {
+			System.out.println("Invalid placement!");
+		}
+
+		if (test.place(test1,new Location(0,-1)) == false) {
+			System.out.println("Invalid placement!");
+		}
+
+		if (test.place(test2,new Location(1,0)) == false) {
+			System.out.println("Invalid placement!");
+		}
+
+		if (test.place(test3,new Location(0,1)) == false) {
+			System.out.println("Invalid placement!");
+		}
+
+		if (test.place(test4,new Location(-1,1)) == false) {
+			System.out.println("Invalid placement!");
+		}
+
+		if (test.place(test5,new Location(-2,1)) == false) {
+			System.out.println("Invalid placement!");
+		}
+
+		if (test.place(test5,new Location(-2,0)) == false) {
+			System.out.println("Invalid placement!");
+		}
+
+		if (test.place(test5,new Location(-2,-1)) == false) {
+			System.out.println("Invalid placement!");
+		}
+
+		if (test.place(test5,new Location(-1,-1)) == false) {
+			System.out.println("Invalid placement!");
+		}
+
+		System.out.println(test.isSurrounded(new Location(-1,0)));
+
+		test.print();
+		test.printSpots();
 
 		//SquareTile test1 = test.getTile('A',0);
 		//SquareTile test2 = test.getTile('A',0);

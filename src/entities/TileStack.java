@@ -55,10 +55,11 @@ public class TileStack {
                     //create an array list of all tiles that match the type (for multiplicity)
                     ArrayList<SquareTile> newTile = new ArrayList<SquareTile>();
 
+
                     //take ith element and find multiplicity
                     Node nNode = nList.item(i);
                     Element eElement = (Element) nNode;
-                    string type = eElement.getAttribute("type");
+                    String type = eElement.getAttribute("type");
                     int multiplicity = Integer.parseInt(eElement.getAttribute("count"));
 
 
@@ -90,10 +91,18 @@ public class TileStack {
         return tileStack;
     }
 
-    public ArrayList<SquareTile> getList(string type) {
+    public ArrayList<SquareTile> getList(String type) {
         return tileStack.get(type);
     }
 
+    public void removeTile(String type) {
+
+        tileCount--;
+        ArrayList<SquareTile> tile = tileStack.get(type);
+        tile.remove(0);
+
+
+    }
     /**
 	 * setTiles() will set the current tile stack to a new tile stack
      * @param tileStack will set the tileStack to a new tileStack
@@ -108,7 +117,7 @@ public class TileStack {
      *  @param orientation the orientation of the tile being looked for
      *  @return the specified tile
      */
-    public SquareTile getTile(char type, int orientation) {
+    public SquareTile getTile(String type, int orientation) {
 
         //get the arrayList of matching tiles
         ArrayList<SquareTile> tileMatches = tileStack.get(type);
@@ -119,7 +128,6 @@ public class TileStack {
         //pull first match, reset its orientation
         SquareTile tile = tileMatches.get(0);
         tile.setOrientation(orientation);
-        tileMatches.remove(0);
 
         return tile;
     }

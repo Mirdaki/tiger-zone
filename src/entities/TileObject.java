@@ -9,6 +9,7 @@ public abstract class TileObject {
 	protected int orientation; //orientation mappings: {i=0:0, 1:90, 2:180, 3:270}
 	protected String type;
 	protected char center;
+	protected char special;
 
 	protected Location coord;
 	protected Player owner;
@@ -16,6 +17,15 @@ public abstract class TileObject {
 
 	protected edge[] edges;
 	protected Terrain terrains[];
+
+
+	public char getSpecial() {
+		return special;
+	}
+
+	public void setSpecial(char special) {
+		this.special = special;
+	}
 
 	//default constructor for inheritance
 	public TileObject() {

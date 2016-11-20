@@ -54,6 +54,7 @@ public class SquareTile extends TileObject {
 					this.orientation = orientation;
 					coord = new Location();
 					this.type = type;
+					special = type.charAt(4);
 					edges = new edge[4];
 
 					String north = eElement.getElementsByTagName("north").item(0).getTextContent();
@@ -115,6 +116,7 @@ public class SquareTile extends TileObject {
 		orientation = 0;
 		coord = new Location();
 		type = eElement.getAttribute("type");
+		special = type.charAt(4);
 		edges = new edge[4];
 
 		//setup edge data, mappings: {i=O:north, i=1:east, i=2:south, i=4:west}
@@ -174,6 +176,7 @@ public class SquareTile extends TileObject {
 		owner = tile.owner;
 		tiger = tile.tiger;
 		center = tile.center;
+		special = tile.special;
 		edges = Arrays.copyOf(tile.edges, tile.edges.length);
 		terrains = Arrays.copyOf(tile.terrains, tile.terrains.length);
 	}//end constructor
@@ -223,6 +226,7 @@ public class SquareTile extends TileObject {
 		"\nType: " + this.type +
 		"\nCenter: " + this.center +
 		"\nOwner: " + this.owner +
+		"\nSpecialty: " + this.special +
 		"\n\nEdges:\n" + edges[0].toString() + "\n" +
 				edges[1].toString() + "\n" +
 				edges[2].toString() + "\n" +

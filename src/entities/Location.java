@@ -3,6 +3,7 @@ package entities;
 public class Location {
 
 	protected int row, col;
+	protected static final int ROWSIZE = 11, COLSIZE = 11;
 
 	public Location() {
 		this.row = 0;
@@ -10,8 +11,8 @@ public class Location {
 	}
 
 	public Location(int row, int col) {
-		this.row = row;
-		this.col = col;
+		this.row = row + ROWSIZE/2;
+		this.col = col + COLSIZE/2;
 	}
 
 	public Location(Location coord) {
@@ -32,6 +33,6 @@ public class Location {
 	}
 
 	public String toString() {
-		return "(" + this.row + "," + this.col + ")";
+		return "(" + (this.row - ROWSIZE/2) + "," + (this.col - COLSIZE/2) + ")";
 	}
 }

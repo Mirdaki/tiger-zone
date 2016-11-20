@@ -29,6 +29,8 @@ public class BoardObject {
 	public BoardObject() {
 
 		availableSpots = new ArrayList<Location>();
+		availableSpots.add(new Location(0,0));
+
 		board = new SquareTile[ROWSIZE][COLSIZE];
 
 		tileStack = new TileStack();
@@ -71,8 +73,10 @@ public class BoardObject {
 	 */
 	public boolean valid(SquareTile tile, Location coord) {
 
-		char type = tile.getType();
+		String type = tile.getType();
         ArrayList<SquareTile> tileMatches = tileStack.getList(type);
+
+
 		if(tileMatches.isEmpty()) return false;
 
 		//get queried placement
@@ -87,6 +91,8 @@ public class BoardObject {
 		//find if the requested spot is in the list of available spots
 		boolean found = false;
 		int index = 0;
+
+
 		for (int i = 0; i < availableSpots.size(); i++) {
 			if (availableSpots.get(i).equals(coord)) {
 				index = i;
@@ -94,9 +100,10 @@ public class BoardObject {
 				break;
 			}
 		}
-
 		//if wasn't found in the list, return false
+
 		if (!found) return false;
+
 
 		//get adjacent tiles
 		SquareTile up = null, right = null, down = null, left = null;
@@ -128,15 +135,48 @@ public class BoardObject {
 	 *  @param coord The coordinate location to be placed at
 	 *	@return true if placed, false if not
 	 */
+
+	public boolean isSurrounded(Location coord) {
+
+		int row = coord.getRow();
+		int col = coord.getCol();
+
+		SquareTile tile = board[row][col];
+		if (tile == null) return false;
+
+		char special = tile.getSpecial();
+
+		SquareTile up = null, right = null, down = null, left = null;
+		SquareTile nw = null, ne = null, se = null, sw = null;
+
+		if(row > 0) up = board[row - 1][col];
+		if(col < COLSIZE-1) right = board[row][col + 1];
+		if(row < ROWSIZE-1) down = board[row + 1][col];
+		if(col > 0) left = board[row][col - 1];
+
+		if(up == null || right == null || down == null || left == null) return false;
+
+		if(special == 'X') {
+			if (row > 0 && col > 0) nw = board[row-1][col-1];
+			if (row > 0 && col < COLSIZE-1) ne = board[row-1][col+1];
+			if (row < ROWSIZE-1 && col < COLSIZE-1) se = board[row+1][col+1];
+			if (row < ROWSIZE-1 && col > 0) sw = board[row+1][col-1];
+			if(nw == null || ne == null || se == null || sw == null) return false;
+		}
+		return true;
+	}
+
 	public boolean place(SquareTile tile, Location coord) {
 
 		//proceed if valid placement/game is starting
-		if (valid(tile,coord) || !state) {
+		if (valid(tile,coord)) {
 
 			//get coordinates
 			int row = coord.getRow();
 			int col = coord.getCol();
-			char type = tile.getType();
+			int adjustedRow = row - ROWSIZE/2;
+			int adjustedCol = col - COLSIZE/2;
+			String type = tile.getType();
 
 			//get adjacent tiles, if any
 			SquareTile up = null, right = null, down = null, left = null;
@@ -148,10 +188,10 @@ public class BoardObject {
 			//initialize potential locations to be added to available spots list
 			Location addUp = null, addRight = null, addLeft = null, addDown = null;
 
-			if(row > 0) addUp = new Location(row - 1, col);
-			if(col < COLSIZE-1) addRight = new Location(row, col + 1);
-			if(row < ROWSIZE-1) addDown = new Location(row + 1, col);
-			if(col > 0) addLeft = new Location(row, col - 1);
+			if(row > 0) addUp = new Location(adjustedRow - 1, adjustedCol);
+			if(col < COLSIZE-1) addRight = new Location(adjustedRow, adjustedCol + 1);
+			if(row < ROWSIZE-1) addDown = new Location(adjustedRow + 1, adjustedCol);
+			if(col > 0) addLeft = new Location(adjustedRow, adjustedCol - 1);
 
 			//remove potential duplicate values (is there a better way to do this?)
 			for (int i = 0; i < availableSpots.size(); i++) {
@@ -170,13 +210,11 @@ public class BoardObject {
 			if (left == null && addLeft != null) availableSpots.add(addLeft);
 
 			//if the game is starting, set this true
-			if(!state) state = true;
 
 			//set the tile's coordinate to it's new spot, place it
 			tile.setCoord(coord);
 			board[row][col] = tile;
-			tileStack.getList(type).remove(0);
-
+			tileStack.removeTile(type);
 			return true;
 		}
 		return false;
@@ -186,8 +224,8 @@ public class BoardObject {
 	*	in the center of the game board.
 	*/
 	public void start() {
-		SquareTile startingTile = tileStack.getTile('S',0);
-		place(startingTile, new Location(ROWSIZE/2,COLSIZE/2));
+		SquareTile startingTile = tileStack.getTile("TLTJ-",0);
+		place(startingTile, new Location(0,0));
 	}
 
 	/**
@@ -267,7 +305,7 @@ public class BoardObject {
 	public void print() {
 		for (int row = 0; row < ROWSIZE; row++) {
 			for (int col = 0; col < COLSIZE; col++) {
-				if(board[row][col] == null) System.out.print("(" + row + "," + col + ")\t");
+				if(board[row][col] == null) System.out.print("(" + (row - ROWSIZE/2) + "," + (col - COLSIZE/2) + ")\t");
 				else System.out.print(board[row][col].getType() + "\t");
 			}
 			System.out.println("\n");
