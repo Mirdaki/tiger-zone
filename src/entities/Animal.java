@@ -4,7 +4,7 @@ public class Animal
 {
 	// Attributes
 
-	protected String theType;
+	protected char theType;
 
 	// Constructors
 
@@ -13,7 +13,7 @@ public class Animal
 	 * @param  aType String with tupe of animal
 	 * @return       Animal
 	 */
-	public Animal(String aType)
+	public Animal(char aType)
 	{
 		theType = aType;
 	}
@@ -24,7 +24,7 @@ public class Animal
 	 * Get the type of the animal
 	 * @return String
 	 */
-	String getType()
+	char getType()
 	{
 		return theType;
 	}
