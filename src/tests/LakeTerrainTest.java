@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import entities.Animal;
 import entities.LakeTerrain;
 import entities.TigerObject;
 import entities.Player;
@@ -16,9 +17,10 @@ public class LakeTerrainTest {
 	@Test
 	public void lakeTerrainConstructorAndGetterTest() {
 		ArrayList<Integer> tileConnections = new ArrayList<>(Arrays.asList(2, 5, 6));
-		LakeTerrain t1 = new LakeTerrain(8, tileConnections, true);
+		Animal a1 = new Animal('D');
+		LakeTerrain t1 = new LakeTerrain(8, tileConnections, a1);
 		
-		assertEquals(true, t1.hasShield());
+		assertEquals(true, t1.hasAnimal());
 		assertEquals(8, t1.getTerrainID());
 		assertEquals("Lake", t1.getType());
 		assertEquals(false, t1.hasTiger());
@@ -29,7 +31,7 @@ public class LakeTerrainTest {
 	@Test
 	public void lakeTerrainTigerTest() {
 		ArrayList<Integer> tileConnections = new ArrayList<>(Arrays.asList(2, 5, 6));
-		LakeTerrain t1 = new LakeTerrain(8, tileConnections, true);
+		LakeTerrain t1 = new LakeTerrain(8, tileConnections);
 		Player p1 = new Player(1);
 		TigerObject tiger = new TigerObject(1, 'K', p1, 8);
 		t1.addTiger(tiger);
@@ -47,7 +49,7 @@ public class LakeTerrainTest {
 
 		try {
 			ArrayList<Integer> tileConnections = new ArrayList<>(Arrays.asList(2, 5, 6));
-			LakeTerrain t1 = new LakeTerrain(8, tileConnections, true);
+			LakeTerrain t1 = new LakeTerrain(8, tileConnections);
 			Player p1 = new Player(1);
 			TigerObject tiger = new TigerObject(1, 'K', p1, 8);
 			TigerObject tiger2 = new TigerObject(2, 'K', p1, 8);
@@ -62,7 +64,7 @@ public class LakeTerrainTest {
 	@Test
 	public void lakeTerrainToStringTest() {
 		ArrayList<Integer> tileConnections = new ArrayList<>(Arrays.asList(2, 5, 6));
-		LakeTerrain t1 = new LakeTerrain(8, tileConnections, true);
+		LakeTerrain t1 = new LakeTerrain(8, tileConnections);
 		Player p1 = new Player(1);
 		TigerObject tiger = new TigerObject(1, 'K', p1, 8);
 		t1.addTiger(tiger);

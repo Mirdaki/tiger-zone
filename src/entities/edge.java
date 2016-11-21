@@ -48,7 +48,7 @@ public class edge {
 	}
 
 	public void setType(char type) {
-		points.set(1, type);
+		this.type = type;
 	}
 
 	/**

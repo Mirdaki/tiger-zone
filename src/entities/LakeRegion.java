@@ -70,7 +70,7 @@ public class LakeRegion extends Region
 	public int getUniqueAnimals()
 	{
 		// Add only one animal of each type to uniqueAnimals
-		ArrayList<char> uniqueAnimals = new ArrayList<char>();
+		ArrayList<Character> uniqueAnimals = new ArrayList<Character>();
 		char tempType;
 		for (int i = 0; i < theAnimals.size(); i++)
 		{

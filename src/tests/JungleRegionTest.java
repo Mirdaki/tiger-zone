@@ -19,36 +19,44 @@ public class JungleRegionTest {
 	//Tests constructor and getter after a terrain is added to the region
 	@Test
 	public void jungleConstructorAndGetterTest() {
-		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 8));
+		//Create JungleTerrain t1 which is connected to t2
+		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(8));
 		JungleTerrain t1 = new JungleTerrain(7, c1);
-		ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(3, 5, 7));
+		//Create JungleTerrain t2 which is connected to t1
+		ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(7));
 		JungleTerrain t2 = new JungleTerrain(8, c2);
+		//Create JungleRegion r1 which consists of JungleTerrain t1
 		JungleRegion r1 = new JungleRegion(t1);
+		//Add JungleTerrain t2 to JungleRegion r1
 		r1.addTerain(t2);
 		r1.updateTigers();
 
 		assertEquals(7, r1.getRegionID());
 		assertEquals("Jungle", r1.getType());
+		//Should number of terrains be 2 or 1 since they are the same type?
 		assertEquals(2, r1.getNumberOfTerrains());
 		assertEquals(false, r1.hasTigers());
 	}
 	
 	@Test
 	public void updateTigersTest() {
+		//Create JungleTerrain t1 which is connected to t2
 		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 8));
 		JungleTerrain t1 = new JungleTerrain(7, c1);
+		//Create JungleTerrain t2 which is connected to t1
 		ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(3, 5, 7));
 		JungleTerrain t2 = new JungleTerrain(8, c2);
 		Player p1 = new Player(1);
 		TigerObject tiger = new TigerObject(1, 'F', p1, 7);
+		//Add tiger to JungleTerrain t1
 		t1.addTiger(tiger);
 		JungleRegion r1 = new JungleRegion(t1);
 		r1.updateTigers();
 		
-		//check if tiger was added to r1's tiger list
+		//Check if tiger was added to r1's tiger list
 		assertEquals(true, r1.hasTigers());
 		
-		//check if two tigers can be added to r1's tiger list
+		//Check if two tigers can be added to r1's tiger list
 		TigerObject tiger2 = new TigerObject(2, 'F', p1, 8);
 		t2.addTiger(tiger2);
 		r1.addTerain(t2);
@@ -57,16 +65,20 @@ public class JungleRegionTest {
 
 	@Test
 	public void removeAllTigersTest() {
+		//Create JungleTerrain t1 which is connected to t2
 		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 8));
 		JungleTerrain t1 = new JungleTerrain(7, c1);
+		//Create JungleTerrain t2 which is connected to t1
 		ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(3, 5, 7));
 		JungleTerrain t2 = new JungleTerrain(8, c2);
 		Player p1 = new Player(1);
 		TigerObject tiger = new TigerObject(1, 'F', p1, 7);
+		//Add tiger to JungleTerrain t1
 		t1.addTiger(tiger);
 		JungleRegion r1 = new JungleRegion(t1);
 		r1.updateTigers();
 		TigerObject tiger2 = new TigerObject(2, 'F', p1, 8);
+		//Add tiger to JungleTerrain t2
 		t2.addTiger(tiger2);
 		r1.addTerain(t2);
 		r1.removeAllTigers();
@@ -76,12 +88,16 @@ public class JungleRegionTest {
 	
 	@Test
 	public void addRegionTest() {
-		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 6));
+		//Create JungleTerrain t1 which is connected to t2
+		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(8));
 		JungleTerrain t1 = new JungleTerrain(7, c1);
-		ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(3, 5, 9));
+		//Create JungleTerrain t2 which is connected to t1
+		ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(7));
 		JungleTerrain t2 = new JungleTerrain(8, c2);
+		//Create separate regions for each terrain
 		JungleRegion r1 = new JungleRegion(t1);
 		JungleRegion r2 = new JungleRegion(t2);
+		//Merge regions
 		r1.addRegion(r2);
 		
 		assertEquals(2, r1.getNumberOfTerrains());
@@ -91,12 +107,16 @@ public class JungleRegionTest {
 	public void addRegionExceptionTest() {
 		boolean thrown = false;
 		try {
-			ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 6));
+			//Create JungleTerrain t1 which is connected to t2
+			ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(8));
 			JungleTerrain t1 = new JungleTerrain(7, c1);
-			ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(3, 5, 9));
-			LakeTerrain t2 = new LakeTerrain(8, c2, false);
+			//Create LakeTerrain t2 which is connected to t1
+			ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(7));
+			LakeTerrain t2 = new LakeTerrain(8, c2);
+			//Create separate regions for each terrain
 			JungleRegion r1 = new JungleRegion(t1);
 			LakeRegion r2 = new LakeRegion(t2);
+			//Merge regions
 			r1.addRegion(r2);
 		} catch (IllegalArgumentException e){
 			thrown = true;
@@ -108,11 +128,14 @@ public class JungleRegionTest {
 	public void addTerrainExceptionTest() {
 		boolean thrown = false;
 		try {
-			ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 6));
+			//Create JungleTerrain t1 which is connected to t2
+			ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(8));
 			JungleTerrain t1 = new JungleTerrain(7, c1);
-			ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(3, 5, 9));
-			LakeTerrain t2 = new LakeTerrain(8, c2, false);
+			//Create LakeTerrain t2 which is connected to t1
+			ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(7));
+			LakeTerrain t2 = new LakeTerrain(8, c2);
 			JungleRegion r1 = new JungleRegion(t1);
+			//Add LakeTerrain to JungleRegion
 			r1.addTerain(t2);
 		} catch (IllegalArgumentException e){
 			thrown = true;
@@ -120,16 +143,17 @@ public class JungleRegionTest {
 		assertTrue(thrown);
 	}
 	
+	//TODO
 	// Not complete/correct yet - need to actually place tiles on board in order to test
 	@Test
 	public void getNumberOfNeighboringLakesTest() {
 		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 3));
 		JungleTerrain t1 = new JungleTerrain(1, c1);
 		ArrayList<Integer> c2 = new ArrayList<>();
-		LakeTerrain t2 = new LakeTerrain(2, c2, false);
+		LakeTerrain t2 = new LakeTerrain(2, c2);
 		JungleRegion r1 = new JungleRegion(t1);
 		ArrayList<Integer> c3 = new ArrayList<>();
-		LakeTerrain t3 = new LakeTerrain(3, c3, false);
+		LakeTerrain t3 = new LakeTerrain(3, c3);
 		ArrayList<Integer> c4 = new ArrayList<>(Arrays.asList(1));
 		JungleTerrain t4 = new JungleTerrain(4, c4);
 		r1.addTerain(t4);
