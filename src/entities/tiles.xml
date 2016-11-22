@@ -50,7 +50,7 @@
     </tile>
 
     <tile type="TTTT-" count="1">
-        <center>X</center>
+        <center>T</center>
         <edges>
             <north>J T J</north>
             <east>J T J</east>
@@ -112,7 +112,7 @@
     </tile>
 
     <tile type="TJTT-" count="4">
-        <center>X</center>
+        <center>T</center>
         <edges>
             <north>J T J</north>
             <east>J J J</east>
@@ -149,7 +149,7 @@
     </tile>
 
     <tile type="JLLL-" count="4">
-        <center>L</center>
+        <center>J</center>
         <edges>
             <north>J J J</north>
             <east>L L L</east>
@@ -167,7 +167,7 @@
     </tile>
 
     <tile type="LLJJ-" count="5">
-        <center>L</center>
+        <center>J</center>
         <edges>
             <north>L L L</north>
             <east>L L L</east>
@@ -414,7 +414,7 @@
     </tile>
 
     <tile type="TLTT-" count="1">
-        <center>X</center>
+        <center>T</center>
         <edges>
             <north>J T J</north>
             <east>L L L</east>
@@ -439,7 +439,7 @@
     </tile>
 
     <tile type="TLTTP" count="2">
-        <center>X</center>
+        <center>T</center>
         <edges>
             <north>J T J</north>
             <east>L L L</east>
@@ -464,7 +464,7 @@
     </tile>
 
     <tile type="TLLT-" count="3">
-        <center>L</center>
+        <center>J</center>
         <edges>
             <north>J T J</north>
             <east>L L L</east>
@@ -486,7 +486,7 @@
     </tile>
 
     <tile type="TLLTB" count="2">
-        <center>L</center>
+        <center>J</center>
         <edges>
             <north>J T J</north>
             <east>L L L</east>
@@ -508,7 +508,7 @@
     </tile>
 
     <tile type="LJTJ-" count="1">
-        <center>L</center>
+        <center>T</center>
         <edges>
             <north>L L L</north>
             <east>J J J</east>
@@ -530,7 +530,7 @@
     </tile>
 
     <tile type="LJTJD" count="2">
-        <center>L</center>
+        <center>T</center>
         <edges>
             <north>L L L</north>
             <east>J J J</east>
