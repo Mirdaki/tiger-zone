@@ -61,11 +61,11 @@ public class LakeTerrain extends Terrain
 
 	/**
 	* Gets the animal type from the terrain.
-	* @return String of animal, null if nothing
+	* @return char of animal, null if nothing
 	*/
-	public String getAnimalType()
+	public char getAnimalType()
 	{
-		String result = null;
+		char result = '-';
 		if (theAnimal != null)
 		{
 			result = theAnimal.getType();

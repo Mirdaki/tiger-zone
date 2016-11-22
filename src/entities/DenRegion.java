@@ -40,7 +40,7 @@ public class DenRegion extends Region
 	 * Get number of neighboring tiles
 	 * @return int
 	 */
-	public int getNumberOfNeighboringLakes()
+	public int getNumberOfNeighboringTiles()
 	{
 		updateNeighboringTiles();
 		return theNeighboringTiles.size();
