@@ -27,11 +27,11 @@ public class DenRegion extends Region
 		theRegionID         = aTerrain.getTerrainID();
 		theTerrains         = new ArrayList<Terrain>();
 		theTigers           = new ArrayList<TigerObject>();
-		theType             = "Den";
+		theType             = 'D';
 		theCompleted        = false;
 		theNeighboringTiles = new ArrayList<Terrain>();
 		// Add and update meepels
-		addTerain(aTerrain);
+		addTerrain(aTerrain, theRegionID);
 	}
 
 	// Getters
@@ -56,7 +56,7 @@ public class DenRegion extends Region
 	}
 
 	// Mutators
-	
+
 	/**
 	 * Update the list of neighboring tiles. NOT WORKING YET.
 	 */
@@ -74,7 +74,7 @@ public class DenRegion extends Region
 	 * to region.
 	 * @param aTerrain A single terrain
 	 */
-	public void addTerain(Terrain aTerrain)
+	public void addTerrain(Terrain aTerrain, int regionID)
 	{
 		// Check if the type is right
 		if (theType != aTerrain.getType())
@@ -83,6 +83,7 @@ public class DenRegion extends Region
 		}
 
 		// Add terrain
+		aTerrain.setTerrainID(regionID);
 		theTerrains.add(aTerrain);
 
 		// Add Tiger
@@ -108,7 +109,7 @@ public class DenRegion extends Region
 		theRegionID         = aRegionID;
 		theTerrains         = new ArrayList<Terrain>();
 		theTigers           = new ArrayList<TigerObject>();
-		theType             = "Den";
+		theType             = 'D';
 		theNeighboringTiles = new ArrayList<Terrain>();
 	}
 

@@ -10,14 +10,23 @@ public abstract class TileObject {
 	protected String type;
 	protected char center;
 	protected char special;
+	protected int[] numOfTerrains;
 
 	protected Location coord;
 	protected Player owner;
 	protected TigerObject tiger;
 
-	protected edge[] edges;
-	protected Terrain terrains[];
+	protected TileEdges edges;
+	protected Terrain[] terrains;
+	protected Region[] regions;
 
+	public Region[] getRegions() {
+		return regions;
+	}
+
+	public void setRegions(Region[] regions) {
+		this.regions = regions;
+	}
 
 	public char getSpecial() {
 		return special;
@@ -166,16 +175,15 @@ public abstract class TileObject {
 	 * to the orientation set on the tile
 	 * @return the edges
 	 */
-	public edge[] getEdges() {
-		edge[] test = {edges[Math.floorMod((0 - orientation + 4),4)],edges[Math.floorMod((0 - orientation + 4),4)],edges[Math.floorMod((0 - orientation + 4),4)],edges[Math.floorMod((0 - orientation + 4),4)]};
-		return test;
+	public TileEdges getEdges() {
+		return edges;
 	}
 
 	/**
 	 * setEdges() sets the tile's current edges to a new set of edges
 	 * @param edges the new edges to be set on the current tile
 	 */
-	public void setEdges(edge[] edges) {
+	public void setEdges(TileEdges edges) {
 		this.edges = edges;
 	}
 

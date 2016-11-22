@@ -12,6 +12,7 @@ public class TrailTerrain extends Terrain
 
 	protected boolean theEndOfTrail;
 	protected Animal theAnimal;
+	protected char trailType;
 
 	// Constructors
 
@@ -27,9 +28,12 @@ public class TrailTerrain extends Terrain
 	{
 		theTerrainID       = terrainNum++;
 		theTileConnections = aTileConnections;
-		theType            = "Trail";
+		theType            = 'T';
 		theEndOfTrail      = aEndOfTrail;
 		theAnimal          = null;
+
+		if (aEndOfTrail == true) trailType = 'E';
+		else trailType = 'C';
 	}
 
 	/**
@@ -45,7 +49,7 @@ public class TrailTerrain extends Terrain
 	{
 		theTerrainID       = terrainNum++;
 		theTileConnections = aTileConnections;
-		theType            = "Trail";
+		theType            = 'T';
 		theEndOfTrail      = aEndOfTrail;
 		theAnimal          = anAnimal;
 	}
@@ -107,6 +111,7 @@ public class TrailTerrain extends Terrain
 	 */
 	public TrailTerrain() {
  		theTerrainID = terrainNum++;
+		theType            = 'T';
  	}
 
 	/**
@@ -131,7 +136,7 @@ public class TrailTerrain extends Terrain
 	{
 		theTerrainID       = aTerrainID;
 		theTileConnections = aTileConnections;
-		theType            = "Trail";
+		theType            = 'T';
 		theEndOfTrail      = aEndOfTrail;
 	}
 

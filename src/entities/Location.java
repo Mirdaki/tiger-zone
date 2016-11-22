@@ -6,8 +6,8 @@ public class Location {
 	protected static final int ROWSIZE = 11, COLSIZE = 11;
 
 	public Location() {
-		this.row = 0;
-		this.col = 0;
+		this.row = row + ROWSIZE/2;
+		this.col = col + COLSIZE/2;
 	}
 
 	public Location(int row, int col) {

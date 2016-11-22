@@ -9,16 +9,15 @@ import java.util.ArrayList;
 public abstract class Region
 {
 	// The attributes
-	
+
 	protected int theRegionID;
 	protected ArrayList<Terrain> theTerrains;
 	protected ArrayList<TigerObject> theTigers;
-	protected String theType;
+	protected char theType;
 
 	// Constructors
 
-	public Region()
-	{
+	public Region() {
 		// Empty for inheretance
 	}
 
@@ -48,7 +47,7 @@ public abstract class Region
 		theTerrains = new ArrayList<Terrain>();
 		theTigers   = new ArrayList<TigerObject>();
 		// Add all and update meepels
-		addTerain(aTerrain);
+		addTerrain(aTerrain, theRegionID);
 	}
 
 	/**
@@ -64,7 +63,7 @@ public abstract class Region
 		theTerrains = new ArrayList<Terrain>();
 		theTigers   = new ArrayList<TigerObject>();
 		// Add all and update meepels
-		addTerain(aTerrains);
+		addTerrain(aTerrains, theRegionID);
 	}
 
 	// Getters
@@ -100,14 +99,14 @@ public abstract class Region
 	 * Get type of region
 	 * @return String
 	 */
-	public String getType()
+	public char getType()
 	{
-		String result = theType;
-		if (theType == null)
-		{
-			result = "None";
-		}
-		return result;
+		// char result = theType;
+		// if (theType == null)
+		// {
+		// 	result = "None";
+		// }
+		return theType;
 	}
 
 	/**
@@ -175,7 +174,7 @@ public abstract class Region
 	 * Check if a single terrain is valid, and adds Tigers and terrain to region.
 	 * @param aTerrain A single terrain
 	 */
-	public void addTerain(Terrain aTerrain)
+	public void addTerrain(Terrain aTerrain, int regionID)
 	{
 		// Check if the type is right
 		if (theType != aTerrain.getType())
@@ -184,7 +183,9 @@ public abstract class Region
 		}
 
 		// Add terrain
+		aTerrain.setTerrainID(regionID);
 		theTerrains.add(aTerrain);
+
 
 		// Add Tiger
 		if (aTerrain.hasTiger() == true)
@@ -198,11 +199,9 @@ public abstract class Region
 	 * to region.
 	 * @param aTerrains An arrayList of terrain
 	 */
-	public void addTerain(ArrayList<Terrain> aTerrains)
-	{
-		for (int i = 0; i < theTerrains.size(); i++)
-		{
-			this.addTerain(aTerrains.get(i));
+	public void addTerrain(ArrayList<Terrain> aTerrains, int regionID) {
+		for (int i = 0; i < aTerrains.size(); i++) {
+			this.addTerrain(aTerrains.get(i), regionID);
 		}
 	}
 
@@ -210,15 +209,21 @@ public abstract class Region
 	 * Merge an existing region into the current one
 	 * @param aRegion Of the same type
 	 */
-	public void addRegion(Region aRegion)
-	{
+	public void mergeRegion(Region aRegion) {
 		// Check if the type is right
-		if (theType != aRegion.getType())
-		{
+
+		if (theType != aRegion.getType()) {
 			throw new IllegalArgumentException("Mismatch Region");
 		}
 
-		addTerain(aRegion.getTerrains());
+
+		boolean duplicate = false;
+		for (int i = 0; i < theTerrains.size(); i++) {
+
+			if(theTerrains.get(i).getTerrainID() == aRegion.getRegionID()) duplicate = true;
+		}
+
+		if (!duplicate) addTerrain(aRegion.getTerrains(), aRegion.getRegionID());
 	}
 
 	/**
@@ -228,7 +233,7 @@ public abstract class Region
 	public String toString()
 	{
 		String regionID = String.valueOf(theRegionID);
-		String regionType = theType;
+		char regionType = theType;
 		String numberOfTigers = String.valueOf(theTigers.size());
 		String numberOfTerrain = String.valueOf(theTerrains.size());
 		return "The region " + regionID + " of type " + regionType + " has " +

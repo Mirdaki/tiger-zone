@@ -26,11 +26,11 @@ public class TrailRegion extends Region
 		theRegionID  = aTerrain.getTerrainID();
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
-		theType      = "Trail";
+		theType      = 'T';
 		theCompleted = false;
 		theAnimals   = new ArrayList<Animal>();
 		// Add and update meepels
-		addTerain(aTerrain);
+		addTerrain(aTerrain, theRegionID);
 	}
 
 	/**
@@ -45,11 +45,11 @@ public class TrailRegion extends Region
 		theRegionID  = aTerrains.get(0).getTerrainID();
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
-		theType      = "Trail";
+		theType      = 'T';
 		theCompleted = false;
 		theAnimals   = new ArrayList<Animal>();
 		// Add all and update meepels
-		addTerain(aTerrains);
+		addTerrain(aTerrains, theRegionID);
 	}
 
 	// Getters
@@ -100,7 +100,7 @@ public class TrailRegion extends Region
 	 * to region. Updates completion status.
 	 * @param aTerrain A single terrain
 	 */
-	public void addTerain(Terrain aTerrain)
+	public void addTerrain(Terrain aTerrain, int regionID)
 	{
 		// Check if the type is right
 		if (theType != aTerrain.getType())
@@ -115,6 +115,7 @@ public class TrailRegion extends Region
 		}
 
 		// Add terrain
+		aTerrain.setTerrainID(regionID);
 		theTerrains.add(aTerrain);
 
 		// Add Tiger
@@ -140,7 +141,7 @@ public class TrailRegion extends Region
 		theRegionID  = aRegionID;
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
-		theType      = "Trail";
+		theType      = 'T';
 		theCompleted = false;
 		theAnimals   = null;
 	}

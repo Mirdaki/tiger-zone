@@ -21,7 +21,7 @@ public class JungleTerrain extends Terrain
 	{
 		theTerrainID       = terrainNum++;
 		theTileConnections = aTileConnections;
-		theType            = "Jungle";
+		theType            = 'J';
 	}
 
 	// Deprecated
@@ -57,7 +57,7 @@ public class JungleTerrain extends Terrain
 	{
 		theTerrainID       = aTerrainID;
 		theTileConnections = aTileConnections;
-		theType            = "Jungle";
+		theType            = 'J';
 	}
 
 }

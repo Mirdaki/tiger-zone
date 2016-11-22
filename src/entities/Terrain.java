@@ -12,14 +12,19 @@ public abstract class Terrain
 	protected int theTerrainID;
 	protected ArrayList<Integer> theTileConnections;
 	protected TigerObject theTiger;
-	protected String theType;
+	protected char theType;
 	// The IDs
-	public static int terrainNum;
+	public static int terrainNum = 0;
 
 	// Constructors
 	public Terrain()
 	{
 		// Empty for inheretance
+	}
+
+	public boolean equals(Terrain terrain) {
+		if (this.theType == terrain.getType()) return true;
+		return false;
 	}
 
 	/**
@@ -58,6 +63,10 @@ public abstract class Terrain
 	{
 		return theTerrainID;
 	}
+	public void setTerrainID(int terrainID)
+	{
+		this.theTerrainID = terrainID;
+	}
 
 	/**
 	 * Get tile connections for this terrain
@@ -81,14 +90,14 @@ public abstract class Terrain
 	 * Get type of terrain
 	 * @return String
 	 */
-	public String getType()
+	public char getType()
 	{
-		String result = theType;
-		if (theType == null)
-		{
-			result = "None";
-		}
-		return result;
+		// String result = theType;
+		// if (theType == null)
+		// {
+		// 	result = "None";
+		// }
+		return theType;
 	}
 
 	// Tiger Methods
@@ -142,7 +151,7 @@ public abstract class Terrain
 	public String toString()
 	{
 		String terrainID = String.valueOf(theTerrainID);
-		String terrainType = theType;
+		char terrainType = theType;
 		String hasTiger = "no";
 		if (hasTiger())
 		{

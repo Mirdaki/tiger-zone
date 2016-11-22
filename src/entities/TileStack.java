@@ -1,5 +1,4 @@
 package entities;
-
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import javax.xml.parsers.DocumentBuilder;
@@ -55,13 +54,11 @@ public class TileStack {
                     //create an array list of all tiles that match the type (for multiplicity)
                     ArrayList<SquareTile> newTile = new ArrayList<SquareTile>();
 
-
                     //take ith element and find multiplicity
                     Node nNode = nList.item(i);
                     Element eElement = (Element) nNode;
                     String type = eElement.getAttribute("type");
                     int multiplicity = Integer.parseInt(eElement.getAttribute("count"));
-
 
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
@@ -70,11 +67,7 @@ public class TileStack {
                             newTile.add(new SquareTile(eElement));
 
                         //place tile types and their multiplicities into the tileStack
-
                         tileStack.put(type,newTile);
-
-
-
                     }
                 }
             }

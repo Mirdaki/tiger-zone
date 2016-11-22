@@ -22,9 +22,13 @@ public class DenTerrain extends Terrain
 	{
 		theTerrainID       = terrainNum++;
 		theTileConnections = aTileConnections;
-		theType            = "Den";
+		theType            = 'D';
 	}
 
+	public DenTerrain() {
+		theTerrainID	   = terrainNum++;
+		theType = 'D';
+	}
 	// Deprecated
 
 	/**
@@ -40,7 +44,7 @@ public class DenTerrain extends Terrain
 	{
 		theTerrainID       = aTerrainID;
 		theTileConnections = aTileConnections;
-		theType            = "Den";
+		theType            = 'D';
 	}
 
 }

@@ -11,6 +11,7 @@ public class LakeRegion extends Region
 	// Lake specifc properties
 	protected boolean theCompleted;
 	protected ArrayList<Animal> theAnimals;
+	protected int endsNeeded;
 
 	// Constructor
 
@@ -26,11 +27,11 @@ public class LakeRegion extends Region
 		theRegionID  = aTerrain.getTerrainID();
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
-		theType      = "Lake";
+		theType      = 'L';
 		theCompleted = false;
 		theAnimals   = new ArrayList<Animal>();
 		// Add and update meepels and shields
-		addTerain(aTerrain);
+		addTerrain(aTerrain, theRegionID);
 	}
 
 	/**
@@ -45,11 +46,11 @@ public class LakeRegion extends Region
 		theRegionID  = aTerrains.get(0).getTerrainID();
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
-		theType      = "Lake";
+		theType      = 'L';
 		theCompleted = false;
 		theAnimals   = new ArrayList<Animal>();
 		// Add all and update meepels and shields
-		addTerain(aTerrains);
+		addTerrain(aTerrains, theRegionID);
 	}
 
 	// Getters
@@ -100,7 +101,7 @@ public class LakeRegion extends Region
 			for (int j = 0; j < currentLakeConnections.size(); j++)
 			{
 				// TODO: Get types of connections from tile connections
-				/*if (currentLakeConnections.get(j).getType() != "Lake")
+				/*if (currentLakeConnections.get(j).getType() != 'L')
 				{
 					theCompleted = false;
 					break;
@@ -114,7 +115,7 @@ public class LakeRegion extends Region
 	 * to region. Updates completion status.
 	 * @param aTerrain A single terrain
 	 */
-	public void addTerain(Terrain aTerrain)
+	public void addTerrain(Terrain aTerrain, int regionID)
 	{
 		// Check if the type is right
 		if (theType != aTerrain.getType())
@@ -129,6 +130,7 @@ public class LakeRegion extends Region
 		}
 
 		// Add terrain
+		aTerrain.setTerrainID(regionID);
 		theTerrains.add(aTerrain);
 
 		// Add Tiger
@@ -143,7 +145,7 @@ public class LakeRegion extends Region
 			theAnimals.add(((LakeTerrain) aTerrain).getAnimal());
 		}
 
-		updateCompletion();
+//		updateCompletion();
 	}
 
 	// Deprecated
@@ -160,7 +162,7 @@ public class LakeRegion extends Region
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
 		theCompleted = false;
-		theType      = "Lake";
+		theType      = 'L';
 		theAnimals   = null;
 	}
 

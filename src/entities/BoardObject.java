@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.Set;
 
 /*
  * This is the BoardObject that will implement the board itself.
@@ -19,16 +20,59 @@ public class BoardObject {
 	protected Map<String, ArrayList<SquareTile>> tiles = new HashMap<String, ArrayList<SquareTile>>();
 	protected SquareTile[][] board;
 	protected boolean state; //right now this serves as just a if we started or not
-	protected ArrayList<Location> availableSpots;
 	protected Player[] players;
 	protected TigerObject tiger;
 
+	protected ArrayList<Location> availableSpots;
+	protected ArrayList<Region> completedRegions;
+//	protected ArrayList<Region> incompleteRegions;
+	protected Map<Integer, Region> incompleteRegions;
+
+	// protected Map<Integer, DenRegion> dens;
+	// protected Map<Integer, TrailRegion> trails;
+	// protected Map<Integer, JungleRegion> jungles;
+	// protected Map<Integer, LakeRegion> lakes;
+
+	// public Map<Integer, DenRegion> getDens() {
+	// 	return dens;
+	// }
+	//
+	// public Map<Integer, TrailRegion> getTrails() {
+	// 	return trails;
+	// }
+	//
+	// public Map<Integer, JungleRegion> getJungles() {
+	// 	return jungles;
+	// }
+	//
+	// public Map<Integer, LakeRegion> getLakes() {
+	// 	return lakes;
+	// }
+
+	public Map<Integer, Region> getIncomplete() {
+		// if (!dens.isEmpty()) incompleteRegions.addAll(dens.values());
+		// if (!jungles.isEmpty()) incompleteRegions.addAll(jungles.values());
+		// if (!trails.isEmpty()) incompleteRegions.addAll(trails.values());
+		// if (!lakes.isEmpty()) incompleteRegions.addAll(lakes.values());
+		return incompleteRegions;
+	}
+
+	public ArrayList<Region> getComplete() {
+		return completedRegions;
+	}
 	/**
 	 * BoardObject() constructor, initialize the variables
 	 */
 	public BoardObject() {
 
 		availableSpots = new ArrayList<Location>();
+		incompleteRegions = new HashMap<Integer, Region>();
+		completedRegions = new ArrayList<Region>();
+		// jungles = new HashMap<Integer, JungleRegion>();
+		// dens = new HashMap<Integer, DenRegion>();
+		// trails = new HashMap<Integer, TrailRegion>();
+		// lakes = new HashMap<Integer, LakeRegion>();
+
 		availableSpots.add(new Location(0,0));
 
 		board = new SquareTile[ROWSIZE][COLSIZE];
@@ -76,7 +120,6 @@ public class BoardObject {
 		String type = tile.getType();
         ArrayList<SquareTile> tileMatches = tileStack.getList(type);
 
-
 		if(tileMatches.isEmpty()) return false;
 
 		//get queried placement
@@ -100,10 +143,10 @@ public class BoardObject {
 				break;
 			}
 		}
+
 		//if wasn't found in the list, return false
 
 		if (!found) return false;
-
 
 		//get adjacent tiles
 		SquareTile up = null, right = null, down = null, left = null;
@@ -203,18 +246,92 @@ public class BoardObject {
 					availableSpots.remove(i);
 			}
 
-			//if adjacent tiles were empty, add them to available spots to place
+			//if adjacent tiles were empty, add them to available spots to plac
 			if (up == null && addUp != null) availableSpots.add(addUp);
 			if (right == null && addRight != null) availableSpots.add(addRight);
 			if (down == null && addDown != null) availableSpots.add(addDown);
 			if (left == null && addLeft != null) availableSpots.add(addLeft);
 
-			//if the game is starting, set this true
+			Terrain[] terrains = tile.getTerrains();
+			boolean connectedUp = (up != null) ? true : false,
+					connectedRight = (right != null) ? true : false,
+					connectedDown = (down != null) ? true : false,
+					connectedLeft = (left != null) ? true : false;
+
+
+			for (Terrain terrain : terrains) {
+				if (terrain instanceof DenTerrain) incompleteRegions.put(terrain.getTerrainID(),new DenRegion(terrain));
+				else if (terrain instanceof LakeTerrain) incompleteRegions.put(terrain.getTerrainID(),new LakeRegion(terrain));
+				else if (terrain instanceof TrailTerrain) incompleteRegions.put(terrain.getTerrainID(),new TrailRegion(terrain));
+				else if (terrain instanceof JungleTerrain) incompleteRegions.put(terrain.getTerrainID(),new JungleRegion(terrain));
+
+			}
+
+			if(connectedLeft) {
+				edge edge = left.getEdge(1);
+				edge edge2 = tile.getEdge(3);
+
+				Terrain top = edge.getTop(), mid = edge.getMid(), bot = edge.getBot();
+				Terrain top2 = edge2.getTop(), mid2 = edge2.getMid(), bot2 = edge2.getBot();
+
+				if (top.getType() == top2.getType()) {
+
+					// Set<Integer> keys = incompleteRegions.keySet();
+					//         for(Integer key: keys){
+					//             System.out.println(key);
+					//         }
+
+					/*
+
+					NOTE: NEED TO FUCKING FIX THIS. NEED TO SOMEHOW CHANGE EVERY GOD DAMN FUCKING EDGE POINT
+					THAT CONNECTS WITH A GIVEN TERRAIN.
+
+					IDEA: PLACE ALL EDGE POINTS INTO A SINGLE ARRAY from [0,11], ACCESS THEM THAT WAY. OTHERWISE
+					THIS SHIT IS GOING TO GET TOO CRAZY.
+
+
+					*/
+					ArrayList<Integer> connections = top2.getTileConnections();
+
+					Region merge = incompleteRegions.get(top2.getTerrainID());
+					Region merger = incompleteRegions.get(top.getTerrainID());
+
+				// 	if (merger == null)
+				// 	{
+				// 		edge[] edges = tile.getEdges();
+				// 	for (Integer integer : connections) {
+				// 		if (integer < 3) {
+				// 			ArrayList<Terrain> points = edges[0].getPoints();
+				// 			points(integer,)
+				// 		}
+				// 		System.out.print(" " +integer);
+ 			// 		}
+				// }
+
+					 	if (merger != null) merger.mergeRegion(merge);
+				}
+
+				if (mid.getType() == mid2.getType()) {
+					Region merge = incompleteRegions.get(mid2.getTerrainID());
+					Region merger = incompleteRegions.get(mid.getTerrainID());
+					if (merger != null) merger.mergeRegion(merge);
+				}
+
+				if (bot.getType() == bot2.getType()) {
+					Region merge = incompleteRegions.get(bot2.getTerrainID());
+					Region merger = incompleteRegions.get(bot.getTerrainID());
+					if (merger != null) merger.mergeRegion(merge);
+				}
+
+				incompleteRegions.remove(top2.getTerrainID());
+
+			}
 
 			//set the tile's coordinate to it's new spot, place it
 			tile.setCoord(coord);
 			board[row][col] = tile;
 			tileStack.removeTile(type);
+
 			return true;
 		}
 		return false;

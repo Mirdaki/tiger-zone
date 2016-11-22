@@ -25,10 +25,10 @@ public class JungleRegion extends Region
 		theRegionID         = aTerrain.getTerrainID();
 		theTerrains         = new ArrayList<Terrain>();
 		theTigers           = new ArrayList<TigerObject>();
-		theType             = "Jungle";
+		theType             = 'J';
 		theNeighboringLakes = new ArrayList<LakeRegion>();
 		// Add and update meepels
-		addTerain(aTerrain);
+		addTerrain(aTerrain, theRegionID);
 	}
 
 	/**
@@ -43,10 +43,10 @@ public class JungleRegion extends Region
 		theRegionID         = aTerrains.get(0).getTerrainID();
 		theTerrains         = new ArrayList<Terrain>();
 		theTigers           = new ArrayList<TigerObject>();
-		theType             = "Jungle";
+		theType             = 'J';
 		theNeighboringLakes = new ArrayList<LakeRegion>();
 		// Add all and update meepels
-		addTerain(aTerrains);
+		addTerrain(aTerrains, theRegionID);
 	}
 
 	// Getters
@@ -74,7 +74,7 @@ public class JungleRegion extends Region
 	 * to region.
 	 * @param aTerrain A single terrain
 	 */
-	public void addTerain(Terrain aTerrain)
+	public void addTerrain(Terrain aTerrain, int regionID)
 	{
 		// Check if the type is right
 		if (theType != aTerrain.getType())
@@ -83,6 +83,7 @@ public class JungleRegion extends Region
 		}
 
 		// Add terrain
+		aTerrain.setTerrainID(regionID);
 		theTerrains.add(aTerrain);
 
 		// Add Tiger
@@ -108,7 +109,7 @@ public class JungleRegion extends Region
 		theRegionID         = aRegionID;
 		theTerrains         = new ArrayList<Terrain>();
 		theTigers           = new ArrayList<TigerObject>();
-		theType             = "Jungle";
+		theType             = 'J';
 		theNeighboringLakes = new ArrayList<LakeRegion>();
 	}
 
