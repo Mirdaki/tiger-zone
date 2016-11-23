@@ -1,6 +1,8 @@
 /* Based on Scoring Rules stated in Tiger Zone V2.2 */
 /* only method not presently in Region is getNumberOfCrocodiles	*/
 import java.util.*;
+
+import entities.Region;
 public class ScoringSystem {
 	public static void main(String[] args) {}
 	// Board must pass completed region into this method.

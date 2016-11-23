@@ -11,10 +11,9 @@ public abstract class Terrain
 	// The attributes
 	protected int theTerrainID;
 	protected int theRegionID;
-	protected ArrayList<Integer> theTileConnections;
 	protected TigerObject theTiger;
 	protected char theType;
-	// The IDs
+	protected ArrayList<Integer> theTileConnections;
 	public static int terrainNum = 0;
 
 	// Constructors
@@ -28,6 +27,13 @@ public abstract class Terrain
 		return false;
 	}
 
+	public int getRegionID() {
+		return theRegionID;
+	}
+
+	public void setRegionID(int theRegionID) {
+		this.theRegionID = theRegionID;
+	}
 	/**
 	 * Terrain is an object of tiles that describes cities, fields,
 	 * roads, and monasteries.
@@ -40,6 +46,7 @@ public abstract class Terrain
 	{
 		theTerrainID       = aTerrainID;
 		theTileConnections = aTileConnections;
+		theRegionID 	   = -1;
 	}
 
 	/**
@@ -159,8 +166,8 @@ public abstract class Terrain
 			hasTiger = "a";
 		}
 		String numberOfConnections = String.valueOf(theTileConnections.size());
-		return "The terrain " + terrainID + " of type " + terrainType + " has " +
-				hasTiger + " Meepel and " + numberOfConnections + " tile connection(s)";
+		return "The terrain " + terrainID + " of type " + terrainType + " in region " + theRegionID + " has " +
+				hasTiger + " Tigers and " + numberOfConnections + " tile connection(s)";
 	}
 
 }

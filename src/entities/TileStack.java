@@ -37,14 +37,13 @@ public class TileStack {
         try { //attempt to parse XML file of tiles
 
             //file to parse
-       		File file = new File("entities/tiles.xml");
+       		File file = new File("src/entities/tiles.xml");
        		DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
        		Document doc = dBuilder.parse(file);
 
             //if there was stuff inside of the XML file
     	   	if (doc.hasChildNodes()) {
-
                 //find all tiles
                 NodeList nList = doc.getElementsByTagName("tile");
 

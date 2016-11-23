@@ -74,27 +74,27 @@ public class DenRegion extends Region
 	 * to region.
 	 * @param aTerrain A single terrain
 	 */
-	public void addTerrain(Terrain aTerrain, int regionID)
-	{
-		// Check if the type is right
-		if (theType != aTerrain.getType())
-		{
-			throw new IllegalArgumentException("Mismatch terrain");
-		}
-
-		// Add terrain
-		aTerrain.setTerrainID(regionID);
-		theTerrains.add(aTerrain);
-
-		// Add Tiger
-		if (aTerrain.hasTiger() == true)
-		{
-			theTigers.add(aTerrain.getTiger());
-		}
-
-		// Update neighboring tiles
-		updateNeighboringTiles();
-	}
+//	public void addTerrain(Terrain aTerrain, int regionID)
+//	{
+//		// Check if the type is right
+//		if (theType != aTerrain.getType())
+//		{
+//			throw new IllegalArgumentException("Mismatch terrain");
+//		}
+//
+//		// Add terrain
+//		aTerrain.setRegionID(regionID);
+//		theTerrains.add(aTerrain);
+//
+//		// Add Tiger
+//		if (aTerrain.hasTiger() == true)
+//		{
+//			theTigers.add(aTerrain.getTiger());
+//		}
+//
+//		// Update neighboring tiles
+//		updateNeighboringTiles();
+//	}
 
 	// Deprecated
 

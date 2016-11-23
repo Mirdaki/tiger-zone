@@ -87,6 +87,7 @@ public abstract class TileObject {
 	 */
 	public void setOrientation(int orientation) {
 		this.orientation = orientation;
+		edges.setOrientation(orientation);
 	}
 
 	/**

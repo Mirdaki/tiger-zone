@@ -21,6 +21,7 @@ public class DenTerrain extends Terrain
 	public DenTerrain(ArrayList<Integer> aTileConnections)
 	{
 		theTerrainID       = terrainNum++;
+		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'D';
 	}
@@ -40,9 +41,9 @@ public class DenTerrain extends Terrain
 	 *                                    den.
 	 * @return DenTerrain
 	 */
-	public DenTerrain(int aTerrainID, ArrayList<Integer> aTileConnections)
-	{
+	public DenTerrain(ArrayList<Integer> aTileConnections, int aTerrainID) {
 		theTerrainID       = aTerrainID;
+		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'D';
 	}

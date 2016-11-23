@@ -11,6 +11,7 @@ public class TrailRegion extends Region
 	// Field specifc properties
 	protected boolean theCompleted;
 	protected ArrayList<Animal> theAnimals;
+	protected char regionType;
 
 	// Constructor
 
@@ -100,33 +101,33 @@ public class TrailRegion extends Region
 	 * to region. Updates completion status.
 	 * @param aTerrain A single terrain
 	 */
-	public void addTerrain(Terrain aTerrain, int regionID)
-	{
-		// Check if the type is right
-		if (theType != aTerrain.getType())
-		{
-			throw new IllegalArgumentException("Mismatch terrain");
-		}
-
-		// Check if region is already complete
-		if (theCompleted == true)
-		{
-			throw new IllegalArgumentException("Trail already complete");
-		}
-
-		// Add terrain
-		aTerrain.setTerrainID(regionID);
-		theTerrains.add(aTerrain);
-
-		// Add Tiger
-		if (aTerrain.hasTiger() == true)
-		{
-			theTigers.add(aTerrain.getTiger());
-		}
-
-		// Update neighboring tiles
-		updateCompletion();
-	}
+//	public void addTerrain(Terrain aTerrain, int regionID)
+//	{
+//		// Check if the type is right
+//		if (theType != aTerrain.getType())
+//		{
+//			throw new IllegalArgumentException("Mismatch terrain");
+//		}
+//
+//		// Check if region is already complete
+//		if (theCompleted == true)
+//		{
+//			throw new IllegalArgumentException("Trail already complete");
+//		}
+//
+//		// Add terrain
+//		aTerrain.setRegionID(regionID);
+//		theTerrains.add(aTerrain);
+//
+//		// Add Tiger
+//		if (aTerrain.hasTiger() == true)
+//		{
+//			theTigers.add(aTerrain.getTiger());
+//		}
+//
+//		// Update neighboring tiles
+//		updateCompletion();
+//	}
 
 	// Deprecated
 

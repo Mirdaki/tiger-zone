@@ -15,17 +15,17 @@ import java.util.Set;
  */
 public class BoardObject {
 
-	protected static final int ROWSIZE = 11, COLSIZE = 11;
+	public static final int ROWSIZE = 11, COLSIZE = 11;
 	protected TileStack tileStack;
-	protected Map<String, ArrayList<SquareTile>> tiles = new HashMap<String, ArrayList<SquareTile>>();
 	protected SquareTile[][] board;
 	protected boolean state; //right now this serves as just a if we started or not
 	protected Player[] players;
 	protected TigerObject tiger;
 
+	protected Map<String, ArrayList<SquareTile>> tiles;
+	protected Map<Integer, Region> incompleteRegions;
 	protected ArrayList<Location> availableSpots;
 	protected ArrayList<Region> completedRegions;
-	protected Map<Integer, Region> incompleteRegions;
 
 	/**
 	 * BoardObject() constructor, initialize the variables
@@ -79,7 +79,7 @@ public class BoardObject {
 	 *	checks to see if the location being placed is within bounds
 	 *	of the board and if the location is in the available list of
 	 *	spots.
-		 *
+	 *
 	 * 	TO DO: check if the adjacent tiles at that location can accept the tile
 	 *  @param tile the tile to be potentially placed
 	 *	@param coord The Location on the board for the tile to be placed.
@@ -89,7 +89,7 @@ public class BoardObject {
 
 		//check to see if there is any available tiles of the input type
 		String type = tile.getType();
-        ArrayList<SquareTile> tileMatches = tileStack.getList(type);
+		ArrayList<SquareTile> tileMatches = tileStack.getList(type);
 		if(tileMatches.isEmpty()) return false;
 
 		//get queried placement
@@ -122,10 +122,11 @@ public class BoardObject {
 		if(col > 0) left = board[row][col - 1];
 
 		//if tile edges dont match up with adjacent touching edges, return false
-		if(up != null && !up.getEdge(2).equals(tile.getEdge(0))) return false;
-		if(right != null && !right.getEdge(3).equals(tile.getEdge(1))) return false;
-		if(down != null && !down.getEdge(0).equals(tile.getEdge(2))) return false;
-		if(left != null && !left.getEdge(1).equals(tile.getEdge(3))) return false;
+		if(up != null && up.getEdgeType(TileEdges.SOUTH) != tile.getEdgeType(TileEdges.NORTH)) return false;
+		if(right != null && right.getEdgeType(TileEdges.WEST) != tile.getEdgeType(TileEdges.EAST)) return false;
+		if(down != null && down.getEdgeType(TileEdges.NORTH) != tile.getEdgeType(TileEdges.SOUTH)) return false;
+		if(left != null && left.getEdgeType(TileEdges.EAST) != tile.getEdgeType(TileEdges.WEST)) return false;
+
 
 		//else remove location from available spots list, return true
 		availableSpots.remove(index);
@@ -137,7 +138,7 @@ public class BoardObject {
 	 *	the specified location. It calls on valid() to first determine if
 	 *  the queried location is available for the tile. It also adds in the
 	 *	the adjacent tiles to the available spots list if not already in there.
- 	 *
+	 *
 	 * 	TO DO: optimize, account for boundary conditions
 	 *
 	 *	@param tile The tile to be placed
@@ -205,10 +206,10 @@ public class BoardObject {
 			//remove potential duplicate values (is there a better way to do this?)
 			for (int i = 0; i < availableSpots.size(); i++) {
 				if ((addUp != null && availableSpots.get(i).equals(addUp)) ||
-				(addLeft != null && availableSpots.get(i).equals(addLeft)) ||
-				(addRight != null && availableSpots.get(i).equals(addRight)) ||
-				(addDown != null && availableSpots.get(i).equals(addDown)) ||
-				availableSpots.get(i).equals(coord))
+						(addLeft != null && availableSpots.get(i).equals(addLeft)) ||
+						(addRight != null && availableSpots.get(i).equals(addRight)) ||
+						(addDown != null && availableSpots.get(i).equals(addDown)) ||
+						availableSpots.get(i).equals(coord))
 					availableSpots.remove(i);
 			}
 
@@ -221,72 +222,27 @@ public class BoardObject {
 			Terrain[] terrains = tile.getTerrains();
 			boolean connectedUp = (up != null) ? true : false,
 					connectedRight = (right != null) ? true : false,
-					connectedDown = (down != null) ? true : false,
-					connectedLeft = (left != null) ? true : false;
-
+							connectedDown = (down != null) ? true : false,
+									connectedLeft = (left != null) ? true : false;
 
 			for (Terrain terrain : terrains) {
-				if (terrain instanceof DenTerrain) incompleteRegions.put(terrain.getTerrainID(),new DenRegion(terrain));
-				else if (terrain instanceof LakeTerrain) incompleteRegions.put(terrain.getTerrainID(),new LakeRegion(terrain));
-				else if (terrain instanceof TrailTerrain) incompleteRegions.put(terrain.getTerrainID(),new TrailRegion(terrain));
-				else if (terrain instanceof JungleTerrain) incompleteRegions.put(terrain.getTerrainID(),new JungleRegion(terrain));
-
+				if (terrain instanceof DenTerrain) incompleteRegions.put(terrain.getRegionID(),new DenRegion(terrain));
+				else if (terrain instanceof LakeTerrain) incompleteRegions.put(terrain.getRegionID(),new LakeRegion(terrain));
+				else if (terrain instanceof TrailTerrain) incompleteRegions.put(terrain.getRegionID(),new TrailRegion(terrain));
+				else if (terrain instanceof JungleTerrain) incompleteRegions.put(terrain.getRegionID(),new JungleRegion(terrain));
 			}
 
-			if(connectedLeft) {
-				edge edge = left.getEdge(1);
-				edge edge2 = tile.getEdge(3);
-
-				Terrain top = edge.getTop(), mid = edge.getMid(), bot = edge.getBot();
-				Terrain top2 = edge2.getTop(), mid2 = edge2.getMid(), bot2 = edge2.getBot();
-
-				if (top.getType() == top2.getType()) {
-
-					// Set<Integer> keys = incompleteRegions.keySet();
-					//         for(Integer key: keys){
-					//             System.out.println(key);
-					//         }
-
-					/*
-					NOTE: NEED TO FUCKING FIX THIS. NEED TO SOMEHOW CHANGE EVERY GOD DAMN FUCKING EDGE POINT
-					THAT CONNECTS WITH A GIVEN TERRAIN.
-					IDEA: PLACE ALL EDGE POINTS INTO A SINGLE ARRAY from [0,11], ACCESS THEM THAT WAY. OTHERWISE
-					THIS SHIT IS GOING TO GET TOO CRAZY.
-					*/
-					ArrayList<Integer> connections = top2.getTileConnections();
-
-					Region merge = incompleteRegions.get(top2.getTerrainID());
-					Region merger = incompleteRegions.get(top.getTerrainID());
-
-				// 	if (merger == null)
-				// 	{
-				// 		edge[] edges = tile.getEdges();
-				// 	for (Integer integer : connections) {
-				// 		if (integer < 3) {
-				// 			ArrayList<Terrain> points = edges[0].getPoints();
-				// 			points(integer,)
-				// 		}
-				// 		System.out.print(" " +integer);
- 			// 		}
-				// }
-
-					 	if (merger != null) merger.mergeRegion(merge);
-				}
-
-				if (mid.getType() == mid2.getType()) {
-					Region merge = incompleteRegions.get(mid2.getTerrainID());
-					Region merger = incompleteRegions.get(mid.getTerrainID());
-					if (merger != null) merger.mergeRegion(merge);
-				}
-
-				if (bot.getType() == bot2.getType()) {
-					Region merge = incompleteRegions.get(bot2.getTerrainID());
-					Region merger = incompleteRegions.get(bot.getTerrainID());
-					if (merger != null) merger.mergeRegion(merge);
-				}
-
-				incompleteRegions.remove(top2.getTerrainID());
-
+			if (connectedLeft) { 
+				mergeTileRegions(left,tile,TileEdges.WEST);
+			}
+			if (connectedRight) { 
+				mergeTileRegions(right,tile,TileEdges.EAST);
+			}
+			if (connectedUp) { 
+				mergeTileRegions(up,tile,TileEdges.NORTH);
+			}
+			if (connectedDown) { 
+				mergeTileRegions(down,tile,TileEdges.SOUTH);
 			}
 
 			//set the tile's coordinate to it's new spot, place it
@@ -298,62 +254,165 @@ public class BoardObject {
 		}
 		return false;
 	}
+
+	public Region getIncompleteRegion(int key) { 
+
+		return incompleteRegions.get(key);
+
+	}
+
+	public void mergeTileRegions(SquareTile a, SquareTile b, int edge) {
+		//tile A will serve as the parent, tile B will be the child
+
+		TileEdges aEdges = a.getEdges();
+		TileEdges bEdges = b.getEdges();
+		Terrain aTop = null, aMid = null, aBot = null;
+		Terrain bTop = null, bMid = null, bBot = null;
+
+		switch (edge) {
+		case TileEdges.NORTH:
+			aTop = aEdges.getTerrain(TileEdges.SOUTHWEST);
+			aMid = aEdges.getTerrain(TileEdges.SOUTH);
+			aBot = aEdges.getTerrain(TileEdges.SOUTHEAST);
+			bTop = bEdges.getTerrain(TileEdges.NORTHWEST);
+			bMid = bEdges.getTerrain(TileEdges.NORTH);
+			bBot = bEdges.getTerrain(TileEdges.NORTHEAST);
+			break;
+		case TileEdges.EAST:
+			aTop = aEdges.getTerrain(TileEdges.NORTHWEST);
+			aMid = aEdges.getTerrain(TileEdges.WEST);
+			aBot = aEdges.getTerrain(TileEdges.SOUTHWEST);
+			bTop = bEdges.getTerrain(TileEdges.NORTHEAST);
+			bMid = bEdges.getTerrain(TileEdges.EAST);
+			bBot = bEdges.getTerrain(TileEdges.SOUTHEAST);
+			break;
+		case TileEdges.SOUTH:
+			aTop = aEdges.getTerrain(TileEdges.NORTHWEST);
+			aMid = aEdges.getTerrain(TileEdges.NORTH);
+			aBot = aEdges.getTerrain(TileEdges.NORTHEAST);
+			bTop = bEdges.getTerrain(TileEdges.SOUTHWEST);
+			bMid = bEdges.getTerrain(TileEdges.SOUTH);
+			bBot = bEdges.getTerrain(TileEdges.SOUTHEAST);
+			break;
+		case TileEdges.WEST:
+			aTop = aEdges.getTerrain(TileEdges.NORTHEAST);
+			aMid = aEdges.getTerrain(TileEdges.EAST);
+			aBot = aEdges.getTerrain(TileEdges.SOUTHEAST);
+			bTop = bEdges.getTerrain(TileEdges.NORTHWEST);
+			bMid = bEdges.getTerrain(TileEdges.WEST);
+			bBot = bEdges.getTerrain(TileEdges.SOUTHWEST);
+			break;
+		default: break;
+		}
+
+		//1 + 8 + 9
+
+		Region aRegion = incompleteRegions.get(aMid.getRegionID());
+		Region bRegion = incompleteRegions.get(bMid.getRegionID());
+		ArrayList<Integer> tileConnections = bMid.getTileConnections();
+		int oldRegionID = bRegion.getRegionID();
+
+		if(aRegion.getRegionID() != bRegion.getRegionID()) { 
+
+			for (Integer entry : tileConnections) bEdges.setEdge(entry, aRegion.getRegionID());
+
+			aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
+			incompleteRegions.remove(oldRegionID);
+		}		
+		
+		//if we are connecting a trail, then we have to check the top and bottom to connect jungles as well
+		if (bMid.getType() == 'T') { 
+
+			//top
+			aRegion = incompleteRegions.get(aTop.getRegionID());
+			bRegion = incompleteRegions.get(bTop.getRegionID());
+
+			if(aRegion.getRegionID() != bRegion.getRegionID()) { 
+				oldRegionID = bRegion.getRegionID();
+
+				tileConnections = bTop.getTileConnections();
+				for (Integer entry : tileConnections) bEdges.setEdge(entry, aRegion.getRegionID());
+
+				aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
+				incompleteRegions.remove(oldRegionID);
+			} 
+			//bottom
+			aRegion = incompleteRegions.get(aBot.getRegionID());
+			bRegion = incompleteRegions.get(bBot.getRegionID());
+
+			if(aRegion.getRegionID() != bRegion.getRegionID()) { 
+				oldRegionID = bRegion.getRegionID();
+
+				tileConnections = bBot.getTileConnections();
+				for (Integer entry : tileConnections) bEdges.setEdge(entry, aRegion.getRegionID());
+
+				aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
+				incompleteRegions.remove(oldRegionID);
+			}
+		}
+	}
+
+
 	/**
-	* 	start() begins the game by placing the starting tile directly
-	*	in the center of the game board.
-	*/
+	 * 	start() begins the game by placing the starting tile directly
+	 *	in the center of the game board.
+	 */
 	public void start() {
 		SquareTile startingTile = tileStack.getTile("TLTJ-",0);
 		place(startingTile, new Location(0,0));
 	}
 
 	/**
-	*	getTile() calls on the TileStack's getTile() method to
-	*	obtain the specified tile type and its orientation.
-	*	Once obtained, it should be removed from the running list
-	* 	of available tiles in the TileStack.
-	*
-	*	TO DO: remove tile from running list of available tiles
-	*
-	*	@param type The corresponding tile type (A-Z, a), see Tile Types.png
-	*	@param orientation The desired orientation (0=0, 1=90, 2=180, 3=270)
-	*	@return the corresponding SquareTile
-	*/
+	 *	getTile() calls on the TileStack's getTile() method to
+	 *	obtain the specified tile type and its orientation.
+	 *	Once obtained, it should be removed from the running list
+	 * 	of available tiles in the TileStack.
+	 *
+	 *	TO DO: remove tile from running list of available tiles
+	 *
+	 *	@param type The corresponding tile type (A-Z, a), see Tile Types.png
+	 *	@param orientation The desired orientation (0=0, 1=90, 2=180, 3=270)
+	 *	@return the corresponding SquareTile
+	 */
 	public SquareTile getTile(String type, int orientation) {;
-		return tileStack.getTile(type,orientation);
+	return tileStack.getTile(type,orientation);
+	}
+
+	public SquareTile getTile(Location location) {
+		return board[location.getRow()][location.getCol()];
 	}
 
 	/**
-	*	getPlayers() is self explanatory
-	*	@return a Player[] of players currently in the game
-	*/
+	 *	getPlayers() is self explanatory
+	 *	@return a Player[] of players currently in the game
+	 */
 	public Player[] getPlayers() {
 		return players;
 	}
 
 	/**
-	*	setPlayers() is self explanatory - set the current Player[]
-	*	to a new Player[]
-	*/
+	 *	setPlayers() is self explanatory - set the current Player[]
+	 *	to a new Player[]
+	 */
 	public void setPlayers(Player[] players) {
 		this.players = players;
 	}
 
 	/**
-	*	getPlayer() is self explanatory
-	*	@param index the index of the player you want (0=player1, 1=player2)
-	*	@return a Player object corresponding to the player
-	*/
+	 *	getPlayer() is self explanatory
+	 *	@param index the index of the player you want (0=player1, 1=player2)
+	 *	@return a Player object corresponding to the player
+	 */
 	public Player getPlayer(int index) {
 		return players[index];
 	}
 
 	/**
-	*	setPlayer() is self explanatory. Need to set existing player object's data
-	*	to input object's data directly.
-	*	@param index the index of the player you want to set (0=player1, 1=player2)
-	*	@param player the new Player object to set
-	*/
+	 *	setPlayer() is self explanatory. Need to set existing player object's data
+	 *	to input object's data directly.
+	 *	@param index the index of the player you want to set (0=player1, 1=player2)
+	 *	@param player the new Player object to set
+	 */
 	public void setPlayer(int index, Player player) {
 		players[index].setID(player.getID());
 		players[index].setFirst(player.isFirst());
@@ -363,16 +422,16 @@ public class BoardObject {
 	}
 
 	/**
-	*	getBoard() is self explanatory
-	*	@return the current game board
-	*/
+	 *	getBoard() is self explanatory
+	 *	@return the current game board
+	 */
 	public SquareTile[][] getBoard() {
 		return board;
 	}
 
 	/**
-	*	setBoard() is self explanatory. It sets the current board to a new board.
-	*/
+	 *	setBoard() is self explanatory. It sets the current board to a new board.
+	 */
 	public void setBoard(SquareTile[][] board) {
 		this.board = board;
 	}
@@ -380,7 +439,7 @@ public class BoardObject {
 	/**
 	 *	Print out the game board in a naive format. Shows locations as their
 	 *	coordinates or as the tile that is currently placed.
-     */
+	 */
 	public void print() {
 		for (int row = 0; row < ROWSIZE; row++) {
 			for (int col = 0; col < COLSIZE; col++) {
@@ -394,7 +453,7 @@ public class BoardObject {
 	/**
 	 *	Print out the current running list of available spots in naive format.
 	 *  If empty list, print none
-     */
+	 */
 	public void printSpots() {
 		System.out.println("Available spots (" + availableSpots.size() + "):");
 		if (availableSpots.isEmpty()) System.out.println("None");

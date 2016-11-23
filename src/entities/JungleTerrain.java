@@ -17,9 +17,9 @@ public class JungleTerrain extends Terrain
 	 * @param theNumberOfNeighboringCities Number of cities around the Jungle.
 	 * @return JungleTerrain
 	 */
-	public JungleTerrain(ArrayList<Integer> aTileConnections)
-	{
+	public JungleTerrain(ArrayList<Integer> aTileConnections) {
 		theTerrainID       = terrainNum++;
+		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'J';
 	}
@@ -33,6 +33,7 @@ public class JungleTerrain extends Terrain
 	public JungleTerrain()
 	{
 		theTerrainID = terrainNum++;
+		theRegionID 	   = theTerrainID;
 	}
 
 	/**
@@ -43,6 +44,7 @@ public class JungleTerrain extends Terrain
 	public JungleTerrain(int aTerrainID)
 	{
 			theTerrainID = aTerrainID;
+			theRegionID 	   = theTerrainID;
 	}
 
 	/**
@@ -53,9 +55,9 @@ public class JungleTerrain extends Terrain
 	 * @param theNumberOfNeighboringCities Number of cities around the Jungle.
 	 * @return JungleTerrain
 	 */
-	public JungleTerrain(int aTerrainID, ArrayList<Integer> aTileConnections)
-	{
+	public JungleTerrain(ArrayList<Integer> aTileConnections, int aTerrainID) {
 		theTerrainID       = aTerrainID;
+		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'J';
 	}

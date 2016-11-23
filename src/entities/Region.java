@@ -177,15 +177,13 @@ public abstract class Region
 	public void addTerrain(Terrain aTerrain, int regionID)
 	{
 		// Check if the type is right
-		if (theType != aTerrain.getType())
-		{
-			throw new IllegalArgumentException("Mismatch terrain");
-		}
+//		if (theType != aTerrain.getType())
+//		{
+//			throw new IllegalArgumentException("Mismatch terrain");
+//		}
 
 		// Add terrain
-		aTerrain.setTerrainID(regionID);
 		theTerrains.add(aTerrain);
-
 
 		// Add Tiger
 		if (aTerrain.hasTiger() == true)
@@ -200,31 +198,16 @@ public abstract class Region
 	 * @param aTerrains An arrayList of terrain
 	 */
 	public void addTerrain(ArrayList<Terrain> aTerrains, int regionID) {
-		for (int i = 0; i < aTerrains.size(); i++) {
+		
+		int neededSize = aTerrains.size();
+
+		for (int i = 0; i < neededSize; i++) {
+
 			this.addTerrain(aTerrains.get(i), regionID);
+
 		}
 	}
 
-	/**
-	 * Merge an existing region into the current one
-	 * @param aRegion Of the same type
-	 */
-	public void mergeRegion(Region aRegion) {
-		// Check if the type is right
-
-		if (theType != aRegion.getType()) {
-			throw new IllegalArgumentException("Mismatch Region");
-		}
-
-
-		boolean duplicate = false;
-		for (int i = 0; i < theTerrains.size(); i++) {
-
-			if(theTerrains.get(i).getTerrainID() == aRegion.getRegionID()) duplicate = true;
-		}
-
-		if (!duplicate) addTerrain(aRegion.getTerrains(), aRegion.getRegionID());
-	}
 
 	/**
 	 * Prints out the region ID, type, number of Tigers, and number of terrains

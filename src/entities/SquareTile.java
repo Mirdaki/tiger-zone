@@ -73,7 +73,7 @@ public class SquareTile extends TileObject {
 						StringTokenizer st = new StringTokenizer(test);
 						while (st.hasMoreTokens()) {
 							int temp = Integer.parseInt(st.nextToken());
-							spots.add(Math.floorMod((temp - 2 * orientation) + 8,8));
+							spots.add(Math.floorMod((temp - 2 * orientation) ,8));
 						}
 						terrains[i++] = new JungleTerrain(spots);
 					}
@@ -88,7 +88,7 @@ public class SquareTile extends TileObject {
 						StringTokenizer st = new StringTokenizer(test);
 						while (st.hasMoreTokens()) {
 							int temp = Integer.parseInt(st.nextToken());
-							spots.add(Math.floorMod((temp - 2 * orientation) + 8,8));
+							spots.add(Math.floorMod((temp - 2 * orientation) ,8));
 						}
 
 						if (trailType == 'C') terrains[i++] = new TrailTerrain(spots,false);
@@ -105,7 +105,7 @@ public class SquareTile extends TileObject {
 						StringTokenizer st = new StringTokenizer(test);
 						while (st.hasMoreTokens()) {
 							int temp = Integer.parseInt(st.nextToken());
-							spots.add(Math.floorMod((temp - 2 * orientation) + 8,8));
+							spots.add(Math.floorMod((temp - 2 * orientation) ,8));
 						}
 
 						if (lakeType == 'C') terrains[i++] = new LakeTerrain(spots,false);
@@ -170,7 +170,7 @@ public class SquareTile extends TileObject {
 			StringTokenizer st = new StringTokenizer(test);
 			while (st.hasMoreTokens()) {
 				int temp = Integer.parseInt(st.nextToken());
-				spots.add(Math.floorMod((temp - 2 * orientation) + 8,8));
+				spots.add(Math.floorMod((temp - 2 * orientation) ,8));
 			}
 			terrains[i++] = new JungleTerrain(spots);
 		}
@@ -185,7 +185,7 @@ public class SquareTile extends TileObject {
 			StringTokenizer st = new StringTokenizer(test);
 			while (st.hasMoreTokens()) {
 				int temp = Integer.parseInt(st.nextToken());
-				spots.add(Math.floorMod((temp - 2 * orientation) + 8,8));
+				spots.add(Math.floorMod((temp - 2 * orientation) ,8));
 			}
 
 			if (trailType == 'C') terrains[i++] = new TrailTerrain(spots,false);
@@ -202,7 +202,7 @@ public class SquareTile extends TileObject {
 			StringTokenizer st = new StringTokenizer(test);
 			while (st.hasMoreTokens()) {
 				int temp = Integer.parseInt(st.nextToken());
-				spots.add(Math.floorMod((temp - 2 * orientation) + 8,8));
+				spots.add(Math.floorMod((temp - 2 * orientation) ,8));
 			}
 
 			if (lakeType == 'C') terrains[i++] = new LakeTerrain(spots,false);

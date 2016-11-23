@@ -17,6 +17,7 @@ public class LakeTerrain extends Terrain
 
 	public LakeTerrain(ArrayList<Integer> aTileConnections, boolean aEndOfLake) {
 		theTerrainID       = terrainNum++;
+		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'L';
 		theAnimal          = null;
@@ -37,6 +38,7 @@ public class LakeTerrain extends Terrain
 	public LakeTerrain(ArrayList<Integer> aTileConnections, Animal anAnimal)
 	{
 		theTerrainID       = terrainNum++;
+		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'L';
 		theAnimal          = anAnimal;
@@ -52,6 +54,7 @@ public class LakeTerrain extends Terrain
 	public LakeTerrain(ArrayList<Integer> aTileConnections)
 	{
 		theTerrainID       = terrainNum++;
+		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'L';
 		theAnimal          = null;
@@ -128,6 +131,7 @@ public class LakeTerrain extends Terrain
 	public LakeTerrain(int aTerrainID, ArrayList<Integer> aTileConnections, Animal anAnimal)
 	{
 		theTerrainID       = aTerrainID;
+		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'L';
 		theAnimal          = anAnimal;
@@ -143,6 +147,7 @@ public class LakeTerrain extends Terrain
 	public LakeTerrain(int aTerrainID, ArrayList<Integer> aTileConnections)
 	{
 		theTerrainID       = aTerrainID;
+		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'L';
 		theAnimal          = null;

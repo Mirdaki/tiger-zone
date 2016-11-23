@@ -12,7 +12,6 @@ public class TrailTerrain extends Terrain
 
 	protected boolean theEndOfTrail;
 	protected Animal theAnimal;
-	protected char trailType;
 
 	// Constructors
 
@@ -24,16 +23,13 @@ public class TrailTerrain extends Terrain
 	 * @param aEndOfTrail This Trail ends.
 	 * @return  TrailTerrain
 	 */
-	public TrailTerrain( ArrayList<Integer> aTileConnections, boolean aEndOfTrail)
-	{
+	public TrailTerrain(ArrayList<Integer> aTileConnections, boolean aEndOfTrail) {
 		theTerrainID       = terrainNum++;
+		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'T';
 		theEndOfTrail      = aEndOfTrail;
 		theAnimal          = null;
-
-		if (aEndOfTrail == true) trailType = 'E';
-		else trailType = 'C';
 	}
 
 	/**
@@ -48,6 +44,7 @@ public class TrailTerrain extends Terrain
 	public TrailTerrain( ArrayList<Integer> aTileConnections, boolean aEndOfTrail, Animal anAnimal)
 	{
 		theTerrainID       = terrainNum++;
+		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'T';
 		theEndOfTrail      = aEndOfTrail;
@@ -111,6 +108,7 @@ public class TrailTerrain extends Terrain
 	 */
 	public TrailTerrain() {
  		theTerrainID = terrainNum++;
+		theRegionID 	   = theTerrainID;
 		theType            = 'T';
  	}
 
@@ -121,6 +119,7 @@ public class TrailTerrain extends Terrain
 	 */
 	public TrailTerrain(int aTerrainID) {
 		theTerrainID = aTerrainID;
+		theRegionID 	   = theTerrainID;
 	}
 
 	/**
@@ -131,10 +130,9 @@ public class TrailTerrain extends Terrain
 	 * @param aEndOfTrail This Trail ends.
 	 * @return  TrailTerrain
 	 */
-	public TrailTerrain(int aTerrainID, ArrayList<Integer> aTileConnections,
-			boolean aEndOfTrail)
-	{
+	public TrailTerrain(int aTerrainID, ArrayList<Integer> aTileConnections, boolean aEndOfTrail) {
 		theTerrainID       = aTerrainID;
+		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'T';
 		theEndOfTrail      = aEndOfTrail;
