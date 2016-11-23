@@ -25,41 +25,8 @@ public class BoardObject {
 
 	protected ArrayList<Location> availableSpots;
 	protected ArrayList<Region> completedRegions;
-//	protected ArrayList<Region> incompleteRegions;
 	protected Map<Integer, Region> incompleteRegions;
 
-	// protected Map<Integer, DenRegion> dens;
-	// protected Map<Integer, TrailRegion> trails;
-	// protected Map<Integer, JungleRegion> jungles;
-	// protected Map<Integer, LakeRegion> lakes;
-
-	// public Map<Integer, DenRegion> getDens() {
-	// 	return dens;
-	// }
-	//
-	// public Map<Integer, TrailRegion> getTrails() {
-	// 	return trails;
-	// }
-	//
-	// public Map<Integer, JungleRegion> getJungles() {
-	// 	return jungles;
-	// }
-	//
-	// public Map<Integer, LakeRegion> getLakes() {
-	// 	return lakes;
-	// }
-
-	public Map<Integer, Region> getIncomplete() {
-		// if (!dens.isEmpty()) incompleteRegions.addAll(dens.values());
-		// if (!jungles.isEmpty()) incompleteRegions.addAll(jungles.values());
-		// if (!trails.isEmpty()) incompleteRegions.addAll(trails.values());
-		// if (!lakes.isEmpty()) incompleteRegions.addAll(lakes.values());
-		return incompleteRegions;
-	}
-
-	public ArrayList<Region> getComplete() {
-		return completedRegions;
-	}
 	/**
 	 * BoardObject() constructor, initialize the variables
 	 */
@@ -68,22 +35,13 @@ public class BoardObject {
 		availableSpots = new ArrayList<Location>();
 		incompleteRegions = new HashMap<Integer, Region>();
 		completedRegions = new ArrayList<Region>();
-		// jungles = new HashMap<Integer, JungleRegion>();
-		// dens = new HashMap<Integer, DenRegion>();
-		// trails = new HashMap<Integer, TrailRegion>();
-		// lakes = new HashMap<Integer, LakeRegion>();
-
 		availableSpots.add(new Location(0,0));
-
 		board = new SquareTile[ROWSIZE][COLSIZE];
-
 		tileStack = new TileStack();
-
 		tiles = tileStack.getTiles();
 		state = false;
 
 	} //end constructor
-
 	/**
 	 *	getAS() returns the array list of available spots
 	 *	@return the ArrayList of available spots
@@ -100,9 +58,21 @@ public class BoardObject {
 		this.availableSpots = availableSpots;
 	}
 
-	// public Map<String, ArrayList<SquareTile>> getMap() {
-	// 	return tiles;
-	// }
+	public Map<Integer, Region> getIncomplete() {
+		return incompleteRegions;
+	}
+
+	public void setIncomplete(Map<Integer, Region> incompleteRegions) {
+		this.incompleteRegions = incompleteRegions;
+	}
+
+	public ArrayList<Region> getComplete() {
+		return completedRegions;
+	}
+
+	public void setComplete(ArrayList<Region> completedRegions) {
+		this.completedRegions = completedRegions;
+	}
 
 	/**
 	 *  valid() serves as our placement validity checker. It currently
@@ -117,25 +87,22 @@ public class BoardObject {
 	 */
 	public boolean valid(SquareTile tile, Location coord) {
 
+		//check to see if there is any available tiles of the input type
 		String type = tile.getType();
         ArrayList<SquareTile> tileMatches = tileStack.getList(type);
-
 		if(tileMatches.isEmpty()) return false;
 
 		//get queried placement
 		int row = coord.getRow();
 		int col = coord.getCol();
 
-		//if out of bounds of the board, return false automatically
+		//if out of bounds of the board, or location filled return false automatically
 		if ((row<0 || row>ROWSIZE-1) || (col<0 || col>COLSIZE-1)) return false;
-		//if spot is already filled, return false
 		if(board[row][col] != null) return false;
 
-		//find if the requested spot is in the list of available spots
+		//find if the requested spot is in the list of accumulated available spots
 		boolean found = false;
 		int index = 0;
-
-
 		for (int i = 0; i < availableSpots.size(); i++) {
 			if (availableSpots.get(i).equals(coord)) {
 				index = i;
@@ -145,7 +112,6 @@ public class BoardObject {
 		}
 
 		//if wasn't found in the list, return false
-
 		if (!found) return false;
 
 		//get adjacent tiles
