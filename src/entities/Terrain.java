@@ -10,6 +10,7 @@ public abstract class Terrain
 {
 	// The attributes
 	protected int theTerrainID;
+	protected int theRegionID;
 	protected ArrayList<Integer> theTileConnections;
 	protected TigerObject theTiger;
 	protected char theType;

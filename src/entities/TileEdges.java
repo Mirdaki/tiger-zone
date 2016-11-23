@@ -72,15 +72,18 @@ public class TileEdges {
 
 		 0:
 		*/
-
-		if (edges.getType(index % 9) == this.getType((index + 4) % 9)) return true;
+		if (edges.getType(index % 8) == this.getType((index + 4) % 8)) return true;
 		return false;
+	}
+
+	public char getEdge(int index) {
+		return terrainPoints[index].getType();
 	}
 
 	@Override
 	public String toString() {
 
-		return	"TOP:\t" + terrainPoints[NORTHWEST].getType() + "\t" + terrainPoints[NORTH].getType() + " " + terrainPoints[NORTHEAST].getType() + "\n" +
+		return	"TOP:\t" + terrainPoints[NORTHWEST].getType() + "\t" + terrainPoints[NORTH].getType() + "\t" + terrainPoints[NORTHEAST].getType() + "\n" +
 		"MID:\t" + terrainPoints[WEST].getType() + "\t\t" + terrainPoints[EAST].getType() + "\n" +
 		"BOT:\t" + terrainPoints[SOUTHWEST].getType() + "\t" + terrainPoints[SOUTH].getType() + "\t" + terrainPoints[SOUTHEAST].getType();
 	}
