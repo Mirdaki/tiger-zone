@@ -163,11 +163,18 @@ public abstract class Region
 
 	// Remove all Tigers
 	/**
-	 * Removes all Tigers from this region. Not the individual tiles.
+	 * Removes all Tigers from this region and terrains. 
 	 */
 	public void removeAllTigers()
 	{
 		theTigers.clear();
+		for (int i = 0; i < theTerrains.size(); i++)
+		{
+			if (theTerrains.get(i).hasTiger())
+			{
+				theTerrains.get(i).removeTiger();
+			}
+		}
 	}
 
 	/**
@@ -198,7 +205,7 @@ public abstract class Region
 	 * @param aTerrains An arrayList of terrain
 	 */
 	public void addTerrain(ArrayList<Terrain> aTerrains, int regionID) {
-		
+
 		int neededSize = aTerrains.size();
 
 		for (int i = 0; i < neededSize; i++) {
