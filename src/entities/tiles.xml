@@ -3,12 +3,6 @@
 <tileStack>
     <tile type="JJJJ-" count="1">
         <center>J</center>
-        <edges>
-            <north>J J J</north>
-            <east>J J J</east>
-            <south>J J J</south>
-            <west>J J J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="1">0 1 2 3 4 5 6 7</jungle>
@@ -18,12 +12,6 @@
 
     <tile type="JJJJX" count="4">
         <center>X</center>
-        <edges>
-            <north>J J J</north>
-            <east>J J J</east>
-            <south>J J J</south>
-            <west>J J J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="2">0 1 2 3 4 5 6 7</jungle>
@@ -33,12 +21,6 @@
 
     <tile type="JJTJX" count="2">
         <center>X</center>
-        <edges>
-            <north>J J J</north>
-            <east>J J J</east>
-            <south>J T J</south>
-            <west>J J J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="3">0 1 2 3 4 6 7</jungle>
@@ -51,12 +33,6 @@
 
     <tile type="TTTT-" count="1">
         <center>T</center>
-        <edges>
-            <north>J T J</north>
-            <east>J T J</east>
-            <south>J T J</south>
-            <west>J T J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="4">0</jungle>
@@ -75,12 +51,6 @@
 
     <tile type="TJTJ-" count="8">
         <center>T</center>
-        <edges>
-            <north>J T J</north>
-            <east>J J J</east>
-            <south>J T J</south>
-            <west>J J J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="8">0 6 7</jungle>
@@ -94,12 +64,6 @@
 
     <tile type="TJJT-" count="9">
         <center>T</center>
-        <edges>
-            <north>J T J</north>
-            <east>J J J</east>
-            <south>J J J</south>
-            <west>J T J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="10">0</jungle>
@@ -113,12 +77,6 @@
 
     <tile type="TJTT-" count="4">
         <center>T</center>
-        <edges>
-            <north>J T J</north>
-            <east>J J J</east>
-            <south>J T J</south>
-            <west>J T J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="12">0</jungle>
@@ -135,12 +93,6 @@
 
     <tile type="LLLL-" count="1">
         <center>L</center>
-        <edges>
-            <north>L L L</north>
-            <east>L L L</east>
-            <south>L L L</south>
-            <west>L L L</west>
-        </edges>
         <regions>
             <lakes>
                 <lake id="1" type="C">0 1 2 3 4 5 6 7</lake>
@@ -150,12 +102,6 @@
 
     <tile type="JLLL-" count="4">
         <center>J</center>
-        <edges>
-            <north>J J J</north>
-            <east>L L L</east>
-            <south>L L L</south>
-            <west>L L L</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="15">0 1 2</jungle>
@@ -168,12 +114,6 @@
 
     <tile type="LLJJ-" count="5">
         <center>J</center>
-        <edges>
-            <north>L L L</north>
-            <east>L L L</east>
-            <south>J J J</south>
-            <west>J J J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="16">0 4 5 6 7</jungle>
@@ -186,12 +126,6 @@
 
     <tile type="JLJL-" count="3">
         <center>L</center>
-        <edges>
-            <north>J J J</north>
-            <east>L L L</east>
-            <south>J J J</south>
-            <west>L L L</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="17">0 1 2</jungle>
@@ -205,12 +139,6 @@
 
     <tile type="LJLJ-" count="3">
         <center>J</center>
-        <edges>
-            <north>L L L</north>
-            <east>J J J</east>
-            <south>L L L</south>
-            <west>J J J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="19">3 7</jungle>
@@ -224,12 +152,6 @@
 
     <tile type="LJJJ-" count="5">
         <center>J</center>
-        <edges>
-            <north>L L L</north>
-            <east>J J J</east>
-            <south>J J J</south>
-            <west>J J J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="20">0 2 3 4 5 6 7</jungle>
@@ -242,12 +164,6 @@
 
     <tile type="JLLJ-" count="2">
         <center>J</center>
-        <edges>
-            <north>J J J</north>
-            <east>L L L</east>
-            <south>L L L</south>
-            <west>J J J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="21">0 1 2 4 6 7</jungle>
@@ -261,12 +177,6 @@
 
     <tile type="TLJT-" count="1">
         <center>T</center>
-        <edges>
-            <north>J T J</north>
-            <east>L L L</east>
-            <south>J J J</south>
-            <west>J T J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="22">0</jungle>
@@ -283,12 +193,6 @@
 
     <tile type="TLJTP" count="2">
         <center>T</center>
-        <edges>
-            <north>J T J</north>
-            <east>L L L</east>
-            <south>J J J</south>
-            <west>J T J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="24">0</jungle>
@@ -305,12 +209,6 @@
 
     <tile type="JLTT-" count="1">
         <center>T</center>
-        <edges>
-            <north>J J J</north>
-            <east>L L L</east>
-            <south>J T J</south>
-            <west>J T J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="26">0 1 2 4</jungle>
@@ -327,12 +225,6 @@
 
     <tile type="JLTTB" count="2">
         <center>T</center>
-        <edges>
-            <north>J J J</north>
-            <east>L L L</east>
-            <south>J T J</south>
-            <west>J T J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="28">0 1 2 4</jungle>
@@ -349,12 +241,6 @@
 
     <tile type="TLTJ-" count="3">
         <center>T</center>
-        <edges>
-            <north>J T J</north>
-            <east>L L L</east>
-            <south>J T J</south>
-            <west>J J J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="30">0 6 7</jungle>
@@ -371,12 +257,6 @@
 
     <tile type="TLTJD" count="2">
         <center>T</center>
-        <edges>
-            <north>J T J</north>
-            <east>L L L</east>
-            <south>J T J</south>
-            <west>J J J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="32">0 6 7</jungle>
@@ -391,14 +271,8 @@
         </regions>
     </tile>
 
-    <tile type="TLLL-" count="3">
+    <tile type="TLLL-" count="1">
         <center>L</center>
-        <edges>
-            <north>J T J</north>
-            <east>L L L</east>
-            <south>L L L</south>
-            <west>L L L</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="34">0</jungle>
@@ -415,12 +289,6 @@
 
     <tile type="TLTT-" count="1">
         <center>T</center>
-        <edges>
-            <north>J T J</north>
-            <east>L L L</east>
-            <south>J T J</south>
-            <west>J T J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="36">0</jungle>
@@ -440,12 +308,6 @@
 
     <tile type="TLTTP" count="2">
         <center>T</center>
-        <edges>
-            <north>J T J</north>
-            <east>L L L</east>
-            <south>J T J</south>
-            <west>J T J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="39">0</jungle>
@@ -465,12 +327,6 @@
 
     <tile type="TLLT-" count="3">
         <center>J</center>
-        <edges>
-            <north>J T J</north>
-            <east>L L L</east>
-            <south>L L L</south>
-            <west>J T J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="42">0</jungle>
@@ -487,12 +343,6 @@
 
     <tile type="TLLTB" count="2">
         <center>J</center>
-        <edges>
-            <north>J T J</north>
-            <east>L L L</east>
-            <south>L L L</south>
-            <west>J T J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="44">0</jungle>
@@ -509,12 +359,6 @@
 
     <tile type="LJTJ-" count="1">
         <center>T</center>
-        <edges>
-            <north>L L L</north>
-            <east>J J J</east>
-            <south>J T J</south>
-            <west>J J J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="46">0 6 7</jungle>
@@ -531,12 +375,6 @@
 
     <tile type="LJTJD" count="2">
         <center>T</center>
-        <edges>
-            <north>L L L</north>
-            <east>J J J</east>
-            <south>J T J</south>
-            <west>J J J</west>
-        </edges>
         <regions>
             <jungles>
                 <jungle id="48">0 6 7</jungle>
@@ -551,4 +389,19 @@
         </regions>
     </tile>
 
+    <tile type="TLLLC" count="2">
+        <center>L</center>
+        <regions>
+            <jungles>
+                <jungle id="34">0</jungle>
+                <jungle id="35">2</jungle>
+            </jungles>
+            <lakes>
+                <lake id="16" type="C">3 4 5 6 7</lake>
+            </lakes>
+            <trails>
+                <trail id="17" type="E">1</trail>
+            </trails>
+        </regions>
+    </tile>
 </tileStack>

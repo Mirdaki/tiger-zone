@@ -55,7 +55,6 @@ public class SquareTile extends TileObject {
 					coord = new Location();
 					this.type = type;
 					special = type.charAt(4);
-					// edges = new edge[4];
 
 					//setup terrain data
 					NodeList jungles = eElement.getElementsByTagName("jungle"); //find all jungle terrains
@@ -74,7 +73,7 @@ public class SquareTile extends TileObject {
 						StringTokenizer st = new StringTokenizer(test);
 						while (st.hasMoreTokens()) {
 							int temp = Integer.parseInt(st.nextToken());
-							spots.add(Math.floorMod((temp - orientation) * 2 + 8),8));
+							spots.add(Math.floorMod((temp - 2 * orientation) + 8,8));
 						}
 						terrains[i++] = new JungleTerrain(spots);
 					}
@@ -89,7 +88,7 @@ public class SquareTile extends TileObject {
 						StringTokenizer st = new StringTokenizer(test);
 						while (st.hasMoreTokens()) {
 							int temp = Integer.parseInt(st.nextToken());
-							spots.add(Math.floorMod((temp - (orientation) * 3 + 12),12));
+							spots.add(Math.floorMod((temp - 2 * orientation) + 8,8));
 						}
 
 						if (trailType == 'C') terrains[i++] = new TrailTerrain(spots,false);
@@ -106,7 +105,7 @@ public class SquareTile extends TileObject {
 						StringTokenizer st = new StringTokenizer(test);
 						while (st.hasMoreTokens()) {
 							int temp = Integer.parseInt(st.nextToken());
-							spots.add(Math.floorMod((temp - (orientation) * 3 + 12),12));
+							spots.add(Math.floorMod((temp - 2 * orientation) + 8,8));
 						}
 
 						if (lakeType == 'C') terrains[i++] = new LakeTerrain(spots,false);
@@ -114,7 +113,10 @@ public class SquareTile extends TileObject {
 
 					}
 
-					Terrain[] edgeTerrains = new Terrain[9];
+
+					//
+
+					Terrain[] edgeTerrains = new Terrain[8];
 
 					for (Terrain terrain : terrains) {
 						ArrayList<Integer> tileConnections = terrain.getTileConnections();
@@ -126,10 +128,6 @@ public class SquareTile extends TileObject {
 
 					String mid = eElement.getElementsByTagName("center").item(0).getTextContent();
 					edges = new TileEdges(edgeTerrains);
-					// edges[0] = new edge(edgeTerrains[0], edgeTerrains[1], edgeTerrains[2]);
-					// edges[1] = new edge(edgeTerrains[3], edgeTerrains[4], edgeTerrains[5]);
-					// edges[2] = new edge(edgeTerrains[6], edgeTerrains[7], edgeTerrains[8]);
-					// edges[3] = new edge(edgeTerrains[9], edgeTerrains[10], edgeTerrains[11]);
 					center = mid.charAt(0);
 
                 }
@@ -155,8 +153,6 @@ public class SquareTile extends TileObject {
 		type = eElement.getAttribute("type");
 		special = type.charAt(4);
 
-		//setup edge data, mappings: {i=O:north, i=1:east, i=2:south, i=4:west}
-
 		//setup terrain data
 		NodeList jungles = eElement.getElementsByTagName("jungle"); //find all jungle terrains
 		NodeList trails = eElement.getElementsByTagName("trail"); //find all trail terrains
@@ -174,7 +170,7 @@ public class SquareTile extends TileObject {
 			StringTokenizer st = new StringTokenizer(test);
 			while (st.hasMoreTokens()) {
 				int temp = Integer.parseInt(st.nextToken());
-				spots.add(Math.floorMod((temp - (orientation) * 3 + 12),12));
+				spots.add(Math.floorMod((temp - 2 * orientation) + 8,8));
 			}
 			terrains[i++] = new JungleTerrain(spots);
 		}
@@ -183,13 +179,13 @@ public class SquareTile extends TileObject {
 		for (int j = 0; j < trails.getLength(); j++) {
 			Element element = (Element)trails.item(j);
 			String test = element.getTextContent();
-			char trailType = 	eElement.getAttribute("type").charAt(0);
+			char trailType = eElement.getAttribute("type").charAt(0);
 
 			ArrayList<Integer> spots = new ArrayList<Integer>();
 			StringTokenizer st = new StringTokenizer(test);
 			while (st.hasMoreTokens()) {
 				int temp = Integer.parseInt(st.nextToken());
-				spots.add(Math.floorMod((temp - (orientation) * 3 + 12),12));
+				spots.add(Math.floorMod((temp - 2 * orientation) + 8,8));
 			}
 
 			if (trailType == 'C') terrains[i++] = new TrailTerrain(spots,false);
@@ -206,7 +202,7 @@ public class SquareTile extends TileObject {
 			StringTokenizer st = new StringTokenizer(test);
 			while (st.hasMoreTokens()) {
 				int temp = Integer.parseInt(st.nextToken());
-				spots.add(Math.floorMod((temp - (orientation) * 3 + 12),12));
+				spots.add(Math.floorMod((temp - 2 * orientation) + 8,8));
 			}
 
 			if (lakeType == 'C') terrains[i++] = new LakeTerrain(spots,false);
@@ -214,22 +210,21 @@ public class SquareTile extends TileObject {
 
 		}
 
-		Terrain[] edgeTerrains = new Terrain[12];
+
+		//
+
+		Terrain[] edgeTerrains = new Terrain[8];
 
 		for (Terrain terrain : terrains) {
 			ArrayList<Integer> tileConnections = terrain.getTileConnections();
 
 			for (int j = 0; j < tileConnections.size(); j++) {
-				edgeTerrains[Math.floorMod((tileConnections.get(j) - orientation + 12),12)] = terrain;
+				edgeTerrains[tileConnections.get(j)] = terrain;
 			}
 		}
 
 		String mid = eElement.getElementsByTagName("center").item(0).getTextContent();
 		edges = new TileEdges(edgeTerrains);
-		// edges[Math.floorMod((0 - orientation + 4),4)] = new edge(edgeTerrains[0], edgeTerrains[1], edgeTerrains[2]);
-		// edges[Math.floorMod((1 - orientation + 4),4)] = new edge(edgeTerrains[3], edgeTerrains[4], edgeTerrains[5]);
-		// edges[Math.floorMod((2 - orientation + 4),4)] = new edge(edgeTerrains[6], edgeTerrains[7], edgeTerrains[8]);
-		// edges[Math.floorMod((3 - orientation + 4),4)] = new edge(edgeTerrains[9], edgeTerrains[10], edgeTerrains[11]);
 		center = mid.charAt(0);
 
 	}//end constructor
@@ -274,6 +269,14 @@ public class SquareTile extends TileObject {
 	// 	 return edges[Math.floorMod((edge + orientation + 4),4)];
 	//  }
 
+	public Terrain getEdge(int index) {
+		return edges.getTerrain(index);
+	}
+
+	public char getEdgeType(int index) {
+		return edges.getTerrain(index).getType();
+	}
+
 	@Override
 	public String toString() {
 		return "ID: " + this.tileID +
@@ -283,6 +286,7 @@ public class SquareTile extends TileObject {
 		"\nCenter: " + this.center +
 		"\nOwner: " + this.owner +
 		"\nSpecialty: " + this.special +
+		"\nTerrain(s): " + this.terrains.length +
 		"\n\nEdges:\n" + this.edges;
 	}//end printOut
 }//end SquareTile

@@ -25,35 +25,9 @@ public class BoardObject {
 
 	protected ArrayList<Location> availableSpots;
 	protected ArrayList<Region> completedRegions;
-//	protected ArrayList<Region> incompleteRegions;
 	protected Map<Integer, Region> incompleteRegions;
 
-	// protected Map<Integer, DenRegion> dens;
-	// protected Map<Integer, TrailRegion> trails;
-	// protected Map<Integer, JungleRegion> jungles;
-	// protected Map<Integer, LakeRegion> lakes;
-
-	// public Map<Integer, DenRegion> getDens() {
-	// 	return dens;
-	// }
-	//
-	// public Map<Integer, TrailRegion> getTrails() {
-	// 	return trails;
-	// }
-	//
-	// public Map<Integer, JungleRegion> getJungles() {
-	// 	return jungles;
-	// }
-	//
-	// public Map<Integer, LakeRegion> getLakes() {
-	// 	return lakes;
-	// }
-
 	public Map<Integer, Region> getIncomplete() {
-		// if (!dens.isEmpty()) incompleteRegions.addAll(dens.values());
-		// if (!jungles.isEmpty()) incompleteRegions.addAll(jungles.values());
-		// if (!trails.isEmpty()) incompleteRegions.addAll(trails.values());
-		// if (!lakes.isEmpty()) incompleteRegions.addAll(lakes.values());
 		return incompleteRegions;
 	}
 
@@ -68,20 +42,11 @@ public class BoardObject {
 		availableSpots = new ArrayList<Location>();
 		incompleteRegions = new HashMap<Integer, Region>();
 		completedRegions = new ArrayList<Region>();
-		// jungles = new HashMap<Integer, JungleRegion>();
-		// dens = new HashMap<Integer, DenRegion>();
-		// trails = new HashMap<Integer, TrailRegion>();
-		// lakes = new HashMap<Integer, LakeRegion>();
-
 		availableSpots.add(new Location(0,0));
-
 		board = new SquareTile[ROWSIZE][COLSIZE];
-
 		tileStack = new TileStack();
-
 		tiles = tileStack.getTiles();
 		state = false;
-
 	} //end constructor
 
 	/**
@@ -99,10 +64,6 @@ public class BoardObject {
 	public void setAS(ArrayList<Location> availableSpots) {
 		this.availableSpots = availableSpots;
 	}
-
-	// public Map<String, ArrayList<SquareTile>> getMap() {
-	// 	return tiles;
-	// }
 
 	/**
 	 *  valid() serves as our placement validity checker. It currently
@@ -156,10 +117,10 @@ public class BoardObject {
 		if(col > 0) left = board[row][col - 1];
 
 		//if tile edges dont match up with adjacent touching edges, return false
-		if(up != null && !up.getEdge(2).equals(tile.getEdge(0))) return false;
-		if(right != null && !right.getEdge(3).equals(tile.getEdge(1))) return false;
-		if(down != null && !down.getEdge(0).equals(tile.getEdge(2))) return false;
-		if(left != null && !left.getEdge(1).equals(tile.getEdge(3))) return false;
+		if(up != null && !(up.getEdge(TileEdges.SOUTH) == tile.getEdge(TileEdges.NORTH))) return false;
+		if(right != null && !(right.getEdge(TileEdges.WEST) == tile.getEdge(TileEdges.EAST))) return false;
+		if(down != null && !(down.getEdge(TileEdges.NORTH) == tile.getEdge(TileEdges.SOUTH))) return false;
+		if(left != null && !(left.getEdge(TileEdges.EAST) == tile.getEdge(TileEdges.WEST))) return false;
 
 		//else remove location from available spots list, return true
 		availableSpots.remove(index);
@@ -264,68 +225,86 @@ public class BoardObject {
 				else if (terrain instanceof LakeTerrain) incompleteRegions.put(terrain.getTerrainID(),new LakeRegion(terrain));
 				else if (terrain instanceof TrailTerrain) incompleteRegions.put(terrain.getTerrainID(),new TrailRegion(terrain));
 				else if (terrain instanceof JungleTerrain) incompleteRegions.put(terrain.getTerrainID(),new JungleRegion(terrain));
-
 			}
 
-			if(connectedLeft) {
-				edge edge = left.getEdge(1);
-				edge edge2 = tile.getEdge(3);
+			if (connectedLeft) {
 
-				Terrain top = edge.getTop(), mid = edge.getMid(), bot = edge.getBot();
-				Terrain top2 = edge2.getTop(), mid2 = edge2.getMid(), bot2 = edge2.getBot();
+				Terrain topTerrain = left.getEdge(TileStack.NORTHEAST);
+				Terrain midTerrain = left.getEdge(TileStack.EAST);
+				Terrain botTerrain = left.getEdge(TileStack.SOUTHEAST);
 
-				if (top.getType() == top2.getType()) {
+				Terrain topTerrain2 = left.getEdge(TileStack.NORTHEAST);
+				Terrain midTerrain2 = left.getEdge(TileStack.EAST);
+				Terrain botTerrain2 = left.getEdge(TileStack.SOUTHEAST);
 
-					// Set<Integer> keys = incompleteRegions.keySet();
-					//         for(Integer key: keys){
-					//             System.out.println(key);
-					//         }
-
-					/*
-
-					NOTE: NEED TO FUCKING FIX THIS. NEED TO SOMEHOW CHANGE EVERY GOD DAMN FUCKING EDGE POINT
-					THAT CONNECTS WITH A GIVEN TERRAIN.
-
-					IDEA: PLACE ALL EDGE POINTS INTO A SINGLE ARRAY from [0,11], ACCESS THEM THAT WAY. OTHERWISE
-					THIS SHIT IS GOING TO GET TOO CRAZY.
+				ArrayList<Integer> topConnections = topTerrain2.getTileCOnnections();
 
 
-					*/
-					ArrayList<Integer> connections = top2.getTileConnections();
+				Region merge = incompleteRegions.get(topTerrain2.getTerrainID());
+				Region merger = incompleteRegions.get(topTerrain.getTerrainID());
+				// merger.mergeRegion(merge);
 
-					Region merge = incompleteRegions.get(top2.getTerrainID());
-					Region merger = incompleteRegions.get(top.getTerrainID());
-
-				// 	if (merger == null)
-				// 	{
-				// 		edge[] edges = tile.getEdges();
-				// 	for (Integer integer : connections) {
-				// 		if (integer < 3) {
-				// 			ArrayList<Terrain> points = edges[0].getPoints();
-				// 			points(integer,)
-				// 		}
-				// 		System.out.print(" " +integer);
- 			// 		}
-				// }
-
-					 	if (merger != null) merger.mergeRegion(merge);
-				}
-
-				if (mid.getType() == mid2.getType()) {
-					Region merge = incompleteRegions.get(mid2.getTerrainID());
-					Region merger = incompleteRegions.get(mid.getTerrainID());
-					if (merger != null) merger.mergeRegion(merge);
-				}
-
-				if (bot.getType() == bot2.getType()) {
-					Region merge = incompleteRegions.get(bot2.getTerrainID());
-					Region merger = incompleteRegions.get(bot.getTerrainID());
-					if (merger != null) merger.mergeRegion(merge);
-				}
-
-				incompleteRegions.remove(top2.getTerrainID());
 
 			}
+			// if(connectedLeft) {
+			// 	edge edge = left.getEdge(1);
+			// 	edge edge2 = tile.getEdge(3);
+			//
+			// 	Terrain top = edge.getTop(), mid = edge.getMid(), bot = edge.getBot();
+			// 	Terrain top2 = edge2.getTop(), mid2 = edge2.getMid(), bot2 = edge2.getBot();
+			//
+			// 	if (top.getType() == top2.getType()) {
+			//
+			// 		// Set<Integer> keys = incompleteRegions.keySet();
+			// 		//         for(Integer key: keys){
+			// 		//             System.out.println(key);
+			// 		//         }
+			//
+			// 		/*
+			//
+			// 		NOTE: NEED TO FUCKING FIX THIS. NEED TO SOMEHOW CHANGE EVERY GOD DAMN FUCKING EDGE POINT
+			// 		THAT CONNECTS WITH A GIVEN TERRAIN.
+			//
+			// 		IDEA: PLACE ALL EDGE POINTS INTO A SINGLE ARRAY from [0,11], ACCESS THEM THAT WAY. OTHERWISE
+			// 		THIS SHIT IS GOING TO GET TOO CRAZY.
+			//
+			//
+			// 		*/
+			// 		ArrayList<Integer> connections = top2.getTileConnections();
+			//
+			// 		Region merge = incompleteRegions.get(top2.getTerrainID());
+			// 		Region merger = incompleteRegions.get(top.getTerrainID());
+			//
+			// 	// 	if (merger == null)
+			// 	// 	{
+			// 	// 		edge[] edges = tile.getEdges();
+			// 	// 	for (Integer integer : connections) {
+			// 	// 		if (integer < 3) {
+			// 	// 			ArrayList<Terrain> points = edges[0].getPoints();
+			// 	// 			points(integer,)
+			// 	// 		}
+			// 	// 		System.out.print(" " +integer);
+ 		// 	// 		}
+			// 	// }
+			//
+			// 		 	if (merger != null) merger.mergeRegion(merge);
+			// 	}
+			//
+			// 	if (mid.getType() == mid2.getType()) {
+			// 		Region merge = incompleteRegions.get(mid2.getTerrainID());
+			// 		Region merger = incompleteRegions.get(mid.getTerrainID());
+			// 		if (merger != null) merger.mergeRegion(merge);
+			// 	}
+			//
+			// 	if (bot.getType() == bot2.getType()) {
+			// 		Region merge = incompleteRegions.get(bot2.getTerrainID());
+			// 		Region merger = incompleteRegions.get(bot.getTerrainID());
+			// 		if (merger != null) merger.mergeRegion(merge);
+			// 	}
+			//
+			// 	incompleteRegions.remove(top2.getTerrainID());
+			//
+			// }
 
 			//set the tile's coordinate to it's new spot, place it
 			tile.setCoord(coord);
