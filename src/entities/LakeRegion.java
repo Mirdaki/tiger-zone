@@ -10,14 +10,11 @@ public class LakeRegion extends Region
 
 	// Lake specific properties
 	protected ArrayList<Animal> theAnimals;
-<<<<<<< HEAD
 	protected boolean isLakeEnd;
 	protected int numEndsNeeded;
-=======
 	protected int endsNeeded;
 	protected ArrayList<CrocodileObject> theCrocodiles; // Must add Crocodiles in addTerrain
 
->>>>>>> origin/master
 	// Constructor
 
 	/**
@@ -117,7 +114,6 @@ public class LakeRegion extends Region
 	
 	public void markComplete() {
 
-<<<<<<< HEAD
 		if(!isLakeEnd) { 
 			ArrayList<Integer> checker = new ArrayList<Integer>();
 			checker.addAll(theTerrains.get(0).getTileConnections());
@@ -143,7 +139,9 @@ public class LakeRegion extends Region
 				if(((LakeTerrain) theTerrains.get(i)).isEndOfLake()) { 
 					numEnds++;
 				}			
-=======
+			}
+		}
+	}
 	/**
 	 * Check if there are any Crocodiles in this region.
 	 * @return boolean

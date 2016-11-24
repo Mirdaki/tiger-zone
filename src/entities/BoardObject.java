@@ -21,11 +21,12 @@ public class BoardObject {
 	protected boolean state; //east now this serves as just a if we started or not
 	protected Player[] players;
 	protected TigerObject tiger;
-
 	protected Map<String, ArrayList<SquareTile>> tiles;
 	protected Map<Integer, Region> incompleteRegions;
 	protected ArrayList<Location> availableSpots;
 	protected ArrayList<Region> completedRegions;
+	
+	protected String whyInvalid;
 
 	/**
 	 * BoardObject() constructor, initialize the variables
@@ -40,8 +41,19 @@ public class BoardObject {
 		tileStack = new TileStack();
 		tiles = tileStack.getTiles();
 		state = false;
+		whyInvalid = "";
 
 	} //end constructor
+	
+	public String getReason() { 
+		String reason = whyInvalid;
+		setReason("");
+		return reason;
+	}
+	
+	public void setReason(String whyInvalid) { 
+		this.whyInvalid = whyInvalid;
+	}
 	/**
 	 *	getAS() returns the array list of available spots
 	 *	@return the ArrayList of available spots
@@ -90,15 +102,25 @@ public class BoardObject {
 		//check to see if there is any available tiles of the input type
 		String type = tile.getType();
 		ArrayList<SquareTile> tileMatches = tileStack.getList(type);
-		if(tileMatches.isEmpty()) return false;
+		if(tileMatches.isEmpty()) { 
+			setReason("No tile matches found. Did you use all of them?");
+			return false;
+		}
 
 		//get queried placement
 		int row = coord.getRow();
 		int col = coord.getCol();
 
 		//if out of bounds of the board, or location filled return false automatically
-		if ((row<0 || row>ROWSIZE-1) || (col<0 || col>COLSIZE-1)) return false;
-		if(board[row][col] != null) return false;
+		if ((row<0 || row>ROWSIZE-1) || (col<0 || col>COLSIZE-1)) {
+			setReason("Out of board range. Resize the board?");
+			return false;
+		}
+		
+		if(board[row][col] != null) {
+			setReason("Spot is filled. Try another location.");
+			return false;
+		}
 
 		//find if the requested spot is in the list of accumulated available spots
 		boolean found = false;
@@ -112,7 +134,10 @@ public class BoardObject {
 		}
 
 		//if wasn't found in the list, return false
-		if (!found) return false;
+		if (!found) { 
+			setReason("Requested location isn't in the available spots list");
+			return false;
+		}
 
 		//get adjacent tiles
 		SquareTile north = null, east = null, south = null, west = null;
@@ -122,11 +147,12 @@ public class BoardObject {
 		if(col > 0) west = board[row][col - 1];
 
 		//if tile edges dont match north with adjacent touching edges, return false
-		if(north != null && north.getEdgeType(TileEdges.SOUTH) != tile.getEdgeType(TileEdges.NORTH)) return false;
+		setReason("Can't place for given orientation.");
+		if(north != null && north.getEdgeType(TileEdges.SOUTH) != tile.getEdgeType(TileEdges.NORTH))  return false;
 		if(east != null && east.getEdgeType(TileEdges.WEST) != tile.getEdgeType(TileEdges.EAST)) return false;
 		if(south != null && south.getEdgeType(TileEdges.NORTH) != tile.getEdgeType(TileEdges.SOUTH)) return false;
 		if(west != null && west.getEdgeType(TileEdges.EAST) != tile.getEdgeType(TileEdges.WEST)) return false;
-
+		setReason("");
 
 		//else remove location from available spots list, return true
 		availableSpots.remove(index);
@@ -261,6 +287,7 @@ public class BoardObject {
 			
 			return true;
 		}
+		setReason("Wasn't able to place.");
 		return false;
 	}
 	public void updateDens() {

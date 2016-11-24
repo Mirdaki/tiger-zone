@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.StringTokenizer;
 public class TigerZone {
 
 	public TigerZone() {
@@ -14,33 +15,51 @@ public class TigerZone {
 
 	public static void main(String[] args) {
 
-
 		BoardObject test = new BoardObject(); //create the board
 		test.start();
 
-		SquareTile test1 = test.getTile("JJJJX",0);
-		test.place(test1,new Location(0,1));
-
-		SquareTile test2 = test.getTile("JJJJX",0);
-		test.place(test2,new Location(-1,0));
-
-		SquareTile test3 = test.getTile("JJJJX",0);
-		test.place(test3,new Location(1,0));
-
-		SquareTile test4 = test.getTile("JJJJ-",0);
-		test.place(test4,new Location(0,-1));
-
-		SquareTile test5 = test.getTile("TJJT-",0);
-		test.place(test5,new Location(-1,-1));
-
-		SquareTile test6 = test.getTile("TJJT-",1);
-		test.place(test6,new Location(1,-1));
-
-		SquareTile test7 = test.getTile("TJJT-",2);
-		test.place(test7,new Location(1,1));
-
-		SquareTile test8 = test.getTile("TJJT-",3);
-		test.place(test8,new Location(-1,1));
+		Scanner in = new Scanner(System.in);
+		String input = "";
+		
+		while(!input.equals("exit")) { 
+			System.out.println("Tile to place: [TYPE] [ORIENTATION] [X] [Y]");
+			input = in.nextLine();
+			
+			
+			String[] result = input.split("\\s");
+			SquareTile testTile = test.getTile(result[0],Integer.parseInt(result[1]));
+			Location location = new Location(Integer.parseInt(result[2]),Integer.parseInt(result[3]));
+			
+			if(!test.place(testTile, location)) { 
+				System.out.println("Couldn't place tile. REASON: " + test.getReason());
+			}
+			else test.print();
+		}
+		
+		
+//		SquareTile test1 = test.getTile("JJJJX",0);
+//		test.place(test1,new Location(0,1));
+//
+//		SquareTile test2 = test.getTile("JJJJX",0);
+//		test.place(test2,new Location(-1,0));
+//
+//		SquareTile test3 = test.getTile("JJJJX",0);
+//		test.place(test3,new Location(1,0));
+//
+//		SquareTile test4 = test.getTile("JJJJ-",0);
+//		test.place(test4,new Location(0,-1));
+//
+//		SquareTile test5 = test.getTile("TJJT-",0);
+//		test.place(test5,new Location(-1,-1));
+//
+//		SquareTile test6 = test.getTile("TJJT-",1);
+//		test.place(test6,new Location(1,-1));
+//
+//		SquareTile test7 = test.getTile("TJJT-",2);
+//		test.place(test7,new Location(1,1));
+//
+//		SquareTile test8 = test.getTile("TJJT-",3);
+//		test.place(test8,new Location(-1,1));
 
 //		SquareTile test3 = test.getTile("LLJJ-",2);
 //		test.place(test3,new Location(-1,1));
