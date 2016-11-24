@@ -18,7 +18,7 @@ public class BoardObject {
 	public static final int ROWSIZE = 11, COLSIZE = 11;
 	protected TileStack tileStack;
 	protected SquareTile[][] board;
-	protected boolean state; //right now this serves as just a if we started or not
+	protected boolean state; //east now this serves as just a if we started or not
 	protected Player[] players;
 	protected TigerObject tiger;
 
@@ -115,17 +115,17 @@ public class BoardObject {
 		if (!found) return false;
 
 		//get adjacent tiles
-		SquareTile up = null, right = null, down = null, left = null;
-		if(row > 0) up = board[row - 1][col];
-		if(col < COLSIZE-1) right = board[row][col + 1];
-		if(row < ROWSIZE-1) down = board[row + 1][col];
-		if(col > 0) left = board[row][col - 1];
+		SquareTile north = null, east = null, south = null, west = null;
+		if(row > 0) north = board[row - 1][col];
+		if(col < COLSIZE-1) east = board[row][col + 1];
+		if(row < ROWSIZE-1) south = board[row + 1][col];
+		if(col > 0) west = board[row][col - 1];
 
-		//if tile edges dont match up with adjacent touching edges, return false
-		if(up != null && up.getEdgeType(TileEdges.SOUTH) != tile.getEdgeType(TileEdges.NORTH)) return false;
-		if(right != null && right.getEdgeType(TileEdges.WEST) != tile.getEdgeType(TileEdges.EAST)) return false;
-		if(down != null && down.getEdgeType(TileEdges.NORTH) != tile.getEdgeType(TileEdges.SOUTH)) return false;
-		if(left != null && left.getEdgeType(TileEdges.EAST) != tile.getEdgeType(TileEdges.WEST)) return false;
+		//if tile edges dont match north with adjacent touching edges, return false
+		if(north != null && north.getEdgeType(TileEdges.SOUTH) != tile.getEdgeType(TileEdges.NORTH)) return false;
+		if(east != null && east.getEdgeType(TileEdges.WEST) != tile.getEdgeType(TileEdges.EAST)) return false;
+		if(south != null && south.getEdgeType(TileEdges.NORTH) != tile.getEdgeType(TileEdges.SOUTH)) return false;
+		if(west != null && west.getEdgeType(TileEdges.EAST) != tile.getEdgeType(TileEdges.WEST)) return false;
 
 
 		//else remove location from available spots list, return true
@@ -156,15 +156,15 @@ public class BoardObject {
 
 		char special = tile.getSpecial();
 
-		SquareTile up = null, right = null, down = null, left = null;
+		SquareTile north = null, east = null, south = null, west = null;
 		SquareTile nw = null, ne = null, se = null, sw = null;
 
-		if(row > 0) up = board[row - 1][col];
-		if(col < COLSIZE-1) right = board[row][col + 1];
-		if(row < ROWSIZE-1) down = board[row + 1][col];
-		if(col > 0) left = board[row][col - 1];
+		if(row > 0) north = board[row - 1][col];
+		if(col < COLSIZE-1) east = board[row][col + 1];
+		if(row < ROWSIZE-1) south = board[row + 1][col];
+		if(col > 0) west = board[row][col - 1];
 
-		if(up == null || right == null || down == null || left == null) return false;
+		if(north == null || east == null || south == null || west == null) return false;
 
 		if(special == 'X') {
 			if (row > 0 && col > 0) nw = board[row-1][col-1];
@@ -189,76 +189,145 @@ public class BoardObject {
 			String type = tile.getType();
 
 			//get adjacent tiles, if any
-			SquareTile up = null, right = null, down = null, left = null;
-			if(row > 0) up = board[row - 1][col];
-			if(col < COLSIZE-1) right = board[row][col + 1];
-			if(row < ROWSIZE-1) down = board[row + 1][col];
-			if(col > 0) left = board[row][col - 1];
+			SquareTile north = null, east = null, south = null, west = null;
+			if(row > 0) north = board[row - 1][col];
+			if(col < COLSIZE-1) east = board[row][col + 1];
+			if(row < ROWSIZE-1) south = board[row + 1][col];
+			if(col > 0) west = board[row][col - 1];
 
 			//initialize potential locations to be added to available spots list
-			Location addUp = null, addRight = null, addLeft = null, addDown = null;
+			Location addnorth = null, addeast = null, addwest = null, addsouth = null;
 
-			if(row > 0) addUp = new Location(adjustedRow - 1, adjustedCol);
-			if(col < COLSIZE-1) addRight = new Location(adjustedRow, adjustedCol + 1);
-			if(row < ROWSIZE-1) addDown = new Location(adjustedRow + 1, adjustedCol);
-			if(col > 0) addLeft = new Location(adjustedRow, adjustedCol - 1);
+			if(row > 0) addnorth = new Location(adjustedRow - 1, adjustedCol);
+			if(col < COLSIZE-1) addeast = new Location(adjustedRow, adjustedCol + 1);
+			if(row < ROWSIZE-1) addsouth = new Location(adjustedRow + 1, adjustedCol);
+			if(col > 0) addwest = new Location(adjustedRow, adjustedCol - 1);
 
-			//remove potential duplicate values (is there a better way to do this?)
+			//remove potential dnorthlicate values (is there a better way to do this?)
 			for (int i = 0; i < availableSpots.size(); i++) {
-				if ((addUp != null && availableSpots.get(i).equals(addUp)) ||
-						(addLeft != null && availableSpots.get(i).equals(addLeft)) ||
-						(addRight != null && availableSpots.get(i).equals(addRight)) ||
-						(addDown != null && availableSpots.get(i).equals(addDown)) ||
+				if ((addnorth != null && availableSpots.get(i).equals(addnorth)) ||
+						(addwest != null && availableSpots.get(i).equals(addwest)) ||
+						(addeast != null && availableSpots.get(i).equals(addeast)) ||
+						(addsouth != null && availableSpots.get(i).equals(addsouth)) ||
 						availableSpots.get(i).equals(coord))
 					availableSpots.remove(i);
 			}
 
 			//if adjacent tiles were empty, add them to available spots to plac
-			if (up == null && addUp != null) availableSpots.add(addUp);
-			if (right == null && addRight != null) availableSpots.add(addRight);
-			if (down == null && addDown != null) availableSpots.add(addDown);
-			if (left == null && addLeft != null) availableSpots.add(addLeft);
+			if (north == null && addnorth != null) availableSpots.add(addnorth);
+			if (east == null && addeast != null) availableSpots.add(addeast);
+			if (south == null && addsouth != null) availableSpots.add(addsouth);
+			if (west == null && addwest != null) availableSpots.add(addwest);
 
 			Terrain[] terrains = tile.getTerrains();
-			boolean connectedUp = (up != null) ? true : false,
-					connectedRight = (right != null) ? true : false,
-							connectedDown = (down != null) ? true : false,
-									connectedLeft = (left != null) ? true : false;
+			boolean connectednorth = (north != null) ? true : false,
+					connectedeast = (east != null) ? true : false,
+							connectedsouth = (south != null) ? true : false,
+									connectedwest = (west != null) ? true : false;
 
 			for (Terrain terrain : terrains) {
-				if (terrain instanceof DenTerrain) incompleteRegions.put(terrain.getRegionID(),new DenRegion(terrain));
-				else if (terrain instanceof LakeTerrain) incompleteRegions.put(terrain.getRegionID(),new LakeRegion(terrain));
+//				if (terrain instanceof DenTerrain) incompleteRegions.put(terrain.getRegionID(),new DenRegion(terrain));
+				if (terrain instanceof LakeTerrain) incompleteRegions.put(terrain.getRegionID(),new LakeRegion(terrain));
 				else if (terrain instanceof TrailTerrain) incompleteRegions.put(terrain.getRegionID(),new TrailRegion(terrain));
 				else if (terrain instanceof JungleTerrain) incompleteRegions.put(terrain.getRegionID(),new JungleRegion(terrain));
 			}
 
-			if (connectedLeft) { 
-				mergeTileRegions(left,tile,TileEdges.WEST);
+			if (connectedwest) { 
+				mergeTileRegions(west,tile,TileEdges.WEST);
 			}
-			if (connectedRight) { 
-				mergeTileRegions(right,tile,TileEdges.EAST);
+			if (connectedeast) { 
+				mergeTileRegions(east,tile,TileEdges.EAST);
 			}
-			if (connectedUp) { 
-				mergeTileRegions(up,tile,TileEdges.NORTH);
+			if (connectednorth) { 
+				mergeTileRegions(north,tile,TileEdges.NORTH);
 			}
-			if (connectedDown) { 
-				mergeTileRegions(down,tile,TileEdges.SOUTH);
+			if (connectedsouth) { 
+				mergeTileRegions(south,tile,TileEdges.SOUTH);
 			}
-
+			
+			//if den
+			if(tile.getCenter() == 'X') { 
+				DenRegion newDen = new DenRegion(coord);
+				incompleteRegions.put(newDen.getRegionID(), newDen);
+			}
+			
 			//set the tile's coordinate to it's new spot, place it
 			tile.setCoord(coord);
 			board[row][col] = tile;
 			tileStack.removeTile(type);
 
+			updateDens();
+			moveCompleted();
+			
 			return true;
 		}
 		return false;
 	}
+	public void updateDens() {
+		for(Map.Entry<Integer, Region> entry : incompleteRegions.entrySet()) {
+			Region region = entry.getValue();
+			if(region instanceof DenRegion) {
+				ArrayList<Location> newMoore = getMoore(((DenRegion) region).getLocation());
+				((DenRegion) region).setMoore(newMoore);
+			}
+		}		
+	}
+	
+	public void moveCompleted() { 
+		ArrayList<Integer> toRemove = new ArrayList<Integer>();
+		for(Map.Entry<Integer, Region> entry : incompleteRegions.entrySet()) {
+			Region region = entry.getValue();
+			if(region.isCompleted()) {
+				toRemove.add(region.getRegionID());
+				completedRegions.add(region);
+			}
+		}
+		
+		for (Integer key : toRemove) { 
+			incompleteRegions.remove(key);
+		}
+	}
 
 	public Region getIncompleteRegion(int key) { 
-
 		return incompleteRegions.get(key);
+	}
+	
+	public ArrayList<Location> getMoore(Location location) { 
+		int row = location.getRow();
+		int col = location.getCol();
+		ArrayList<Location> mooreHood = new ArrayList<Location>();
+		SquareTile north = null, east = null, south = null, west = null;
+		SquareTile nw = null, ne = null, se = null, sw = null;
 
+		if(row > 0) north = board[row - 1][col];
+		if(col < COLSIZE-1) east = board[row][col + 1];
+		if(row < ROWSIZE-1) south = board[row + 1][col];
+		if(col > 0) west = board[row][col - 1];
+		
+		if (row > 0 && col > 0) nw = board[row-1][col-1];
+		if (row > 0 && col < COLSIZE-1) ne = board[row-1][col+1];
+		if (row < ROWSIZE-1 && col < COLSIZE-1) se = board[row+1][col+1];
+		if (row < ROWSIZE-1 && col > 0) sw = board[row+1][col-1];
+		
+		mooreHood.add(location);
+		if(north != null) mooreHood.add(new Location(row-1,col));
+		if(east != null) mooreHood.add(new Location(row,col+1));
+		if(south != null) mooreHood.add(new Location(row+1,col));
+		if(west != null) mooreHood.add(new Location(row,col-1));
+		if(nw != null) mooreHood.add(new Location(row-1,col-1));
+		if(ne != null) mooreHood.add(new Location(row-1,col+1));
+		if(se != null) mooreHood.add(new Location(row+1,col+1));
+		if(sw != null) mooreHood.add(new Location(row+1,col-1));
+//		mooreHood.add(new Location(row-1,col));
+//		mooreHood.add(new Location(row,col+1));
+//		mooreHood.add(new Location(row+1,col));
+//		mooreHood.add(new Location(row,col-1));
+//		mooreHood.add(new Location(row-1,col-1));
+//		mooreHood.add(new Location(row-1,col+1));
+//		mooreHood.add(new Location(row+1,col+1));
+//		mooreHood.add(new Location(row+1,col-1));
+		
+		return mooreHood;
 	}
 
 	public void mergeTileRegions(SquareTile a, SquareTile b, int edge) {
@@ -319,7 +388,7 @@ public class BoardObject {
 			aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
 			incompleteRegions.remove(oldRegionID);
 		}		
-		
+
 		//if we are connecting a trail, then we have to check the top and bottom to connect jungles as well
 		if (bMid.getType() == 'T') { 
 
@@ -358,7 +427,9 @@ public class BoardObject {
 	 *	in the center of the game board.
 	 */
 	public void start() {
-		SquareTile startingTile = tileStack.getTile("TLTJ-",0);
+//		SquareTile startingTile = tileStack.getTile("TLTJ-",0);
+		SquareTile startingTile = tileStack.getTile("JJJJX",0);
+
 		place(startingTile, new Location(0,0));
 	}
 

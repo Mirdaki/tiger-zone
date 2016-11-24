@@ -14,6 +14,12 @@ public abstract class Region
 	protected ArrayList<Terrain> theTerrains;
 	protected ArrayList<TigerObject> theTigers;
 	protected char theType;
+	protected boolean theCompleted;
+	
+	
+	public boolean isCompleted() {
+		return theCompleted;
+	}
 
 	// Constructors
 
@@ -35,11 +41,11 @@ public abstract class Region
 	}
 
 	/**
-	* Region is an object of the board that describes cities, fields,
-	* roads, and monasteries. Use this if there is a single terrain.
-	* @param aTerrain Single terrain that is included in the region.
-	* @return Region
-	*/
+	 * Region is an object of the board that describes cities, fields,
+	 * roads, and monasteries. Use this if there is a single terrain.
+	 * @param aTerrain Single terrain that is included in the region.
+	 * @return Region
+	 */
 	public Region(Terrain aTerrain)
 	{
 		// Region ID becomes the terrain's ID
@@ -177,10 +183,10 @@ public abstract class Region
 	public void addTerrain(Terrain aTerrain, int regionID)
 	{
 		// Check if the type is right
-//		if (theType != aTerrain.getType())
-//		{
-//			throw new IllegalArgumentException("Mismatch terrain");
-//		}
+		//		if (theType != aTerrain.getType())
+		//		{
+		//			throw new IllegalArgumentException("Mismatch terrain");
+		//		}
 
 		// Add terrain
 		theTerrains.add(aTerrain);
@@ -198,7 +204,7 @@ public abstract class Region
 	 * @param aTerrains An arrayList of terrain
 	 */
 	public void addTerrain(ArrayList<Terrain> aTerrains, int regionID) {
-		
+
 		int neededSize = aTerrains.size();
 
 		for (int i = 0; i < neededSize; i++) {
@@ -220,7 +226,7 @@ public abstract class Region
 		String numberOfTigers = String.valueOf(theTigers.size());
 		String numberOfTerrain = String.valueOf(theTerrains.size());
 		return "The region " + regionID + " of type " + regionType + " has " +
-				numberOfTigers + " Meepel(s) and " + numberOfTerrain + " Terrain(s)";
+		numberOfTigers + " Meepel(s) and " + numberOfTerrain + " Terrain(s)";
 	}
 
 }

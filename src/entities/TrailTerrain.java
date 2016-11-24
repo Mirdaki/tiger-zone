@@ -13,6 +13,7 @@ public class TrailTerrain extends Terrain
 	protected boolean theEndOfTrail;
 	protected Animal theAnimal;
 
+	
 	// Constructors
 
 	/**
@@ -29,7 +30,7 @@ public class TrailTerrain extends Terrain
 		theTileConnections = aTileConnections;
 		theType            = 'T';
 		theEndOfTrail      = aEndOfTrail;
-		theAnimal          = null;
+		//theAnimal          = null;
 	}
 
 	/**
@@ -41,8 +42,7 @@ public class TrailTerrain extends Terrain
 	 * @param aEndOfTrail This Trail ends.
 	 * @return  TrailTerrain
 	 */
-	public TrailTerrain( ArrayList<Integer> aTileConnections, boolean aEndOfTrail, Animal anAnimal)
-	{
+	public TrailTerrain(ArrayList<Integer> aTileConnections, boolean aEndOfTrail, Animal anAnimal) {
 		theTerrainID       = terrainNum++;
 		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
@@ -55,9 +55,9 @@ public class TrailTerrain extends Terrain
 	// Getters
 
 	/**
-	* Gets the animal type from the terrain.
-	* @return char of animal, null if nothing
-	*/
+	 * Gets the animal type from the terrain.
+	 * @return char of animal, null if nothing
+	 */
 	public char getAnimalType()
 	{
 		char result = '-';
@@ -90,7 +90,8 @@ public class TrailTerrain extends Terrain
 		}
 		return result;
 	}
-
+	
+	
 	/**
 	 * Check if the Trail terminates on this terrain.
 	 * @return boolean
@@ -107,10 +108,10 @@ public class TrailTerrain extends Terrain
 	 * @return  TrailTerrain
 	 */
 	public TrailTerrain() {
- 		theTerrainID = terrainNum++;
+		theTerrainID = terrainNum++;
 		theRegionID 	   = theTerrainID;
 		theType            = 'T';
- 	}
+	}
 
 	/**
 	 * DO NOT USE, testing only. A Trail terrain.

@@ -16,7 +16,7 @@ public class TileEdges {
 
 	protected Terrain[] terrainPoints;
 	protected int orientation; 
-	
+
 	public TileEdges() {
 		terrainPoints = new Terrain[8];
 		orientation = 0;
@@ -28,27 +28,28 @@ public class TileEdges {
 		this.orientation = 0;
 	}
 
-//	public void placeTerrain(ArrayList<Integer> connects, Terrain terrain) {
-//		for (Integer location : connects) {
-//			terrainPoints[Math.floorMod((location - 2 * orientation) + 8,8)] = terrain;
-//		}
-//	}
-//
-//	public void placeTerrain(int location, Terrain terrain) {
-//		terrainPoints[Math.floorMod((location - 2 * orientation) + 8,8)] = terrain;
-//	}
+	//	public void placeTerrain(ArrayList<Integer> connects, Terrain terrain) {
+	//		for (Integer location : connects) {
+	//			terrainPoints[Math.floorMod((location - 2 * orientation) + 8,8)] = terrain;
+	//		}
+	//	}
+	//
+	//	public void placeTerrain(int location, Terrain terrain) {
+	//		terrainPoints[Math.floorMod((location - 2 * orientation) + 8,8)] = terrain;
+	//	}
 
-    public void updateTerrains(ArrayList<Integer> connects, int newTerrainID) {
-        for (Integer entry : connects) {
-            terrainPoints[linear(entry)].setTerrainID(newTerrainID);
-        }
-    }
+	public void updateTerrains(ArrayList<Integer> connects, int newTerrainID, int newOrientation) {
+		for (Integer entry : connects) {
+			terrainPoints[linear(entry)].setTerrainID(newTerrainID);
+//			terrainPoints[linear(entry)].setOrientation(newOrientation);
+		}
+	}
 
-    public void updateRegions(ArrayList<Integer> connects, int newRegionID) {
-        for (Integer entry : connects) {
-            terrainPoints[linear(entry)].setRegionID(newRegionID);
-        }
-    }
+	public void updateRegions(ArrayList<Integer> connects, int newRegionID) {
+		for (Integer entry : connects) {
+			terrainPoints[linear(entry)].setRegionID(newRegionID);
+		}
+	}
 
 	public char getType(int index) {
 		return terrainPoints[linear(index)].getType();
@@ -80,7 +81,7 @@ public class TileEdges {
 
 
 		 0:
-		*/
+		 */
 		if (edges.getType(linear(index) % 8) == this.getType((linear(index) + 4) % 8)) return true;
 		return false;
 	}
@@ -92,21 +93,28 @@ public class TileEdges {
 	public void setEdge(int index, int newRegionID) { 
 		terrainPoints[index].setRegionID(newRegionID);
 	}
-	
+
 	public void setOrientation(int orientation) { 
 		this.orientation = orientation;
+		updateTerrainOrientation(orientation);
+	}
+
+	public void updateTerrainOrientation(int orientation) { 
+		for (Terrain terrain : terrainPoints) { 
+			terrain.setOrientation(orientation);
+		}
 	}
 	
 	public int linear(int num) { 
 		int test = Math.floorMod((num + 2 * this.orientation),8);
 		return test;
 	}
-	
+
 	@Override
 	public String toString() {
 
 		return	"TOP:\t" + terrainPoints[linear(NORTHWEST)].getType() + "\t" + terrainPoints[linear(NORTH)].getType() + "\t" + terrainPoints[linear(NORTHEAST)].getType() + "\n" +
-		"MID:\t" + terrainPoints[linear(WEST)].getType() + "\t\t" + terrainPoints[linear(EAST)].getType() + "\n" +
-		"BOT:\t" + terrainPoints[linear(SOUTHWEST)].getType() + "\t" + terrainPoints[linear(SOUTH)].getType() + "\t" + terrainPoints[SOUTHEAST].getType();
+				"MID:\t" + terrainPoints[linear(WEST)].getType() + "\t\t" + terrainPoints[linear(EAST)].getType() + "\n" +
+				"BOT:\t" + terrainPoints[linear(SOUTHWEST)].getType() + "\t" + terrainPoints[linear(SOUTH)].getType() + "\t" + terrainPoints[SOUTHEAST].getType();
 	}
 }

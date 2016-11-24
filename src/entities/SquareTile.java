@@ -32,13 +32,13 @@ public class SquareTile extends TileObject {
 	public SquareTile(String type, int orientation) {
 		try { //attempt to parse XML file of tiles
 
-            //file to parse
-       		File file = new File("entities/tiles.xml");
-       		DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-       		Document doc = dBuilder.parse(file);
+			//file to parse
+			File file = new File("src/entities/tiles.xml");
+			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			Document doc = dBuilder.parse(file);
 
-            //if there was stuff inside of the XML file
-    	   	if (doc.hasChildNodes()) {
+			//if there was stuff inside of the XML file
+			if (doc.hasChildNodes()) {
 
 				//find tile type
 				XPathFactory xPathfactory = XPathFactory.newInstance();
@@ -46,22 +46,26 @@ public class SquareTile extends TileObject {
 				XPathExpression expr = xpath.compile("//tile[@type=\"" + type +"\"]");
 				NodeList nList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 
-                Node nNode = nList.item(0);
-                Element eElement = (Element) nNode;
+				Node nNode = nList.item(0);
+				Element eElement = (Element) nNode;
 
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					tileID = tileNum++; //ensures uniqueID to a tile
 					this.orientation = orientation;
 					coord = new Location();
 					this.type = type;
 					special = type.charAt(4);
 
+					
 					//setup terrain data
 					NodeList jungles = eElement.getElementsByTagName("jungle"); //find all jungle terrains
 					NodeList trails = eElement.getElementsByTagName("trail"); //find all trail terrains
 					NodeList lakes = eElement.getElementsByTagName("lake"); //find all lake terrains
 					numOfTerrains = new int[] { jungles.getLength(), trails.getLength(), lakes.getLength()};
 					terrains = new Terrain[jungles.getLength() + trails.getLength() + lakes.getLength()];
+
+					Animal prey = null;
+					if (special != '-') prey = new Animal(special);
 
 					//setup terrain data
 					int i = 0;
@@ -73,7 +77,7 @@ public class SquareTile extends TileObject {
 						StringTokenizer st = new StringTokenizer(test);
 						while (st.hasMoreTokens()) {
 							int temp = Integer.parseInt(st.nextToken());
-							spots.add(Math.floorMod((temp - 2 * orientation) ,8));
+							spots.add(Math.floorMod((temp + 2 * orientation) ,8));
 						}
 						terrains[i++] = new JungleTerrain(spots);
 					}
@@ -88,11 +92,11 @@ public class SquareTile extends TileObject {
 						StringTokenizer st = new StringTokenizer(test);
 						while (st.hasMoreTokens()) {
 							int temp = Integer.parseInt(st.nextToken());
-							spots.add(Math.floorMod((temp - 2 * orientation) ,8));
+							spots.add(Math.floorMod((temp + 2 * orientation) ,8));
 						}
 
-						if (trailType == 'C') terrains[i++] = new TrailTerrain(spots,false);
-						else terrains[i++] = new TrailTerrain(spots,true);
+						if (trailType == 'C') terrains[i++] = new TrailTerrain(spots,false, prey);
+						else terrains[i++] = new TrailTerrain(spots,true, prey);
 					}
 
 					//find all lakes
@@ -105,16 +109,16 @@ public class SquareTile extends TileObject {
 						StringTokenizer st = new StringTokenizer(test);
 						while (st.hasMoreTokens()) {
 							int temp = Integer.parseInt(st.nextToken());
-							spots.add(Math.floorMod((temp - 2 * orientation) ,8));
+							spots.add(Math.floorMod((temp + 2 * orientation) ,8));
 						}
 
-						if (lakeType == 'C') terrains[i++] = new LakeTerrain(spots,false);
-						else terrains[i++] = new LakeTerrain(spots,true);
+						if (lakeType == 'C') terrains[i++] = new LakeTerrain(spots,false, prey);
+						else terrains[i++] = new LakeTerrain(spots,true, prey);
 
 					}
 
 
-					//
+
 
 					Terrain[] edgeTerrains = new Terrain[8];
 
@@ -130,11 +134,11 @@ public class SquareTile extends TileObject {
 					edges = new TileEdges(edgeTerrains);
 					center = mid.charAt(0);
 
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error");
+		}
 	}
 
 	/**
@@ -160,6 +164,9 @@ public class SquareTile extends TileObject {
 		numOfTerrains = new int[] { jungles.getLength(), trails.getLength(), lakes.getLength()};
 		terrains = new Terrain[jungles.getLength() + trails.getLength() + lakes.getLength()];
 
+		Animal prey = null;
+		if (special != '-') prey = new Animal(special);
+
 		//setup terrain data
 		int i = 0;
 		//find all jungles
@@ -179,7 +186,7 @@ public class SquareTile extends TileObject {
 		for (int j = 0; j < trails.getLength(); j++) {
 			Element element = (Element)trails.item(j);
 			String test = element.getTextContent();
-			char trailType = eElement.getAttribute("type").charAt(0);
+			char trailType = element.getAttribute("type").charAt(0);
 
 			ArrayList<Integer> spots = new ArrayList<Integer>();
 			StringTokenizer st = new StringTokenizer(test);
@@ -187,16 +194,15 @@ public class SquareTile extends TileObject {
 				int temp = Integer.parseInt(st.nextToken());
 				spots.add(Math.floorMod((temp - 2 * orientation) ,8));
 			}
-
-			if (trailType == 'C') terrains[i++] = new TrailTerrain(spots,false);
-			else terrains[i++] = new TrailTerrain(spots,true);
+			if (trailType == 'C') terrains[i++] = new TrailTerrain(spots,false,prey);
+			else terrains[i++] = new TrailTerrain(spots,true, prey);
 		}
 
 		//find all lakes
 		for (int j = 0; j < lakes.getLength(); j++) {
 			Element element = (Element)lakes.item(j);
 			String test = element.getTextContent();
-			char lakeType = eElement.getAttribute("type").charAt(0);
+			char lakeType = element.getAttribute("type").charAt(0);
 
 			ArrayList<Integer> spots = new ArrayList<Integer>();
 			StringTokenizer st = new StringTokenizer(test);
@@ -205,8 +211,8 @@ public class SquareTile extends TileObject {
 				spots.add(Math.floorMod((temp - 2 * orientation) ,8));
 			}
 
-			if (lakeType == 'C') terrains[i++] = new LakeTerrain(spots,false);
-			else terrains[i++] = new LakeTerrain(spots,true);
+			if (lakeType == 'C') terrains[i++] = new LakeTerrain(spots,false, prey);
+			else terrains[i++] = new LakeTerrain(spots,true, prey);
 
 		}
 
@@ -254,7 +260,7 @@ public class SquareTile extends TileObject {
 	//
 	//  	//check to see if there is a similar edge on any of the edges
 	//  	for(int i = 0; i < 4; i++) {
- // 			if(edges[i].equals(edge)) return true;
+	// 			if(edges[i].equals(edge)) return true;
 	//  	}
 	//
 	//  	return false;
@@ -280,13 +286,13 @@ public class SquareTile extends TileObject {
 	@Override
 	public String toString() {
 		return "ID: " + this.tileID +
-		"\n(x,y) coordinate: " + this.coord.toString() +
-		"\nOrientation: " + this.orientation +
-		"\nType: " + this.type +
-		"\nCenter: " + this.center +
-		"\nOwner: " + this.owner +
-		"\nSpecialty: " + this.special +
-		"\nTerrain(s): " + this.terrains.length +
-		"\n\nEdges:\n" + this.edges;
+				"\n(x,y) coordinate: " + this.coord.toString() +
+				"\nOrientation: " + this.orientation +
+				"\nType: " + this.type +
+				"\nCenter: " + this.center +
+				"\nOwner: " + this.owner +
+				"\nSpecialty: " + this.special +
+				"\nTerrain(s): " + this.terrains.length +
+				"\n\nEdges:\n" + this.edges;
 	}//end printOut
 }//end SquareTile

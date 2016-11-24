@@ -11,7 +11,6 @@ public class LakeTerrain extends Terrain
 	// Lake specifc properties
 	protected boolean theEndOfLake;
 	protected Animal theAnimal;
-	protected char theLakeType;
 
 	// Constructors
 
@@ -21,11 +20,18 @@ public class LakeTerrain extends Terrain
 		theTileConnections = aTileConnections;
 		theType            = 'L';
 		theAnimal          = null;
-
-		if (aEndOfLake == true) theLakeType = 'E';
-		else theLakeType = 'C';
+		theEndOfLake = aEndOfLake;
 	}
 
+
+	public LakeTerrain(ArrayList<Integer> aTileConnections, boolean aEndOfLake, Animal anAnimal) {
+		theTerrainID       = terrainNum++;
+		theRegionID 	   = theTerrainID;
+		theTileConnections = aTileConnections;
+		theType            = 'L';
+		theAnimal          = anAnimal;
+		theEndOfLake = aEndOfLake;
+	}
 
 	/**
 	 * A Lake terrain that can be completed and have an animal.
@@ -62,10 +68,14 @@ public class LakeTerrain extends Terrain
 
 	// Getters
 
+	public boolean isEndOfLake() { 
+		return theEndOfLake;
+	}
+
 	/**
-	* Gets the animal type from the terrain.
-	* @return char of animal, null if nothing
-	*/
+	 * Gets the animal type from the terrain.
+	 * @return char of animal, null if nothing
+	 */
 	public char getAnimalType()
 	{
 		char result = '-';
@@ -107,8 +117,8 @@ public class LakeTerrain extends Terrain
 	 */
 	public LakeTerrain()
 	{
- 		theTerrainID = terrainNum++;
- 	}
+		theTerrainID = terrainNum++;
+	}
 
 	/**
 	 * DO NOT USE, testing only. A Lake terrain that can be completed and have an animal.
@@ -152,4 +162,6 @@ public class LakeTerrain extends Terrain
 		theType            = 'L';
 		theAnimal          = null;
 	}
+	
+	
 }

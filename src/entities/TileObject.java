@@ -116,7 +116,7 @@ public abstract class TileObject {
 	}
 
 	/**
-     * setCenter() sets the current tile's type
+	 * setCenter() sets the current tile's type
 	 * @param center sets the current tile's type
 	 */
 	public void setCenter(char center) {
@@ -207,14 +207,14 @@ public abstract class TileObject {
 	/**
 	 * toString() formats the tile information to be printable
 	 * @return the String of formatted information
- 	 */
+	 */
 	public String toString() {
 		return "ID: " + this.tileID +
-		"\n(x,y) coordinate: " + this.coord.toString() +
-		"\nOrientation: " + this.orientation +
-		"\nType: " + this.type +
-		"\nCenter: " + this.center +
-		"\nOwner: " + this.owner;
+				"\n(x,y) coordinate: " + this.coord.toString() +
+				"\nOrientation: " + this.orientation +
+				"\nType: " + this.type +
+				"\nCenter: " + this.center +
+				"\nOwner: " + this.owner;
 	}//end toSring
 
 } //end TileObject

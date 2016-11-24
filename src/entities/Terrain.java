@@ -15,7 +15,8 @@ public abstract class Terrain
 	protected char theType;
 	protected ArrayList<Integer> theTileConnections;
 	public static int terrainNum = 0;
-
+	protected int orientation;
+	
 	// Constructors
 	public Terrain()
 	{
@@ -156,8 +157,7 @@ public abstract class Terrain
 	 * connections
 	 * @return String description
 	 */
-	public String toString()
-	{
+	public String toString() {
 		String terrainID = String.valueOf(theTerrainID);
 		char terrainType = theType;
 		String hasTiger = "no";
@@ -169,5 +169,16 @@ public abstract class Terrain
 		return "The terrain " + terrainID + " of type " + terrainType + " in region " + theRegionID + " has " +
 				hasTiger + " Tigers and " + numberOfConnections + " tile connection(s)";
 	}
+
+
+	
+	public int getOrientation()
+	{
+		return orientation;
+	}
+	public void setOrientation(int orientation) {
+		this.orientation = orientation;
+	}
+
 
 }

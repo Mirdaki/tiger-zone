@@ -202,7 +202,7 @@
                 <lake id="11" type="E">3</lake>
             </lakes>
             <trails>
-                <trail id="12" type="C">1</trail>
+                <trail id="12" type="C">1 7</trail>
             </trails>
         </regions>
     </tile>

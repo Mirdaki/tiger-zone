@@ -8,11 +8,10 @@ import java.util.ArrayList;
 public class LakeRegion extends Region
 {
 
-	// Lake specifc properties
-	protected boolean theCompleted;
+	// Lake specific properties
 	protected ArrayList<Animal> theAnimals;
-	protected int endsNeeded;
-
+	protected boolean isLakeEnd;
+	protected int numEndsNeeded;
 	// Constructor
 
 	/**
@@ -32,6 +31,19 @@ public class LakeRegion extends Region
 		theAnimals   = new ArrayList<Animal>();
 		// Add and update meepels and shields
 		addTerrain(aTerrain, theRegionID);
+
+		int num = aTerrain.getTileConnections().size();
+		numEndsNeeded = adjust(num);
+	}
+	
+	public int adjust(int num) { 
+		switch(num) {
+			case 1: return 1;  
+			case 3: return 2; 
+			case 5: return 3; 
+			case 8: return 4; 
+			default: return num;
+		}
 	}
 
 	/**
@@ -76,7 +88,7 @@ public class LakeRegion extends Region
 		for (int i = 0; i < theAnimals.size(); i++)
 		{
 			tempType = theAnimals.get(i).getType();
-			if (uniqueAnimals.contains(tempType))
+			if (!uniqueAnimals.contains(tempType))
 			{
 				uniqueAnimals.add(tempType);
 			}
@@ -85,70 +97,98 @@ public class LakeRegion extends Region
 	}
 
 	// Mutators
+	
+	public void markComplete() {
 
-	/**
-	 * Updates the status of Lake completion by checking if every segment has
-	 * lakes attached to it's connection points.
-	 */
-	public void updateCompletion()
-	{
-		theCompleted = true;
-		ArrayList<Integer> currentLakeConnections;
-		for (int i = 0; i < theTerrains.size(); i++)
-		{
-			// Check every lakes terrain connections
-			currentLakeConnections = theTerrains.get(i).getTileConnections();
-			for (int j = 0; j < currentLakeConnections.size(); j++)
-			{
-				// TODO: Get types of connections from tile connections
-				/*if (currentLakeConnections.get(j).getType() != 'L')
-				{
-					theCompleted = false;
-					break;
-				}*/
+		if(!isLakeEnd) { 
+			ArrayList<Integer> checker = new ArrayList<Integer>();
+			checker.addAll(theTerrains.get(0).getTileConnections());
+			
+			for (int i = 1; i < theTerrains.size(); i++) { 
+				ArrayList<Integer> terrainConnect = theTerrains.get(i).getTileConnections();
+				int adjustment = 2 * theTerrains.get(i).getOrientation();
+				
+				for (Integer spot : terrainConnect) {
+					if(checker.get(checker.size()-1) == (Integer)Math.floorMod(spot - adjustment + 4,8)) {
+						checker.remove((Integer)Math.floorMod(spot - adjustment + 4,8));
+					}
+					checker.add((Integer)Math.floorMod(spot - adjustment, 8));
+				}
 			}
+			
+			if(checker.isEmpty()) theCompleted = true;
 		}
+		else { 
+			System.out.println(numEndsNeeded);
+			int numEnds = 0;
+			for (int i = 0; i < theTerrains.size(); i++) { 
+				if(((LakeTerrain) theTerrains.get(i)).isEndOfLake()) { 
+					numEnds++;
+				}			
+			}
+			if (numEnds >= numEndsNeeded) theCompleted = true;
+		}
+		
 	}
 
+	public void addTerrain(ArrayList<Terrain> aTerrains, int regionID) {
+
+		int neededSize = aTerrains.size();
+		for (int i = 0; i < neededSize; i++) {
+			Terrain terrain = aTerrains.get(i);
+			this.addTerrain(terrain, regionID);
+			
+			int num = terrain.getTileConnections().size();
+
+			if (!((LakeTerrain) terrain).isEndOfLake()) numEndsNeeded += adjust(num) - 2;
+		}
+		markComplete();
+	}
+	
 	/**
 	 * Check if a single terrain is valid, and adds Tigers, shields and terrain
 	 * to region. Updates completion status.
 	 * @param aTerrain A single terrain
 	 */
-//	public void addTerrain(Terrain aTerrain, int regionID)
-//	{
-////		// Check if the type is right
-////		if (theType != aTerrain.getType())
-////		{
-////			throw new IllegalArgumentException("Mismatch terrain");
-////		}
-//
-//		// Check if region is already complete
-//		if (theCompleted == true)
-//		{
-//			throw new IllegalArgumentException("Road already complete");
-//		}
-//
-//		// Add terrain
-//		aTerrain.setRegionID(regionID);
-//		theTerrains.add(aTerrain);
-//
-//		// Add Tiger
-//		if (aTerrain.hasTiger() == true)
-//		{
-//			theTigers.add(aTerrain.getTiger());
-//		}
-////
-////		// Add animals
-////		if (((LakeTerrain) aTerrain).hasAnimal() == true)
-////		{
-////			theAnimals.add(((LakeTerrain) aTerrain).getAnimal());
-////		}
-//
-////		updateCompletion();
-//	}
+		public void addTerrain(Terrain aTerrain, int regionID)
+		{
+	//		// Check if the type is right
+	//		if (theType != aTerrain.getType())
+	//		{
+	//			throw new IllegalArgumentException("Mismatch terrain");
+	//		}
+	
+			// Check if region is already complete
+			if (theCompleted == true)
+			{
+				throw new IllegalArgumentException("Road already complete");
+			}
+	
+			// Add terrain
+			aTerrain.setRegionID(regionID);
+			theTerrains.add(aTerrain);
+			if (!isLakeEnd) isLakeEnd = ((LakeTerrain) aTerrain).isEndOfLake();
 
-	// Deprecated
+	
+			// Add Tiger
+			if (aTerrain.hasTiger() == true)
+			{
+				theTigers.add(aTerrain.getTiger());
+			}
+	
+			// Add animals
+			if (((LakeTerrain) aTerrain).hasAnimal() == true)
+			{
+				theAnimals.add(((LakeTerrain) aTerrain).getAnimal());
+			}
+	
+	//		updateCompletion();
+		}
+
+	public int getNumberOfAnimals() {
+		return theAnimals.size();
+	}
+
 
 	/**
 	 * DO NOT USE, testing only. LakeRegion is an object of the board that describes cities regions.
@@ -166,4 +206,15 @@ public class LakeRegion extends Region
 		theAnimals   = null;
 	}
 
+	@Override
+	public String toString() {
+		String regionID = String.valueOf(theRegionID);
+		char regionType = theType;
+		String numberOfTigers = String.valueOf(theTigers.size());
+		String numberOfTerrain = String.valueOf(theTerrains.size());
+		String numOfAnimals = String.valueOf(getNumberOfAnimals());
+		String numOfUniqueAnimals = String.valueOf(getUniqueAnimals());
+		return "The region " + regionID + " of type " + regionType + " has " +
+		numberOfTigers + " Meeple(s), " + numOfAnimals + " animal(s), " + numOfUniqueAnimals + " unique, and " + numberOfTerrain + " Terrain(s)";
+	}
 }
