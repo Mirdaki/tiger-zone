@@ -32,7 +32,7 @@ public class LakeRegion extends Region
 		theType      = 'L';
 		theCompleted = false;
 		theAnimals   = new ArrayList<Animal>();
-		theCrocodiles = new ArrayList<Crocodile>();
+		theCrocodiles = new ArrayList<CrocodileObject>();
 		// Add and update meepels and shields
 		addTerrain(aTerrain, theRegionID);
 
@@ -65,7 +65,7 @@ public class LakeRegion extends Region
 		theType      = 'L';
 		theCompleted = false;
 		theAnimals   = new ArrayList<Animal>();
-		theCrocodiles = new ArrayList<Crocodile>();
+		theCrocodiles = new ArrayList<CrocodileObject>();
 		// Add all and update meepels and shields
 		addTerrain(aTerrains, theRegionID);
 	}
@@ -133,14 +133,16 @@ public class LakeRegion extends Region
 			if(checker.isEmpty()) theCompleted = true;
 		}
 		else { 
-			System.out.println(numEndsNeeded);
+//			System.out.println(numEndsNeeded);
 			int numEnds = 0;
 			for (int i = 0; i < theTerrains.size(); i++) { 
 				if(((LakeTerrain) theTerrains.get(i)).isEndOfLake()) { 
 					numEnds++;
 				}			
 			}
+			if (numEnds > numEndsNeeded) theCompleted = true;
 		}
+		
 	}
 	/**
 	 * Check if there are any Crocodiles in this region.
@@ -160,14 +162,11 @@ public class LakeRegion extends Region
 	/**
 	 * Goes through the current train and updates the held Crocodile.
 	 */
-	public void updateCrocodiles()
-	{
+	public void updateCrocodiles() {
 		// Go through all the Terrain adding Crocodile
-		for (int i = 0; i < theTerrains.size(); i++)
-		{
-			if (theTerrains.get(i).hasCrocodile() == true)
-			{
-				theCrocodiles.add(theTerrains.get(i).getCrocodile());
+		for (int i = 0; i < theTerrains.size(); i++) {
+			if (((LakeTerrain) theTerrains.get(i)).hasCrocodile() == true) {
+				theCrocodiles.add(((LakeTerrain) theTerrains.get(i)).getCrocodile());
 			}
 		}
 	}
@@ -175,14 +174,11 @@ public class LakeRegion extends Region
 	/**
 	 * Removes all Crocodile from this region and terrain.
 	 */
-	public void removeAllCrocodile()
-	{
+	public void removeAllCrocodile() {
 		theCrocodiles.clear();
-		for (int i = 0; i < theTerrains.size(); i++)
-		{
-			if (theTerrains.get(i).hasCrocodile())
-			{
-				theTerrains.get(i).removeCrocodile();
+		for (int i = 0; i < theTerrains.size(); i++) {
+			if (((LakeTerrain) theTerrains.get(i)).hasCrocodile()) {
+				((LakeTerrain) theTerrains.get(i)).removeCrocodile();
 			}
 		}
 	}
@@ -191,28 +187,6 @@ public class LakeRegion extends Region
 	 * Updates the status of Lake completion by checking if every segment has
 	 * lakes attached to it's connection points.
 	 */
-	public void updateCompletion()
-	{
-		theCompleted = true;
-		ArrayList<Integer> currentLakeConnections;
-		for (int i = 0; i < theTerrains.size(); i++)
-		{
-			// Check every lakes terrain connections
-			currentLakeConnections = theTerrains.get(i).getTileConnections();
-			for (int j = 0; j < currentLakeConnections.size(); j++)
-			{
-				// TODO: Get types of connections from tile connections
-				/*if (currentLakeConnections.get(j).getType() != 'L')
-				{
-					theCompleted = false;
-					break;
-				}*/
->>>>>>> origin/master
-			}
-			if (numEnds >= numEndsNeeded) theCompleted = true;
-		}
-		
-	}
 
 	public void addTerrain(ArrayList<Terrain> aTerrains, int regionID) {
 
@@ -224,6 +198,7 @@ public class LakeRegion extends Region
 			int num = terrain.getTileConnections().size();
 
 			if (!((LakeTerrain) terrain).isEndOfLake()) numEndsNeeded += adjust(num) - 2;
+		
 		}
 		markComplete();
 	}
@@ -242,8 +217,7 @@ public class LakeRegion extends Region
 	//		}
 	
 			// Check if region is already complete
-			if (theCompleted == true)
-			{
+			if (theCompleted == true) {
 				throw new IllegalArgumentException("Road already complete");
 			}
 	
@@ -254,15 +228,21 @@ public class LakeRegion extends Region
 
 	
 			// Add Tiger
-			if (aTerrain.hasTiger() == true)
-			{
+			if (aTerrain.hasTiger() == true) {
 				theTigers.add(aTerrain.getTiger());
 			}
 	
 			// Add animals
-			if (((LakeTerrain) aTerrain).hasAnimal() == true)
-			{
+			if (((LakeTerrain) aTerrain).hasAnimal() == true) {
 				theAnimals.add(((LakeTerrain) aTerrain).getAnimal());
+			}
+			
+			if (((LakeTerrain) aTerrain).hasCrocodile() == true) {
+				theCrocodiles.add(((LakeTerrain) aTerrain).getCrocodile());
+			}
+
+			if (aTerrain.getMin2() < getMin()) { 
+				recentMin = aTerrain.getMin();
 			}
 	
 	//		updateCompletion();
@@ -297,7 +277,9 @@ public class LakeRegion extends Region
 		String numberOfTerrain = String.valueOf(theTerrains.size());
 		String numOfAnimals = String.valueOf(getNumberOfAnimals());
 		String numOfUniqueAnimals = String.valueOf(getUniqueAnimals());
+		String minPlacement = String.valueOf(getMin());
+		
 		return "The region " + regionID + " of type " + regionType + " has " +
-		numberOfTigers + " Meeple(s), " + numOfAnimals + " animal(s), " + numOfUniqueAnimals + " unique, and " + numberOfTerrain + " Terrain(s)";
+		numberOfTigers + " Meeple(s), " + numOfAnimals + " animal(s), " + numOfUniqueAnimals + " unique, and " + numberOfTerrain + " Terrain(s). Min = " + minPlacement;
 	}
 }

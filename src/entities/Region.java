@@ -15,6 +15,23 @@ public abstract class Region
 	protected ArrayList<TigerObject> theTigers;
 	protected char theType;
 	protected boolean theCompleted;
+	protected int recentMin = Integer.MAX_VALUE; 
+	
+	public int getMin() { 
+		if(recentMin == 0) return 1;
+		else if (recentMin == 1) return 2;
+		else if (recentMin == 2) return 3;
+		else if (recentMin == 3) return 6;
+		else if (recentMin == 4) return 9;
+		else if (recentMin == 5) return 8;
+		else if (recentMin == 6) return 7;
+		else if (recentMin == 7) return 4;
+		else return recentMin;	
+	}
+	
+	public void setMin(int recentMin) { 
+		this.recentMin = recentMin;
+	}
 	
 	
 	public boolean isCompleted() {
@@ -83,6 +100,9 @@ public abstract class Region
 		return theRegionID;
 	}
 
+	public void addTiger() { 
+		theTigers.add(new TigerObject());
+	}
 	/**
 	 * Returns array list of terrains in this region.
 	 * @return ArrayList<Terrain>
@@ -219,6 +239,7 @@ public abstract class Region
 			this.addTerrain(aTerrains.get(i), regionID);
 
 		}
+		
 	}
 
 
@@ -232,8 +253,10 @@ public abstract class Region
 		char regionType = theType;
 		String numberOfTigers = String.valueOf(theTigers.size());
 		String numberOfTerrain = String.valueOf(theTerrains.size());
+		String minPlacement = String.valueOf(getMin());
+
 		return "The region " + regionID + " of type " + regionType + " has " +
-		numberOfTigers + " Meepel(s) and " + numberOfTerrain + " Terrain(s)";
+		numberOfTigers + " Meepel(s) and " + numberOfTerrain + " Terrain(s). Min = " + minPlacement;
 	}
 
 }

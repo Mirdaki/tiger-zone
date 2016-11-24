@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Terrain is the parent class of all the subregions: cities, fields,
@@ -16,11 +17,31 @@ public abstract class Terrain
 	protected ArrayList<Integer> theTileConnections;
 	public static int terrainNum = 0;
 	protected int orientation;
+	protected int terrainMin; 
 	
 	// Constructors
 	public Terrain()
 	{
 		// Empty for inheretance
+	}
+	
+	public int getMin() {
+		return terrainMin;
+	}
+	public int getMin2() {
+		if(terrainMin == 0) return 1;
+		else if (terrainMin == 1) return 2;
+		else if (terrainMin == 2) return 3;
+		else if (terrainMin == 3) return 6;
+		else if (terrainMin == 4) return 9;
+		else if (terrainMin == 5) return 8;
+		else if (terrainMin == 6) return 7;
+		else if (terrainMin == 7) return 4;
+		else return terrainMin;	
+	}
+	
+	public void setMin(int terrainMin) { 
+		this.terrainMin = terrainMin;
 	}
 
 	public boolean equals(Terrain terrain) {
@@ -167,18 +188,22 @@ public abstract class Terrain
 		}
 		String numberOfConnections = String.valueOf(theTileConnections.size());
 		return "The terrain " + terrainID + " of type " + terrainType + " in region " + theRegionID + " has " +
-				hasTiger + " Tigers and " + numberOfConnections + " tile connection(s)";
+				hasTiger + " Tigers and " + numberOfConnections + " tile connection(s) (min= " + getMin2() + ")";
 	}
 
 
 	
-	public int getOrientation()
-	{
+	public int getOrientation() {
 		return orientation;
 	}
+	
 	public void setOrientation(int orientation) {
-		this.orientation = orientation;
+		
+		for (int i = 0; i < theTileConnections.size(); i++) {
+			int newConnect = Math.floorMod((theTileConnections.get(i) -	 2 * orientation),8);
+			theTileConnections.set(i, newConnect);
+		}
+		int newMin = Collections.min(theTileConnections);
+		terrainMin = newMin;
 	}
-
-
 }

@@ -15,6 +15,7 @@ public class TileEdges {
 	public static final int WEST = 7;
 
 	protected Terrain[] terrainPoints;
+	protected Terrain[] uniqueTerrains;
 	protected int orientation; 
 
 	public TileEdges() {
@@ -22,9 +23,10 @@ public class TileEdges {
 		orientation = 0;
 	}
 
-	public TileEdges(Terrain[] terrainPoints) {
+	public TileEdges(Terrain[] terrainPoints, Terrain[] uniqueTerrains) {
 		//assert equal size
 		this.terrainPoints = terrainPoints;
+		this.uniqueTerrains = uniqueTerrains;
 		this.orientation = 0;
 	}
 
@@ -57,6 +59,10 @@ public class TileEdges {
 
 	public Terrain[] getTerrains() {
 		return terrainPoints;
+	}
+	
+	public Terrain[] getUniqueTerrains() { 
+		return uniqueTerrains;
 	}
 
 	public Terrain getTerrain(int index) {
@@ -100,8 +106,8 @@ public class TileEdges {
 	}
 
 	public void updateTerrainOrientation(int orientation) { 
-		for (Terrain terrain : terrainPoints) { 
-			terrain.setOrientation(orientation);
+		for (Terrain terrain : uniqueTerrains) { 
+			terrain.setOrientation(orientation);			
 		}
 	}
 	

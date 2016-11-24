@@ -29,6 +29,10 @@ import java.util.ArrayList;
 public class SquareTile extends TileObject {
 
 
+	public SquareTile() { 
+		
+	}
+	
 	public SquareTile(String type, int orientation) {
 		try { //attempt to parse XML file of tiles
 
@@ -131,7 +135,7 @@ public class SquareTile extends TileObject {
 					}
 
 					String mid = eElement.getElementsByTagName("center").item(0).getTextContent();
-					edges = new TileEdges(edgeTerrains);
+					edges = new TileEdges(edgeTerrains,terrains);
 					center = mid.charAt(0);
 
 				}
@@ -215,8 +219,6 @@ public class SquareTile extends TileObject {
 			else terrains[i++] = new LakeTerrain(spots,true, prey);
 
 		}
-
-
 		//
 
 		Terrain[] edgeTerrains = new Terrain[8];
@@ -230,7 +232,7 @@ public class SquareTile extends TileObject {
 		}
 
 		String mid = eElement.getElementsByTagName("center").item(0).getTextContent();
-		edges = new TileEdges(edgeTerrains);
+		edges = new TileEdges(edgeTerrains, terrains);
 		center = mid.charAt(0);
 
 	}//end constructor

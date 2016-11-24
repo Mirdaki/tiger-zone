@@ -11,11 +11,8 @@ public class TrailRegion extends Region
 	// Field specifc properties
 	protected ArrayList<Animal> theAnimals;
 	protected char regionType;
-<<<<<<< HEAD
 	protected boolean isTrailEnd;
-=======
 	protected ArrayList<CrocodileObject> theCrocodiles; // Must add Crocodiles in addTerrain
->>>>>>> origin/master
 
 	// Constructor
 
@@ -25,24 +22,17 @@ public class TrailRegion extends Region
 	 * @param aTerrain Single terrain that is included in the region.
 	 * @return TrailRegion
 	 */
-	public TrailRegion(Terrain aTerrain)
-	{
+	public TrailRegion(Terrain aTerrain) {
 		// Region ID becomes the terrain's ID
 		theRegionID  = aTerrain.getTerrainID();
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
 		theType      = 'T';
-<<<<<<< HEAD
 		theAnimals = new ArrayList<Animal>();
 		isTrailEnd = ((TrailTerrain) aTerrain).isEndOfTrail();
-
-
-=======
 		theCompleted = false;
 		theAnimals   = new ArrayList<Animal>();
-		theCrocodiles = new ArrayList<Crocodile>();
->>>>>>> origin/master
-		// Add and update meepels
+		theCrocodiles = new ArrayList<CrocodileObject>();
 		addTerrain(aTerrain, theRegionID);
 	}
 
@@ -59,14 +49,10 @@ public class TrailRegion extends Region
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
 		theType      = 'T';
-<<<<<<< HEAD
-
-=======
 		theCompleted = false;
 		theAnimals   = new ArrayList<Animal>();
-		theCrocodiles = new ArrayList<Crocodile>();
->>>>>>> origin/master
-		// Add all and update meepels
+		theCrocodiles = new ArrayList<CrocodileObject>();
+
 		addTerrain(aTerrains, theRegionID);
 
 	}
@@ -87,8 +73,7 @@ public class TrailRegion extends Region
 	 * Returns array list of Crocodiles in this region.
 	 * @return ArrayList<CrocodilesObject>
 	 */
-	public ArrayList<TigerObject> getCrocodiles()
-	{
+	public ArrayList<CrocodileObject> getCrocodiles() {
 		return theCrocodiles;
 	}
 
@@ -98,12 +83,10 @@ public class TrailRegion extends Region
 	 * Check if there are any Crocodiles in this region.
 	 * @return boolean
 	 */
-	public boolean hasCrocodiles()
-	{
+	public boolean hasCrocodiles() {
 		boolean result = false;
 		// Are any Crocodile in the array
-		if (theCrocodiles.size() != 0)
-		{
+		if (theCrocodiles.size() != 0) {
 			result = true;
 		}
 		return result;
@@ -112,14 +95,11 @@ public class TrailRegion extends Region
 	/**
 	 * Goes through the current train and updates the held Crocodile.
 	 */
-	public void updateCrocodiles()
-	{
+	public void updateCrocodiles() {
 		// Go through all the Terrain adding Crocodile
-		for (int i = 0; i < theTerrains.size(); i++)
-		{
-			if (theTerrains.get(i).hasCrocodile() == true)
-			{
-				theCrocodiles.add(theTerrains.get(i).getCrocodile());
+		for (int i = 0; i < theTerrains.size(); i++) {
+			if (((TrailTerrain) theTerrains.get(i)).hasCrocodile() == true) {
+				theCrocodiles.add(((TrailTerrain) theTerrains.get(i)).getCrocodile());
 			}
 		}
 	}
@@ -127,14 +107,11 @@ public class TrailRegion extends Region
 	/**
 	 * Removes all Crocodile from this region and terrain.
 	 */
-	public void removeAllCrocodile()
-	{
+	public void removeAllCrocodile() {
 		theCrocodiles.clear();
-		for (int i = 0; i < theTerrains.size(); i++)
-		{
-			if (theTerrains.get(i).hasCrocodile())
-			{
-				theTerrains.get(i).removeCrocodile();
+		for (int i = 0; i < theTerrains.size(); i++) {
+			if (((TrailTerrain) theTerrains.get(i)).hasCrocodile()) {
+				((TrailTerrain) theTerrains.get(i)).removeCrocodile();
 			}
 		}
 	}
@@ -157,13 +134,11 @@ public class TrailRegion extends Region
 				for (Integer spot : terrainConnect) {
 					if(checker.get(checker.size()-1) == (Integer)Math.floorMod(spot - adjustment + 4,8)) {
 						checker.remove((Integer)Math.floorMod(spot - adjustment + 4,8));
-//						break;
 					}
 					checker.add((Integer)Math.floorMod(spot - adjustment, 8));
 				}
 			}
 			
-			for (Integer integer : checker) System.out.println(integer);
 			if(checker.isEmpty()) theCompleted = true;
 		}
 		else { 
@@ -211,16 +186,23 @@ public class TrailRegion extends Region
 		if (aTerrain.hasTiger() == true) {
 			theTigers.add(aTerrain.getTiger());
 		}
-		
-		// Update neighboring tiles
-		//	updateCompletion();
+
+		if (((TrailTerrain) aTerrain).hasCrocodile() == true) {
+			theCrocodiles.add(((TrailTerrain) aTerrain).getCrocodile());
+		}
+
+		if (aTerrain.getMin2() < getMin()) { 
+			recentMin = aTerrain.getMin();
+		}
+
 	}
 
 	public void addTerrain(ArrayList<Terrain> aTerrains, int regionID) {
 
 		int neededSize = aTerrains.size();
 		for (int i = 0; i < neededSize; i++) {
-			this.addTerrain(aTerrains.get(i), regionID);
+			Terrain terrain = aTerrains.get(i);
+			this.addTerrain(terrain, regionID);
 		}
 		markComplete();
 	}
@@ -251,7 +233,9 @@ public class TrailRegion extends Region
 		String numberOfTerrain = String.valueOf(theTerrains.size());
 		String numOfAnimals = String.valueOf(getNumberOfAnimals());
 		String isisTrailEnd = (isTrailEnd) ? "end" : "connecting";
+		String minPlacement = String.valueOf(getMin());
+
 		return "The " + isisTrailEnd + " region " + regionID + " of type " + regionType + " has " +
-		numberOfTigers + " Meeple(s), " + numOfAnimals + " animal(s) and " + numberOfTerrain + " Terrain(s)";
+		numberOfTigers + " Meeple(s), " + numOfAnimals + " animal(s) and " + numberOfTerrain + " Terrain(s). Min = " + minPlacement;
 	}
 }

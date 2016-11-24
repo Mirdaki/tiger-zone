@@ -11,11 +11,9 @@ public class LakeTerrain extends Terrain
 	// Lake specifc properties
 	protected boolean theEndOfLake;
 	protected Animal theAnimal;
-<<<<<<< HEAD
-=======
+
 	protected char theLakeType;
 	protected CrocodileObject theCrocodile;
->>>>>>> origin/master
 
 	// Constructors
 
@@ -25,14 +23,10 @@ public class LakeTerrain extends Terrain
 		theTileConnections = aTileConnections;
 		theType            = 'L';
 		theAnimal          = null;
-<<<<<<< HEAD
-		theEndOfLake = aEndOfLake;
-=======
+		theEndOfLake 	   = aEndOfLake;
 		theCrocodile       = aCrocodile;
+		terrainMin 		   = aTileConnections.get(0);
 
-		if (aEndOfLake == true) theLakeType = 'E';
-		else theLakeType = 'C';
->>>>>>> origin/master
 	}
 
 
@@ -42,7 +36,10 @@ public class LakeTerrain extends Terrain
 		theTileConnections = aTileConnections;
 		theType            = 'L';
 		theAnimal          = anAnimal;
-		theEndOfLake = aEndOfLake;
+		theEndOfLake 	   = aEndOfLake;
+		theCrocodile 	   = null;
+		terrainMin 		   = aTileConnections.get(0);
+
 	}
 
 	/**
@@ -61,6 +58,8 @@ public class LakeTerrain extends Terrain
 		theType            = 'L';
 		theAnimal          = anAnimal;
 		theCrocodile       = aCrocodile;
+		terrainMin 		   = aTileConnections.get(0);
+
 	}
 
 	/**
@@ -78,6 +77,8 @@ public class LakeTerrain extends Terrain
 		theType            = 'L';
 		theAnimal          = null;
 		theCrocodile       = aCrocodile;
+		terrainMin 		   = aTileConnections.get(0);
+
 	}
 
 	// Getters
@@ -127,7 +128,7 @@ public class LakeTerrain extends Terrain
 	 * Get Crocodile on terrain
 	 * @return CrocodileObject
 	 */
-	public TigerObject getCrocodile()
+	public CrocodileObject getCrocodile()
 	{
 		return theCrocodile;
 	}
@@ -150,16 +151,13 @@ public class LakeTerrain extends Terrain
 	 * Adds a Crocodile to the terrain. Can only be one per.
 	 * @param aCrocodile CrocodileObject
 	 */
-	public void addCrocodile(CrocodileObject aCrocodile)
-	{
+	public void addCrocodile(CrocodileObject aCrocodile) {
 		// Check that there isn't an exisiting Crocodile
-		if (this.hasCrocodile() == true)
-		{
+		if (this.hasCrocodile() == true) {
 			throw new IllegalArgumentException("Tile already has a Crocodile!");
 		}
-		else
-		{
-			theTiger = aTiger;
+		else {
+			theCrocodile = aCrocodile;
 		}
 	}
 
@@ -227,6 +225,6 @@ public class LakeTerrain extends Terrain
 		theType            = 'L';
 		theAnimal          = null;
 	}
-	
-	
+
+
 }

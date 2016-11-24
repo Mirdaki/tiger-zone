@@ -115,7 +115,7 @@ public class TileStack {
         ArrayList<SquareTile> tileMatches = tileStack.get(type);
 
         //if no matches, return null
-        if (tileMatches.isEmpty()) return null;
+        if (tileMatches == null) return null;
 
         //pull first match, reset its orientation
         SquareTile tile = tileMatches.get(0);

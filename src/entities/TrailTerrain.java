@@ -31,12 +31,9 @@ public class TrailTerrain extends Terrain
 		theTileConnections = aTileConnections;
 		theType            = 'T';
 		theEndOfTrail      = aEndOfTrail;
-<<<<<<< HEAD
-		//theAnimal          = null;
-=======
 		theAnimal          = null;
 		theCrocodile       = aCrocodile;
->>>>>>> origin/master
+		terrainMin 		   = aTileConnections.get(0);
 	}
 
 	/**
@@ -48,19 +45,17 @@ public class TrailTerrain extends Terrain
 	 * @param aEndOfTrail This Trail ends.
 	 * @return  TrailTerrain
 	 */
-<<<<<<< HEAD
 	public TrailTerrain(ArrayList<Integer> aTileConnections, boolean aEndOfTrail, Animal anAnimal) {
-=======
-	public TrailTerrain( ArrayList<Integer> aTileConnections, boolean aEndOfTrail, Animal anAnimal, CrocodileObject aCrocodile)
-	{
->>>>>>> origin/master
+
 		theTerrainID       = terrainNum++;
 		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'T';
 		theEndOfTrail      = aEndOfTrail;
 		theAnimal          = anAnimal;
-		theCrocodile       = aCrocodile;
+		theCrocodile       = null;
+		terrainMin 		   = aTileConnections.get(0);
+
 	}
 
 
@@ -108,7 +103,7 @@ public class TrailTerrain extends Terrain
 	 * Get Crocodile on terrain
 	 * @return CrocodileObject
 	 */
-	public TigerObject getCrocodile()
+	public CrocodileObject getCrocodile()
 	{
 		return theCrocodile;
 	}
@@ -131,16 +126,13 @@ public class TrailTerrain extends Terrain
 	 * Adds a Crocodile to the terrain. Can only be one per.
 	 * @param aCrocodile CrocodileObject
 	 */
-	public void addCrocodile(CrocodileObject aCrocodile)
-	{
+	public void addCrocodile(CrocodileObject aCrocodile) {
 		// Check that there isn't an exisiting Crocodile
-		if (this.hasCrocodile() == true)
-		{
+		if (this.hasCrocodile() == true) {
 			throw new IllegalArgumentException("Tile already has a Crocodile!");
 		}
-		else
-		{
-			theTiger = aTiger;
+		else {
+			theCrocodile = aCrocodile;
 		}
 	}
 
@@ -148,8 +140,7 @@ public class TrailTerrain extends Terrain
 	 * Removes the Crocodile on this terrain.
 	 * @return TigerObject Null if no Crocodile on terrain.
 	 */
-	public CrocodileObject removeCrocodile()
-	{
+	public CrocodileObject removeCrocodile() {
 		CrocodileObject result = theCrocodile;
 		theCrocodile = null;
 		return result;
@@ -200,6 +191,7 @@ public class TrailTerrain extends Terrain
 		theTileConnections = aTileConnections;
 		theType            = 'T';
 		theEndOfTrail      = aEndOfTrail;
+		terrainMin 		   = aTileConnections.get(0);
 	}
 
 }

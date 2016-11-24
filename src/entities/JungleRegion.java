@@ -10,6 +10,8 @@ public class JungleRegion extends Region
 
 	// Jungle specifc properties
 	protected ArrayList<LakeRegion> theNeighboringLakes;
+	protected ArrayList<Animal> theAnimals;
+	protected ArrayList<CrocodileObject> theCrocodiles; // Must add Crocodiles in addTerrain
 
 	// Constructor
 
@@ -96,6 +98,51 @@ public class JungleRegion extends Region
 //		updateNeighboringLakes();
 //	}
 
+	public void addTerrain(Terrain aTerrain, int regionID)
+	{
+//		// Check if the type is right
+//		if (theType != aTerrain.getType())
+//		{
+//			throw new IllegalArgumentException("Mismatch terrain");
+//		}
+
+		// Check if region is already complete
+		if (theCompleted == true) {
+			throw new IllegalArgumentException("Road already complete");
+		}
+
+		// Add terrain
+		aTerrain.setRegionID(regionID);
+		theTerrains.add(aTerrain);
+
+		// Add Tiger
+		if (aTerrain.hasTiger() == true) {
+			theTigers.add(aTerrain.getTiger());
+		}
+
+		// Add animals
+		if (((JungleTerrain) aTerrain).hasAnimal() == true) {
+			theAnimals.add(((JungleTerrain) aTerrain).getAnimal());
+		}
+		
+		if (((JungleTerrain) aTerrain).hasCrocodile() == true) {
+			theCrocodiles.add(((JungleTerrain) aTerrain).getCrocodile());
+		}
+		
+		if (aTerrain.getMin2() < getMin()) { 
+			recentMin = aTerrain.getMin();
+		}
+
+	}
+	
+	public void addTerrain(ArrayList<Terrain> aTerrains, int regionID) {
+
+		int neededSize = aTerrains.size();
+		for (int i = 0; i < neededSize; i++) {
+			Terrain terrain = aTerrains.get(i);
+			this.addTerrain(terrain, regionID);
+		}
+	}
 	// Deprecated
 
 	/**

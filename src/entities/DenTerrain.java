@@ -24,6 +24,8 @@ public class DenTerrain extends Terrain
 		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'D';
+		terrainMin 		   = 5;
+
 	}
 
 	public DenTerrain() {
@@ -46,6 +48,8 @@ public class DenTerrain extends Terrain
 		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'D';
+		terrainMin 		   = 5;
+
 	}
 
 }

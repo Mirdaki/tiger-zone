@@ -17,6 +17,9 @@ public class TigerObject
 	protected int terrainID;
 
 	//Constructors
+	public TigerObject() { 
+		
+	}
 	public TigerObject(int id, char type, Player owner, int terrainID) {
 		this.id = id;
 		this.type = type;
