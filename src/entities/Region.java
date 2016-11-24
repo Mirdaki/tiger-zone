@@ -169,11 +169,18 @@ public abstract class Region
 
 	// Remove all Tigers
 	/**
-	 * Removes all Tigers from this region. Not the individual tiles.
+	 * Removes all Tigers from this region and terrains. 
 	 */
 	public void removeAllTigers()
 	{
 		theTigers.clear();
+		for (int i = 0; i < theTerrains.size(); i++)
+		{
+			if (theTerrains.get(i).hasTiger())
+			{
+				theTerrains.get(i).removeTiger();
+			}
+		}
 	}
 
 	/**

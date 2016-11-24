@@ -10,8 +10,14 @@ public class LakeRegion extends Region
 
 	// Lake specific properties
 	protected ArrayList<Animal> theAnimals;
+<<<<<<< HEAD
 	protected boolean isLakeEnd;
 	protected int numEndsNeeded;
+=======
+	protected int endsNeeded;
+	protected ArrayList<CrocodileObject> theCrocodiles; // Must add Crocodiles in addTerrain
+
+>>>>>>> origin/master
 	// Constructor
 
 	/**
@@ -29,6 +35,7 @@ public class LakeRegion extends Region
 		theType      = 'L';
 		theCompleted = false;
 		theAnimals   = new ArrayList<Animal>();
+		theCrocodiles = new ArrayList<Crocodile>();
 		// Add and update meepels and shields
 		addTerrain(aTerrain, theRegionID);
 
@@ -61,6 +68,7 @@ public class LakeRegion extends Region
 		theType      = 'L';
 		theCompleted = false;
 		theAnimals   = new ArrayList<Animal>();
+		theCrocodiles = new ArrayList<Crocodile>();
 		// Add all and update meepels and shields
 		addTerrain(aTerrains, theRegionID);
 	}
@@ -74,6 +82,15 @@ public class LakeRegion extends Region
 	public boolean isCompleted()
 	{
 		return theCompleted;
+	}
+
+	/**
+	 * Returns array list of Crocodiles in this region.
+	 * @return ArrayList<CrocodilesObject>
+	 */
+	public ArrayList<CrocodileObject> getCrocodiles()
+	{
+		return theCrocodiles;
 	}
 
 	/**
@@ -100,6 +117,7 @@ public class LakeRegion extends Region
 	
 	public void markComplete() {
 
+<<<<<<< HEAD
 		if(!isLakeEnd) { 
 			ArrayList<Integer> checker = new ArrayList<Integer>();
 			checker.addAll(theTerrains.get(0).getTileConnections());
@@ -125,6 +143,73 @@ public class LakeRegion extends Region
 				if(((LakeTerrain) theTerrains.get(i)).isEndOfLake()) { 
 					numEnds++;
 				}			
+=======
+	/**
+	 * Check if there are any Crocodiles in this region.
+	 * @return boolean
+	 */
+	public boolean hasCrocodiles()
+	{
+		boolean result = false;
+		// Are any Crocodile in the array
+		if (theCrocodiles.size() != 0)
+		{
+			result = true;
+		}
+		return result;
+	}
+
+	/**
+	 * Goes through the current train and updates the held Crocodile.
+	 */
+	public void updateCrocodiles()
+	{
+		// Go through all the Terrain adding Crocodile
+		for (int i = 0; i < theTerrains.size(); i++)
+		{
+			if (theTerrains.get(i).hasCrocodile() == true)
+			{
+				theCrocodiles.add(theTerrains.get(i).getCrocodile());
+			}
+		}
+	}
+
+	/**
+	 * Removes all Crocodile from this region and terrain.
+	 */
+	public void removeAllCrocodile()
+	{
+		theCrocodiles.clear();
+		for (int i = 0; i < theTerrains.size(); i++)
+		{
+			if (theTerrains.get(i).hasCrocodile())
+			{
+				theTerrains.get(i).removeCrocodile();
+			}
+		}
+	}
+
+	/**
+	 * Updates the status of Lake completion by checking if every segment has
+	 * lakes attached to it's connection points.
+	 */
+	public void updateCompletion()
+	{
+		theCompleted = true;
+		ArrayList<Integer> currentLakeConnections;
+		for (int i = 0; i < theTerrains.size(); i++)
+		{
+			// Check every lakes terrain connections
+			currentLakeConnections = theTerrains.get(i).getTileConnections();
+			for (int j = 0; j < currentLakeConnections.size(); j++)
+			{
+				// TODO: Get types of connections from tile connections
+				/*if (currentLakeConnections.get(j).getType() != 'L')
+				{
+					theCompleted = false;
+					break;
+				}*/
+>>>>>>> origin/master
 			}
 			if (numEnds >= numEndsNeeded) theCompleted = true;
 		}

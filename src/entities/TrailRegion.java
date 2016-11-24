@@ -11,7 +11,11 @@ public class TrailRegion extends Region
 	// Field specifc properties
 	protected ArrayList<Animal> theAnimals;
 	protected char regionType;
+<<<<<<< HEAD
 	protected boolean isTrailEnd;
+=======
+	protected ArrayList<CrocodileObject> theCrocodiles; // Must add Crocodiles in addTerrain
+>>>>>>> origin/master
 
 	// Constructor
 
@@ -28,10 +32,16 @@ public class TrailRegion extends Region
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
 		theType      = 'T';
+<<<<<<< HEAD
 		theAnimals = new ArrayList<Animal>();
 		isTrailEnd = ((TrailTerrain) aTerrain).isEndOfTrail();
 
 
+=======
+		theCompleted = false;
+		theAnimals   = new ArrayList<Animal>();
+		theCrocodiles = new ArrayList<Crocodile>();
+>>>>>>> origin/master
 		// Add and update meepels
 		addTerrain(aTerrain, theRegionID);
 	}
@@ -49,7 +59,13 @@ public class TrailRegion extends Region
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
 		theType      = 'T';
+<<<<<<< HEAD
 
+=======
+		theCompleted = false;
+		theAnimals   = new ArrayList<Animal>();
+		theCrocodiles = new ArrayList<Crocodile>();
+>>>>>>> origin/master
 		// Add all and update meepels
 		addTerrain(aTerrains, theRegionID);
 
@@ -67,7 +83,61 @@ public class TrailRegion extends Region
 		return theAnimals.size();
 	}
 
+	/**
+	 * Returns array list of Crocodiles in this region.
+	 * @return ArrayList<CrocodilesObject>
+	 */
+	public ArrayList<TigerObject> getCrocodiles()
+	{
+		return theCrocodiles;
+	}
+
 	// Mutators
+
+	/**
+	 * Check if there are any Crocodiles in this region.
+	 * @return boolean
+	 */
+	public boolean hasCrocodiles()
+	{
+		boolean result = false;
+		// Are any Crocodile in the array
+		if (theCrocodiles.size() != 0)
+		{
+			result = true;
+		}
+		return result;
+	}
+
+	/**
+	 * Goes through the current train and updates the held Crocodile.
+	 */
+	public void updateCrocodiles()
+	{
+		// Go through all the Terrain adding Crocodile
+		for (int i = 0; i < theTerrains.size(); i++)
+		{
+			if (theTerrains.get(i).hasCrocodile() == true)
+			{
+				theCrocodiles.add(theTerrains.get(i).getCrocodile());
+			}
+		}
+	}
+
+	/**
+	 * Removes all Crocodile from this region and terrain.
+	 */
+	public void removeAllCrocodile()
+	{
+		theCrocodiles.clear();
+		for (int i = 0; i < theTerrains.size(); i++)
+		{
+			if (theTerrains.get(i).hasCrocodile())
+			{
+				theTerrains.get(i).removeCrocodile();
+			}
+		}
+	}
 
 	/**
 	 * Updates the status of Trail completion by checking if every segment has
