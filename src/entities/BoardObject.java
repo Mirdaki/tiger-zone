@@ -23,12 +23,15 @@ public class BoardObject {
 	protected TigerObject tiger;
 	protected Map<String, ArrayList<SquareTile>> tiles;
 	protected Map<Integer, Region> incompleteRegions;
+	protected Map<Integer, Integer> minSpots; 
+	
 	protected ArrayList<Location> availableSpots;
 	protected ArrayList<Region> completedRegions;
 
 	protected String whyInvalid;
 	protected Location recentPlacement;
-
+	protected boolean tigerPlaced; 
+	protected boolean pending;
 	/**
 	 * BoardObject() constructor, initialize the variables
 	 */
@@ -36,12 +39,14 @@ public class BoardObject {
 
 		availableSpots = new ArrayList<Location>();
 		incompleteRegions = new HashMap<Integer, Region>();
+		minSpots = new HashMap<Integer, Integer>();
+		
 		completedRegions = new ArrayList<Region>();
 		availableSpots.add(new Location(0,0));
 		board = new SquareTile[ROWSIZE][COLSIZE];
 		tileStack = new TileStack();
 		tiles = tileStack.getTiles();
-		state = false;
+		pending = false;
 		whyInvalid = "";
 
 	} //end constructor
@@ -100,6 +105,10 @@ public class BoardObject {
 	 */
 	public boolean valid(SquareTile tile, Location coord) {
 
+		if (pending) {
+			setReason("Pending move still!"); 
+			return false;
+		}
 
 		//check to see if there is any available tiles of the input type
 		if (tile == null) return false;
@@ -112,8 +121,8 @@ public class BoardObject {
 		}
 
 		//get queried placement
-		int row = coord.getRow();
-		int col = coord.getCol();
+		int row = coord.getY();
+		int col = coord.getX();
 
 		//if out of bounds of the board, or location filled return false automatically
 		if ((row<0 || row>ROWSIZE-1) || (col<0 || col>COLSIZE-1)) {
@@ -178,8 +187,8 @@ public class BoardObject {
 
 	public boolean isSurrounded(Location coord) {
 
-		int row = coord.getRow();
-		int col = coord.getCol();
+		int row = coord.getY();
+		int col = coord.getX();
 
 		SquareTile tile = board[row][col];
 		if (tile == null) return false;
@@ -209,13 +218,16 @@ public class BoardObject {
 	public boolean place(SquareTile tile, Location coord) {
 
 		//proceed if valid placement/game is starting
+
 		if (valid(tile,coord)) {
 
+			minSpots.clear();
+			
 			//get coordinates
-			int row = coord.getRow();
-			int col = coord.getCol();
-			int adjustedRow = row - ROWSIZE/2;
-			int adjustedCol = col - COLSIZE/2;
+			int row = coord.getY();
+			int col = coord.getX();
+			int adjustedY = COLSIZE/2 - row;
+			int adjustedX = col - ROWSIZE/2;
 			String type = tile.getType();
 
 			//get adjacent tiles, if any
@@ -228,10 +240,10 @@ public class BoardObject {
 			//initialize potential locations to be added to available spots list
 			Location addnorth = null, addeast = null, addwest = null, addsouth = null;
 
-			if(row > 0) addnorth = new Location(adjustedRow - 1, adjustedCol);
-			if(col < COLSIZE-1) addeast = new Location(adjustedRow, adjustedCol + 1);
-			if(row < ROWSIZE-1) addsouth = new Location(adjustedRow + 1, adjustedCol);
-			if(col > 0) addwest = new Location(adjustedRow, adjustedCol - 1);
+			addnorth = new Location(adjustedX, adjustedY + 1);
+			addeast = new Location(adjustedX + 1, adjustedY);
+			addsouth = new Location(adjustedX, adjustedY - 1);
+			addwest = new Location(adjustedX - 1, adjustedY);
 
 			//remove potential dnorthlicate values (is there a better way to do this?)
 			for (int i = 0; i < availableSpots.size(); i++) {
@@ -289,7 +301,7 @@ public class BoardObject {
 
 			updateDens();
 			moveCompleted();
-
+			
 			return true;
 		}
 		//		setReason("Wasn't able to place.");
@@ -325,8 +337,8 @@ public class BoardObject {
 	}
 
 	public ArrayList<Location> getMoore(Location location) { 
-		int row = location.getRow();
-		int col = location.getCol();
+		int row = location.getY();
+		int col = location.getX();
 		ArrayList<Location> mooreHood = new ArrayList<Location>();
 		SquareTile north = null, east = null, south = null, west = null;
 		SquareTile nw = null, ne = null, se = null, sw = null;
@@ -350,7 +362,6 @@ public class BoardObject {
 		if(ne != null) mooreHood.add(new Location(row-1,col+1));
 		if(se != null) mooreHood.add(new Location(row+1,col+1));
 		if(sw != null) mooreHood.add(new Location(row+1,col-1));
-
 
 		return mooreHood;
 	}
@@ -411,6 +422,9 @@ public class BoardObject {
 			for (Integer entry : tileConnections) bEdges.setEdge(entry, aRegion.getRegionID());
 
 			aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
+			
+			updateMin(aRegion.getRegionID(),aRegion.getMin());
+			
 			incompleteRegions.remove(oldRegionID);
 		}		
 
@@ -428,6 +442,7 @@ public class BoardObject {
 				for (Integer entry : tileConnections) bEdges.setEdge(entry, aRegion.getRegionID());
 
 				aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
+				updateMin(aRegion.getRegionID(),aRegion.getMin());
 				incompleteRegions.remove(oldRegionID);
 			} 
 			//bottom
@@ -441,9 +456,21 @@ public class BoardObject {
 				for (Integer entry : tileConnections) bEdges.setEdge(entry, aRegion.getRegionID());
 
 				aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
+				updateMin(aRegion.getRegionID(),aRegion.getMin());
 				incompleteRegions.remove(oldRegionID);
 			}
 		}
+	}
+	
+	public void updateMin(int regionID, int value) { 
+		
+		if (minSpots.containsKey(regionID)) { 
+			if (value < minSpots.get(regionID)) { 
+				minSpots.remove(regionID);
+				minSpots.put(regionID, value);
+			}
+		} else minSpots.put(regionID,  value);
+		
 	}
 
 	public int adjustIndex(int index, boolean reverse) { 
@@ -485,6 +512,11 @@ public class BoardObject {
 			return false;
 		}
 		
+		if (tigerPlaced) { 
+			setReason("Already placed a Tiger!");
+			return false;
+		}
+		
 		int terrainPoint = adjustIndex(index, true);
 		Terrain terrain = last.getEdge(terrainPoint);
 		int regionID = terrain.getRegionID();
@@ -505,8 +537,11 @@ public class BoardObject {
 			setReason("This isn't a den!");
 			return false;
 		}
-		
-		if(region.getMin() != index) { 
+		int min = index;
+		if (!minSpots.containsKey(regionID)) { 
+			min = region.getMin();
+		}
+		if(min != index) { 
 			setReason("Specified index was not the minimum");
 			return false;
 		}
@@ -516,7 +551,7 @@ public class BoardObject {
 			return false;
 		}
 		else region.addTiger();
-		
+		tigerPlaced = true;
 		return true;		
 	}
 
@@ -530,7 +565,19 @@ public class BoardObject {
 
 		place(startingTile, new Location(0,0));
 	}
-
+	
+	public void confirm() { 
+		pending = false;
+		tigerPlaced = false;
+	}
+		
+	public void setPending() { 
+		pending = true;
+	}
+	
+	public boolean getPending() { 
+		return pending;
+	}
 	/**
 	 *	getTile() calls on the TileStack's getTile() method to
 	 *	obtain the specified tile type and its orientation.
@@ -552,7 +599,7 @@ public class BoardObject {
 	}
 
 	public SquareTile getTile(Location location) {
-		return board[location.getRow()][location.getCol()];
+		return board[location.getY()][location.getX()];
 	}
 
 	/**
@@ -616,7 +663,7 @@ public class BoardObject {
 	public void print() {
 		for (int row = 0; row < ROWSIZE; row++) {
 			for (int col = 0; col < COLSIZE; col++) {
-				if(board[row][col] == null) System.out.print("(" + (row - ROWSIZE/2) + "," + (col - COLSIZE/2) + ")\t");
+				if(board[row][col] == null) System.out.print("(" + (col - COLSIZE/2) + "," + (ROWSIZE/2 - row) + ")\t");
 				else System.out.print(board[row][col].getType() + "\t");
 				
 //				if(board[row][col] == null) System.out.print("\t");

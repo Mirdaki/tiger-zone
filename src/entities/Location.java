@@ -3,39 +3,39 @@ package entities;
 public class Location {
 
 	//location attributes - adjust ROWSIZE and COLSIZE as needed
-	protected int row, col;
+	protected int x, y;
 	protected static final int ROWSIZE = 11, COLSIZE = 11;
 
 	//locations are relative to starting location. assume center of board is (0,0),
 	//so halve the ROWSIZE/COLSIZE for relative locations
 	public Location() {
-		this.row = BoardObject.ROWSIZE/2;
-		this.col = BoardObject.COLSIZE/2;
+		this.x = BoardObject.COLSIZE/2;
+		this.y = BoardObject.COLSIZE/2;
 	}
 
-	public Location(int row, int col) {
-		this.row = row + BoardObject.ROWSIZE/2;
-		this.col = col + BoardObject.COLSIZE/2;
+	public Location(int x, int y) {
+		this.x = BoardObject.COLSIZE/2 + x;
+		this.y = BoardObject.ROWSIZE/2 - y;
 	}
 
 	public Location(Location coord) {
-		row = coord.row;
-		col = coord.col;
+		x = coord.x;
+		y = coord.y;
 	}
 
-	public int getRow() {
-		return row;
+	public int getY() {
+		return y;
 	}
 
-	public int getCol() {
-		return col;
+	public int getX() {
+		return x;
 	}
 	public boolean equals(Location coord) {
-		if (this.row != coord.row || this.col != coord.col) return false;
+		if (this.y != coord.y || this.x != coord.x) return false;
 		return true;
 	}
 
 	public String toString() {
-		return "(" + (this.row - BoardObject.ROWSIZE/2) + "," + (this.col - BoardObject.COLSIZE/2) + ")";
+		return "(" + (this.x - BoardObject.COLSIZE/2) + "," + (BoardObject.ROWSIZE/2 - this.y) + ")";
 	}
 }

@@ -97,7 +97,7 @@ public class TileEdges {
 	}
 
 	public void setEdge(int index, int newRegionID) { 
-		terrainPoints[index].setRegionID(newRegionID);
+		terrainPoints[linear(index)].setRegionID(newRegionID);
 	}
 
 	public void setOrientation(int orientation) { 
