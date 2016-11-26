@@ -12,6 +12,7 @@ public abstract class Terrain
 	// The attributes
 	protected int theTerrainID;
 	protected int theRegionID;
+	protected int tileID;
 	protected TigerObject theTiger;
 	protected char theType;
 	protected ArrayList<Integer> theTileConnections;
@@ -23,6 +24,14 @@ public abstract class Terrain
 	public Terrain()
 	{
 		// Empty for inheretance
+	}
+	
+	public int getTileID() { 
+		return tileID;
+	}
+	
+	public void setTileID(int tileID) { 
+		this.tileID = tileID;
 	}
 	
 	public int getMin() {

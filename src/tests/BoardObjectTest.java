@@ -7,7 +7,7 @@ import org.junit.Test;
 import entities.BoardObject;
 import entities.Location;
 import entities.Player;
-import entities.SquareTile;
+import entities.TigerTile;
 
 public class BoardObjectTest {
 
@@ -24,7 +24,7 @@ public class BoardObjectTest {
 	public void validTest() {
 		BoardObject test = new BoardObject(); //create the board
 		test.start();
-		SquareTile s = test.getTile("JJTJX",0);
+		TigerTile s = test.getTile("JJTJX",0);
 		
 		//Placement at (-1,0) should be valid
 		assertTrue(test.valid(s, new Location(-1, 0)));
@@ -38,31 +38,31 @@ public class BoardObjectTest {
 		test.start();
 		
 		//Test if tile is surrounded by north, east, south, west
-		SquareTile tile1 = test.getTile("LJTJ-",0);
+		TigerTile tile1 = test.getTile("LJTJ-",0);
 		test.place(tile1,new Location(0,1));
-		SquareTile tile2 = test.getTile("LLLL-",0);
+		TigerTile tile2 = test.getTile("LLLL-",0);
 		test.place(tile2,new Location(1,0));
-		SquareTile tile3 = test.getTile("TJTJ-",0);
+		TigerTile tile3 = test.getTile("TJTJ-",0);
 		test.place(tile3,new Location(0,-1));
 		//(0,0) should not be surrounded at this point
 		assertFalse(test.isSurrounded(new Location()));
-		SquareTile tile4 = test.getTile("JJTJX-",0);
+		TigerTile tile4 = test.getTile("JJTJX-",0);
 		test.place(tile4,new Location(-1,0));
 		//(0,0) should now be surrounded
 		assertTrue(test.isSurrounded(new Location()));
 		
 		//Test if Den tile is surrounded
-		SquareTile tile5 = test.getTile("LJJJ-",0);
+		TigerTile tile5 = test.getTile("LJJJ-",0);
 		test.place(tile5,new Location(-1,1));
-		SquareTile tile6 = test.getTile("TJTJ-",0);
+		TigerTile tile6 = test.getTile("TJTJ-",0);
 		test.place(tile6,new Location(-1,-1));
-		SquareTile tile7 = test.getTile("JJJJ-",0);
+		TigerTile tile7 = test.getTile("JJJJ-",0);
 		test.place(tile7,new Location(-2,-1));
-		SquareTile tile8 = test.getTile("TJJT-",0);
+		TigerTile tile8 = test.getTile("TJJT-",0);
 		test.place(tile8,new Location(-2,0));
 		//Den at (-1,0) should not be surrounded at this point
 		assertFalse(test.isSurrounded(new Location(-1, 0)));
-		SquareTile tile9 = test.getTile("TJTT-",0);
+		TigerTile tile9 = test.getTile("TJTT-",0);
 		test.place(tile9,new Location(-2,1));
 		//Den at (-1,0) should now be surrounded
 		assertTrue(test.isSurrounded(new Location(-1, 0)));
@@ -72,7 +72,7 @@ public class BoardObjectTest {
 	public void placeTest() {
 		BoardObject test = new BoardObject(); //create the board
 		test.start();
-		SquareTile tile1 = test.getTile("LJTJ-",0);
+		TigerTile tile1 = test.getTile("LJTJ-",0);
 		
 		//Test if place is successful
 		assertTrue(test.place(tile1,new Location(0,1)));
@@ -85,7 +85,7 @@ public class BoardObjectTest {
 		BoardObject test = new BoardObject(); //create the board
 		test.start();
 		//Get tile in center of board
-		SquareTile tile = test.getBoard()[5][5];
+		TigerTile tile = test.getBoard()[5][5];
 		//Test if designated starting tile was placed in center of board
 		assertEquals("TLTJ-", tile.getType());
 	}

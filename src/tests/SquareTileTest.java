@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
 
 import entities.BoardObject;
 import entities.Location;
-import entities.SquareTile;
+import entities.TigerTile;
 import entities.TileStack;
 import entities.edge;
 
@@ -33,7 +33,7 @@ public class SquareTileTest {
 		//Create the board
 		BoardObject test = new BoardObject(); 
 		test.start();
-		SquareTile test1 = test.getTile("JJTJX", 0);
+		TigerTile test1 = test.getTile("JJTJX", 0);
 		
 		assertEquals('X', test1.getSpecial());
 		assertEquals(0, test1.getOrientation());
@@ -51,7 +51,7 @@ public class SquareTileTest {
 		//Create the board
 		BoardObject test = new BoardObject();
 		test.start();
-		SquareTile test1 = test.getTile("JJTJX", 0);
+		TigerTile test1 = test.getTile("JJTJX", 0);
 		//Rotate 90 degrees
 		test1.setOrientation(1);
 		
@@ -66,7 +66,7 @@ public class SquareTileTest {
 		//Create the board
 		BoardObject test = new BoardObject();
 		test.start();
-		SquareTile test1 = test.getTile("JJTJX", 0);
+		TigerTile test1 = test.getTile("JJTJX", 0);
 		Location c1 = new Location(1, 1);
 		//Set location of this tile to be (1,1)
 		test1.setCoord(c1);
@@ -81,7 +81,7 @@ public class SquareTileTest {
 		//Create the board
 		BoardObject test = new BoardObject();
 		test.start();
-		SquareTile test1 = test.getTile("JJTJX", 0);
+		TigerTile test1 = test.getTile("JJTJX", 0);
 		edge e1 = new edge('J', 'J', 'J');
 		
 		assertTrue(test1.similarEdge(e1));

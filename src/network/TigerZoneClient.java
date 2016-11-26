@@ -9,9 +9,6 @@ import java.util.regex.Pattern;
 
 public class TigerZoneClient {
 
-	private final String username = "Red";
-	private final String password = "Obiwan77";
-
 	public static void main(String[] args) throws Exception {
 
 		//if format not followed, specify

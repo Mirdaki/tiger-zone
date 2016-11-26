@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * SquareTile is inherited from the TileObject class. See that file
  * for object breakdown.
  */
-public class SquareTile extends TileObject {
+public class TigerTile extends TileObject {
 
 	protected Player owner;
 	protected String type;
@@ -37,11 +37,11 @@ public class SquareTile extends TileObject {
 	protected Terrain[] terrains;
 
 
-	public SquareTile() { 
+	public TigerTile() { 
 
 	}
 
-	public SquareTile(String type, int orientation) {
+	public TigerTile(String type, int orientation) {
 		try { //attempt to parse XML file of tiles
 
 			//file to parse
@@ -91,21 +91,23 @@ public class SquareTile extends TileObject {
 						}
 
 						if (regionType.equalsIgnoreCase("jungle")) 
-							terrains[i++] = new JungleTerrain(edgeConnections);
+							terrains[i] = new JungleTerrain(edgeConnections);
 						else if (regionType.equalsIgnoreCase("trail")) { 
 							char trailType = eElement.getAttribute("type").charAt(0);
 							if (trailType == 'C') 
-								terrains[i++] = new TrailTerrain(edgeConnections, false, prey);
+								terrains[i] = new TrailTerrain(edgeConnections, false, prey);
 							else 
-								terrains[i++] = new TrailTerrain(edgeConnections, true, prey);
+								terrains[i] = new TrailTerrain(edgeConnections, true, prey);
 						}
 						else if (regionType.equalsIgnoreCase("lake")) { 
 							char lakeType = eElement.getAttribute("type").charAt(0);
 							if (lakeType == 'C') 
-								terrains[i++] = new LakeTerrain(edgeConnections, false, prey);
+								terrains[i] = new LakeTerrain(edgeConnections, false, prey);
 							else 
-								terrains[i++] = new LakeTerrain(edgeConnections, true, prey);
+								terrains[i] = new LakeTerrain(edgeConnections, true, prey);
 						}
+						
+						terrains[i++].setTileID(tileID);
 					}
 
 					Terrain[] edgeTerrains = new Terrain[8];
@@ -154,7 +156,7 @@ public class SquareTile extends TileObject {
 	 * of a given tile extracted from an XML document.
 	 * @return SquareTile
 	 */
-	public SquareTile(Element eElement) {
+	public TigerTile(Element eElement) {
 
 		//initialize member variables
 		tileID = tileNum++; //ensures uniqueID to a tile

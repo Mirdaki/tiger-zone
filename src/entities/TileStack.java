@@ -23,7 +23,7 @@ import java.util.Map;
 public class TileStack {
 
     //class members
-    protected Map<String, ArrayList<SquareTile>> tileStack;
+    protected Map<String, ArrayList<TigerTile>> tileStack;
     protected int tileCount;
 
     /**
@@ -31,7 +31,7 @@ public class TileStack {
 	 */
     public TileStack() {
 
-        tileStack = new HashMap<String, ArrayList<SquareTile>>();
+        tileStack = new HashMap<String, ArrayList<TigerTile>>();
         tileCount = 0;
 
         try { //attempt to parse XML file of tiles
@@ -51,7 +51,7 @@ public class TileStack {
                 for (int i = 0; i < nList.getLength(); i++) {
 
                     //create an array list of all tiles that match the type (for multiplicity)
-                    ArrayList<SquareTile> newTile = new ArrayList<SquareTile>();
+                    ArrayList<TigerTile> newTile = new ArrayList<TigerTile>();
 
                     //take ith element and find multiplicity
                     Node nNode = nList.item(i);
@@ -63,7 +63,7 @@ public class TileStack {
 
                         //add a tile of said type for each multiplicity into array list
                         for (int j = 0; j < multiplicity; j++, tileCount++)
-                            newTile.add(new SquareTile(eElement));
+                            newTile.add(new TigerTile(eElement));
 
                         //place tile types and their multiplicities into the tileStack
                         tileStack.put(type,newTile);
@@ -79,18 +79,18 @@ public class TileStack {
 	 * getTiles() will return the tile stack
      * @return the tileStack
 	 */
-    public Map<String, ArrayList<SquareTile>> getTiles() {
+    public Map<String, ArrayList<TigerTile>> getTiles() {
         return tileStack;
     }
 
-    public ArrayList<SquareTile> getList(String type) {
+    public ArrayList<TigerTile> getList(String type) {
         return tileStack.get(type);
     }
 
     public void removeTile(String type) {
 
         tileCount--;
-        ArrayList<SquareTile> tile = tileStack.get(type);
+        ArrayList<TigerTile> tile = tileStack.get(type);
         tile.remove(0);
 
 
@@ -99,7 +99,7 @@ public class TileStack {
 	 * setTiles() will set the current tile stack to a new tile stack
      * @param tileStack will set the tileStack to a new tileStack
 	 */
-    public void setTiles(Map<String, ArrayList<SquareTile>> tileStack) {
+    public void setTiles(Map<String, ArrayList<TigerTile>> tileStack) {
         this.tileStack = tileStack;
     }
 
@@ -109,16 +109,16 @@ public class TileStack {
      *  @param orientation the orientation of the tile being looked for
      *  @return the specified tile
      */
-    public SquareTile getTile(String type, int orientation) {
+    public TigerTile getTile(String type, int orientation) {
 
         //get the arrayList of matching tiles
-        ArrayList<SquareTile> tileMatches = tileStack.get(type);
+        ArrayList<TigerTile> tileMatches = tileStack.get(type);
 
         //if no matches, return null
         if (tileMatches == null) return null;
 
         //pull first match, reset its orientation
-        SquareTile tile = tileMatches.get(0);
+        TigerTile tile = tileMatches.get(0);
         tile.setOrientation(orientation);
 
         return tile;

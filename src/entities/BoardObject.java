@@ -17,11 +17,12 @@ public class BoardObject {
 
 	public static final int ROWSIZE = 11, COLSIZE = 11;
 	protected TileStack tileStack;
-	protected SquareTile[][] board;
+	protected TigerTile[][] board;
 	protected boolean state; //east now this serves as just a if we started or not
 	protected Player[] players;
-	protected TigerObject tiger;
-	protected Map<String, ArrayList<SquareTile>> tiles;
+	protected Player activePlayer;
+	
+	protected Map<String, ArrayList<TigerTile>> tiles;
 	protected Map<Integer, Region> incompleteRegions;
 	protected Map<Integer, Integer> minSpots; 
 
@@ -32,6 +33,7 @@ public class BoardObject {
 	protected Location recentPlacement;
 	protected boolean tigerPlaced; 
 	protected boolean pending;
+	
 	/**
 	 * BoardObject() constructor, initialize the variables
 	 */
@@ -40,10 +42,28 @@ public class BoardObject {
 		availableSpots = new ArrayList<Location>();
 		incompleteRegions = new HashMap<Integer, Region>();
 		minSpots = new HashMap<Integer, Integer>();
-
 		completedRegions = new ArrayList<Region>();
 		availableSpots.add(new Location(0,0));
-		board = new SquareTile[ROWSIZE][COLSIZE];
+		board = new TigerTile[ROWSIZE][COLSIZE];
+		tileStack = new TileStack();
+		tiles = tileStack.getTiles();
+		pending = false;
+		whyInvalid = "";
+
+	} //end constructor
+
+	
+	/**
+	 * BoardObject() constructor, initialize the variables
+	 */
+	public BoardObject(Player[] players) {
+
+		availableSpots = new ArrayList<Location>();
+		incompleteRegions = new HashMap<Integer, Region>();
+		minSpots = new HashMap<Integer, Integer>();
+		completedRegions = new ArrayList<Region>();
+		availableSpots.add(new Location(0,0));
+		board = new TigerTile[ROWSIZE][COLSIZE];
 		tileStack = new TileStack();
 		tiles = tileStack.getTiles();
 		pending = false;
@@ -103,7 +123,7 @@ public class BoardObject {
 	 *	@param coord The Location on the board for the tile to be placed.
 	 *	@return true if valid placement, false if not
 	 */
-	public boolean valid(SquareTile tile, Location coord) {
+	public boolean valid(TigerTile tile, Location coord) {
 
 		if (pending) {
 			setReason("Pending move still!"); 
@@ -114,7 +134,7 @@ public class BoardObject {
 		if (tile == null) return false;
 
 		String type = tile.getType();
-		ArrayList<SquareTile> tileMatches = tileStack.getList(type);
+		ArrayList<TigerTile> tileMatches = tileStack.getList(type);
 		if(tileMatches == null) { 
 			setReason("No tile matches found. Did you use all of them?");
 			return false;
@@ -153,7 +173,7 @@ public class BoardObject {
 		}
 
 		//get adjacent tiles
-		SquareTile north = null, east = null, south = null, west = null;
+		TigerTile north = null, east = null, south = null, west = null;
 		if(row > 0) north = board[row - 1][col];
 		if(col < COLSIZE-1) east = board[row][col + 1];
 		if(row < ROWSIZE-1) south = board[row + 1][col];
@@ -190,13 +210,13 @@ public class BoardObject {
 		int row = coord.getY();
 		int col = coord.getX();
 
-		SquareTile tile = board[row][col];
+		TigerTile tile = board[row][col];
 		if (tile == null) return false;
 
 		char special = tile.getSpecial();
 
-		SquareTile north = null, east = null, south = null, west = null;
-		SquareTile nw = null, ne = null, se = null, sw = null;
+		TigerTile north = null, east = null, south = null, west = null;
+		TigerTile nw = null, ne = null, se = null, sw = null;
 
 		if(row > 0) north = board[row - 1][col];
 		if(col < COLSIZE-1) east = board[row][col + 1];
@@ -215,7 +235,7 @@ public class BoardObject {
 		return true;
 	}
 
-	public boolean place(SquareTile tile, Location coord) {
+	public boolean place(TigerTile tile, Location coord) {
 
 		//proceed if valid placement/game is starting
 
@@ -231,7 +251,7 @@ public class BoardObject {
 			String type = tile.getType();
 
 			//get adjacent tiles, if any
-			SquareTile north = null, east = null, south = null, west = null;
+			TigerTile north = null, east = null, south = null, west = null;
 			if(row > 0) north = board[row - 1][col];
 			if(col < COLSIZE-1) east = board[row][col + 1];
 			if(row < ROWSIZE-1) south = board[row + 1][col];
@@ -328,7 +348,7 @@ public class BoardObject {
 				for (Location coord : newMoore) { 
 
 					//get the tile and its terrain (regions) based on the location given by the Moore neighborhood
-					SquareTile temp = getTile(coord);
+					TigerTile temp = getTile(coord);
 					Terrain[] tempTerrains = temp.getTerrains();
 
 					//for every Jungle terrain found, add the den to the set of dens associated with it
@@ -367,8 +387,8 @@ public class BoardObject {
 		int row = location.getY();
 		int col = location.getX();
 		ArrayList<Location> mooreHood = new ArrayList<Location>();
-		SquareTile north = null, east = null, south = null, west = null;
-		SquareTile nw = null, ne = null, se = null, sw = null;
+		TigerTile north = null, east = null, south = null, west = null;
+		TigerTile nw = null, ne = null, se = null, sw = null;
 
 		if(row > 0) north = board[row - 1][col];
 		if(col < COLSIZE-1) east = board[row][col + 1];
@@ -398,7 +418,7 @@ public class BoardObject {
 		return mooreHood;
 	}
 
-	public void mergeTileRegions(SquareTile a, SquareTile b, int edge) {
+	public void mergeTileRegions(TigerTile a, TigerTile b, int edge) {
 		//tile A will serve as the parent, tile B will be the child
 
 		TileEdges aEdges = a.getEdges();
@@ -538,7 +558,7 @@ public class BoardObject {
 		}
 
 		Location recent = recentPlacement;
-		SquareTile last = getTile(recent);
+		TigerTile last = getTile(recent);
 		if (last == null) { 
 			setReason("Error: no placed tile?");
 			return false;
@@ -593,7 +613,7 @@ public class BoardObject {
 	 */
 	public void start() {
 		//		SquareTile startingTile = tileStack.getTile("TLTJ-",0);
-		SquareTile startingTile = tileStack.getTile("TLTJ-",0);
+		TigerTile startingTile = tileStack.getTile("TLTJ-",0);
 
 		place(startingTile, new Location(0,0));
 	}
@@ -622,15 +642,15 @@ public class BoardObject {
 	 *	@param orientation The desired orientation (0=0, 1=90, 2=180, 3=270)
 	 *	@return the corresponding SquareTile
 	 */
-	public SquareTile getTile(String type, int orientation) {
-		SquareTile result = tileStack.getTile(type, orientation);
+	public TigerTile getTile(String type, int orientation) {
+		TigerTile result = tileStack.getTile(type, orientation);
 		if (result == null) { 
 			setReason("Couldn't find specified tile. Try another.");
 		}		
 		return result;
 	}
 
-	public SquareTile getTile(Location location) {
+	public TigerTile getTile(Location location) {
 		return board[location.getY()][location.getX()];
 	}
 
@@ -677,14 +697,14 @@ public class BoardObject {
 	 *	getBoard() is self explanatory
 	 *	@return the current game board
 	 */
-	public SquareTile[][] getBoard() {
+	public TigerTile[][] getBoard() {
 		return board;
 	}
 
 	/**
 	 *	setBoard() is self explanatory. It sets the current board to a new board.
 	 */
-	public void setBoard(SquareTile[][] board) {
+	public void setBoard(TigerTile[][] board) {
 		this.board = board;
 	}
 
@@ -697,10 +717,6 @@ public class BoardObject {
 			for (int col = 0; col < COLSIZE; col++) {
 				if(board[row][col] == null) System.out.print("(" + (col - COLSIZE/2) + "," + (ROWSIZE/2 - row) + ")\t");
 				else System.out.print(board[row][col].getType() + "\t");
-
-				//				if(board[row][col] == null) System.out.print("\t");
-				//				else System.out.print(board[row][col].getType() + "\t");
-
 			}
 			System.out.println("\n");
 		}

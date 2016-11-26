@@ -45,7 +45,7 @@ public class TigerZone {
 					input = in.nextLine();
 
 					String[] result = input.split("\\s");
-					SquareTile testTile = test.getTile(result[0],Integer.parseInt(result[1]));
+					TigerTile testTile = test.getTile(result[0],Integer.parseInt(result[1]));
 					Location location = new Location(Integer.parseInt(result[2]),Integer.parseInt(result[3]));
 
 					if(!test.place(testTile, location)) { 
