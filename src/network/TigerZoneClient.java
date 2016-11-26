@@ -2,155 +2,219 @@ package network;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TigerZoneClient {
 
 	private final String username = "Red";
 	private final String password = "Obiwan77";
-	
-	public static void main(String[] args) throws Exception
-	{
-		TigerZoneClient client = new TigerZoneClient();
-		client.run();
-	}
-	
-	public void run() throws Exception
-	{
-		//Requires IP and port information
-		Socket socket = new Socket("localhost", 4444);
-		OutputStream outToServer = socket.getOutputStream();
-		PrintWriter pwrite = new PrintWriter(outToServer, true);
-		InputStream istream = socket.getInputStream();
-		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(istream));
-		String receiveMessage;
+
+	public static void main(String[] args) throws Exception {
+
+		//if format not followed, specify
+		if (args.length != 5) {
+			System.err.println(
+					"Usage: java TigerZoneClient <host name> <port number> <server password> <username> <password>");
+			System.exit(1);
+		}
+
+		//take in administrative information
+		String hostName = args[0];
+		int portNumber = Integer.parseInt(args[1]);
+		String serverPass = args[2];
+		String userName = args[3];
+		String userPass = args[4];
 		
-		//Continuously fetch message from server
-		while (true) {
-			receiveMessage = inFromServer.readLine();
-			while (receiveMessage != null){
-				respond(receiveMessage, pwrite);
-			}
-		}
-	}
-	
-	public void respond(String serverMessage, PrintWriter pwrite) {
-		if (serverMessage == "THIS IS SPARTA!")
-		{
-			pwrite.println("JOIN PersiaRocks!");
-		}
-		if (serverMessage == "HELLO!")
-		{
-			pwrite.println("I AM " + username + " " + password);
-		}
-		if (serverMessage == "WELCOME " + username + " PLEASE WAIT FOR THE NEXT CHALLENGE")
-		{
-			//Do something, possibly restart our game, while waiting for next challenge
-		}
-		String[] tokenizedMessage = serverMessage.split("\\s");
-		switch (serverMessage.substring(0,3)) {
-		case "NEW ": 
-			int cid = Integer.parseInt(tokenizedMessage[2]);
-			int rounds = Integer.parseInt(tokenizedMessage[6]);
-			//Do something with cid and rounds
-			break;
-		case "BEGI":
-			int rid = Integer.parseInt(tokenizedMessage[2]);
-			//Do something with rid
-			break;
-		case "YOUR":
-			String opponentID = tokenizedMessage[4];
-			//Do something with opponentID
-			break;
-		case "STAR":
-			String startingTile = tokenizedMessage[3];
-			int startingTileX = Integer.parseInt(tokenizedMessage[5]);
-			int startingTileY = Integer.parseInt(tokenizedMessage[6]);
-			//startingTileOrientation gives orientation in 0-90-18-270 format
-			int startingTileOrientation = Integer.parseInt(tokenizedMessage[7]);
-			//Initiate board with above information
-			break;
-		case "THE ":
-			int numRemainTiles = Integer.parseInt(tokenizedMessage[2]);
-			for (int i=0; i<numRemainTiles; i++){
-				String[] remainingTiles = new String[numRemainTiles];
-				remainingTiles[i] = tokenizedMessage[i+6];
-			}
-			//Do something with remainingTiles array
-			break;
-		case "MATC":
-			int planTime = Integer.parseInt(tokenizedMessage[3]);
-			//Do something with planTime
-			break;
-		case "MAKE":
-			String gameID = tokenizedMessage[5];
-			int moveTime = Integer.parseInt(tokenizedMessage[7]);
-			int moveNum = Integer.parseInt(tokenizedMessage[10]);
-			String tileToBePlaced = tokenizedMessage[12];
-			//Do something with above information
-			break;
-		case "GAME":
-			gameID = tokenizedMessage[1];
-			if (tokenizedMessage[2] == "OVER"){
-				String playerID = tokenizedMessage[4];
-				int score = Integer.parseInt(tokenizedMessage[5]);
-				//Do something with above player's information
-				playerID = tokenizedMessage[7];
-				score = Integer.parseInt(tokenizedMessage[8]);
-			}
-			else{
-				moveNum = Integer.parseInt(tokenizedMessage[3]);
-				//playerID used to distinguish which player in the game just moved
-				String playerID = tokenizedMessage[5];
-				if (tokenizedMessage[6] == "FORFEITED:"){
-					if(tokenizedMessage[7] == "ILLEGAL"){
-						switch (tokenizedMessage[8]) {
-						case "TILE":
-							boolean illegalTilePlacement = true;
-							break;
-						case "MEEPLE":
-							boolean illegalMeeplePlacement = true;
-							break;
-						case "MESSAGE":
-							boolean illegalMessageReceoved = true;
-							break;
+		//attempt connection with server specified by product owner
+		try (
+				Socket kkSocket = new Socket(hostName, portNumber);
+				PrintWriter out = new PrintWriter(kkSocket.getOutputStream(), true);
+				BufferedReader in = new BufferedReader(
+						new InputStreamReader(kkSocket.getInputStream()));
+				) {
+			BufferedReader stdIn =
+					new BufferedReader(new InputStreamReader(System.in));
+			String fromServer;
+			String fromUser;
+
+			
+			//variable declarations - information from server
+			String gameID;
+			String opponentName; 
+			int challengeID, numChallenges;
+			int roundID, numRounds;
+			int countDown;
+			ArrayList<String> tiles = new ArrayList<String>();
+			int numTiles;
+
+			//starting tile information
+			String startingTile; 
+			int startingX, startingY, startingOrientation;
+
+			//tile recently placed by opponent
+			String tilePlaced;
+			int tilePlacedX;
+			int tilePlacedY;
+			int tileOrientation;
+			String animal;
+			int animalZone;
+			
+			//tile AI wants to place
+			String tileToPlace;
+			
+
+			//continuously wait for input from server
+			while ((fromServer = in.readLine()) != null) {
+				
+				//display information from server
+				System.out.println("Server: " + fromServer);
+
+				
+				if (fromServer.equals("THIS IS SPARTA!")) { //if first message, send join request
+					out.println("JOIN " + serverPass);
+				}
+				else if (fromServer.equals("HELLO!")) {  //if request accepted, send authentication
+					out.println("I AM " + userName + " " + userPass);
+				}
+				else if (fromServer.equals("THANK YOU FOR PLAYING!")) { //if end of tournament, exit from this
+					//kill AI process and children
+					break;
+				}
+				else { //otherwise, message must be parsed from erver
+					
+					//tokenize it
+					String[] tokenizedMessage = fromServer.split("\\s+");
+					String command = tokenizedMessage[0];
+
+					switch(command){
+
+					case "NEW": //if new tournament created (might not need)
+						challengeID = Integer.parseInt(tokenizedMessage[2]);
+						numRounds = Integer.parseInt(tokenizedMessage[6]);
+						break;
+
+					case "BEGIN": //if round begun (might not need)
+						roundID = Integer.parseInt(tokenizedMessage[2]);
+						numRounds = Integer.parseInt(tokenizedMessage[4]);
+						break;
+
+					case "YOUR": //take in opponent information
+						opponentName = tokenizedMessage[4];
+
+						//send off opponent name
+						
+						break;
+
+					case "STARTING": //take in starting tile information (hope we dont need)
+						startingTile = tokenizedMessage[3];
+						startingX = Integer.parseInt(tokenizedMessage[5]);
+						startingY = Integer.parseInt(tokenizedMessage[6]);
+						startingOrientation = Integer.parseInt(tokenizedMessage[7]);
+						
+						//send off starting tile
+						break;
+
+					case "THE": //take in the randomized tile list
+						numTiles = Integer.parseInt(tokenizedMessage[2]);
+
+						for (int i = 0; i < numTiles; i++) 
+							tiles.add(tokenizedMessage[i+6]);
+
+						//send off tiles to AI
+						
+						break;
+
+					case "MATCH": //begin match
+						countDown = Integer.parseInt(tokenizedMessage[3]);
+						//begin two simultaneous games using information given up to this point
+						
+						break;
+
+					case "MAKE": //send off move based on current tile
+						gameID = tokenizedMessage[5];
+						tileToPlace = tokenizedMessage[12];
+						
+						//send off the tileToPlace to the AI for the specified game
+						//get best move from AI for requested gameID
+						//send off information to server
+												
+						/*
+						//general
+						if AI wants to place a CROCODILE or NONE
+						out.println("GAME " + gameID + " PLACE " + tileToPlace + " AT " + tileToPlaceX + " " + tileToPlaceY + " " + tileToPlaceOrientation + " " + tileToPlaceAnimal)
+						
+						if AI wants to place a TIGER
+						out.println("GAME " + gameID + " PLACE " + tileToPlace + " AT " + tileToPlaceX + " " + tileToPlaceY + " " + tileToPlaceOrientation + " " + tileToPlaceAnimal + " " + tileToPlaceAnimalZone)
+
+						//discarded tile
+						out.println("GAME " + gameID + " TILE " + tileToPlace + " UNPLACEABLE PASS")
+						out.println("GAME " + gameID + " TILE " + tileToPlace + " UNPLACEABLE RETRIEVE TIGER AT " + locationX + " " + locationY)
+						out.println("GAME " + gameID + " TILE " + tileToPlace + " UNPLACEABLE ADD ANOTHER TIGER TO " + locationX + " " + locationY)
+						 */					
+						break;
+						
+					case "GAME": //game logic
+						if (tokenizedMessage[2].equals("OVER")) { 
+							//game over logic - i.e. tell AI to stop the two games
 						}
+						else if (tokenizedMessage[6].equals("FORFEITED")) {
+							//forfeited game logic - ie. tell AI to stop the two games due to forfeit
+						}
+						else { //a move was made - place onto own board(s)
+							
+							gameID = tokenizedMessage[2];
+							tilePlaced = tokenizedMessage[7];
+							tilePlacedX = Integer.parseInt(tokenizedMessage[9]);
+							tilePlacedY = Integer.parseInt(tokenizedMessage[10]);
+							tileOrientation = Integer.parseInt(tokenizedMessage[11]) / 90;							
+							animal = tokenizedMessage[12];
+							
+							if (!animal.equals("NONE")) 
+								animalZone = Integer.parseInt(tokenizedMessage[13]);
+
+							//send off information to the AI/game manager for the game associated with gameID									
+						}
+						break;
+					
+					default: break;
 					}
-					else if(tokenizedMessage[7] == "INVALID"){
-						boolean invalidMeeplePlacement = true;
-					}
-					else if(tokenizedMessage[7] == "TIMEOUT"){
-						boolean timeout = true;
-					}
-				}
-				else{
-					tileToBePlaced = tokenizedMessage[7];
-					int coordX = Integer.parseInt(tokenizedMessage[9]);
-					int coordY = Integer.parseInt(tokenizedMessage[10]);
-					int orientation = Integer.parseInt(tokenizedMessage[11]);
-					String animal = tokenizedMessage[12];
-					if (animal == "TIGER") {
-						int zoneOfTiger = Integer.parseInt(tokenizedMessage[12]);
-					}
-				}
+				}				
 			}
-			//Do something with above info
-			break;
-		case "END ":
-			rid = Integer.parseInt(tokenizedMessage[3]);
-			rounds = Integer.parseInt(tokenizedMessage[5]);
-			//There is a case where PLEASE WAIT FOR THE NEXT MATCH is appended to 
-			//END OF ROUND <rid> OF <rounds>. Do we need to check for that or just always wait for next match?
-			if(tokenizedMessage[2] == "CHALLENGES"){
-				//Do something if message is END OF CHALLENGES
-			}
-			break;
-		case "PLEA":
-			//Do something if message is PLEASE WAIT FOR THE NEXT CHALLENGE TO BEGIN
-			break;
-		case "THAN":
-			//Close socket?
-			break;
+		} catch (UnknownHostException e) {
+			System.err.println("Don't know about host " + hostName);
+			System.exit(1);
+		} catch (IOException e) {
+			System.err.println("Couldn't get I/O for the connection to " +
+					hostName);
+			System.exit(1);
 		}
 	}
 }
+
+//		TigerZoneClient client = new TigerZoneClient();
+//		client.run();
+//	}
+//	
+//	public void run() throws Exception
+//	{
+//		//Requires IP and port information
+//		Socket socket = new Socket("localhost", 4444);
+//		OutputStream outToServer = socket.getOutputStream();
+//		PrintWriter pwrite = new PrintWriter(outToServer, true);
+//		InputStream istream = socket.getInputStream();
+//		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(istream));
+//		String receiveMessage;
+//		
+//		//Continuously fetch message from server
+//		while (true) {
+//			receiveMessage = inFromServer.readLine();
+//			while (receiveMessage != null){
+//				respond(receiveMessage, pwrite);
+//			}
+//		}
+//	}
+//	
+//}
