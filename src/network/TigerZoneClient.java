@@ -32,8 +32,14 @@ public class TigerZoneClient {
 		try (
 				Socket kkSocket = new Socket(hostName, portNumber);
 				PrintWriter out = new PrintWriter(kkSocket.getOutputStream(), true);
-				BufferedReader in = new BufferedReader(
-						new InputStreamReader(kkSocket.getInputStream()));
+				BufferedReader in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
+				
+				ServerSocket serverSocket = new ServerSocket(6789);
+				Socket clientSocket = serverSocket.accept();
+				PrintWriter ai_OUT = new PrintWriter(clientSocket.getOutputStream(), true);
+				BufferedReader ai_IN = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+				
 				) {
 			BufferedReader stdIn =
 					new BufferedReader(new InputStreamReader(System.in));
@@ -83,7 +89,7 @@ public class TigerZoneClient {
 					//kill AI process and children
 					break;
 				}
-				else { //otherwise, message must be parsed from erver
+				else { //otherwise, message must be parsed from server
 					
 					//tokenize it
 					String[] tokenizedMessage = fromServer.split("\\s+");
@@ -105,6 +111,12 @@ public class TigerZoneClient {
 						opponentName = tokenizedMessage[4];
 
 						//send off opponent name
+						while ((inputLine = in.readLine()) != null) {
+							outputLine = kkp.processInput(inputLine);
+							out.println(outputLine);
+							if (outputLine.equals("THANK YOU FOR PLAYING! GOODBYE"))
+								break;
+
 						
 						break;
 
