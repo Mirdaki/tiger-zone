@@ -9,7 +9,9 @@ public class JungleTerrain extends Terrain
 {
 	protected CrocodileObject theCrocodile;
 	protected Animal theAnimal;
-	// Constructor
+	protected ArrayList<Integer> adjacentLakes;
+	
+	// Constructors
 
 	/**
 	 * A Jungle terrain
@@ -24,9 +26,21 @@ public class JungleTerrain extends Terrain
 		theTileConnections = aTileConnections;
 		theType            = 'J';
 		terrainMin 		   = aTileConnections.get(0);
+		adjacentLakes	   = new ArrayList<Integer>();
 	}
 
+	public void addLake(int lakeRegionID) { 
+		adjacentLakes.add(lakeRegionID);
+	}
 	
+	public void removeLake(int lakeRegionID) { 
+		adjacentLakes.remove(lakeRegionID);
+	}
+	
+	public ArrayList<Integer> getLakes() { 
+		return adjacentLakes;
+	}
+
 	/**
 	 * Gets the animal type from the terrain.
 	 * @return char of animal, null if nothing
@@ -54,8 +68,7 @@ public class JungleTerrain extends Terrain
 	 * Checks if the Lake has an animal
 	 * @return boolean
 	 */
-	public boolean hasAnimal()
-	{
+	public boolean hasAnimal() {
 		boolean result = false;
 		if (theAnimal != null)
 		{
@@ -111,6 +124,9 @@ public class JungleTerrain extends Terrain
 		theCrocodile = null;
 		return result;
 	}
+	
+	
+	
 	
 	// Deprecated
 

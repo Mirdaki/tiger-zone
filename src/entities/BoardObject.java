@@ -24,7 +24,7 @@ public class BoardObject {
 	protected Map<String, ArrayList<SquareTile>> tiles;
 	protected Map<Integer, Region> incompleteRegions;
 	protected Map<Integer, Integer> minSpots; 
-	
+
 	protected ArrayList<Location> availableSpots;
 	protected ArrayList<Region> completedRegions;
 
@@ -40,7 +40,7 @@ public class BoardObject {
 		availableSpots = new ArrayList<Location>();
 		incompleteRegions = new HashMap<Integer, Region>();
 		minSpots = new HashMap<Integer, Integer>();
-		
+
 		completedRegions = new ArrayList<Region>();
 		availableSpots.add(new Location(0,0));
 		board = new SquareTile[ROWSIZE][COLSIZE];
@@ -222,7 +222,7 @@ public class BoardObject {
 		if (valid(tile,coord)) {
 
 			minSpots.clear();
-			
+
 			//get coordinates
 			int row = coord.getY();
 			int col = coord.getX();
@@ -301,20 +301,47 @@ public class BoardObject {
 
 			updateDens();
 			moveCompleted();
-			
+
 			return true;
 		}
 		//		setReason("Wasn't able to place.");
 		return false;
 	}
 	public void updateDens() {
+
+		//find each den in the map of incomplete regions
 		for(Map.Entry<Integer, Region> entry : incompleteRegions.entrySet()) {
-			Region region = entry.getValue();
-			if(region instanceof DenRegion) {
-				ArrayList<Location> newMoore = getMoore(((DenRegion) region).getLocation());
-				((DenRegion) region).setMoore(newMoore);
+
+			//get the potential den and ID
+			Region denRegion = entry.getValue();
+			int denRegionID = denRegion.getRegionID();
+
+			//if it was an actual Den Region
+			if(denRegion instanceof DenRegion) {
+
+				//obtain the Moore neighborhood and reset the Den Region's
+				ArrayList<Location> newMoore = getMoore(((DenRegion) denRegion).getLocation());
+				((DenRegion) denRegion).setMoore(newMoore);
+
+
+				//now update every jungle that is inside of the den region's Moore neighborhood
+				for (Location coord : newMoore) { 
+
+					//get the tile and its terrain (regions) based on the location given by the Moore neighborhood
+					SquareTile temp = getTile(coord);
+					Terrain[] tempTerrains = temp.getTerrains();
+
+					//for every Jungle terrain found, add the den to the set of dens associated with it
+					for (Terrain terrain : tempTerrains) { 
+						if(terrain instanceof JungleTerrain) { 
+							int jungleRegionID = terrain.getRegionID();
+							Region jungleRegion = incompleteRegions.get(jungleRegionID); 
+							((JungleRegion) jungleRegion).addDen(denRegionID);
+						}
+					}
+				}
 			}
-		}		
+		}
 	}
 
 	public void moveCompleted() { 
@@ -327,9 +354,9 @@ public class BoardObject {
 			}
 		}
 
-		for (Integer key : toRemove) { 
-			incompleteRegions.remove(key);
-		}
+		//		for (Integer key : toRemove) { 
+		//			incompleteRegions.remove(key);
+		//		}
 	}
 
 	public Region getIncompleteRegion(int key) { 
@@ -353,15 +380,20 @@ public class BoardObject {
 		if (row < ROWSIZE-1 && col < COLSIZE-1) se = board[row+1][col+1];
 		if (row < ROWSIZE-1 && col > 0) sw = board[row+1][col-1];
 
+		int adjustedY = COLSIZE/2 - row;
+		int adjustedX = col - ROWSIZE/2;
+
 		mooreHood.add(location);
-		if(north != null) mooreHood.add(new Location(row-1,col));
-		if(east != null) mooreHood.add(new Location(row,col+1));
-		if(south != null) mooreHood.add(new Location(row+1,col));
-		if(west != null) mooreHood.add(new Location(row,col-1));
-		if(nw != null) mooreHood.add(new Location(row-1,col-1));
-		if(ne != null) mooreHood.add(new Location(row-1,col+1));
-		if(se != null) mooreHood.add(new Location(row+1,col+1));
-		if(sw != null) mooreHood.add(new Location(row+1,col-1));
+		if(north != null) mooreHood.add(new Location(adjustedX,adjustedY + 1));
+		if(east != null) mooreHood.add(new Location(adjustedX + 1,adjustedY));
+		if(south != null) mooreHood.add(new Location(adjustedX, adjustedY - 1));
+		if(west != null) mooreHood.add(new Location(adjustedX - 1, adjustedY));
+		if(nw != null) mooreHood.add(new Location(adjustedX - 1,adjustedY + 1));
+		if(ne != null) mooreHood.add(new Location(adjustedX + 1,adjustedY + 1));
+		if(se != null) mooreHood.add(new Location(adjustedX + 1, adjustedY - 1));
+		if(sw != null) mooreHood.add(new Location(adjustedX - 1, adjustedY - 1));
+
+
 
 		return mooreHood;
 	}
@@ -422,9 +454,9 @@ public class BoardObject {
 			for (Integer entry : tileConnections) bEdges.setEdge(entry, aRegion.getRegionID());
 
 			aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
-			
+
 			updateMin(aRegion.getRegionID(),aRegion.getMin());
-			
+
 			incompleteRegions.remove(oldRegionID);
 		}		
 
@@ -461,16 +493,16 @@ public class BoardObject {
 			}
 		}
 	}
-	
+
 	public void updateMin(int regionID, int value) { 
-		
+
 		if (minSpots.containsKey(regionID)) { 
 			if (value < minSpots.get(regionID)) { 
 				minSpots.remove(regionID);
 				minSpots.put(regionID, value);
 			}
 		} else minSpots.put(regionID,  value);
-		
+
 	}
 
 	public int adjustIndex(int index, boolean reverse) { 
@@ -511,28 +543,28 @@ public class BoardObject {
 			setReason("Error: no placed tile?");
 			return false;
 		}
-		
+
 		if (tigerPlaced) { 
 			setReason("Already placed a Tiger!");
 			return false;
 		}
-		
+
 		int terrainPoint = adjustIndex(index, true);
 		Terrain terrain = last.getEdge(terrainPoint);
 		int regionID = terrain.getRegionID();
-		
+
 		Region region = incompleteRegions.get(regionID);
 		if (region == null) { 
 			for (Region reg : completedRegions) { 
 				if (reg.getRegionID() == regionID) region = reg;
 			}			
 		}
-		
+
 		if(region == null) { 
 			setReason("ERROR: Region wasn't found.");
 			return false;
 		}
-		
+
 		if (index == 5 && last.getCenter() != 'D') {
 			setReason("This isn't a den!");
 			return false;
@@ -545,7 +577,7 @@ public class BoardObject {
 			setReason("Specified index was not the minimum");
 			return false;
 		}
-		
+
 		if(region.hasTigers()) { 
 			setReason("Region at index already has a Tiger!");
 			return false;
@@ -565,16 +597,16 @@ public class BoardObject {
 
 		place(startingTile, new Location(0,0));
 	}
-	
+
 	public void confirm() { 
 		pending = false;
 		tigerPlaced = false;
 	}
-		
+
 	public void setPending() { 
 		pending = true;
 	}
-	
+
 	public boolean getPending() { 
 		return pending;
 	}
@@ -665,10 +697,10 @@ public class BoardObject {
 			for (int col = 0; col < COLSIZE; col++) {
 				if(board[row][col] == null) System.out.print("(" + (col - COLSIZE/2) + "," + (ROWSIZE/2 - row) + ")\t");
 				else System.out.print(board[row][col].getType() + "\t");
-				
-//				if(board[row][col] == null) System.out.print("\t");
-//				else System.out.print(board[row][col].getType() + "\t");
-			
+
+				//				if(board[row][col] == null) System.out.print("\t");
+				//				else System.out.print(board[row][col].getType() + "\t");
+
 			}
 			System.out.println("\n");
 		}

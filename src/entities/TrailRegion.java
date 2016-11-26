@@ -166,10 +166,10 @@ public class TrailRegion extends Region
 		}
 
 		// Check if region is already complete
-		if (theCompleted == true)
-		{
-			throw new IllegalArgumentException("Trail already complete");
-		}
+//		if (theCompleted == true)
+//		{
+//			throw new IllegalArgumentException("Trail already complete");
+//		}
 
 		// Add terrain
 		aTerrain.setRegionID(regionID);

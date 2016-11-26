@@ -1,7 +1,8 @@
 package entities;
 
 import java.util.ArrayList;
-
+import java.util.LinkedHashSet;
+import java.util.Set;
 /**
  * A Jungle Region. Collection of terrain that exist on a board.
  */
@@ -12,6 +13,8 @@ public class JungleRegion extends Region
 	protected ArrayList<LakeRegion> theNeighboringLakes;
 	protected ArrayList<Animal> theAnimals;
 	protected ArrayList<CrocodileObject> theCrocodiles; // Must add Crocodiles in addTerrain
+	protected Set<Integer> adjacentLakes;
+	protected Set<Integer> adjacentDens;
 
 	// Constructor
 
@@ -29,6 +32,8 @@ public class JungleRegion extends Region
 		theTigers           = new ArrayList<TigerObject>();
 		theType             = 'J';
 		theNeighboringLakes = new ArrayList<LakeRegion>();
+		adjacentLakes 		= new LinkedHashSet<Integer>();
+		adjacentDens		= new LinkedHashSet<Integer>();
 		// Add and update meepels
 		addTerrain(aTerrain, theRegionID);
 	}
@@ -114,6 +119,7 @@ public class JungleRegion extends Region
 		// Add terrain
 		aTerrain.setRegionID(regionID);
 		theTerrains.add(aTerrain);
+		adjacentLakes.addAll(((JungleTerrain) aTerrain).getLakes());
 
 		// Add Tiger
 		if (aTerrain.hasTiger() == true) {
@@ -133,6 +139,18 @@ public class JungleRegion extends Region
 			recentMin = aTerrain.getMin();
 		}
 
+
+	}
+	public void addDen(int denRegionID) { 
+		adjacentDens.add(denRegionID);
+	}
+	
+	public void removeDen(int denRegionID) { 
+		adjacentDens.remove(denRegionID);
+	}
+	
+	public Set<Integer> getDens() { 
+		return adjacentDens;
 	}
 	
 	public void addTerrain(ArrayList<Terrain> aTerrains, int regionID) {

@@ -28,11 +28,19 @@ import java.util.ArrayList;
  */
 public class SquareTile extends TileObject {
 
+	protected Player owner;
+	protected String type;
+	protected char center;
+	protected TigerObject tiger;
+	protected CrocodileObject croc;
+	protected char special;
+	protected Terrain[] terrains;
+
 
 	public SquareTile() { 
-		
+
 	}
-	
+
 	public SquareTile(String type, int orientation) {
 		try { //attempt to parse XML file of tiles
 
@@ -43,7 +51,6 @@ public class SquareTile extends TileObject {
 
 			//if there was stuff inside of the XML file
 			if (doc.hasChildNodes()) {
-
 				//find tile type
 				XPathFactory xPathfactory = XPathFactory.newInstance();
 				XPath xpath = xPathfactory.newXPath();
@@ -59,84 +66,79 @@ public class SquareTile extends TileObject {
 					coord = new Location();
 					this.type = type;
 					special = type.charAt(4);
+					center = eElement.getElementsByTagName("center").item(0).getTextContent().charAt(0);
 
-					
-					//setup terrain data
-					NodeList jungles = eElement.getElementsByTagName("jungle"); //find all jungle terrains
-					NodeList trails = eElement.getElementsByTagName("trail"); //find all trail terrains
-					NodeList lakes = eElement.getElementsByTagName("lake"); //find all lake terrains
-					numOfTerrains = new int[] { jungles.getLength(), trails.getLength(), lakes.getLength()};
-					terrains = new Terrain[jungles.getLength() + trails.getLength() + lakes.getLength()];
+					NodeList regions = eElement.getElementsByTagName("region");
+					terrains = new Terrain[regions.getLength()];
 
 					Animal prey = null;
-					if (special != '-') prey = new Animal(special);
+					if (special != '-') 
+						prey = new Animal(special);
 
-					//setup terrain data
-					int i = 0;
-					//find all jungles
-					for (int j = 0; j < jungles.getLength(); j++) {
-						Element element = (Element)jungles.item(j);
-						String test = element.getTextContent();
-						ArrayList<Integer> spots = new ArrayList<Integer>();
-						StringTokenizer st = new StringTokenizer(test);
-						while (st.hasMoreTokens()) {
-							int temp = Integer.parseInt(st.nextToken());
-							spots.add(Math.floorMod((temp + 2 * orientation) ,8));
-						}
-						terrains[i++] = new JungleTerrain(spots);
-					}
+					int i = 0; 
+					for (int j = 0; j < regions.getLength(); j++) { 
 
-					//find all trails
-					for (int j = 0; j < trails.getLength(); j++) {
-						Element element = (Element)trails.item(j);
-						String test = element.getTextContent();
-						char trailType = eElement.getAttribute("type").charAt(0);
+						Element element = (Element)regions.item(j);
+						ArrayList<Integer> edgeConnections = new ArrayList<Integer>();
 
-						ArrayList<Integer> spots = new ArrayList<Integer>();
-						StringTokenizer st = new StringTokenizer(test);
-						while (st.hasMoreTokens()) {
-							int temp = Integer.parseInt(st.nextToken());
-							spots.add(Math.floorMod((temp + 2 * orientation) ,8));
+						String regionType = element.getAttribute("rtype");
+						String edgeConnectionsText = element.getTextContent();
+						StringTokenizer tokens = new StringTokenizer(edgeConnectionsText);
+
+						while(tokens.hasMoreTokens()) {
+							int temp = Integer.parseInt(tokens.nextToken());
+							edgeConnections.add(Math.floorMod(temp + 2 * orientation, 8));
 						}
 
-						if (trailType == 'C') terrains[i++] = new TrailTerrain(spots,false, prey);
-						else terrains[i++] = new TrailTerrain(spots,true, prey);
-					}
-
-					//find all lakes
-					for (int j = 0; j < lakes.getLength(); j++) {
-						Element element = (Element)lakes.item(j);
-						String test = element.getTextContent();
-						char lakeType = eElement.getAttribute("type").charAt(0);
-
-						ArrayList<Integer> spots = new ArrayList<Integer>();
-						StringTokenizer st = new StringTokenizer(test);
-						while (st.hasMoreTokens()) {
-							int temp = Integer.parseInt(st.nextToken());
-							spots.add(Math.floorMod((temp + 2 * orientation) ,8));
+						if (regionType.equalsIgnoreCase("jungle")) 
+							terrains[i++] = new JungleTerrain(edgeConnections);
+						else if (regionType.equalsIgnoreCase("trail")) { 
+							char trailType = eElement.getAttribute("type").charAt(0);
+							if (trailType == 'C') 
+								terrains[i++] = new TrailTerrain(edgeConnections, false, prey);
+							else 
+								terrains[i++] = new TrailTerrain(edgeConnections, true, prey);
 						}
-
-						if (lakeType == 'C') terrains[i++] = new LakeTerrain(spots,false, prey);
-						else terrains[i++] = new LakeTerrain(spots,true, prey);
-
+						else if (regionType.equalsIgnoreCase("lake")) { 
+							char lakeType = eElement.getAttribute("type").charAt(0);
+							if (lakeType == 'C') 
+								terrains[i++] = new LakeTerrain(edgeConnections, false, prey);
+							else 
+								terrains[i++] = new LakeTerrain(edgeConnections, true, prey);
+						}
 					}
-
-
-
 
 					Terrain[] edgeTerrains = new Terrain[8];
-
 					for (Terrain terrain : terrains) {
 						ArrayList<Integer> tileConnections = terrain.getTileConnections();
-
-						for (int j = 0; j < tileConnections.size(); j++) {
+						for (int j = 0; j < tileConnections.size(); j++) 
 							edgeTerrains[tileConnections.get(j)] = terrain;
+					}
+					edges = new TileEdges(edgeTerrains,terrains);
+
+					//terrains has all of my terrains...
+					for (int j = 0; j < edgeTerrains.length; j++) { 
+						if(edgeTerrains[j] instanceof JungleTerrain) { 
+
+							ArrayList<Integer> adjacents = ((JungleTerrain) edgeTerrains[j]).getLakes();
+
+							//look to our left
+							Terrain left = edgeTerrains[Math.floorMod((j-1),edgeTerrains.length)];
+							int leftRegionID = left.getRegionID();
+
+							if (left instanceof LakeTerrain && !adjacents.contains(leftRegionID)) { 
+								((JungleTerrain) edgeTerrains[j]).addLake(leftRegionID);
+							}
+
+							//look to our right
+							Terrain right = edgeTerrains[Math.floorMod((j+1),edgeTerrains.length)];
+							int rightRegionID = right.getRegionID();
+							if (right instanceof LakeTerrain && !adjacents.contains(rightRegionID)) { 
+								((JungleTerrain) edgeTerrains[j]).addLake(rightRegionID);
+							}
+
 						}
 					}
-
-					String mid = eElement.getElementsByTagName("center").item(0).getTextContent();
-					edges = new TileEdges(edgeTerrains,terrains);
-					center = mid.charAt(0);
 
 				}
 			}
@@ -160,122 +162,87 @@ public class SquareTile extends TileObject {
 		coord = new Location();
 		type = eElement.getAttribute("type");
 		special = type.charAt(4);
+		center = eElement.getElementsByTagName("center").item(0).getTextContent().charAt(0);
 
-		//setup terrain data
-		NodeList jungles = eElement.getElementsByTagName("jungle"); //find all jungle terrains
-		NodeList trails = eElement.getElementsByTagName("trail"); //find all trail terrains
-		NodeList lakes = eElement.getElementsByTagName("lake"); //find all lake terrains
-		numOfTerrains = new int[] { jungles.getLength(), trails.getLength(), lakes.getLength()};
-		terrains = new Terrain[jungles.getLength() + trails.getLength() + lakes.getLength()];
+		NodeList regions = eElement.getElementsByTagName("region");
+		terrains = new Terrain[regions.getLength()];
 
 		Animal prey = null;
-		if (special != '-') prey = new Animal(special);
+		if (special != '-') 
+			prey = new Animal(special);
 
-		//setup terrain data
-		int i = 0;
-		//find all jungles
-		for (int j = 0; j < jungles.getLength(); j++) {
-			Element element = (Element)jungles.item(j);
-			String test = element.getTextContent();
-			ArrayList<Integer> spots = new ArrayList<Integer>();
-			StringTokenizer st = new StringTokenizer(test);
-			while (st.hasMoreTokens()) {
-				int temp = Integer.parseInt(st.nextToken());
-				spots.add(Math.floorMod((temp - 2 * orientation) ,8));
-			}
-			terrains[i++] = new JungleTerrain(spots);
-		}
+		int i = 0; 
+		for (int j = 0; j < regions.getLength(); j++) { 
 
-		//find all trails
-		for (int j = 0; j < trails.getLength(); j++) {
-			Element element = (Element)trails.item(j);
-			String test = element.getTextContent();
-			char trailType = element.getAttribute("type").charAt(0);
+			Element element = (Element)regions.item(j);
+			ArrayList<Integer> edgeConnections = new ArrayList<Integer>();
 
-			ArrayList<Integer> spots = new ArrayList<Integer>();
-			StringTokenizer st = new StringTokenizer(test);
-			while (st.hasMoreTokens()) {
-				int temp = Integer.parseInt(st.nextToken());
-				spots.add(Math.floorMod((temp - 2 * orientation) ,8));
-			}
-			if (trailType == 'C') terrains[i++] = new TrailTerrain(spots,false,prey);
-			else terrains[i++] = new TrailTerrain(spots,true, prey);
-		}
+			String regionType = element.getAttribute("rtype");
+			String edgeConnectionsText = element.getTextContent();
+			StringTokenizer tokens = new StringTokenizer(edgeConnectionsText);
 
-		//find all lakes
-		for (int j = 0; j < lakes.getLength(); j++) {
-			Element element = (Element)lakes.item(j);
-			String test = element.getTextContent();
-			char lakeType = element.getAttribute("type").charAt(0);
-
-			ArrayList<Integer> spots = new ArrayList<Integer>();
-			StringTokenizer st = new StringTokenizer(test);
-			while (st.hasMoreTokens()) {
-				int temp = Integer.parseInt(st.nextToken());
-				spots.add(Math.floorMod((temp - 2 * orientation) ,8));
+			while(tokens.hasMoreTokens()) {
+				int temp = Integer.parseInt(tokens.nextToken());
+				edgeConnections.add(Math.floorMod(temp + 2 * orientation, 8));
 			}
 
-			if (lakeType == 'C') terrains[i++] = new LakeTerrain(spots,false, prey);
-			else terrains[i++] = new LakeTerrain(spots,true, prey);
+			if (regionType.equalsIgnoreCase("jungle")) 
+				terrains[i++] = new JungleTerrain(edgeConnections);
+			else if (regionType.equalsIgnoreCase("trail")) { 
+				
+				char trailType = element.getAttribute("type").charAt(0);
 
+				if (trailType == 'C') 
+					terrains[i++] = new TrailTerrain(edgeConnections, false, prey);
+				else 
+					terrains[i++] = new TrailTerrain(edgeConnections, true, prey);
+			}
+			else if (regionType.equalsIgnoreCase("lake")) { 
+				char lakeType = element.getAttribute("type").charAt(0);
+				if (lakeType == 'C')
+					terrains[i++] = new LakeTerrain(edgeConnections, false, prey);
+				else 
+					terrains[i++] = new LakeTerrain(edgeConnections, true, prey);
+			}
 		}
-		//
+
 
 		Terrain[] edgeTerrains = new Terrain[8];
 
 		for (Terrain terrain : terrains) {
 			ArrayList<Integer> tileConnections = terrain.getTileConnections();
-
-			for (int j = 0; j < tileConnections.size(); j++) {
+			for (int j = 0; j < tileConnections.size(); j++) 
 				edgeTerrains[tileConnections.get(j)] = terrain;
+		}
+		edges = new TileEdges(edgeTerrains,terrains);
+
+
+
+		//terrains has all of my terrains...
+		for (int j = 0; j < edgeTerrains.length; j++) { 
+			if(edgeTerrains[j] instanceof JungleTerrain) { 
+
+				ArrayList<Integer> adjacents = ((JungleTerrain) edgeTerrains[j]).getLakes();
+
+				//look to our left
+				Terrain left = edgeTerrains[Math.floorMod((j-1),edgeTerrains.length)];
+				int leftRegionID = left.getRegionID();
+
+				if (left instanceof LakeTerrain && !adjacents.contains(leftRegionID)) { 
+					((JungleTerrain) edgeTerrains[j]).addLake(leftRegionID);
+				}
+
+				//look to our right
+				Terrain right = edgeTerrains[Math.floorMod((j+1),edgeTerrains.length)];
+				int rightRegionID = right.getRegionID();
+				if (right instanceof LakeTerrain && !adjacents.contains(rightRegionID)) { 
+					((JungleTerrain) edgeTerrains[j]).addLake(rightRegionID);
+				}
 			}
 		}
-
-		String mid = eElement.getElementsByTagName("center").item(0).getTextContent();
-		edges = new TileEdges(edgeTerrains, terrains);
-		center = mid.charAt(0);
-
+		
 	}//end constructor
 
-	/**
-	 * Creates a SquareTile object based on an existing SquareTile.
-	 * This is mostly used for creating the alternative orientations.
-	 * @param tile an existing SquareTile object to copy.
-	 * @return a SquareTile matching the data
-	 * NOTE: MAY NO LONGER NEED
-	 */
-	// public SquareTile(SquareTile tile) {
-	// 	tileID = tile.tileID;
-	// 	coord = tile.coord;
-	// 	orientation = tile.orientation;
-	// 	type = tile.type;
-	// 	owner = tile.owner;
-	// 	tiger = tile.tiger;
-	// 	center = tile.center;
-	// 	special = tile.special;
-	// 	edges = Arrays.copyOf(tile.edges, tile.edges.length);
-	// 	terrains = Arrays.copyOf(tile.terrains, tile.terrains.length);
-	// }//end constructor
-
-	//checks to see if there are any similar edges to place against
-	// public boolean similarEdge(edge edge) {
-	//
-	//  	//check to see if there is a similar edge on any of the edges
-	//  	for(int i = 0; i < 4; i++) {
-	// 			if(edges[i].equals(edge)) return true;
-	//  	}
-	//
-	//  	return false;
-	// }//end similarEdge
-
-	/**
-	 * getEdge() gets a specified edge to compare against
-	 * @param edge the specified edge to compare against
-	 * @return the specified edge
-	 */
-	//  public edge getEdge(int edge) {
-	// 	 return edges[Math.floorMod((edge + orientation + 4),4)];
-	//  }
 
 	public Terrain getEdge(int index) {
 		return edges.getTerrain(index);
@@ -283,6 +250,95 @@ public class SquareTile extends TileObject {
 
 	public char getEdgeType(int index) {
 		return edges.getTerrain(index).getType();
+	}
+	public char getSpecial() {
+		return special;
+	}
+
+	public void setSpecial(char special) {
+		this.special = special;
+	}
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * setType() set's the current tile's type
+	 * @param type the new tile type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	/**
+	 * getCenter() gets the current tile's type
+	 * @return the current tile's type
+	 */
+	public char getCenter() {
+		return center;
+	}
+
+	/**
+	 * setCenter() sets the current tile's type
+	 * @param center sets the current tile's type
+	 */
+	public void setCenter(char center) {
+		this.center = center;
+	}
+	/**
+	 * getOwner() gets the current tile's owner
+	 * @return the current tile's owner
+	 */
+	public Player getOwner() {
+		return owner;
+	}
+
+	/**
+	 * setOwner() sets the current tile's owner
+	 * @param owner is the new owner
+	 */
+	public void setOwner(Player owner) {
+		this.owner = owner;
+	}
+
+	/**
+	 * getTiger() gets the tile's current tiger
+	 * @return the tile's current tiger
+	 */
+	public TigerObject getTiger() {
+		return tiger;
+	}
+
+	/**
+	 * setTiger() sets the tile's object to the specified tiger
+	 * @param tiger the new tiger to set
+	 */
+	public void setTiger(TigerObject tiger) {
+		this.tiger = tiger;
+	}
+
+
+	public CrocodileObject getCroc() { 
+		return croc;
+	}
+
+	public void setCroc(CrocodileObject croc) { 
+		this.croc = croc;
+	}
+	/**
+	 * getTerrains() gets the terrains associated with the tile
+	 * @return the terrains
+	 */
+	public Terrain[] getTerrains() {
+		return terrains;
+	}
+
+	/**
+	 * setTerrains() sets the current tile's terrains to a new set of terrains
+	 * @param terrains sets the terrains to the specified set of terrains
+	 */
+	public void setTerrains(Terrain[] terrains) {
+		this.terrains = terrains;
 	}
 
 	@Override
