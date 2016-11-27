@@ -15,18 +15,25 @@ public class TigerZone {
 
 	public static void main(String[] args) {
 
-				
+
 		BoardObject test = new BoardObject(); //create the board
-		test.start();
+		test.start("TLTJ-",0,0,0);
 		test.print();
-		
+
 		Scanner in = new Scanner(System.in);
 		String input = "";
 
 		while(true) { 
 
 			System.out.println("MENU");
-			System.out.println("Type 0 to see the board\nType 1 to place a tile\nType 2 to see incomplete regions\nType 3 to see complete regions\nType 4 to place Tiger on most recent tile\nType 5 to confirm\nType 6 to exit");
+			System.out.println("Type 0 to see the board\nType 1 to place a tile" + 
+					"\nType 2 to see incomplete regions" + 
+					"\nType 3 to see complete regions" + 
+					"\nType 4 to place Tiger on most recent tile" +
+					"\nType 5 to print scores" + 
+					"\nType 6 to confirm move" + 
+					"\nType 7 to end game"
+					);
 
 			int choice = in.nextInt();
 			in.nextLine();
@@ -40,19 +47,26 @@ public class TigerZone {
 					System.out.println("Your last move is still pending!");
 				}
 				else { 
-					System.out.println("Tile to place: [TYPE] [ORIENTATION] [X] [Y]");
+					System.out.println("Tile to place: [TYPE] [X] [Y] [ORIENTATION] [TIGER INDEX]");
 					input = in.nextLine();
 
 					String[] result = input.split("\\s");
-					TigerTile testTile = test.getTile(result[0],Integer.parseInt(result[1]));
-					Location location = new Location(Integer.parseInt(result[2]),Integer.parseInt(result[3]));
+					TigerTile testTile = test.getTile(result[0],Integer.parseInt(result[3]) / 90);
+					Location location = new Location(Integer.parseInt(result[1]),Integer.parseInt(result[2]));
+
 
 					if(!test.place(testTile, location)) { 
 						System.out.println("Couldn't place tile. REASON: " + test.getReason());
 					}
 					else { 
-						System.out.println("Successfully \"placed\" tile! Hit 5 to confirm.");
-						test.setPending();
+						if (result.length > 4)
+							if (result[4].equals("CROC")) { 
+								if(!test.placeCrocodile()) { System.out.println("Couldn't place Crocodile. REASON: " + test.getReason()); break; }
+							}
+							else 
+								if(!test.placeTiger(Integer.parseInt(result[4]))) { System.out.println("Couldn't place Tiger. REASON: " + test.getReason()); break; }
+
+						System.out.println("Successfully \"placed\" tile! Hit 6 to confirm.");
 					}
 				}
 				break;
@@ -81,11 +95,16 @@ public class TigerZone {
 				}
 				break;
 			case 5:
-				test.confirm();			
+				test.printScores();
 				break;
 			case 6:
+				test.confirm();
+				break;
+			case 7:
+				test.end();
 				System.exit(0);
 				break;
+
 			default: 
 				break;
 			}

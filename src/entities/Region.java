@@ -14,9 +14,10 @@ public abstract class Region {
 	protected int theRegionID;
 	protected int recentMin = Integer.MAX_VALUE; 
 	protected int potentialScore; //a potential score based on underlying attributes - for AI
-	
+
 	protected char theType;
 	protected boolean isCompleted;
+	protected boolean isScored;
 	protected ArrayList<Terrain> theTerrains;
 	protected ArrayList<TigerObject> theTigers;
 	protected ArrayList<CrocodileObject> theCrocodiles; 
@@ -49,7 +50,7 @@ public abstract class Region {
 	 * @return Region
 	 */
 	public Region(Terrain aTerrain) {
-		
+
 		// Region ID becomes the terrain's ID
 		theRegionID = aTerrain.getTerrainID();
 		theTerrains = new ArrayList<Terrain>();
@@ -75,7 +76,7 @@ public abstract class Region {
 		addTerrain(aTerrains, theRegionID);
 	}
 
-	
+
 	// ACCESSORSS
 
 	/**
@@ -104,15 +105,15 @@ public abstract class Region {
 		//int[1] will store the TOTAL number of CROCODILES
 		int numPrey = 0;
 		int numCrocs = 0;
-		
+
 		for (int i = 0; i < theAnimals.size(); i++) { 
 			if (theAnimals.get(i).getType() != 'C') numPrey++;
 			else numCrocs++;
 		}
-		
+
 		return new int[]{numPrey,numCrocs};
 	}
-	
+
 	/**
 	 * Gets number of unique animals in region
 	 * @return int
@@ -131,7 +132,7 @@ public abstract class Region {
 	public int getNumOfCrocs() {
 		return theCrocodiles.size();
 	}
-	
+
 	public int getNumOfTigers() { 
 		return theTigers.size();
 	}
@@ -187,9 +188,13 @@ public abstract class Region {
 	public int getNumOfTerrains() {
 		return theTerrains.size();
 	}
-	
+
 	public boolean isCompleted() {
 		return isCompleted;
+	}
+
+	public boolean isScored() { 
+		return isScored;
 	}
 
 	/**
@@ -203,68 +208,72 @@ public abstract class Region {
 	}
 
 	// MUTATORS
+	public void setScored(boolean scored) {
+		isScored = scored;
+	}
+
 	public void setPotential(int potentialScore) { 
 		this.potentialScore = potentialScore;
 	}
-	
+
 	public void setTileList(Set<Integer> tileList) { 
 		this.tileList = tileList;
 	}
-		
+
 	public void setMin(int recentMin) { 
 		this.recentMin = recentMin;
 	}
 
-	public void addTiger() { 
-		theTigers.add(new TigerObject());
+	public void addTiger(TigerObject stray) { 
+		theTigers.add(stray);
 	}
 
-	/**
-	 * Goes through the current terrain and updates the held Tigers.
-	 */
-	public void updateTigers() {
-		// Go through all the Terrain adding Tigers
-		for (int i = 0; i < theTerrains.size(); i++) {
-			if (theTerrains.get(i).hasTiger() == true) {
-				theTigers.add(theTerrains.get(i).getTiger());
-			}
-		}
+	public void addCrocodile(CrocodileObject hatchling) { 
+		theCrocodiles.add(hatchling);
+	}
+
+	public TigerObject removeTiger() { 
+		
+		TigerObject stray = theTigers.get(0);
+		theTigers.remove(0);
+		
+		return stray;
+	}
+	
+	public CrocodileObject removeCrocodile() { 
+		
+		CrocodileObject hatchling = theCrocodiles.get(0);
+		theCrocodiles.remove(0);
+		
+		return hatchling;
 	}
 
 	// Remove all Tigers
 	/**
-	 * Removes all Tigers from this region and terrains. 
+	 * Removes all Tigers from this region and adds them back to the associated players
 	 */
 	public void removeAllTigers() {
-		theTigers.clear();
-		for (int i = 0; i < theTerrains.size(); i++) {
-			if (theTerrains.get(i).hasTiger()) {
-				theTerrains.get(i).removeTiger();
-			}
-		}
-	}
-	
-	/**
-	 * Goes through the current train and updates the held Crocodile.
-	 */
-	public void updateCrocodiles() {
-		// Go through all the Terrain adding Crocodile
-		for (int i = 0; i < theTerrains.size(); i++) {
-			if ((theTerrains.get(i).hasCrocodile() == true)) {
-				theCrocodiles.add((theTerrains.get(i).getCrocodile()));
-			}
+		for (int i = 0; i < theTigers.size(); i++) {
+
+			TigerObject stray = theTigers.get(i);
+			theTigers.remove(i);
+
+			Player owner = stray.getTigerOwner();
+			owner.addTiger(stray);
 		}
 	}
 
 	/**
-	 * Removes all Crocodile from this region and terrain.
+	 * Removes all Crocodile from this region and terrain and returns to associated players
 	 */
 	public void removeAllCrocodile() {
-		theCrocodiles.clear();
-		for (int i = 0; i < theTerrains.size(); i++) {
-			if ((theTerrains.get(i).hasCrocodile())) {
-				theTerrains.get(i).removeCrocodile();
-			}
+		for (int i = 0; i < theCrocodiles.size(); i++) {
+
+			CrocodileObject hatchling = theCrocodiles.get(i);
+			theCrocodiles.remove(i);
+
+			Player owner = hatchling.getCrocodileOwner();
+			owner.addCroc(hatchling);
 		}
 	}
 
@@ -293,9 +302,9 @@ public abstract class Region {
 			this.addTerrain(aTerrains.get(i), regionID);
 		}
 	}
-	
+
 	// methods 
-	
+
 	/**
 	 * Check if there are any Crocodiles in this region.
 	 * @return boolean
@@ -319,7 +328,7 @@ public abstract class Region {
 		int numOfTerrains = getNumOfTerrains();
 		int numOfCrocs = getNumOfCrocs();
 		int minPlacement = getRecentMin();
-		
+
 		return "The region " + regionID + " of type " + regionType + " has " +
 		numOfTigers + " Tigers(s), + " + numOfCrocs + " crocodiles, and " + numOfTerrains + " Terrain(s). Min = " + minPlacement;
 	}

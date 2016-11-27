@@ -15,6 +15,7 @@ public class Player {
 	public Player(String anID, boolean isFirst) {
 		this.theID = anID;
 		theScore = 0;
+		this.isFirst = isFirst;
 
 		//add in 7 tiger objects
 		for (int i = 0; i < 7; i++) { 
@@ -22,7 +23,7 @@ public class Player {
 		}
 
 		//add in 2 crocodile objects
-		for (int i = 0; i < 7; i++) { 
+		for (int i = 0; i < 2; i++) { 
 			theCrocodiles.add(new CrocodileObject(this));
 		}		
 	}
@@ -55,6 +56,16 @@ public class Player {
 	public boolean isFirst() {
 		return isFirst;
 	}
+	
+	public boolean hasTigers() { 
+		if (theTigers.size() > 0) return true;
+		return false;
+	}
+
+	public boolean hasCrocs() { 
+		if (theCrocodiles.size() > 0) return true;
+		return false;
+	}
 
 	//MUTATORS 
 	public void setScore(int theScore) {
@@ -79,9 +90,30 @@ public class Player {
 	public void setFirst(boolean isFirst) {
 		this.isFirst = isFirst;
 	}
+	
+	public void addTiger(TigerObject stray) { 
+		theTigers.add(stray);
+	}
+	
+	public void addCroc(CrocodileObject hatchling) { 
+		theCrocodiles.add(hatchling);
+	}
+
+	public TigerObject removeTiger() { 
+		return theTigers.remove(0);
+	}
+	
+	public CrocodileObject removeCroc() { 
+		return theCrocodiles.remove(0);
+	}
 
 	
 	//METHODS
+	public boolean equals(Player player) { 
+		if (player.getID().equals(this.theID)) return true;
+		return false;
+	}
+	
 	@Override
 	public String toString() {
 		String isFirst = "This is the second player.";
@@ -92,6 +124,6 @@ public class Player {
 		int numTigers = getNumOfTigers();
 		int numCrocs = getNumOfCrocs(); 
 
-		return "Player ID: " + id + "\nScore: " + score + "\nTigers left: " + numTigers + "\n" + "\nCrocs left: " + numCrocs + "\n" + isFirst; 
+		return "Player ID: " + id + "\nScore: " + score + "\nTigers left: " + numTigers + "\nCrocs left: " + numCrocs + "\n" + isFirst + "\n"; 
 	}
 }

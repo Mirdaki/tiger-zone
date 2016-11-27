@@ -22,6 +22,11 @@ public class TigerObject
 		this.regionID = -1;
 	}
 
+	public TigerObject(Player owner, int regionID) { 
+		this.owner = owner;
+		this.regionID = regionID;
+	}
+
 	//ACCESSORSS 
 
 	/**
