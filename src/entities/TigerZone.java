@@ -9,13 +9,11 @@ import java.util.Set;
 import java.util.StringTokenizer;
 public class TigerZone {
 
-	public TigerZone() {
-
-	}
-
 	public static void main(String[] args) {
 
-
+		TileDeck deck = new TileDeck();
+		deck.start("TLTJ-");
+				
 		BoardObject test = new BoardObject(); //create the board
 		test.start("TLTJ-",0,0,0);
 		test.print();
@@ -47,6 +45,9 @@ public class TigerZone {
 					System.out.println("Your last move is still pending!");
 				}
 				else { 
+					TigerTile random = deck.getRandom();
+					
+					System.out.println("Your tile to place is " + random.getType());
 					System.out.println("Tile to place: [TYPE] [X] [Y] [ORIENTATION] [TIGER INDEX]");
 					input = in.nextLine();
 

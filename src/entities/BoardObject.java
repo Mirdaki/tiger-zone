@@ -60,9 +60,10 @@ public class BoardObject {
 		pending = false;
 		whyInvalid = "";
 
+		//preliminary example players
 		players = new Player[2];
-		players[0] = new Player("whaddup",true);
-		players[1] = new Player("suckomydicko",false);
+		players[0] = new Player("player1",true);
+		players[1] = new Player("player2",false);
 		activePlayer = players[0];
 	} //end constructor
 
@@ -81,6 +82,7 @@ public class BoardObject {
 		tiles = tileStack.getTiles();
 		pending = false;
 		whyInvalid = "";
+		this.players = players;
 
 	} //end constructor
 
@@ -112,6 +114,10 @@ public class BoardObject {
 		return availableSpots;
 	}
 
+	public Map<Integer, Region> getAll() { 
+		return allRegions;
+	}
+	
 	public Map<Integer, Region> getIncomplete() {
 		return incompleteRegions;
 	}
@@ -124,29 +130,40 @@ public class BoardObject {
 		return incompleteRegions.get(key);
 	}
 
+	//get the moore neighborhood around the specified location
 	public ArrayList<Location> getMoore(Location coord) { 
 
+		//adjust ARRAY coordinates based on given starting position
 		int row = coord.getY() + startY;
 		int col = coord.getX() - startX;
 
 		ArrayList<Location> mooreHood = new ArrayList<Location>();
-		TigerTile north = null, east = null, south = null, west = null;
-		TigerTile nw = null, ne = null, se = null, sw = null;
 
+		TigerTile center = board[row][col];
+		if (center == null) {
+			setReason("Can't get Moore neighborhood: given location is empty.");
+			return mooreHood;
+		}
+		mooreHood.add(coord);
+		
+		//obtain the neighboring tiles
+		TigerTile north = null, east = null, south = null, west = null;
 		if(row > 0) north = board[row - 1][col];
 		if(col < COLSIZE-1) east = board[row][col + 1];
 		if(row < ROWSIZE-1) south = board[row + 1][col];
 		if(col > 0) west = board[row][col - 1];
 
+		TigerTile nw = null, ne = null, se = null, sw = null;
 		if (row > 0 && col > 0) nw = board[row-1][col-1];
 		if (row > 0 && col < COLSIZE-1) ne = board[row-1][col+1];
 		if (row < ROWSIZE-1 && col < COLSIZE-1) se = board[row+1][col+1];
 		if (row < ROWSIZE-1 && col > 0) sw = board[row+1][col-1];
 
+		//adjust CARTERSIAN coordinates based on given starting position 
 		int adjustedY = startY + (COLSIZE/2 - row);
 		int adjustedX = startX + (col - ROWSIZE/2);
 
-		mooreHood.add(coord);
+		//if the neighboring board tiles weren't null, add their locations to Moore
 		if(north != null) mooreHood.add(new Location(adjustedX,adjustedY + 1));
 		if(east != null) mooreHood.add(new Location(adjustedX + 1,adjustedY));
 		if(south != null) mooreHood.add(new Location(adjustedX, adjustedY - 1));

@@ -27,22 +27,21 @@ public class TigerZoneClient {
 		
 		//attempt connection with server specified by product owner
 		try (
-				Socket kkSocket = new Socket(hostName, portNumber);
-				PrintWriter out = new PrintWriter(kkSocket.getOutputStream(), true);
-				BufferedReader in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
+				//attempt connection with the Tournament TCP server
+				Socket serverSocket = new Socket(hostName, portNumber);
+				PrintWriter out = new PrintWriter(serverSocket.getOutputStream(), true);
+				BufferedReader in = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
 				
-				ServerSocket serverSocket = new ServerSocket(6789);
-				Socket clientSocket = serverSocket.accept();
-				PrintWriter ai_OUT = new PrintWriter(clientSocket.getOutputStream(), true);
-				BufferedReader ai_IN = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
+				//wait for connection from the "AI"
+//				ServerSocket handlerSocket = new ServerSocket(6789);
+//				Socket ai_Socket = handlerSocket.accept();
+//				PrintWriter ai_OUT = new PrintWriter(ai_Socket.getOutputStream(), true);
+//				BufferedReader ai_IN = new BufferedReader(new InputStreamReader(ai_Socket.getInputStream()));
 				
 				) {
-			BufferedReader stdIn =
-					new BufferedReader(new InputStreamReader(System.in));
-			String fromServer;
-			String fromUser;
-
+			
+			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+			String fromTourneyServer, fromHandler, fromAI;
 			
 			//variable declarations - information from server
 			String gameID;
@@ -70,26 +69,27 @@ public class TigerZoneClient {
 			
 
 			//continuously wait for input from server
-			while ((fromServer = in.readLine()) != null) {
+			while ((fromTourneyServer = in.readLine()) != null) {
 				
 				//display information from server
-				System.out.println("Server: " + fromServer);
+				System.out.println("Server: " + fromTourneyServer);
 
 				
-				if (fromServer.equals("THIS IS SPARTA!")) { //if first message, send join request
+				if (fromTourneyServer.equals("THIS IS SPARTA!")) { //if first message, send join request
+					System.out.println("here");
 					out.println("JOIN " + serverPass);
 				}
-				else if (fromServer.equals("HELLO!")) {  //if request accepted, send authentication
+				else if (fromTourneyServer.equals("HELLO!")) {  //if request accepted, send authentication
 					out.println("I AM " + userName + " " + userPass);
 				}
-				else if (fromServer.equals("THANK YOU FOR PLAYING!")) { //if end of tournament, exit from this
+				else if (fromTourneyServer.equals("THANK YOU FOR PLAYING!")) { //if end of tournament, exit from this
 					//kill AI process and children
 					break;
 				}
 				else { //otherwise, message must be parsed from server
 					
 					//tokenize it
-					String[] tokenizedMessage = fromServer.split("\\s+");
+					String[] tokenizedMessage = fromTourneyServer.split("\\s+");
 					String command = tokenizedMessage[0];
 
 					switch(command){
@@ -108,14 +108,14 @@ public class TigerZoneClient {
 						opponentName = tokenizedMessage[4];
 
 						//send off opponent name
-						while ((inputLine = in.readLine()) != null) {
-							outputLine = kkp.processInput(inputLine);
-							out.println(outputLine);
-							if (outputLine.equals("THANK YOU FOR PLAYING! GOODBYE"))
-								break;
-
-						
-						break;
+//						while ((inputLine = in.readLine()) != null) {
+//							outputLine = kkp.processInput(inputLine);
+//							out.println(outputLine);
+//							if (outputLine.equals("THANK YOU FOR PLAYING! GOODBYE"))
+//								break;
+//
+//						
+//						break;
 
 					case "STARTING": //take in starting tile information (hope we dont need)
 						startingTile = tokenizedMessage[3];

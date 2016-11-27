@@ -7,7 +7,7 @@ class TCPServer
 {
 	public static void main(String[] args) throws IOException {
 		if (args.length != 1) {
-			System.err.println("Usage: java KnockKnockServer <port number>");
+			System.err.println("Usage: java TCPServer <port number>");
 			System.exit(1);
 		}
 
@@ -16,27 +16,29 @@ class TCPServer
 		System.out.println("The server is currently awaiting a connection from a client...");
 
 		try (
+				//wait for connection from a client
 				ServerSocket serverSocket = new ServerSocket(portNumber);
 				Socket clientSocket = serverSocket.accept();
-				PrintWriter out =
-						new PrintWriter(clientSocket.getOutputStream(), true);
-				BufferedReader in = new BufferedReader(
-						new InputStreamReader(clientSocket.getInputStream()));
+				PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				
+				
+				
 				) {
-
-			
-
+			System.out.println("Client connected!");
 			String inputLine, outputLine;
 			
 			// Initiate conversation with client
-			TigerZoneProtocol kkp = new TigerZoneProtocol();
-			outputLine = kkp.processInput(null);
+			TigerZoneProtocol tzp = new TigerZoneProtocol();
+			outputLine = tzp.processInput(null);
 			out.println(outputLine);
 
+			//continuously wait for input from the user
 			while ((inputLine = in.readLine()) != null) {
-				outputLine = kkp.processInput(inputLine);
+				System.out.println("Client: " + inputLine);
+				outputLine = tzp.processInput2();
 				out.println(outputLine);
-				if (outputLine.equals("THANK YOU FOR PLAYING! GOODBYE"))
+				if (outputLine.equals("STOP"))
 					break;
 			}
 		} catch (IOException e) {
