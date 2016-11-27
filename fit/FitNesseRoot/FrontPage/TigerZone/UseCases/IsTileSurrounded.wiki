@@ -1,0 +1,20 @@
+---
+Suites: placement, use case, surrounded
+Test
+---
+!define TEST_SYSTEM {slim}
+!path /Users/conward1/Desktop/CEN3031/fit/fixture/entitiesOld
+
+|import|
+|entities|
+
+!define COLLAPSE_SETUP {true}
+!define COLLAPSE_TEARDOWN {true}
+!1 As a Player I want to know when a tile is fully surrounded.
+Put a 0 in surroundATile to surround a tile other wise nothing happens.
+
+
+!|isATileSurrounded|
+|surroundATile |surrounded?|
+|0			   |true       |
+|0		       |false	   |

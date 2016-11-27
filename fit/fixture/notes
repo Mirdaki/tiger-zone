@@ -1,0 +1,7 @@
+1. In order to compile use case fixture code I must use javac -classpath. *.java while in proper directory or class will fail to find other class even if they are in the same directory
+
+2. Fitnesse is unable to invoke constructor for use case classes.  It is an issue with !path, if I overstate path it gives a no class def error and if I understate the path it gives error unable to invoke constructor.  Issue is likely related to issue 1.
+
+3. I am currently unaware of how to push to git repo
+
+4. Rather than rewriting all of the tests I created to fit new names such as the jump from SquareTile to TigerTile.  I am having difficulty manuvering between different pushes to the repo.

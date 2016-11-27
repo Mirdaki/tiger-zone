@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<testResults>
+  <FitNesseVersion>v20161106</FitNesseVersion>
+  <rootPath>FrontPage.TigerZone.Animal</rootPath>
+    <result>
+    <counts>
+      <right>0</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>4</exceptions>
+    </counts>
+    <date>2016-11-20T18:45:53-05:00</date>
+    <runTimeInMillis>52</runTimeInMillis>
+    <content>&lt;br/&gt;&lt;span class="meta"&gt;variable defined: TEST_SYSTEM=slim&lt;/span&gt;
+&lt;br/&gt;&lt;span class="meta"&gt;classpath: /Users/conward1/Desktop/CEN3031/fit/fixture&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;&lt;span class="meta"&gt;classpath: /Users/conward1/Desktop/CEN3031/fit/fitnesse-standalone.jar&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;&lt;table&gt;
+	&lt;tr class="slimRowTitle"&gt;
+		&lt;td&gt;import&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr class="slimRowColor0"&gt;
+		&lt;td&gt;&lt;span class="pass"&gt;tigerFixture&lt;/span&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr class="slimRowColor1"&gt;
+		&lt;td&gt;&lt;span class="pass"&gt;entities.Location&lt;/span&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+ &lt;br/&gt;&lt;span class="meta"&gt;variable defined: COLLAPSE_SETUP=true&lt;/span&gt;
+&lt;br/&gt;&lt;span class="meta"&gt;variable defined: COLLAPSE_TEARDOWN=true&lt;/span&gt;
+&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;b == buffalo&lt;br/&gt;p == boar&lt;br/&gt;d == deer&lt;br/&gt;c == crocodile&lt;br/&gt;&lt;br/&gt;&lt;h1&gt;Testing For Animal Entity&lt;/h1&gt;
+&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td colspan="2"&gt;&lt;span class="pass"&gt;animalFixture&lt;/span&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt;TypeTest&lt;/td&gt;
+		&lt;td&gt;getTypeTest?&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt;b &lt;span class="error"&gt;Method setTypeTest[1] not found in tigerFixture.animalFixture.&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;b &lt;span class="error"&gt;Method getTypeTest[0] not found in tigerFixture.animalFixture.&lt;/span&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt;d &lt;span class="error"&gt;Method setTypeTest[1] not found in tigerFixture.animalFixture.&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;p &lt;span class="error"&gt;Method getTypeTest[0] not found in tigerFixture.animalFixture.&lt;/span&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+</content>
+    <relativePageName>Animal</relativePageName>
+        <tags>animal, entity</tags>
+            <instructions>
+            <instructionResult>
+        <instruction>{id='import_0_0', instruction='import', path='tigerFixture'}</instruction>
+        <slimResult>pass(tigerFixture)</slimResult>
+                <expectation>
+                    <status>pass</status>
+                    <instructionId>import_0_0</instructionId>
+                    <col>0</col>
+                              <row>1</row>
+                    <type>ImportExpectation</type>
+                                        <evaluationMessage>tigerFixture</evaluationMessage>
+                  </expectation>
+              </instructionResult>
+            <instructionResult>
+        <instruction>{id='import_0_1', instruction='import', path='entities.Location'}</instruction>
+        <slimResult>pass(entities.Location)</slimResult>
+                <expectation>
+                    <status>pass</status>
+                    <instructionId>import_0_1</instructionId>
+                    <col>0</col>
+                              <row>2</row>
+                    <type>ImportExpectation</type>
+                                        <evaluationMessage>entities.Location</evaluationMessage>
+                  </expectation>
+              </instructionResult>
+            <instructionResult>
+        <instruction>{id='decisionTable_1_0', instruction='make', instanceName='decisionTable_1', className='animalFixture', args=[]}</instruction>
+        <slimResult>pass(animalFixture)</slimResult>
+                <expectation>
+                    <status>pass</status>
+                    <instructionId>decisionTable_1_0</instructionId>
+                    <col>0</col>
+                              <row>0</row>
+                    <type>ConstructionExpectation</type>
+                                        <evaluationMessage>animalFixture</evaluationMessage>
+                  </expectation>
+              </instructionResult>
+            <instructionResult>
+        <instruction>{id='decisionTable_1_4', instruction='call', instanceName='decisionTable_1', methodName='setTypeTest', args=[b]}</instruction>
+        <slimResult></slimResult>
+                <expectation>
+                    <status>error</status>
+                    <instructionId>decisionTable_1_4</instructionId>
+                              <type>VoidReturnExpectation</type>
+                                        <evaluationMessage>Method setTypeTest[1] not found in tigerFixture.animalFixture.</evaluationMessage>
+                  </expectation>
+              </instructionResult>
+            <instructionResult>
+        <instruction>{id='decisionTable_1_6', instruction='call', instanceName='decisionTable_1', methodName='getTypeTest', args=[]}</instruction>
+        <slimResult></slimResult>
+                <expectation>
+                    <status>error</status>
+                    <instructionId>decisionTable_1_6</instructionId>
+                              <type>ReturnedValueExpectation</type>
+                                        <evaluationMessage>Method getTypeTest[0] not found in tigerFixture.animalFixture.</evaluationMessage>
+                  </expectation>
+              </instructionResult>
+            <instructionResult>
+        <instruction>{id='decisionTable_1_8', instruction='call', instanceName='decisionTable_1', methodName='setTypeTest', args=[d]}</instruction>
+        <slimResult></slimResult>
+                <expectation>
+                    <status>error</status>
+                    <instructionId>decisionTable_1_8</instructionId>
+                              <type>VoidReturnExpectation</type>
+                                        <evaluationMessage>Method setTypeTest[1] not found in tigerFixture.animalFixture.</evaluationMessage>
+                  </expectation>
+              </instructionResult>
+            <instructionResult>
+        <instruction>{id='decisionTable_1_10', instruction='call', instanceName='decisionTable_1', methodName='getTypeTest', args=[]}</instruction>
+        <slimResult></slimResult>
+                <expectation>
+                    <status>error</status>
+                    <instructionId>decisionTable_1_10</instructionId>
+                              <type>ReturnedValueExpectation</type>
+                                        <evaluationMessage>Method getTypeTest[0] not found in tigerFixture.animalFixture.</evaluationMessage>
+                  </expectation>
+              </instructionResult>
+          </instructions>
+      </result>
+  <executionLog>
+    <testSystem>slim:fitnesse.slim.SlimService</testSystem>
+    <command>java -cp /Users/conward1/Desktop/CEN3031/fit/fitnesse-standalone.jar:/Users/conward1/Desktop/CEN3031/fit/fixture:/Users/conward1/Desktop/CEN3031/fit/fitnesse-standalone.jar:/Users/conward1/Desktop/CEN3031/fit/fixture/ fitnesse.slim.SlimService 1</command>
+    <exitCode>0</exitCode>
+    <stdOut></stdOut>
+    <stdErr></stdErr>
+  </executionLog>
+  <finalCounts>
+    <right>0</right>
+    <wrong>0</wrong>
+    <ignores>0</ignores>
+    <exceptions>1</exceptions>
+  </finalCounts>
+  <totalRunTimeInMillis>335</totalRunTimeInMillis>
+</testResults>
+
