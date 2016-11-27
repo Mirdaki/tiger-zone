@@ -26,6 +26,8 @@ public class TileStack {
     protected Map<String, ArrayList<TigerTile>> tileStack;
     protected int tileCount;
 
+    
+    //constructors
     /**
 	 * TileStack() constructor, initialize the variables
 	 */
@@ -37,7 +39,7 @@ public class TileStack {
         try { //attempt to parse XML file of tiles
 
             //file to parse
-       		File file = new File("src/entities/tiles.xml");
+			File file = new File("resources/tiles.xml");
        		DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
        		Document doc = dBuilder.parse(file);
@@ -62,9 +64,8 @@ public class TileStack {
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
                         //add a tile of said type for each multiplicity into array list
-                        for (int j = 0; j < multiplicity; j++, tileCount++)
-                            newTile.add(new TigerTile(eElement));
-
+                        for (int j = 0; j < multiplicity; j++, tileCount++) { newTile.add(new TigerTile(eElement)); }
+            
                         //place tile types and their multiplicities into the tileStack
                         tileStack.put(type,newTile);
                     }
@@ -75,6 +76,8 @@ public class TileStack {
         }
     }//constructor
 
+    //ACCESSORS 
+    
     /**
 	 * getTiles() will return the tile stack
      * @return the tileStack
@@ -85,22 +88,6 @@ public class TileStack {
 
     public ArrayList<TigerTile> getList(String type) {
         return tileStack.get(type);
-    }
-
-    public void removeTile(String type) {
-
-        tileCount--;
-        ArrayList<TigerTile> tile = tileStack.get(type);
-        tile.remove(0);
-
-
-    }
-    /**
-	 * setTiles() will set the current tile stack to a new tile stack
-     * @param tileStack will set the tileStack to a new tileStack
-	 */
-    public void setTiles(Map<String, ArrayList<TigerTile>> tileStack) {
-        this.tileStack = tileStack;
     }
 
     /**
@@ -132,8 +119,23 @@ public class TileStack {
         return tileCount;
     }
 
+    //MUTATORS 
+    
+    public void removeTile(String type) {
+        tileCount--;
+        ArrayList<TigerTile> tile = tileStack.get(type);
+        tile.remove(0);
+    }
     /**
-     *  setTileCount() sets the tileCount to be a new amount (dont do this lol)
+	 * setTiles() will set the current tile stack to a new tile stack
+     * @param tileStack will set the tileStack to a new tileStack
+	 */
+    public void setTiles(Map<String, ArrayList<TigerTile>> tileStack) {
+        this.tileStack = tileStack;
+    }
+
+    /**
+     *  setTileCount() sets the tileCount to be a new amount (dont do this)
      *  @param tileCount the new tile count
      */
     public void setTileCount(int tileCount) {

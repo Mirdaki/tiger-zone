@@ -1,7 +1,6 @@
 package entities;
 
-public class Animal
-{
+public class Animal {
 	// Attributes
 
 	protected char theType;
@@ -10,11 +9,10 @@ public class Animal
 
 	/**
 	 * Animal that is placed on a terrain
-	 * @param  aType String with tupe of animal
+	 * @param  aType String with type of animal
 	 * @return       Animal
 	 */
-	public Animal(char aType)
-	{
+	public Animal(char aType) {
 		theType = aType;
 	}
 
@@ -24,8 +22,11 @@ public class Animal
 	 * Get the type of the animal
 	 * @return String
 	 */
-	char getType()
-	{
+	char getType() {
 		return theType;
+	}
+	
+	public String toString() {
+		return "Animal type: " + theType;
 	}
 }

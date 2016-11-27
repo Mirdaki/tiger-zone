@@ -1,18 +1,34 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 /**
  * A monastery Region. Collection of terrain that exist on a board.
  */
-public class TrailRegion extends Region
-{
+public class TrailRegion extends Region {
 
 	// Field specifc properties
-	protected ArrayList<Animal> theAnimals;
 	protected char regionType;
 	protected boolean isTrailEnd;
-	protected ArrayList<CrocodileObject> theCrocodiles; // Must add Crocodiles in addTerrain
+
+	@Override
+	public int getPotential() { 
+		int potential = 0;
+		
+		int numAnimals = getNumOfAnimals()[0] ;
+		int numCrocs = getNumOfAnimals()[1];
+		int numTiles = getTileListSize();
+		int adjustedUnique = Math.max(0,numAnimals - numCrocs);
+
+		if(isCompleted) { 
+			potential = (numTiles) * (1 + adjustedUnique); 
+		} 
+		else {
+			potential = (numTiles) * (1 + adjustedUnique);
+		}
+		return potential;
+	}
 
 	// Constructor
 
@@ -30,9 +46,10 @@ public class TrailRegion extends Region
 		theType      = 'T';
 		theAnimals = new ArrayList<Animal>();
 		isTrailEnd = ((TrailTerrain) aTerrain).isEndOfTrail();
-		theCompleted = false;
+		isCompleted = false;
 		theAnimals   = new ArrayList<Animal>();
 		theCrocodiles = new ArrayList<CrocodileObject>();
+		tileList	= new LinkedHashSet<Integer>();
 		addTerrain(aTerrain, theRegionID);
 	}
 
@@ -49,7 +66,7 @@ public class TrailRegion extends Region
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
 		theType      = 'T';
-		theCompleted = false;
+		isCompleted = false;
 		theAnimals   = new ArrayList<Animal>();
 		theCrocodiles = new ArrayList<CrocodileObject>();
 
@@ -59,127 +76,41 @@ public class TrailRegion extends Region
 
 	// Getters
 
-
-
-	/**
-	 * Get number of aniamls in the region
-	 * @return int
-	 */
-	public int getNumberOfAnimals() {
-		return theAnimals.size();
-	}
+	// MUTATORS
 
 	/**
-	 * Returns array list of Crocodiles in this region.
-	 * @return ArrayList<CrocodilesObject>
+	 * This version of addTerrain() will add all terrains provided through an ArrayList.
+	 * This makes use of the overloaded addTerrain() for single cases.
+	 * @param aTerrains Set of terrain that is included in the region
+	 * @param regionID All terrains' new region ID
 	 */
-	public ArrayList<CrocodileObject> getCrocodiles() {
-		return theCrocodiles;
-	}
+	public void addTerrain(ArrayList<Terrain> aTerrains, int regionID) {
 
-	// Mutators
-
-	/**
-	 * Check if there are any Crocodiles in this region.
-	 * @return boolean
-	 */
-	public boolean hasCrocodiles() {
-		boolean result = false;
-		// Are any Crocodile in the array
-		if (theCrocodiles.size() != 0) {
-			result = true;
+		int neededSize = aTerrains.size();
+		for (int i = 0; i < neededSize; i++) {
+			Terrain terrain = aTerrains.get(i);
+			this.addTerrain(terrain, regionID);
 		}
-		return result;
+		markComplete();
 	}
 
 	/**
-	 * Goes through the current train and updates the held Crocodile.
-	 */
-	public void updateCrocodiles() {
-		// Go through all the Terrain adding Crocodile
-		for (int i = 0; i < theTerrains.size(); i++) {
-			if (((TrailTerrain) theTerrains.get(i)).hasCrocodile() == true) {
-				theCrocodiles.add(((TrailTerrain) theTerrains.get(i)).getCrocodile());
-			}
-		}
-	}
-
-	/**
-	 * Removes all Crocodile from this region and terrain.
-	 */
-	public void removeAllCrocodile() {
-		theCrocodiles.clear();
-		for (int i = 0; i < theTerrains.size(); i++) {
-			if (((TrailTerrain) theTerrains.get(i)).hasCrocodile()) {
-				((TrailTerrain) theTerrains.get(i)).removeCrocodile();
-			}
-		}
-	}
-
-	/**
-	 * Updates the status of Trail completion by checking if every segment has
-	 * two connections. Requires that endOfTrails don't count as null.
-	 */
-	public void markComplete() {
-
-		if(!isTrailEnd) { 
-			//connecting case
-			ArrayList<Integer> checker = new ArrayList<Integer>();
-			checker.addAll(theTerrains.get(0).getTileConnections());
-			
-			for (int i = 1; i < theTerrains.size(); i++) { 
-				ArrayList<Integer> terrainConnect = theTerrains.get(i).getTileConnections();
-				int adjustment = 2 * theTerrains.get(i).getOrientation();
-				
-				for (Integer spot : terrainConnect) {
-					if(checker.get(checker.size()-1) == (Integer)Math.floorMod(spot - adjustment + 4,8)) {
-						checker.remove((Integer)Math.floorMod(spot - adjustment + 4,8));
-					}
-					checker.add((Integer)Math.floorMod(spot - adjustment, 8));
-				}
-			}
-			
-			if(checker.isEmpty()) theCompleted = true;
-		}
-		else { 
-			int numEnds = 0;
-			for (int i = 0; i < theTerrains.size(); i++) { 
-				if(((TrailTerrain) theTerrains.get(i)).isEndOfTrail()) { 
-					numEnds++;
-				}			
-			}
-			if (numEnds == 2) theCompleted = true;
-		}
-		
-	}
-	
-	/**
-	 * Check if a single terrain is valid, and adds Tigers, and terrain
-	 * to region. Updates completion status.
-	 * @param aTerrain A single terrain
+	 * This version of addTerrain() will add an individual terrain.
+	 * @param aTerrain a single terrain that is included in the region
+	 * @param regionID The terrain's new region ID
 	 */
 	public void addTerrain(Terrain aTerrain, int regionID) {
-		// Check if the type is right
-		if (theType != aTerrain.getType())
-		{
-			throw new IllegalArgumentException("Mismatch terrain");
-		}
-
-		// Check if region is already complete
-//		if (theCompleted == true)
-//		{
-//			throw new IllegalArgumentException("Trail already complete");
-//		}
 
 		// Add terrain
 		aTerrain.setRegionID(regionID);
 		theTerrains.add(aTerrain);
 		if (!isTrailEnd) isTrailEnd = ((TrailTerrain) aTerrain).isEndOfTrail();
-
+		tileList.add(aTerrain.getTileID());
 
 		// Add animals
 		if (((TrailTerrain) aTerrain).hasAnimal() == true) {
-			theAnimals.add(((TrailTerrain) aTerrain).getAnimal());
+			Animal theAnimal = ((TrailTerrain) aTerrain).getAnimal();			
+			theAnimals.add(theAnimal);
 		}
 
 		// Add Tiger
@@ -191,20 +122,58 @@ public class TrailRegion extends Region
 			theCrocodiles.add(((TrailTerrain) aTerrain).getCrocodile());
 		}
 
-		if (aTerrain.getMin2() < getMin()) { 
+		if (aTerrain.getTerrainMin() < getRecentMin()) { 
 			recentMin = aTerrain.getMin();
+		}
+	}
+
+	public void markComplete() {
+
+		if(!isTrailEnd) { 
+			//connecting case
+			ArrayList<Integer> checker = new ArrayList<Integer>();
+			checker.addAll(theTerrains.get(0).getTileConnections());
+
+			for (int i = 1; i < theTerrains.size(); i++) { 
+				ArrayList<Integer> terrainConnect = theTerrains.get(i).getTileConnections();
+				int adjustment = 2 * theTerrains.get(i).getOrientation();
+
+				for (Integer spot : terrainConnect) {
+					if(checker.get(checker.size()-1) == (Integer)Math.floorMod(spot - adjustment + 4,8)) {
+						checker.remove((Integer)Math.floorMod(spot - adjustment + 4,8));
+					}
+					checker.add((Integer)Math.floorMod(spot - adjustment, 8));
+				}
+			}
+
+			if(checker.isEmpty()) isCompleted = true;
+		}
+		else { 
+			int numEnds = 0;
+			for (int i = 0; i < theTerrains.size(); i++) { 
+				if(((TrailTerrain) theTerrains.get(i)).isEndOfTrail()) { 
+					numEnds++;
+				}			
+			}
+			if (numEnds == 2) isCompleted = true;
 		}
 
 	}
+	
+	@Override
+	public String toString() {
 
-	public void addTerrain(ArrayList<Terrain> aTerrains, int regionID) {
-
-		int neededSize = aTerrains.size();
-		for (int i = 0; i < neededSize; i++) {
-			Terrain terrain = aTerrains.get(i);
-			this.addTerrain(terrain, regionID);
-		}
-		markComplete();
+		int regionID = theRegionID;
+		char regionType = theType;
+		int numOfTigers = getNumOfTigers();
+		int numOfTerrains = getNumOfTerrains();
+		int numOfCrocs = getNumOfCrocs();
+		int numOfAnimals = Math.max(0,getNumOfAnimals()[0] - getNumOfAnimals()[1]);
+		int numOfUniqueAnimals = getUniqueAnimals();
+		String outTrailEnd = (isTrailEnd) ? "end" : "connecting";
+		
+		return "The " + outTrailEnd + " region " + regionID + " of type " + regionType + " has " +
+		numOfTigers + " Tiger(s), " + numOfCrocs + " crocodile(s), " + numOfAnimals + " animal(s), " + numOfUniqueAnimals + " unique, and " + numOfTerrains + " Terrain(s).";		
 	}
 
 	// Deprecated
@@ -215,27 +184,12 @@ public class TrailRegion extends Region
 	 * @param aRegionID A unique ID derived from the tile and region
 	 * @return TrailRegion
 	 */
-	public TrailRegion(int aRegionID)
-	{
+	public TrailRegion(int aRegionID) {
 		theRegionID  = aRegionID;
 		theTerrains  = new ArrayList<Terrain>();
 		theTigers    = new ArrayList<TigerObject>();
 		theType      = 'T';
-		theCompleted = false;
+		isCompleted = false;
 		theAnimals   = null;
-	}
-
-	@Override
-	public String toString() {
-		String regionID = String.valueOf(theRegionID);
-		char regionType = theType;
-		String numberOfTigers = String.valueOf(theTigers.size());
-		String numberOfTerrain = String.valueOf(theTerrains.size());
-		String numOfAnimals = String.valueOf(getNumberOfAnimals());
-		String isisTrailEnd = (isTrailEnd) ? "end" : "connecting";
-		String minPlacement = String.valueOf(getMin());
-
-		return "The " + isisTrailEnd + " region " + regionID + " of type " + regionType + " has " +
-		numberOfTigers + " Meeple(s), " + numOfAnimals + " animal(s) and " + numberOfTerrain + " Terrain(s). Min = " + minPlacement;
 	}
 }

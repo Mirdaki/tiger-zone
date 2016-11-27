@@ -4,18 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.ListIterator;
 import java.util.Set;
 
 /*
- * This is the BoardObject that will implement the board itself.
- * Considerations:
- * 		Should it be a static 2D array? We know the max number of tiles is 72,
- * 		so a 72x72 matrix should suffice to maintain any given tile?
+ * This is the BoardObject that will be handling a majority of the game logic. 
+ * It is representative of the board game itself, and has a statically defined 
+ * size that is adjustable as needed.
  */
 public class BoardObject {
 
+	//c
 	public static final int ROWSIZE = 11, COLSIZE = 11;
+	public static int startX = 0;
+	public static int startY = 0;
+	
 	protected TileStack tileStack;
 	protected TigerTile[][] board;
 	protected boolean state; //east now this serves as just a if we started or not
@@ -27,7 +31,7 @@ public class BoardObject {
 	protected Map<Integer, Integer> minSpots; 
 
 	protected ArrayList<Location> availableSpots;
-	protected ArrayList<Region> completedRegions;
+	protected Set<Region> completedRegions;
 
 	protected String whyInvalid;
 	protected Location recentPlacement;
@@ -42,8 +46,8 @@ public class BoardObject {
 		availableSpots = new ArrayList<Location>();
 		incompleteRegions = new HashMap<Integer, Region>();
 		minSpots = new HashMap<Integer, Integer>();
-		completedRegions = new ArrayList<Region>();
-		availableSpots.add(new Location(0,0));
+		completedRegions = new LinkedHashSet<Region>();
+		availableSpots.add(new Location(startX,startY));
 		board = new TigerTile[ROWSIZE][COLSIZE];
 		tileStack = new TileStack();
 		tiles = tileStack.getTiles();
@@ -61,8 +65,8 @@ public class BoardObject {
 		availableSpots = new ArrayList<Location>();
 		incompleteRegions = new HashMap<Integer, Region>();
 		minSpots = new HashMap<Integer, Integer>();
-		completedRegions = new ArrayList<Region>();
-		availableSpots.add(new Location(0,0));
+		completedRegions = new LinkedHashSet<Region>();
+		availableSpots.add(new Location(startX,startY));
 		board = new TigerTile[ROWSIZE][COLSIZE];
 		tileStack = new TileStack();
 		tiles = tileStack.getTiles();
@@ -104,11 +108,11 @@ public class BoardObject {
 		this.incompleteRegions = incompleteRegions;
 	}
 
-	public ArrayList<Region> getComplete() {
+	public Set<Region> getComplete() {
 		return completedRegions;
 	}
 
-	public void setComplete(ArrayList<Region> completedRegions) {
+	public void setComplete(Set<Region> completedRegions) {
 		this.completedRegions = completedRegions;
 	}
 
@@ -141,8 +145,8 @@ public class BoardObject {
 		}
 
 		//get queried placement
-		int row = coord.getY();
-		int col = coord.getX();
+		int row = coord.getY() + startY;
+		int col = coord.getX() - startX;
 
 		//if out of bounds of the board, or location filled return false automatically
 		if ((row<0 || row>ROWSIZE-1) || (col<0 || col>COLSIZE-1)) {
@@ -210,7 +214,7 @@ public class BoardObject {
 		int row = coord.getY();
 		int col = coord.getX();
 
-		TigerTile tile = board[row][col];
+		TigerTile tile = board[row-startY][col-startX];
 		if (tile == null) return false;
 
 		char special = tile.getSpecial();
@@ -244,18 +248,18 @@ public class BoardObject {
 			minSpots.clear();
 
 			//get coordinates
-			int row = coord.getY();
-			int col = coord.getX();
-			int adjustedY = COLSIZE/2 - row;
-			int adjustedX = col - ROWSIZE/2;
+			int row = coord.getY() + startY;
+			int col = coord.getX() - startX;
+			int adjustedY = startY + (COLSIZE/2 - row);
+			int adjustedX = startX + (col - ROWSIZE/2);
 			String type = tile.getType();
 
 			//get adjacent tiles, if any
 			TigerTile north = null, east = null, south = null, west = null;
-			if(row > 0) north = board[row - 1][col];
-			if(col < COLSIZE-1) east = board[row][col + 1];
-			if(row < ROWSIZE-1) south = board[row + 1][col];
-			if(col > 0) west = board[row][col - 1];
+			if (row > 0) north = board[row - 1][col];
+			if (col < COLSIZE-1) east = board[row][col + 1];
+			if (row < ROWSIZE-1) south = board[row + 1][col];
+			if (col > 0) west = board[row][col - 1];
 
 			//initialize potential locations to be added to available spots list
 			Location addnorth = null, addeast = null, addwest = null, addsouth = null;
@@ -475,7 +479,7 @@ public class BoardObject {
 
 			aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
 
-			updateMin(aRegion.getRegionID(),aRegion.getMin());
+			updateMin(aRegion.getRegionID(),aRegion.getRecentMin());
 
 			incompleteRegions.remove(oldRegionID);
 		}		
@@ -494,7 +498,7 @@ public class BoardObject {
 				for (Integer entry : tileConnections) bEdges.setEdge(entry, aRegion.getRegionID());
 
 				aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
-				updateMin(aRegion.getRegionID(),aRegion.getMin());
+				updateMin(aRegion.getRegionID(),aRegion.getRecentMin());
 				incompleteRegions.remove(oldRegionID);
 			} 
 			//bottom
@@ -508,7 +512,7 @@ public class BoardObject {
 				for (Integer entry : tileConnections) bEdges.setEdge(entry, aRegion.getRegionID());
 
 				aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
-				updateMin(aRegion.getRegionID(),aRegion.getMin());
+				updateMin(aRegion.getRegionID(),aRegion.getRecentMin());
 				incompleteRegions.remove(oldRegionID);
 			}
 		}
@@ -591,7 +595,7 @@ public class BoardObject {
 		}
 		int min = index;
 		if (!minSpots.containsKey(regionID)) { 
-			min = region.getMin();
+			min = region.getRecentMin();
 		}
 		if(min != index) { 
 			setReason("Specified index was not the minimum");
@@ -612,10 +616,9 @@ public class BoardObject {
 	 *	in the center of the game board.
 	 */
 	public void start() {
-		//		SquareTile startingTile = tileStack.getTile("TLTJ-",0);
 		TigerTile startingTile = tileStack.getTile("TLTJ-",0);
 
-		place(startingTile, new Location(0,0));
+		place(startingTile, new Location(startX,startY));
 	}
 
 	public void confirm() { 
@@ -685,13 +688,13 @@ public class BoardObject {
 	 *	@param index the index of the player you want to set (0=player1, 1=player2)
 	 *	@param player the new Player object to set
 	 */
-	public void setPlayer(int index, Player player) {
-		players[index].setID(player.getID());
-		players[index].setFirst(player.isFirst());
-		players[index].setAI(player.isAI());
-		players[index].setTiger(player.getTiger());
-		players[index].setScore(player.getScore());
-	}
+//	public void setPlayer(int index, Player player) {
+//		players[index].setID(player.getID());
+//		players[index].setFirst(player.isFirst());
+//		players[index].setAI(player.isAI());
+//		players[index].setTiger(player.getTiger());
+//		players[index].setScore(player.getScore());
+//	}
 
 	/**
 	 *	getBoard() is self explanatory
@@ -715,7 +718,7 @@ public class BoardObject {
 	public void print() {
 		for (int row = 0; row < ROWSIZE; row++) {
 			for (int col = 0; col < COLSIZE; col++) {
-				if(board[row][col] == null) System.out.print("(" + (col - COLSIZE/2) + "," + (ROWSIZE/2 - row) + ")\t");
+				if(board[row][col] == null) System.out.print("(" + ((col - COLSIZE/2) + startY) + "," + ((ROWSIZE/2 - row) + startX) + ")\t");
 				else System.out.print(board[row][col].getType() + "\t");
 			}
 			System.out.println("\n");

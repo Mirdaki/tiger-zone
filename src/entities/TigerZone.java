@@ -15,11 +15,10 @@ public class TigerZone {
 
 	public static void main(String[] args) {
 
-//		SquareTile test = new SquareTile("TLLL-",0);
-//		System.out.println(test);
-		
+				
 		BoardObject test = new BoardObject(); //create the board
 		test.start();
+		test.print();
 		
 		Scanner in = new Scanner(System.in);
 		String input = "";

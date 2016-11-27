@@ -3,73 +3,53 @@ package entities;
 /*
  * This is the CrocodileObject to handle the Crocodiles that will be placeable on a tile.
  * A typical Crocodile should have:
- * 		1.) an ID
- * 		2.) its type (thief, farmer, knight, monk)
- * 		3.) its location/placement on the tile
- * 		4.) its location/placement on the board?
+ * 		1.) an owner
+ * 		2.) its region association
  */
-public class CrocodileObject
-{
+public class CrocodileObject {
+
 	//Attributes
-	protected int id;
-	protected char type;
 	protected Player owner;
-	protected int terrainID;
+	protected int regionID;
 
 	//Constructors
-	public CrocodileObject(int id, char type, Player owner, int terrainID) {
-		this.id = id;
-		this.type = type;
+
+	/**
+	 * CrocodileObject that is placed on a terrain/tile
+	 * @param  aType String with tupe of animal
+	 * @return       Animal
+	 */
+	public CrocodileObject(Player owner) {
 		this.owner = owner;
-		this.terrainID = terrainID;
+		this.regionID = -1;
 	}
 
 	//Getters
-	/**
-	* Get Crocodile ID
-	* @return int
-	*/
-	public int getID()
-	{
-		return id;
-	}
-
-	/**
-	* Get Crocodile Type
-	* @return string
-	*/
-	public char getType() {
-		return type;
-	}
 
 	/**
 	* Get Crocodile Owner
-	* @return char
+	* @return the Player owner of the crocodile
 	*/
-	public Player getCrocodileOwner()
-	{
+	public Player getCrocodileOwner() {
 		return owner;
 	}
 
 	/**
-	* Get Crocodile's Terrain ID
-	* @return int
+	* Get Crocodile's Region ID
+	* @return an int of the crocodile's region
 	*/
-	public int getTerrainID()
-	{
-		return terrainID;
+	public int getRegionID() {
+		return regionID;
 	}
 
-	//Mutators
-	//Changes the Crocodile Type
-	public void setType(char type)
-	{
-		this.type = type;
-	}
+	//MUTATORS
 
-	//Changes the Terrain ID of the Crocodile
-	public void setTerrainID(int terrainID)
-	{
-		this.terrainID = terrainID;
+	//Changes the Region ID of the Crocodile
+	public void setRegionID(int regionID) {
+		this.regionID = regionID;
+	}
+		
+	public String toString() {
+		return "This crocodile belongs to " + owner + " in region " + regionID;
 	}
 }

@@ -1,5 +1,9 @@
 package entities;
-
+/*
+ * An abstract tile object class. It will contain all of the abstract features of a tile
+ * such as the ID, number, orientation, coordinate, and edges. TigerTile will be based
+ * off of this. It is assumed square, but could be altered for other polygons (maybe).
+ */
 public abstract class TileObject {
 
 	//attributes
@@ -9,11 +13,12 @@ public abstract class TileObject {
 	protected Location coord;
 	protected TileEdges edges;
 
-
 	//default constructor for inheritance
 	public TileObject() {
 	}
 
+	//ACCESSORSS 
+	
 	/**
 	 *	getTileNum() will get the total number of tiles that have
 	 *	been created using this class.
@@ -21,14 +26,6 @@ public abstract class TileObject {
 	 */
 	public int getTileNum() {
 		return tileNum;
-	}
-
-	/**
-	 *	setTileNum() sets the tile number count to a new amount
-	 *	@param tileNum the new tile amount
-	 */
-	public void setTileNum(int tileNum) {
-		TileObject.tileNum = tileNum;
 	}
 
 	/**
@@ -40,19 +37,46 @@ public abstract class TileObject {
 	}
 
 	/**
-	 *	setTileID() sets the current tile's ID to a new ID
-	 *	@param tileID the new tile ID
-	 */
-	public void setTileID(int tileID) {
-		this.tileID = tileID;
-	}
-
-	/**
 	 * getOrientation() will get the current tile's orientation
 	 * @return the current tile's orientation
 	 */
 	public int getOrientation() {
 		return orientation;
+	}
+
+	/**
+	 * getCoord() gets the current tile's coordinate
+	 * @return the current tile's coordinate
+	 */
+	public Location getCoord() {
+		return coord;
+	}
+
+	/**
+	 * getEdges() gets the current tile's edges and maps them according
+	 * to the orientation set on the tile
+	 * @return the edges
+	 */
+	public TileEdges getEdges() {
+		return edges;
+	}
+
+	//MUTATORS 
+	
+	/**
+	 *	setTileNum() sets the tile number count to a new amount
+	 *	@param tileNum the new tile amount
+	 */
+	public void setTileNum(int tileNum) {
+		TileObject.tileNum = tileNum;
+	}
+
+	/**
+	 *	setTileID() sets the current tile's ID to a new ID
+	 *	@param tileID the new tile ID
+	 */
+	public void setTileID(int tileID) {
+		this.tileID = tileID;
 	}
 
 	/**
@@ -65,35 +89,11 @@ public abstract class TileObject {
 	}
 
 	/**
-	 * getType() will get the current tile's type
-	 * See Tile Type.png for more information
-	 * @return the current tile's type
-	 */
-
-	/**
-	 * getCoord() gets the current tile's coordinate
-	 * @return the current tile's coordinate
-	 */
-	public Location getCoord() {
-		return coord;
-	}
-
-	/**
 	 * setCoord() sets the current tile's coordinate
 	 * @param coord sets the current tile's coordinate to the new coordinate
 	 */
 	public void setCoord(Location coord) {
 		this.coord = coord;
-	}
-
-
-	/**
-	 * getEdges() gets the current tile's edges and maps them according
-	 * to the orientation set on the tile
-	 * @return the edges
-	 */
-	public TileEdges getEdges() {
-		return edges;
 	}
 
 	/**

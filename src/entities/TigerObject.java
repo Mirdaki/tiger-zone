@@ -3,76 +3,58 @@ package entities;
 /*
  * This is the TigerObject to handle the Tigers that will be placeable on a tile.
  * A typical Tiger should have:
- * 		1.) an ID
- * 		2.) its type (thief, farmer, knight, monk)
- * 		3.) its location/placement on the tile
- * 		4.) its location/placement on the board?
+ * 	1.) an owner
+ * 	2.) the associated region it is placed on
  */
 public class TigerObject
 {
 	//Attributes
-	protected int id;
-	protected char type;
 	protected Player owner;
-	protected int terrainID;
+	protected int regionID;
 
 	//Constructors
 	public TigerObject() { 
 		
 	}
-	public TigerObject(int id, char type, Player owner, int terrainID) {
-		this.id = id;
-		this.type = type;
+	
+	public TigerObject(Player owner) { 
 		this.owner = owner;
-		this.terrainID = terrainID;
+		this.regionID = -1;
 	}
 
-	//Getters
-	/**
-	* Get Tiger ID
-	* @return int
-	*/
-	public int getID()
-	{
-		return id;
-	}
-
-	/**
-	* Get Tiger Type
-	* @return string
-	*/
-	public char getType() {
-		return type;
-	}
+	//ACCESSORSS 
 
 	/**
 	* Get Tiger Owner
 	* @return char
 	*/
-	public Player getTigerOwner()
-	{
+	public Player getTigerOwner() {
 		return owner;
 	}
 
 	/**
-	* Get Tiger's Terrain ID
+	* Get Tiger's Region ID
 	* @return int
 	*/
-	public int getTerrainID()
-	{
-		return terrainID;
+	public int getRegionID() {
+		return regionID;
 	}
 
-	//Mutators
-	//Changes the Tiger Type
-	public void setType(char type)
-	{
-		this.type = type;
+	//MUTATORS
+	
+	//Changes the Region ID of the Tiger
+	public void setRegionID(int regionID) {
+		this.regionID = regionID;
+	}
+	
+	//Change the owner of a tiger
+	public void setOwner(Player owner) { 
+		this.owner = owner;
+	}
+	
+	//METHODS	
+	public String toString() {
+		return "This crocodile belongs to " + owner + " in region " + regionID;
 	}
 
-	//Changes the Terrain ID of the Tiger
-	public void setTerrainID(int terrainID)
-	{
-		this.terrainID = terrainID;
-	}
 }

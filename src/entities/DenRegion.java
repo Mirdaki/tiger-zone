@@ -5,98 +5,87 @@ import java.util.ArrayList;
 /**
  * A den Region. Collection of terrain that exist on a board.
  */
-public class DenRegion extends Region
-{
+public class DenRegion extends Region {
 
-	// Den specifc properties
+	// Den specific properties
 
 	protected boolean theCompleted;
 	protected ArrayList<Location> mooreHood;
 	protected Location location;
 
-	// Constructor
-
-	//	/**
-	//	 * DenRegion is an object of the board that describes dens regions.
-	//	 * Use this if there is no starting terrain.
-	//	 * @param aTerrain Single terrain that is included in the region.
-	//	 * @return DenRegion
-	//	 */
-	//	public DenRegion(Terrain aTerrain)
-	//	{
-	//		// Region ID becomes the terrain's ID
-	//		theRegionID         = aTerrain.getTerrainID();
-	//		theTerrains         = new ArrayList<Terrain>();
-	//		theTigers           = new ArrayList<TigerObject>();
-	//		theType             = 'D';
-	//		theCompleted        = false;
-	//		theNeighboringTiles = new ArrayList<Location>();
-	//		// Add and update meepels
-	//		addTerrain(aTerrain, theRegionID);
-	//	}
-
-	// Getters
+	//ACCESSORS
 
 	/**
 	 * Get number of neighboring tiles
 	 * @return int
 	 */
-	public int getNumberOfNeighboringTiles()
-	{
-		//		updateNeighboringTiles();
+	public int getNumberOfNeighboringTiles() {
 		return mooreHood.size();
 	}
 
+	@Override
+	public int getPotential() { 
+		int potential = 0;
+		
+		if(isCompleted) { potential = 9; } 
+		else { potential = getNumberOfNeighboringTiles(); }
+		return potential;
+	}
+	
 	/**
 	 * Checks if the den is complete
 	 * @return boolean
 	 */
-	public boolean isCompleted()
-	{
+	public boolean isCompleted() {
 		return theCompleted;
 	}
 
-	// Mutators
-
 	/**
-	 * Update the list of neighboring tiles. NOT WORKING YET.
+	 * Gets the location of the calling region
+	 * @return location
 	 */
-	public void updateNeighboringTiles()
-	{
-		// TODO: Some method to add neighboriung tiles
-		/*if (numberOfTiles == 8)
-		{
-			theCompleted = true;
-		}*/
+	public Location getLocation() { 
+		return location;
+	}
+	
+	/**
+	 * Returns the Moore neighborhood of the calling region
+	 * @return an ArrayList of locations
+	 */
+	public ArrayList<Location> getMoore() { 
+		return mooreHood;
+	}
+	
+	// MUTATORS
+	
+	/**
+	 * Sets the Moore neighborhood of the calling region 
+	 * @param mooreHood - an ArrayList of surrounding locations
+	 */
+	public void setMoore(ArrayList<Location> mooreHood) { 
+		this.mooreHood = mooreHood;
+		
+		//if the new Moore neighborhood is complete, the region is complete
+		if (mooreHood.size() == 9) theCompleted = true;
 	}
 
+	//METHODS
+	
 	/**
-	 * Check if a single terrain is valid, and adds Tigers, tiles and terrain
-	 * to region.
-	 * @param aTerrain A single terrain
+	 * toString() method to return the attributes associated with a Den Region
+	 * @return int
 	 */
-	//	public void addTerrain(Terrain aTerrain, int regionID)
-	//	{
-	//		// Check if the type is right
-	//		if (theType != aTerrain.getType())
-	//		{
-	//			throw new IllegalArgumentException("Mismatch terrain");
-	//		}
-	//
-	//		// Add terrain
-	//		aTerrain.setRegionID(regionID);
-	//		theTerrains.add(aTerrain);
-	//
-	//		// Add Tiger
-	//		if (aTerrain.hasTiger() == true)
-	//		{
-	//			theTigers.add(aTerrain.getTiger());
-	//		}
-	//
-	//		// Update neighboring tiles
-	//		updateNeighboringTiles();
-	//	}
-
+	@Override
+	public String toString() {
+		String regionID = String.valueOf(theRegionID);
+		char regionType = theType;
+		String numberOfTigers = String.valueOf(theTigers.size());
+		String numberOfTerrain = String.valueOf(theTerrains.size());
+		
+		return "The region " + regionID + " of type " + regionType + " has " +
+		numberOfTigers + " Tiger(s), and " + numberOfTerrain + " Terrain(s).";
+	}
+	
 	// Deprecated
 
 	/**
@@ -128,30 +117,6 @@ public class DenRegion extends Region
 		theTigers           = new ArrayList<TigerObject>();
 		theType             = 'D';
 		this.location 		= location;
-	}
-	
-	public Location getLocation() { 
-		return location;
-	}
-	
-	public ArrayList<Location> getMoore() { 
-		return mooreHood;
-	}
-	
-	public void setMoore(ArrayList<Location> mooreHood) { 
-		this.mooreHood = mooreHood;
-		if (mooreHood.size() == 9) theCompleted = true;
-	}
-	
-	
-	public String toString()
-	{
-		String regionID = String.valueOf(theRegionID);
-		char regionType = theType;
-		String numberOfTigers = String.valueOf(theTigers.size());
-		String numberOfTerrain = String.valueOf(mooreHood.size());
-		return "The region " + regionID + " of type " + regionType + " has " +
-		numberOfTigers + " Meepel(s) and " + numberOfTerrain + " Terrain(s)";
 	}
 
 }
