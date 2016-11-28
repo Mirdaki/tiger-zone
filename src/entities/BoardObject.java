@@ -418,6 +418,7 @@ public class BoardObject {
 
 			//set the tile's coordinate to it's new spot, place it, remove from stack
 			tile.setCoord(coord);
+			tile.tiger.setLocation(coord);
 			board[row][col] = tile;
 			recentPlacement = coord;
 			tileStack.removeTile(type);
