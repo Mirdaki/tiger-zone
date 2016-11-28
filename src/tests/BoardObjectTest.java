@@ -14,7 +14,7 @@ public class BoardObjectTest {
 	@Test
 	public void boardObjectConstructorAndGetterTest() {
 		BoardObject test = new BoardObject(); //create the board
-		
+
 		//Test if first available spot is (0,0) after constructed
 		assertEquals(5, test.getAS().get(0).getRow());
 		assertEquals(5, test.getAS().get(0).getCol());
@@ -25,18 +25,18 @@ public class BoardObjectTest {
 		BoardObject test = new BoardObject(); //create the board
 		test.start();
 		TigerTile s = test.getTile("JJTJX",0);
-		
+
 		//Placement at (-1,0) should be valid
 		assertTrue(test.valid(s, new Location(-1, 0)));
 		//Placement at (-3,0) should not be valid
 		assertFalse(test.valid(s, new Location(-3, 0)));
 	}
-	
+
 	@Test
 	public void isSurroundedTest() {
 		BoardObject test = new BoardObject(); //create the board
 		test.start();
-		
+
 		//Test if tile is surrounded by north, east, south, west
 		TigerTile tile1 = test.getTile("LJTJ-",0);
 		test.place(tile1,new Location(0,1));
@@ -50,7 +50,7 @@ public class BoardObjectTest {
 		test.place(tile4,new Location(-1,0));
 		//(0,0) should now be surrounded
 		assertTrue(test.isSurrounded(new Location()));
-		
+
 		//Test if Den tile is surrounded
 		TigerTile tile5 = test.getTile("LJJJ-",0);
 		test.place(tile5,new Location(-1,1));
@@ -67,19 +67,19 @@ public class BoardObjectTest {
 		//Den at (-1,0) should now be surrounded
 		assertTrue(test.isSurrounded(new Location(-1, 0)));
 	}
-	
+
 	@Test
 	public void placeTest() {
 		BoardObject test = new BoardObject(); //create the board
 		test.start();
 		TigerTile tile1 = test.getTile("LJTJ-",0);
-		
+
 		//Test if place is successful
 		assertTrue(test.place(tile1,new Location(0,1)));
 		//Available spots should now be 6
 		assertEquals(6, test.getAS().size());
 	}
-	
+
 	@Test
 	public void startAndGetBoardTest() {
 		BoardObject test = new BoardObject(); //create the board
@@ -89,7 +89,7 @@ public class BoardObjectTest {
 		//Test if designated starting tile was placed in center of board
 		assertEquals("TLTJ-", tile.getType());
 	}
-	
+
 	@Test
 	public void setAndGetPlayersTest() {
 		BoardObject test = new BoardObject(); //create the board
@@ -100,7 +100,7 @@ public class BoardObjectTest {
 		//Tell board about the players
 		test.setPlayer(0, p1);
 		test.setPlayer(1, p2);
-		
+
 		//Get player info
 		assertEquals(0, test.getPlayer(0).getID());
 		assertEquals(1, test.getPlayer(1).getID());

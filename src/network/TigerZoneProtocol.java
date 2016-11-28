@@ -29,7 +29,7 @@ package network;
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */ 
+ */
 
 import java.net.*;
 import java.io.*;
@@ -54,8 +54,8 @@ public class TigerZoneProtocol {
 
 	public int i = 0;
 
-	public String processInput2() { 
-		if (i == 0) { i++; return "THIS IS SPARTA!"; } 
+	public String processInput2() {
+		if (i == 0) { i++; return "THIS IS SPARTA!"; }
 		if (i == 1) { return "STOP"; }
 		return null;
 	}
@@ -78,9 +78,9 @@ public class TigerZoneProtocol {
 				theOutput = answers[currentJoke] + " Want another? (y/n)";
 				state = ANOTHER;
 			} else {
-				theOutput = "You're supposed to say \"" + 
-						clues[currentJoke] + 
-						" who?\"" + 
+				theOutput = "You're supposed to say \"" +
+						clues[currentJoke] +
+						" who?\"" +
 						"! Try again. Knock! Knock!";
 				state = SENTKNOCKKNOCK;
 			}
