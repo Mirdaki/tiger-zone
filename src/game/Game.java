@@ -33,7 +33,7 @@ public class Game {
 	public void setGameID(String gameID) {
 		this.gameID = gameID;
 	}
-	
+
 	/*public void setPlayers(Player[] players) {
 		this.players = players;
 	}*/
@@ -52,7 +52,7 @@ public class Game {
 	}
 
 	public void setStartTile(String startType, int startX, int startY, int startOrientation) {
-		
+
 		TigerTile startTile = new TigerTile(startType, startOrientation);
 		board.start(startTile, startX, startY, startOrientation);
 	}
@@ -74,7 +74,7 @@ public class Game {
 		//If placeable, pass tile string to AI, get the move, and pass to client.
 		TigerTile tile = new TigerTile(tileType, 0);
 		artificialIntelligence AI = new artificialIntelligence(board, tile);
-		
+
 		return AI.getMove();
 	}
 
@@ -91,7 +91,7 @@ public class Game {
 		}
 
 		board.place(tile, loc);
-		
+
 		if (animal.equals("TIGER")){
 			board.placeTiger(tigerZone);
 		}
