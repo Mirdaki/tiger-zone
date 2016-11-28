@@ -250,7 +250,11 @@ public abstract class Region {
 
 	public void removeTiger(int index) { 
 		
+		TigerObject stray = theTigers.get(index);
 		theTigers.remove(index);
+
+		Player owner = stray.getTigerOwner();
+		owner.addTiger(stray);
 		
 	}
 	
