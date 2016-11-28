@@ -458,6 +458,10 @@ public class BoardObject {
 		else { activePlayer = players[0]; } 
 	}
 
+	public void switchToActivePlayer(Player player) {
+		activePlayer = player;
+	}
+	
 	public boolean isSurrounded(Location coord) {
 
 		int row = coord.getY();
