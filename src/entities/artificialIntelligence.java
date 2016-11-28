@@ -126,8 +126,11 @@ public class artificialIntelligence {
 						
 
 			ourMove = "PLACE " + currentTile.getType() + " ";	
-			BoardObject tempBoard = new BoardObject(currentBoard);
-			ArrayList<Region> tempArray = orderedListOfRegions(tempBoard);
+			//BoardObject currentBoard = new BoardObject(currentBoard);
+			
+			//UNCOMMENT tempArray IF WE GET MERGE WORKING O(n^2)
+
+			//ArrayList<Region> tempArray = orderedListOfRegions(currentBoard);
 			ArrayList<TilePair> tempPS = currentBoard.getPossibleSpots();
 //			Map<Location, Integer> uniqueLocation = new HashMap<Location, Integer>();
 
@@ -146,7 +149,7 @@ public class artificialIntelligence {
 			Random randomGenerator = new Random();
 			int index = randomGenerator.nextInt(tempPS.size());
 			
-			TilePair tempSpot = currentBoard.getPossibleSpots().get(index);
+			TilePair tempSpot = tempPS.get(index);
 			Location tileLoc = tempSpot.getLocation();
 			int orientation = tempSpot.getOrientation();
 			
@@ -155,14 +158,30 @@ public class artificialIntelligence {
 			
 			int adjustedY = BoardObject.startY + (BoardObject.COLSIZE/2 - row);
 			int adjustedX = BoardObject.startX + (col - BoardObject.ROWSIZE/2);
-			
+			/*int printedOr;
+				switch(orientation)
+    			{
+     									case 0: 
+     										printedOr = 0;
+	   										break;
+     									case 1:
+     										printedOr = 90;
+     										break;
+     									case 2:
+     										printedOr = 180;
+     										break;
+     									case 3:
+     										printedOr = 270;
+     										break;
+     			}*/
+
 			ourMove += "AT " + adjustedX + " " + adjustedY + " " + orientation; 
 			
 			currentTile.setOrientation(orientation / 90);
 			currentBoard.place(currentTile, new Location(adjustedX, adjustedY));
 			TigerTile temp = currentBoard.getRecentTile();
 			Terrain[] terrains = temp.getTerrains();
-			Map<Integer, Region> allRegions = tempBoard.getAll();
+			Map<Integer, Region> allRegions = currentBoard.getAll();
 			
 			ArrayList<Integer> potentials = new ArrayList<Integer>();
 			ArrayList<Integer> potentialRegionID = new ArrayList<Integer>();
@@ -187,9 +206,23 @@ public class artificialIntelligence {
 			}
 			
 			if(maxPotential != -1) { 
-				
-				Region region = allRegions.get(potentialRegionID.get(maxIndex));
-				ourMove += " TIGER " + region.getRecentMin();
+				if(currentBoard.getPlayer(0).getNumOfTigers() == 0) 
+					{
+						
+						
+						ourMove += " NONE";
+						
+					}
+				else
+				{
+					Region region = allRegions.get(potentialRegionID.get(maxIndex));
+					ourMove += " TIGER " + region.getRecentMin();					
+				}	
+
+			}
+			else
+			{
+				ourMove += " NONE";	
 			}
 						
 //			for(int i = 0; i < tempArray.size(); i++) {
@@ -199,12 +232,12 @@ public class artificialIntelligence {
 //				int or = 0;
 //     			while(it.hasNext()) {
 //
-//     				TigerTile tiletoplay = tempBoard.tiles.get(it.next());
+//     				TigerTile tiletoplay = currentBoard.tiles.get(it.next());
 //
 //     				Location tileLoc = tiletoplay.getCoord();
 //     				for(Map.Entry<Location, Integer> entry : uniqueLocation.entrySet()) {
 //     					if(isAdjacent(entry.getKey(), tileLoc)) {
-//     						tempBoard.place(currentTile, tileLoc);
+//     						currentBoard.place(currentTile, tileLoc);
 //     						for(int y = 0; y < tempPS.size(); y++) {
 //
 //     							if(tempPS.get(i).getLocation() == tileLoc) {
@@ -230,7 +263,7 @@ public class artificialIntelligence {
 //     							}
 //     						}
 //     						
-//     						ourMove.concat("AT " + tileLoc.getX() + " " + tileLoc.getY() + " " + or);
+//     						ourMove += "AT " + tileLoc.getX() + " " + tileLoc.getY() + " " + or;
 //
 //     						break;
 //     					}
@@ -243,11 +276,11 @@ public class artificialIntelligence {
 //			//check tiles in regions
 //			//if any playable spot is adjacent to tile in region place tile
 //
-//			if(tempBoard.getPlayer(0).getNumOfTigers() == 0) 
+//			if(currentBoard.getPlayer(0).getNumOfTigers() == 0) 
 //				{
-//					if(tempBoard.getPlayer(0).getNumOfCrocs() == 0)
+//					if(currentBoard.getPlayer(0).getNumOfCrocs() == 0)
 //					{
-//						ourMove.concat(" NONE");
+//						ourMove += " NONE";
 //					}
 //					else
 //					{
@@ -255,7 +288,7 @@ public class artificialIntelligence {
 //							int tigers[] = checkOurTigers(tempArray.get(i));
 //							if(tigers[1] != 0 && tigers[0] == 0) {
 //								// place croc
-//								ourMove.concat(" CROCODILE");
+//								ourMove += " CROCODILE";
 //									
 //							break;
 //							}
@@ -265,7 +298,7 @@ public class artificialIntelligence {
 //			else
 //				{
 //					// first legal?
-//					ourMove.concat(" TIGER " + tigerPlacer.getRecentMin()); //decide region
+//					ourMove += " TIGER " + tigerPlacer.getRecentMin()); //decide region
 //				}
 		}
 		return ourMove;
