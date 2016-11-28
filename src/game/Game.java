@@ -78,7 +78,7 @@ public class Game {
 	}
 
 	//If player1 == true, it is player 1's turn
-	public void placeTile(String tileType, int tileX, int tileY, int orientation, String animal, boolean player1, int tigerZone) {
+	public void placeTile(int tileX, int tileY, int orientation, String animal, boolean player1, int tigerZone) {
 		Location loc = new Location(tileX, tileY);
 		TigerTile tile = board.getTile(orientation);
 		if (player1 == true){
