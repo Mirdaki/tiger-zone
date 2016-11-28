@@ -86,7 +86,6 @@ public class TigerTile extends TileObject {
 			if (regionType.equalsIgnoreCase("jungle")) { terrains[i] = new JungleTerrain(edgeConnections); }
 			else if (regionType.equalsIgnoreCase("trail")) { 
 				char trailType = element.getAttribute("type").charAt(0);
-
 				//if the trail type is connecting, pass false (not an end); else, pass true
 				if (trailType == 'C') {	terrains[i] = new TrailTerrain(edgeConnections, false, prey); }
 				else { terrains[i] = new TrailTerrain(edgeConnections, true, prey); }
@@ -209,14 +208,14 @@ public class TigerTile extends TileObject {
 
 						if (regionType.equalsIgnoreCase("jungle")) { terrains[i] = new JungleTerrain(edgeConnections); } 
 						else if (regionType.equalsIgnoreCase("trail")) { 
-							char trailType = eElement.getAttribute("type").charAt(0);
+							char trailType = element.getAttribute("type").charAt(0);
 
 							//if the trail type is connecting, pass false (not an end); else, pass true
 							if (trailType == 'C') { terrains[i] = new TrailTerrain(edgeConnections, false, prey); }
 							else { terrains[i] = new TrailTerrain(edgeConnections, true, prey); }
 						}
 						else if (regionType.equalsIgnoreCase("lake")) { 
-							char lakeType = eElement.getAttribute("type").charAt(0);
+							char lakeType = element.getAttribute("type").charAt(0);
 
 							//if the lake type is connecting, pass false (not an end); else, pass true
 							if (lakeType == 'C') { terrains[i] = new LakeTerrain(edgeConnections, false, prey); }

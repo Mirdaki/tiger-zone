@@ -78,11 +78,19 @@ public class Game {
 		//AI will let this method know if tile is unplaceable.
 		//If unplaceable, AI will decide what to do with current turn.
 		//If placeable, pass tile string to AI, get the move, and pass to client.
-		TigerTile tile = board.getTile(move++);
+		TigerTile tile = board.getTile(move);
 		artificialIntelligence AI = new artificialIntelligence(board, tile);
 		String value = AI.getMove();
-		board.confirm();
 		return value;
+	}
+	
+	
+	public void placeTile(String tileType, int tileX, int tileY, int orientation) { 
+		
+		TigerTile tile = new TigerTile(tileType, orientation);
+		
+		board.place(tile, new Location(tileX, tileY));
+		
 	}
 
 	//If player1 == true, it is player 1's turn
@@ -97,7 +105,6 @@ public class Game {
 		else if (player1 == false) {
 			board.switchToActivePlayer(players[1]);
 			board.place(tile, loc);
-
 		}
 
 		if (animal.equals("TIGER")){

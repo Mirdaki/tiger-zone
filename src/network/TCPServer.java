@@ -21,11 +21,11 @@ class TCPServer
 				Socket clientSocket = serverSocket.accept();
 				PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-				
+
 				) {
 			System.out.println("Client connected!");
 			String inputLine, outputLine;
-			
+
 			// Initiate conversation with client
 			TigerZoneProtocol tzp = new TigerZoneProtocol();
 			outputLine = tzp.processInput(null);
