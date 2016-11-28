@@ -48,7 +48,7 @@ public class TigerZoneClient {
 			String fromTourneyServer, fromHandler, fromAI;
 
 			//variable declarations - information from server
-			String gameID, ourGame = "weAreNumberOne";
+			String gameID, GameA = null, GameB = null;
 			String currentPlayerID;
 			String opponentName;
 			int challengeID, numChallenges;
@@ -162,16 +162,19 @@ public class TigerZoneClient {
 
 					case "MAKE": //send off move based on current tile
 						gameID = tokenizedMessage[5];
+						if(GameA == null) GameA = gameID;
+						else if(GameB == null) GameB = gameID;
+						
 						tileToPlace = tokenizedMessage[12];
 						response = "";
 						// Pass the move to the game
-						if (gameID.equals("A"))
+						if (gameID.equals(GameA))
 						{
 							response = gameA.makeMove(tileToPlace);
 							// Add the starting information to the move
 							response = "GAME A MOVE " + moveANum + " " + response;
 						}
-						else if (gameID.equals("B"))
+						else if (gameID.equals(GameB))
 						{
 							response = gameB.makeMove(tileToPlace);
 							// Add the starting information to the move
@@ -190,12 +193,12 @@ public class TigerZoneClient {
 							//game over logic - i.e. tell AI to stop the two games
 							//or forfeited game logic - ie. tell AI to stop the two games due to forfeit
 							// Get the ended game
-							if (gameID.equals("A"))
+							if (gameID.equals(GameA))
 							{
 								gameA.endGame();
 								gameA = null;
 							}
-							else if (gameID.equals("B"))
+							else if (gameID.equals(GameB))
 							{
 								gameB.endGame();
 								gameB = null;
@@ -218,11 +221,11 @@ public class TigerZoneClient {
 							}
 
 							// Place the tile in the game
-							if (gameID.equals("A")) {
+							if (gameID.equals(GameA)) {
 								moveANum++;
 								gameA.placeTile(tilePlacedX, tilePlacedY, tileOrientation, animal,
 										userName.equals(currentPlayerID), animalZone);
-							} else if (gameID.equals("B")) {
+							} else if (gameID.equals(GameB)) {
 								moveBNum++;
 								gameB.placeTile(tilePlacedX, tilePlacedY, tileOrientation, animal,
 										userName.equals(currentPlayerID), animalZone);
@@ -234,10 +237,10 @@ public class TigerZoneClient {
 							if (tokenizedMessage[7].equals("PASS"))
 							{
 								// Place the tile in the game
-								if (gameID.equals("A")) {
+								if (gameID.equals(GameA)) {
 									moveANum++;
 									gameA.pass();
-								} else if (gameID.equals("B")) {
+								} else if (gameID.equals(GameB)) {
 									moveBNum++;
 									gameB.pass();
 								}
@@ -264,11 +267,11 @@ public class TigerZoneClient {
 								}
 
 								// Place the tile in the game
-								if (gameID.equals("A")) {
+								if (gameID.equals(GameA)) {
 									moveANum++;
 									gameA.unplaceableTile(userName.equals(currentPlayerID), addTiger,
 											tilePlacedX, tilePlacedY);
-								} else if (gameID.equals("B")) {
+								} else if (gameID.equals(GameB)) {
 									moveBNum++;
 									gameB.unplaceableTile(userName.equals(currentPlayerID), addTiger,
 											tilePlacedX, tilePlacedY);

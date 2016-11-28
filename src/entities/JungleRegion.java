@@ -100,29 +100,31 @@ public class JungleRegion extends Region {
 			throw new IllegalArgumentException("Road already complete");
 		}
 
-		// Add terrain to the regions list of terrains, reset its region ID, and add any lakes found from the Terrain
-		aTerrain.setRegionID(regionID);
-		theTerrains.add(aTerrain);
-		adjacentLakes.addAll(((JungleTerrain) aTerrain).getLakes());
-		
-		// Add the new tiger to the family (if there are any!)
-		if (aTerrain.hasTiger() == true) {
-			theTigers.add(aTerrain.getTiger());
-		}
+		if(aTerrain instanceof JungleTerrain) { 
+			// Add terrain to the regions list of terrains, reset its region ID, and add any lakes found from the Terrain
+			aTerrain.setRegionID(regionID);
+			theTerrains.add(aTerrain);
+			adjacentLakes.addAll(((JungleTerrain) aTerrain).getLakes());
 
-		// Add the animals to the prey family (if there are any!)
-		if (((JungleTerrain) aTerrain).hasAnimal() == true) {
-			theAnimals.add(((JungleTerrain) aTerrain).getAnimal());
-		}
-		
-		// Add crocodiles to the croc family (if there are any!)
-		if (((JungleTerrain) aTerrain).hasCrocodile() == true) {
-			theCrocodiles.add(((JungleTerrain) aTerrain).getCrocodile());
-		}
-		
-		//if the just added min is less than the most recent min, reset
-		if (aTerrain.getTerrainMin() < getRecentMin()) { 
-			recentMin = aTerrain.getMin();
+			// Add the new tiger to the family (if there are any!)
+			if (aTerrain.hasTiger() == true) {
+				theTigers.add(aTerrain.getTiger());
+			}
+
+			// Add the animals to the prey family (if there are any!)
+			if (((JungleTerrain) aTerrain).hasAnimal() == true) {
+				theAnimals.add(((JungleTerrain) aTerrain).getAnimal());
+			}
+
+			// Add crocodiles to the croc family (if there are any!)
+			if (((JungleTerrain) aTerrain).hasCrocodile() == true) {
+				theCrocodiles.add(((JungleTerrain) aTerrain).getCrocodile());
+			}
+
+			//if the just added min is less than the most recent min, reset
+			if (aTerrain.getTerrainMin() < getRecentMin()) { 
+				recentMin = aTerrain.getMin();
+			}
 		}
 	}
 
@@ -135,7 +137,7 @@ public class JungleRegion extends Region {
 	public void addDen(int denRegionID) { 
 		adjacentDens.add(denRegionID);
 	}
-	
+
 	/**
 	 * This function removes the specified den from the region list (if found).
 	 * It's only necessary to store the ID since the board class keeps a list of the
@@ -145,7 +147,7 @@ public class JungleRegion extends Region {
 	public void removeDen(int denRegionID) { 
 		if (adjacentDens.contains(denRegionID)) { adjacentDens.remove(denRegionID); }
 	}
-		
+
 	// Deprecated
 
 	/**

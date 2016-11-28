@@ -109,6 +109,10 @@ public class TileDeck {
 		return randomTile;
 	}
 
+	public Object[] getRandomDeck() { 
+		return randomDeck;
+	}
+
 	//MUTATORS 
 
 	public void start(String type) { 

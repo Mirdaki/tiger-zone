@@ -41,7 +41,7 @@ public class LakeRegion extends Region
 	}
 
 	//ACCESSORSS 
-	
+
 	/*
 	 * Gets the "potential" score of a region based on what is currently inside of the region. 
 	 * A completed region is based on 2 * number of tiles times (1 + number of unique animals)
@@ -85,21 +85,21 @@ public class LakeRegion extends Region
 			 * 
 			 * This is really only an issue for the lakes with 3 connecting points.
 			 */
-			
+
 			//initialze with fist terrain
 			ArrayList<Integer> checker = new ArrayList<Integer>();
 			checker.addAll(theTerrains.get(0).getTileConnections());
 
 			//for all other terrains
 			for (int i = 1; i < theTerrains.size(); i++) { 
-				
+
 				//get the connecting points and adjust for the orientation of the specific tile
 				ArrayList<Integer> terrainConnect = theTerrains.get(i).getTileConnections();
 				int adjustment = 2 * theTerrains.get(i).getOrientation();
 
 				//for each connection
 				for (Integer spot : terrainConnect) {
-					
+
 					//if connection is there, remove it; else, add in the connecting point
 					if(checker.get(checker.size()-1) == (Integer)Math.floorMod(spot - adjustment + 4,8)) {
 						checker.remove((Integer)Math.floorMod(spot - adjustment + 4,8));
@@ -110,7 +110,7 @@ public class LakeRegion extends Region
 			if(checker.isEmpty()) isCompleted = true;
 		} //else the lake is an end piece
 		else { 
-			
+
 			/*
 			 * The logic for this is that the number of "end" lakes must exceed the number
 			 * of ends needed to complete. The number of ends needed to complete is based 
@@ -144,10 +144,10 @@ public class LakeRegion extends Region
 
 			//adjust number of ends needed
 			int num = terrain.getTileConnections().size();
-			if (!((LakeTerrain) terrain).isEndOfLake()) numEndsNeeded += adjust(num) - 2;
+			if (terrain instanceof LakeTerrain && !((LakeTerrain) terrain).isEndOfLake()) numEndsNeeded += adjust(num) - 2;
 
 		}
-		
+
 		//mark it complete if so and reset its potential accordingly
 		markComplete();
 		setPotential(getPotential());
@@ -159,37 +159,38 @@ public class LakeRegion extends Region
 	 * @param regionID The terrain's new region ID
 	 */
 	public void addTerrain(Terrain aTerrain, int regionID) {
+		if(aTerrain instanceof LakeTerrain) { 
 
-		// Add terrain
-		aTerrain.setRegionID(regionID);
-		theTerrains.add(aTerrain);
-		tileList.add(aTerrain.getTileID()); //for the number of tiles
-		if (!isLakeEnd) isLakeEnd = ((LakeTerrain) aTerrain).isEndOfLake(); //change to lake end if necessary
+			// Add terrain
+			aTerrain.setRegionID(regionID);
+			theTerrains.add(aTerrain);
+			tileList.add(aTerrain.getTileID()); //for the number of tiles
+			if (!isLakeEnd) isLakeEnd = ((LakeTerrain) aTerrain).isEndOfLake(); //change to lake end if necessary
 
-		// Add tigers, if any
-		if (aTerrain.hasTiger() == true) {
-			theTigers.add(aTerrain.getTiger());
-		}
+			// Add tigers, if any
+			if (aTerrain.hasTiger() == true) {
+				theTigers.add(aTerrain.getTiger());
+			}
 
-		// Add animals, if any 
-		if (((LakeTerrain) aTerrain).hasAnimal() == true) {
-			Animal theAnimal = ((LakeTerrain) aTerrain).getAnimal();			
-			theAnimals.add(theAnimal);
-		}
+			// Add animals, if any 
+			if (((LakeTerrain) aTerrain).hasAnimal() == true) {
+				Animal theAnimal = ((LakeTerrain) aTerrain).getAnimal();			
+				theAnimals.add(theAnimal);
+			}
 
-		//add crocodiles, if any
-		if (((LakeTerrain) aTerrain).hasCrocodile() == true) {
-			theCrocodiles.add(((LakeTerrain) aTerrain).getCrocodile());
-		}
+			//add crocodiles, if any
+			if (((LakeTerrain) aTerrain).hasCrocodile() == true) {
+				theCrocodiles.add(((LakeTerrain) aTerrain).getCrocodile());
+			}
 
-		//readjust minimum for valid Tiger/Crocodile placements
-		if (aTerrain.getTerrainMin() < getRecentMin()) { 
-			recentMin = aTerrain.getMin();
+			//readjust minimum for valid Tiger/Crocodile placements
+			if (aTerrain.getTerrainMin() < getRecentMin()) { 
+				recentMin = aTerrain.getMin();
+			}
 		}
 	}
-
 	//METHODS 
-	
+
 	/*
 	 * This function will adjust the number of ends needed to complete a connecting
 	 * lake region. If the number of connecting points of a lake region is 1, it 
@@ -197,11 +198,11 @@ public class LakeRegion extends Region
 	 */
 	public int adjust(int num) { 
 		switch(num) {
-			case 1: return 1;  
-			case 3: return 2; 
-			case 5: return 3; 
-			case 8: return 4; 
-			default: return num;
+		case 1: return 1;  
+		case 3: return 2; 
+		case 5: return 3; 
+		case 8: return 4; 
+		default: return num;
 		}
 	}
 

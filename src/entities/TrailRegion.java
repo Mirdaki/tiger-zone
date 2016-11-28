@@ -15,7 +15,7 @@ public class TrailRegion extends Region {
 	@Override
 	public int getPotential() { 
 		int potential = 0;
-		
+
 		int numAnimals = getNumOfAnimals()[0] ;
 		int numCrocs = getNumOfAnimals()[1];
 		int numTiles = getTileListSize();
@@ -100,32 +100,33 @@ public class TrailRegion extends Region {
 	 * @param regionID The terrain's new region ID
 	 */
 	public void addTerrain(Terrain aTerrain, int regionID) {
+		if(aTerrain instanceof TrailTerrain) { 
 
-		// Add terrain
-		aTerrain.setRegionID(regionID);
-		theTerrains.add(aTerrain);
-		if (!isTrailEnd) isTrailEnd = ((TrailTerrain) aTerrain).isEndOfTrail();
-		tileList.add(aTerrain.getTileID());
+			// Add terrain
+			aTerrain.setRegionID(regionID);
+			theTerrains.add(aTerrain);
+			if (!isTrailEnd) isTrailEnd = ((TrailTerrain) aTerrain).isEndOfTrail();
+			tileList.add(aTerrain.getTileID());
 
-		// Add animals
-		if (((TrailTerrain) aTerrain).hasAnimal() == true) {
-			Animal theAnimal = ((TrailTerrain) aTerrain).getAnimal();			
-			theAnimals.add(theAnimal);
-		}
+			// Add animals
+			if (((TrailTerrain) aTerrain).hasAnimal() == true) {
+				Animal theAnimal = ((TrailTerrain) aTerrain).getAnimal();			
+				theAnimals.add(theAnimal);
+			}
 
-		// Add Tiger
-		if (aTerrain.hasTiger() == true) {
-			theTigers.add(aTerrain.getTiger());
-		}
+			// Add Tiger
+			if (aTerrain.hasTiger() == true) {
+				theTigers.add(aTerrain.getTiger());
+			}
 
-		if (((TrailTerrain) aTerrain).hasCrocodile() == true) {
-			theCrocodiles.add(((TrailTerrain) aTerrain).getCrocodile());
-		}
+			if (((TrailTerrain) aTerrain).hasCrocodile() == true) {
+				theCrocodiles.add(((TrailTerrain) aTerrain).getCrocodile());
+			}
 
-		if (aTerrain.getTerrainMin() < getRecentMin()) { 
-			recentMin = aTerrain.getMin();
-		}
-		
+			if (aTerrain.getTerrainMin() < getRecentMin()) { 
+				recentMin = aTerrain.getMin();
+			}
+		}		
 	}
 
 	public void markComplete() {
@@ -160,7 +161,7 @@ public class TrailRegion extends Region {
 		}
 
 	}
-	
+
 	@Override
 	public String toString() {
 
@@ -172,7 +173,7 @@ public class TrailRegion extends Region {
 		int numOfAnimals = Math.max(0,getNumOfAnimals()[0] - getNumOfAnimals()[1]);
 		int numOfUniqueAnimals = getUniqueAnimals();
 		String outTrailEnd = (isTrailEnd) ? "end" : "connecting";
-		
+
 		return "The " + outTrailEnd + " region " + regionID + " of type " + regionType + " has " +
 		numOfTigers + " Tiger(s), " + numOfCrocs + " crocodile(s), " + numOfAnimals + " animal(s), " + numOfUniqueAnimals + " unique, and " + numOfTerrains + " Terrain(s).";		
 	}

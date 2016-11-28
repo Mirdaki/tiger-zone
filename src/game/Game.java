@@ -9,11 +9,13 @@ public class Game {
 	protected String gameID;
 	protected Player[] players;
 	protected BoardObject board;
+	protected int move;
 
 	public Game(String gameID) {
 		this.gameID = gameID;
 		players = new Player[2];
 		board = new BoardObject();
+		move = 0;
 	}
 
 	//ACCESSORS
@@ -53,8 +55,8 @@ public class Game {
 
 	public void setStartTile(String startType, int startX, int startY, int startOrientation) {
 
-		TigerTile startTile = new TigerTile(startType, startOrientation);
-		board.start(startTile, startX, startY, startOrientation);
+		TigerTile startTile = new TigerTile(startType, startOrientation / 90);
+		board.start(startTile, startX, startY, startOrientation / 90);
 	}
 
 
@@ -68,29 +70,35 @@ public class Game {
 		board.setTileDeck(givenDeck);
 	}
 
-	public String makeMove(String tileType) {
+	public void setTileStack2(ArrayList<TigerTile> tiles) {
+		board.setTileDeck(tiles);
+	}
+
+	public String makeMove() {
 		//AI will let this method know if tile is unplaceable.
 		//If unplaceable, AI will decide what to do with current turn.
 		//If placeable, pass tile string to AI, get the move, and pass to client.
-		TigerTile tile = new TigerTile(tileType, 0);
+		TigerTile tile = board.getTile(move++);
 		artificialIntelligence AI = new artificialIntelligence(board, tile);
-
-		return AI.getMove();
+		String value = AI.getMove();
+		board.confirm();
+		return value;
 	}
 
 	//If player1 == true, it is player 1's turn
 	public void placeTile(int tileX, int tileY, int orientation, String animal, boolean player1, int tigerZone) {
 
 		Location loc = new Location(tileX, tileY);
-		TigerTile tile = board.getTile(orientation);
+		TigerTile tile = board.getTile(move++);
+		tile.setOrientation(orientation / 90);
 		if (player1 == true){
 			board.switchToActivePlayer(players[0]);
 		}
 		else if (player1 == false) {
 			board.switchToActivePlayer(players[1]);
-		}
+			board.place(tile, loc);
 
-		board.place(tile, loc);
+		}
 
 		if (animal.equals("TIGER")){
 			board.placeTiger(tigerZone);
@@ -103,12 +111,13 @@ public class Game {
 	}
 
 	public void pass() {
-		board.getTile(0);
+		board.getTile(move);
+		move++;
 	}
 
 	//if boolean addTiger = true, add a tiger to the zone
 	public void unplaceableTile(boolean player1, boolean addTiger, int tileX, int tileY) {
-		board.getTile(0);
+		board.getTile(move);
 		if (addTiger == true){
 			if (player1 == true){
 				board.switchToActivePlayer(players[0]);
@@ -130,6 +139,7 @@ public class Game {
 			}
 		}
 		board.confirm();
+		move++;
 	}
 
 	public void endGame() {

@@ -78,58 +78,58 @@ public class artificialIntelligence {
 		//add another tiger
 			ourMove = "TILE " + currentTile.getType() + " ";
 
-			if(currentBoard.getPlayer(0).getNumOfTigers() == 0) { 
-				//pop out random tiger
-				ArrayList<Region> otherTempArray = orderedListOfRegions(currentBoard);
-				for(int i = otherTempArray.size() - 1; i >= 0; i--) {
-					int tigers[] = checkOurTigers(otherTempArray.get(i));
-					if(tigers[0] > 0) {
-						//place Tiger
-						for(int j = 0; j < otherTempArray.get(i).getNumOfTigers(); j++) {
-							if(otherTempArray.get(i).theTigers.get(j).owner == currentBoard.getPlayer(0)) {
-								Location thisisitTwo = otherTempArray.get(i).theTigers.get(j).getLocation();
-								ourMove += "UNPLACEABLE RETRIEVE TIGER AT " + thisisitTwo.getX() + " " + thisisitTwo.getY();
-								break;
-							}
-						}
-						break;
-					}
-				}
-				
-			}
-			else if(currentBoard.getPlayer(0).getNumOfTigers() > 1) {
-				ArrayList<Region> tempArray = orderedListOfRegions(currentBoard);
-				for(int i = 0; i < tempArray.size(); i++) {
-
-					int tigers[] = checkOurTigers(tempArray.get(i));
-					if(tigers[1] - tigers[0] == 1) {
-	
-						//place Tiger
-						for(int j = 0; j < tempArray.get(i).getNumOfTigers(); j++) {
-
-							if(tempArray.get(i).theTigers.get(j).owner == currentBoard.getPlayer(0)) {
-
-								Location thisisit = tempArray.get(i).theTigers.get(j).getLocation();
-								ourMove.concat("UNPLACEABLE ADD ANOTHER TIGER TO" + " " + thisisit.getX() + " " + thisisit.getY());
-								break;
-							}
-						}
-						break;
-					}
-				}
-			}
-			else {
+//			if(currentBoard.getPlayer(0).getNumOfTigers() == 0) { 
+//				//pop out random tiger
+//				ArrayList<Region> otherTempArray = orderedListOfRegions(currentBoard);
+//				for(int i = otherTempArray.size() - 1; i >= 0; i--) {
+//					int tigers[] = checkOurTigers(otherTempArray.get(i));
+//					if(tigers[0] > 0) {
+//						//place Tiger
+//						for(int j = 0; j < otherTempArray.get(i).getNumOfTigers(); j++) {
+//							if(otherTempArray.get(i).theTigers.get(j).owner == currentBoard.getPlayer(0)) {
+//								Location thisisitTwo = otherTempArray.get(i).theTigers.get(j).getLocation();
+//								ourMove += "UNPLACEABLE RETRIEVE TIGER AT " + thisisitTwo.getX() + " " + thisisitTwo.getY();
+//								break;
+//							}
+//						}
+//						break;
+//					}
+//				}
+//			}
+//			else if(currentBoard.getPlayer(0).getNumOfTigers() > 1) {
+//				ArrayList<Region> tempArray = orderedListOfRegions(currentBoard);
+//				for(int i = 0; i < tempArray.size(); i++) {
+//
+//					int tigers[] = checkOurTigers(tempArray.get(i));
+//					if(tigers[1] - tigers[0] == 1) {
+//	
+//						//place Tiger
+//						for(int j = 0; j < tempArray.get(i).getNumOfTigers(); j++) {
+//
+//							if(tempArray.get(i).theTigers.get(j).owner == currentBoard.getPlayer(0)) {
+//
+//								Location thisisit = tempArray.get(i).theTigers.get(j).getLocation();
+//								ourMove += "UNPLACEABLE ADD ANOTHER TIGER TO" + " " + thisisit.getX() + " " + thisisit.getY();
+//								break;
+//							}
+//						}
+//						break;
+//					}
+//				}
+//			}
+//			else {
 				ourMove += "UNPLACEABLE PASS";
-			}
+//			}
 		}
 		else {
-			ourMove = "PLACE " + currentTile.getType() + " ";
 			
-			
+						
+
+			ourMove = "PLACE " + currentTile.getType() + " ";	
 			BoardObject tempBoard = new BoardObject(currentBoard);
 			ArrayList<Region> tempArray = orderedListOfRegions(tempBoard);
 			ArrayList<TilePair> tempPS = currentBoard.getPossibleSpots();
-			Map<Location, Integer> uniqueLocation = new HashMap<Location, Integer>();
+//			Map<Location, Integer> uniqueLocation = new HashMap<Location, Integer>();
 
 //			for(int i = 0; i < tempPS.size(); i++) {
 //				if(!uniqueLocation.containsKey(tempPS.get(i))) {
@@ -158,7 +158,40 @@ public class artificialIntelligence {
 			
 			ourMove += "AT " + adjustedX + " " + adjustedY + " " + orientation; 
 			
+			currentTile.setOrientation(orientation / 90);
+			currentBoard.place(currentTile, new Location(adjustedX, adjustedY));
+			TigerTile temp = currentBoard.getRecentTile();
+			Terrain[] terrains = temp.getTerrains();
+			Map<Integer, Region> allRegions = tempBoard.getAll();
 			
+			ArrayList<Integer> potentials = new ArrayList<Integer>();
+			ArrayList<Integer> potentialRegionID = new ArrayList<Integer>();
+			
+			for (int i = 0; i < terrains.length; i++) { 
+				int regionID = terrains[i].getRegionID();
+				Region region = allRegions.get(regionID);
+				if (!region.hasTigers() && !region.hasCrocodiles()) { 
+					potentials.add(region.getPotential());
+					potentialRegionID.add(region.getRegionID());
+				}
+			}
+			
+			int maxPotential = -1;
+			int maxIndex = 0;
+			
+			for (int i = 0; i < potentials.size(); i++) {
+				if(potentials.get(i) > maxPotential) { 
+					maxIndex = i;
+					maxPotential = potentials.get(i);
+				}
+			}
+			
+			if(maxPotential != -1) { 
+				
+				Region region = allRegions.get(potentialRegionID.get(maxIndex));
+				ourMove += " TIGER " + region.getRecentMin();
+			}
+						
 //			for(int i = 0; i < tempArray.size(); i++) {
 //				Region temp = tempArray.get(i);
 //				Set<Integer> ourTileList = temp.getTileList();
