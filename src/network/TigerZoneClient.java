@@ -195,11 +195,13 @@ public class TigerZoneClient {
 							// Get the ended game
 							if (gameID.equals(GameA))
 							{
+								GameA = null;
 								gameA.endGame();
 								gameA = null;
 							}
 							else if (gameID.equals(GameB))
 							{
+								GameB = null;
 								gameB.endGame();
 								gameB = null;
 							}
