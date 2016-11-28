@@ -66,14 +66,14 @@ public class ScoringSystem {
 			// step 6: remove tigers from this region
 						justcompleted.removeAllTigers();
 	}
-	
+
 	// Scores incomplete regions and all jungles according at end of game adds to players scores, then calls declareWinnerA()
 	// Board must pass ArrayList<Region> RegionList into this method.
 	void ScoringEndGame(ArrayList<Region> scorethese)
-	{ 
+	{
 		int possiblePoints; // declare here for scope purposes.
 		int extra;
-		// Step 1: run through list of all region left to be scored on board 
+		// Step 1: run through list of all region left to be scored on board
 		for(int index = 0; index < scorethese.size(); index++)
 		{
 			Region temp = scorethese.get(index);
@@ -105,7 +105,7 @@ public class ScoringSystem {
 					break;
 				case "Lake":
 					// step 3: see if it is incomplete
-					if(!temp.isCompleted()) 
+					if(!temp.isCompleted())
 					{
 						/// step 4: find score according to rules
 						possiblePoints = temp.getNumofTiles();
@@ -146,10 +146,10 @@ public class ScoringSystem {
 			case 2: System.out.println("Player 2 wins!");
 				break;
 			case 3: System.out.println("Both players win!");
-				break;	
+				break;
 		}
 	}
-	
+
 	// helper method
 	public void awardScore(Region justcompleted, int possiblePoints){
 		ArrayList<TigerObject> tigers = justcompleted.getTigers(); // returns an arraylist of tigers
@@ -192,37 +192,37 @@ public class ScoringSystem {
 		else if (A == B){ return 3; } //draw
 		return -1; //error condition (impossible to reach unless values can't be loaded)
 	}
-	
+
 	public int declareWinnerB(int condition, int playerID)
 	{ 	//condition is why it was called.  1 for time out, 2 for illegal move, 3 for bad formatting
 		if (condition == 1)
 		{
-			/*Player clock doesn’t seem to exist. 
-			 *If board doesn’t receive tile placement in 1 second after prev. tile placed, call this.*/
+			/*Player clock doesn't seem to exist. 
+			 *If board doesn't receive tile placement in 1 second after prev. tile placed, call this.*/
 			//error message for time out
-			if (playerID == 1) 
-			{ 
+			if (playerID == 1)
+			{
 				System.out.println("Player 1 has exceeded time allowed.\n");
 				return 2;
 			}
-			if (playerID == 2) 
-			{ 
+			if (playerID == 2)
+			{
 				System.out.println("Player 2 has exceeded time allowed.\n");
 				return 1;
 			}
-			
+
 		}
 		else if (condition == 2)
 		{
 			// If board detects illegal tile/tiger placement, call this.
 			//error message for illegal move
-			if (playerID == 1) 
-			{ 
+			if (playerID == 1)
+			{
 				System.out.println("Player 1 has made an illegal move.\n");
 				return 2;
 			}
-			if (playerID == 2) 
-			{ 
+			if (playerID == 2)
+			{
 				System.out.println("Player 2 has made an illegal move.\n");
 				return 1;
 			}
@@ -231,17 +231,17 @@ public class ScoringSystem {
 		{
 			// Network interactor would call this.
 			//error message for bad format
-			if (playerID == 1) 
-			{ 
+			if (playerID == 1)
+			{
 				System.out.println("Player 1 gave wrongly formatted instruction.\n");
 				return 2;
 			}
-			if (playerID == 2) 
-			{ 
+			if (playerID == 2)
+			{
 				System.out.println("Player 2 gave wrongly formatted instruction.\n");
 				return 1;
 			}
-			
+
 		}
 		return -1; // error condition
 	}
