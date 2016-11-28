@@ -7,6 +7,8 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import game.Game;
+
 public class TigerZoneClient {
 
 	public static void main(String[] args) throws Exception {
@@ -85,11 +87,12 @@ public class TigerZoneClient {
 				System.out.println("Server: " + fromTourneyServer);
 
 				if (fromTourneyServer.equals("THIS IS SPARTA!")) { //if first message, send join request
-					System.out.println("here");
 					out.println("JOIN " + serverPass);
+					System.out.println("Server: " + "JOIN " + serverPass);
 				}
 				else if (fromTourneyServer.equals("HELLO!")) {  //if request accepted, send authentication
 					out.println("I AM " + userName + " " + userPass);
+					System.out.println("Server: " + "I AM " + userName + " " + userPass);
 				}
 				else if (fromTourneyServer.equals("THANK YOU FOR PLAYING! GOODBYE")) { //if end of tournament, exit from this
 					// Exit everything
@@ -142,8 +145,8 @@ public class TigerZoneClient {
 							tiles.add(tokenizedMessage[i+6]);
 
 						// Gove games remaining tiles
-						gameA.setTileStack(tiles, numTiles);
-						gameB.setTileStack(tiles, numTiles);
+						gameA.setTileStack(tiles);
+						gameB.setTileStack(tiles);
 						break;
 
 					case "MATCH": //begin match
@@ -222,31 +225,45 @@ public class TigerZoneClient {
 						}
 						else if (tokenizedMessage[6].equals("TILE"))
 						{
-							// When a tiger is added or retrived
-							String addOrReplace = tokenizedMessage[9];
-							boolean addTiger;
-							if (addOrReplace.equals("RETRIEVED"))
+							if (tokenizedMessage[7].equals("PASS"))
 							{
-								addTiger = false;
-								tilePlacedX = Integer.parseInt(tokenizedMessage[12]);
-								tilePlacedY = Integer.parseInt(tokenizedMessage[13]);
+								// Place the tile in the game
+								if (gameID.equals("A")) {
+									moveANum++;
+									gameA.pass();
+								} else if (gameID.equals("B")) {
+									moveBNum++;
+									gameB.pass();
+								}
 							}
-							else if (addOrReplace.equals("ADDED"))
+							else
 							{
-								addTiger = true;
-								tilePlacedX = Integer.parseInt(tokenizedMessage[13]);
-								tilePlacedY = Integer.parseInt(tokenizedMessage[14]);
-							}
+								// When a tiger is added or retrived
+								String addOrReplace = tokenizedMessage[9];
+								boolean addTiger;
+								if (addOrReplace.equals("RETRIEVED"))
+								{
+									addTiger = false;
+									tilePlacedX = Integer.parseInt(tokenizedMessage[12]);
+									tilePlacedY = Integer.parseInt(tokenizedMessage[13]);
+								}
+								else if (addOrReplace.equals("ADDED"))
+								{
+									addTiger = true;
+									tilePlacedX = Integer.parseInt(tokenizedMessage[13]);
+									tilePlacedY = Integer.parseInt(tokenizedMessage[14]);
+								}
 
-							// Place the tile in the game
-							if (gameID.equals("A")) {
-								moveANum++;
-								gameA.unplacableTile(userName.equals(currentPlayerID), addTiger,
-										tilePlacedX, tilePlacedY);
-							} else if (gameID.equals("B")) {
-								moveBNum++;
-								gameB.unplacableTile(userName.equals(currentPlayerID), addTiger,
-										tilePlacedX, tilePlacedY);
+								// Place the tile in the game
+								if (gameID.equals("A")) {
+									moveANum++;
+									gameA.unplaceableTile(userName.equals(currentPlayerID), addTiger,
+											tilePlacedX, tilePlacedY);
+								} else if (gameID.equals("B")) {
+									moveBNum++;
+									gameB.unplaceableTile(userName.equals(currentPlayerID), addTiger,
+											tilePlacedX, tilePlacedY);
+								}
 							}
 						}
 						break;
