@@ -45,7 +45,7 @@ public class TigerZoneClient {
 				) {
 
 			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-			String fromTourneyServer, fromHandler, fromAI;
+			String fromTourneyServer = "", fromHandler, fromAI;
 
 			//variable declarations - information from server
 			String gameID, GameA = null, GameB = null;
@@ -94,11 +94,11 @@ public class TigerZoneClient {
 
 				if (fromTourneyServer.equals("THIS IS SPARTA!")) { //if first message, send join request
 					out.println("JOIN " + serverPass);
-					System.out.println("Server: " + "JOIN " + serverPass);
+					System.out.println("Client: " + "JOIN " + serverPass);
 				}
 				else if (fromTourneyServer.equals("HELLO!")) {  //if request accepted, send authentication
 					out.println("I AM " + userName + " " + userPass);
-//					System.out.println("Server: " + "I AM " + userName + " " + userPass);
+					System.out.println("Client: " + "I AM " + userName + " " + userPass);
 				}
 				else if (fromTourneyServer.equals("THANK YOU FOR PLAYING! GOODBYE")) { //if end of tournament, exit from this
 					// Exit everything
@@ -280,10 +280,15 @@ public class TigerZoneClient {
 						}
 						break;
 
-					default: break;
+					default:
+						System.out.println(fromTourneyServer);
+					//break;
 					}
 				}
+				//out.println(fromTourneyServer); //TO COMMENT OUT
+				//System.out.println("Loop of while");
 			}
+			//System.out.println("While ended");
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host " + hostName);
 			System.exit(1);

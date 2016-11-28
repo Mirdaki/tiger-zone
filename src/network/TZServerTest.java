@@ -8,7 +8,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class TZServerTest {
+public class TZServerTest
+{
 	public static void main(String argv[]) throws Exception
     {
        ServerSocket welcomeSocket = new ServerSocket(4444);
@@ -28,9 +29,12 @@ public class TZServerTest {
       	 receiveMessage = inFromServer.readLine();
           if (receiveMessage != null) {
           	System.out.println(receiveMessage);
+						System.out.println("IF");
           }
-          
-          //pwrite.flush();
+					System.out.println("LOOP");
+
+          pwrite.flush();
        }
+			 //System.out.println("END WHILE");
     }
 }

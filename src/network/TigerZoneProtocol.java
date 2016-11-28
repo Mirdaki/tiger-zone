@@ -55,7 +55,7 @@ public class TigerZoneProtocol {
 	public int i = 0;
 
 	public String processInput2() {
-		if (i == 0) { i++; return "THIS IS SPARTA!"; }
+		if (i == 0) { i++; return "Hello"; }
 		if (i == 1) { return "STOP"; }
 		return null;
 	}
