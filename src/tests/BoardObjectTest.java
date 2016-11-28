@@ -1,6 +1,6 @@
 package tests;
 
-import static org.junit.Assert.*;
+/*import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -106,3 +106,4 @@ public class BoardObjectTest {
 		assertEquals(1, test.getPlayer(1).getID());
 	}
 }
+*/

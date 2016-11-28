@@ -164,19 +164,19 @@ public class TigerZoneClient {
 						gameID = tokenizedMessage[5];
 						if(GameA == null) GameA = gameID;
 						else if(GameB == null) GameB = gameID;
-						
+
 						tileToPlace = tokenizedMessage[12];
 						response = "";
 						// Pass the move to the game
 						if (gameID.equals(GameA))
 						{
-							response = gameA.makeMove(tileToPlace);
+							response = gameA.makeMove(/*tileToPlace*/);
 							// Add the starting information to the move
 							response = "GAME A MOVE " + moveANum + " " + response;
 						}
 						else if (gameID.equals(GameB))
 						{
-							response = gameB.makeMove(tileToPlace);
+							response = gameB.makeMove(/*tileToPlace*/);
 							// Add the starting information to the move
 							response = "GAME B MOVE " + moveBNum + " " + response;
 						}
@@ -250,9 +250,9 @@ public class TigerZoneClient {
 								// When a tiger is added or retrived
 								String addOrReplace = tokenizedMessage[9];
 								boolean addTiger = false;
-								tilePlacedX = 0; 
+								tilePlacedX = 0;
 								tilePlacedY = 0;
-								
+
 								if (addOrReplace.equals("RETRIEVED"))
 								{
 									addTiger = false;

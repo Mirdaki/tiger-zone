@@ -9,8 +9,8 @@ import java.util.ListIterator;
 import java.util.Set;
 
 /*
- * This is the BoardObject that will be handling a majority of the game logic. 
- * It is representative of the board game itself, and has a statically defined 
+ * This is the BoardObject that will be handling a majority of the game logic.
+ * It is representative of the board game itself, and has a statically defined
  * size that is adjustable as needed.
  */
 public class boardObjectBackup {
@@ -25,9 +25,9 @@ public class boardObjectBackup {
 	protected boolean state; //east now this serves as just a if we started or not
 	protected Player[] players;
 	protected Player activePlayer;
-	
+
 	protected ArrayList<TigerTile> tiles; //a mapping of all available tiles
-	protected Map<Integer, Integer> minSpots; //a map to keep track of the least available spot 
+	protected Map<Integer, Integer> minSpots; //a map to keep track of the least available spot
 	protected ArrayList<Location> availableSpots; //a list of empty spots that surround tiles
 
 	protected Map<Integer, Region> incompleteRegions; //a mapping to keep track of all of the incomplete regions
@@ -42,7 +42,7 @@ public class boardObjectBackup {
 	protected boolean pending; //pending confirmation (probably unnecessary)
 	protected ArrayList<TilePair> possibleTileSpots;
 	protected int move;
-	
+
 	public ArrayList<TilePair> getPossibleSpots() {
 		return possibleTileSpots;
 	}
@@ -52,7 +52,7 @@ public class boardObjectBackup {
 	/**
 	 * BoardObject() constructor, initialize the variables
 	 */
-	public BoardObject() {
+	public boardObjectBackup() {
 
 		availableSpots = new ArrayList<Location>();
 		incompleteRegions = new HashMap<Integer, Region>();
@@ -70,7 +70,7 @@ public class boardObjectBackup {
 	/**
 	 * BoardObject() constructor, initialize the variables
 	 */
-	public BoardObject(Player[] players) {
+	public boardObjectBackup(Player[] players) {
 
 		availableSpots = new ArrayList<Location>();
 		incompleteRegions = new HashMap<Integer, Region>();
@@ -88,7 +88,7 @@ public class boardObjectBackup {
 
 	//ACCESSORS
 
-	public String getReason() { 
+	public String getReason() {
 		String reason = whyInvalid;
 		setReason("");
 		return reason;
@@ -114,7 +114,7 @@ public class boardObjectBackup {
 		return availableSpots;
 	}
 
-	public Map<Integer, Region> getAll() { 
+	public Map<Integer, Region> getAll() {
 		return allRegions;
 	}
 
@@ -126,12 +126,12 @@ public class boardObjectBackup {
 		return completedRegions;
 	}
 
-	public Region getIncompleteRegion(int key) { 
+	public Region getIncompleteRegion(int key) {
 		return incompleteRegions.get(key);
 	}
 
 	//get the moore neighborhood around the specified location
-	public ArrayList<Location> getMoore(Location coord) { 
+	public ArrayList<Location> getMoore(Location coord) {
 
 		//adjust ARRAY coordinates based on given starting position
 		int row = coord.getY();
@@ -159,7 +159,7 @@ public class boardObjectBackup {
 		if (row < ROWSIZE-1 && col < COLSIZE-1) se = board[row+1][col+1];
 		if (row < ROWSIZE-1 && col > 0) sw = board[row+1][col-1];
 
-		//adjust CARTERSIAN coordinates based on given starting position 
+		//adjust CARTERSIAN coordinates based on given starting position
 		int adjustedY = startY + (COLSIZE/2 - row);
 		int adjustedX = startX + (col - ROWSIZE/2);
 
@@ -176,7 +176,7 @@ public class boardObjectBackup {
 		return mooreHood;
 	}
 
-	public boolean getPending() { 
+	public boolean getPending() {
 		return pending;
 	}
 	/**
@@ -193,9 +193,9 @@ public class boardObjectBackup {
 	 */
 //	public TigerTile getTile(String type, int orientation) {
 //		TigerTile result = tileStack.getTile(type, orientation);
-//		if (result == null) { 
+//		if (result == null) {
 //			setReason("Couldn't find specified tile. Try another.");
-//		}		
+//		}
 //		return result;
 //	}
 
@@ -203,27 +203,27 @@ public class boardObjectBackup {
 		return board[location.getY()][location.getX()];
 	}
 
-	public TigerTile getTile(int orientation) { 
+	public TigerTile getTile(int orientation) {
 		TigerTile tile = tiles.get(move++);
         tile.setOrientation(orientation);
 		return tiles.get(move++);
 	}
-	
-	public void setTileDeck(ArrayList<TigerTile> tiles) { 
+
+	public void setTileDeck(ArrayList<TigerTile> tiles) {
 		this.tiles = tiles;
 	}
 
-	public int getStartX() { 
+	public int getStartX() {
 		return BoardObject.startX;
 	}
 
-	public int getStartY() { 
+	public int getStartY() {
 		return BoardObject.startY;
 	}
 
-	//MUTATORS 
+	//MUTATORS
 
-	public void setReason(String whyInvalid) { 
+	public void setReason(String whyInvalid) {
 		this.whyInvalid = whyInvalid;
 	}
 
@@ -258,7 +258,7 @@ public class boardObjectBackup {
 	public boolean valid(TigerTile tile, Location coord) {
 
 		if (pending) {
-			setReason("Pending move still!"); 
+			setReason("Pending move still!");
 			return false;
 		}
 
@@ -292,7 +292,7 @@ public class boardObjectBackup {
 		}
 
 		//if wasn't found in the list, return false
-		if (!found) { 
+		if (!found) {
 			setReason("Requested location isn't in the available spots list");
 			return false;
 		}
@@ -388,16 +388,16 @@ public class boardObjectBackup {
 					int regionID = terrain.getRegionID();
 
 					incompleteRegions.put(regionID,newRegion);
-					allRegions.put(regionID, newRegion);					
+					allRegions.put(regionID, newRegion);
 				}
-				else if (terrain instanceof TrailTerrain) { 
+				else if (terrain instanceof TrailTerrain) {
 					TrailRegion newRegion = new TrailRegion(terrain);
 					int regionID = terrain.getRegionID();
 
 					incompleteRegions.put(regionID,newRegion);
 					allRegions.put(regionID, newRegion);
 				}
-				else if (terrain instanceof JungleTerrain) { 
+				else if (terrain instanceof JungleTerrain) {
 					JungleRegion newRegion = new JungleRegion(terrain);
 					int regionID = terrain.getRegionID();
 
@@ -412,7 +412,7 @@ public class boardObjectBackup {
 			if (connectedsouth) { mergeTileRegions(south,tile,TileEdges.SOUTH); }
 
 			//if den
-			if(tile.getCenter() == 'X') { 
+			if(tile.getCenter() == 'X') {
 				DenRegion newDen = new DenRegion(coord);
 				int regionID = newDen.getRegionID();
 				incompleteRegions.put(regionID, newDen);
@@ -424,7 +424,7 @@ public class boardObjectBackup {
 			board[row][col] = tile;
 			recentPlacement = coord;
 			recentTile = tile;
-			tileStack.removeTile(type);
+//			tileStack.removeTile(type);
 			pending = true;
 
 			return true;
@@ -434,21 +434,21 @@ public class boardObjectBackup {
 		return false;
 	}
 
-	public void confirm() { 
+	public void confirm() {
 		//update the dens and move any completed regions to the completed list
 		updateDens();
 		moveCompleted();
 		switchPlayers(activePlayer);
 		possibleTileSpots.clear();
-		
+
 		pending = false;
 		tigerPlaced = false;
 		crocodilePlaced = false;
-	}	
+	}
 
-	public void switchPlayers(Player player) { 
+	public void switchPlayers(Player player) {
 		if (players[0].equals(player)) { activePlayer = players[1]; }
-		else { activePlayer = players[0]; } 
+		else { activePlayer = players[0]; }
 	}
 
 	public boolean isSurrounded(Location coord) {
@@ -499,17 +499,17 @@ public class boardObjectBackup {
 
 
 				//now update every jungle that is inside of the den region's Moore neighborhood
-				for (Location coord : newMoore) { 
+				for (Location coord : newMoore) {
 
 					//get the tile and its terrain (regions) based on the location given by the Moore neighborhood
 					TigerTile temp = getTile(coord);
 					Terrain[] tempTerrains = temp.getTerrains();
 
 					//for every Jungle terrain found, add the den to the set of dens associated with it
-					for (Terrain terrain : tempTerrains) { 
-						if(terrain instanceof JungleTerrain) { 
+					for (Terrain terrain : tempTerrains) {
+						if(terrain instanceof JungleTerrain) {
 							int jungleRegionID = terrain.getRegionID();
-							Region jungleRegion = incompleteRegions.get(jungleRegionID); 
+							Region jungleRegion = incompleteRegions.get(jungleRegionID);
 							((JungleRegion) jungleRegion).addDen(denRegionID);
 						}
 					}
@@ -519,7 +519,7 @@ public class boardObjectBackup {
 	}
 
 	//function to move all of the completed regions and score in time accordingly
-	public void moveCompleted() { 
+	public void moveCompleted() {
 		for(Map.Entry<Integer, Region> entry : incompleteRegions.entrySet()) {
 			Region region = entry.getValue();
 			if(region.isCompleted() && !region.isScored()) {
@@ -592,7 +592,7 @@ public class boardObjectBackup {
 
 		int oldRegionID = bRegion.getRegionID();
 
-		if(aRegion.getRegionID() != bRegion.getRegionID()) { 
+		if(aRegion.getRegionID() != bRegion.getRegionID()) {
 
 			for (Integer entry : tileConnections) bEdges.setEdge(entry, aRegion.getRegionID());
 
@@ -603,17 +603,17 @@ public class boardObjectBackup {
 
 			updateMin(aRegion.getRegionID(),aRegion.getRecentMin());
 			incompleteRegions.remove(oldRegionID);
-		}		
+		}
 
 		//if we are connecting a trail, then we have to check the top and bottom to connect jungles as well
-		if (bMid.getType() == 'T') { 
+		if (bMid.getType() == 'T') {
 
 			//top
 			aRegion = incompleteRegions.get(aTop.getRegionID());
 			bRegion = incompleteRegions.get(bTop.getRegionID());
 			tigers = bRegion.getTigers();
 
-			if(aRegion.getRegionID() != bRegion.getRegionID()) { 
+			if(aRegion.getRegionID() != bRegion.getRegionID()) {
 				oldRegionID = bRegion.getRegionID();
 
 				tileConnections = bTop.getTileConnections();
@@ -626,14 +626,14 @@ public class boardObjectBackup {
 
 				updateMin(aRegion.getRegionID(),aRegion.getRecentMin());
 				incompleteRegions.remove(oldRegionID);
-			} 
+			}
 
 			//bottom
 			aRegion = incompleteRegions.get(aBot.getRegionID());
 			bRegion = incompleteRegions.get(bBot.getRegionID());
 			tigers = bRegion.getTigers();
 
-			if(aRegion.getRegionID() != bRegion.getRegionID()) { 
+			if(aRegion.getRegionID() != bRegion.getRegionID()) {
 				oldRegionID = bRegion.getRegionID();
 
 				tileConnections = bBot.getTileConnections();
@@ -650,10 +650,10 @@ public class boardObjectBackup {
 		}
 	}
 
-	public void updateMin(int regionID, int value) { 
+	public void updateMin(int regionID, int value) {
 
-		if (minSpots.containsKey(regionID)) { 
-			if (value < minSpots.get(regionID)) { 
+		if (minSpots.containsKey(regionID)) {
+			if (value < minSpots.get(regionID)) {
 				minSpots.remove(regionID);
 				minSpots.put(regionID, value);
 			}
@@ -661,9 +661,9 @@ public class boardObjectBackup {
 
 	}
 
-	public int adjustIndex(int index, boolean reverse) { 
+	public int adjustIndex(int index, boolean reverse) {
 
-		if (!reverse) { 
+		if (!reverse) {
 			if(index == 0) return 1;
 			else if (index == 1) return 2;
 			else if (index == 2) return 3;
@@ -672,7 +672,7 @@ public class boardObjectBackup {
 			else if (index == 5) return 8;
 			else if (index == 6) return 7;
 			else if (index == 7) return 4;
-			else return index;	
+			else return index;
 		}
 		else {
 			if(index == 1) return 0;
@@ -683,22 +683,22 @@ public class boardObjectBackup {
 			else if (index == 7) return 6;
 			else if (index == 8) return 5;
 			else if (index == 9) return 4;
-			else return index;	
+			else return index;
 		}
 	}
 
 	public boolean removeTiger(Location location) {
-		
+
 		TigerTile tile = getTile(location);
 		TigerObject stray = tile.getTiger();
 		int regionID = stray.getRegionID();
 		Player owner = stray.getTigerOwner();
-		Region region = allRegions.get(regionID); 
-				
+		Region region = allRegions.get(regionID);
+
 		ArrayList<TigerObject> tigers = region.getTigers();
-		
+
 		for (int i = 0; i < tigers.size(); i++) {
-			if (tigers.get(i).getTigerOwner().getID().equals(owner.getID())) { 
+			if (tigers.get(i).getTigerOwner().getID().equals(owner.getID())) {
 				region.removeTiger(i);
 				break;
 			}
@@ -716,7 +716,7 @@ public class boardObjectBackup {
 			return false;
 		}
 
-		if (!activePlayer.hasTigers()) { 
+		if (!activePlayer.hasTigers()) {
 			possibleTileSpots.clear();
 
 			setReason("Player doesn't have any tigers!");
@@ -724,7 +724,7 @@ public class boardObjectBackup {
 		}
 
 		TigerTile last = recentTile;
-		if (last == null) { 
+		if (last == null) {
 			possibleTileSpots.clear();
 
 			setReason("Error: no placed tile?");
@@ -732,7 +732,7 @@ public class boardObjectBackup {
 		}
 
 
-		if (tigerPlaced) { 
+		if (tigerPlaced) {
 			possibleTileSpots.clear();
 
 			setReason("Already placed a Tiger!");
@@ -744,13 +744,13 @@ public class boardObjectBackup {
 		int regionID = terrain.getRegionID();
 
 		Region region = incompleteRegions.get(regionID);
-		if (region == null) { 
-			for (Region reg : completedRegions) { 
+		if (region == null) {
+			for (Region reg : completedRegions) {
 				if (reg.getRegionID() == regionID) region = reg;
-			}			
+			}
 		}
 
-		if(region == null) { 
+		if(region == null) {
 			possibleTileSpots.clear();
 
 			setReason("ERROR: Region wasn't found.");
@@ -764,7 +764,7 @@ public class boardObjectBackup {
 			return false;
 		}
 
-		if(region.hasTigers()) { 
+		if(region.hasTigers()) {
 			possibleTileSpots.clear();
 
 			setReason("Region at index already has a Tiger!");
@@ -772,10 +772,10 @@ public class boardObjectBackup {
 		}
 
 		int min = index;
-		if (minSpots.containsKey(regionID)) { 
+		if (minSpots.containsKey(regionID)) {
 			min = region.getRecentMin();
 		}
-		if(min != index) { 
+		if(min != index) {
 			possibleTileSpots.clear();
 
 			setReason("Specified index was not the minimum");
@@ -788,24 +788,24 @@ public class boardObjectBackup {
 		region.addTiger(stray);
 		recentTile.addTiger(stray);
 		tigerPlaced = true;
-		return true;		
+		return true;
 	}
 
 	public boolean placeCrocodile() {
 
 		Location recent = recentPlacement;
 		TigerTile last = getTile(recent);
-		if (last == null) { 
+		if (last == null) {
 			setReason("Error: no placed tile?");
 			return false;
 		}
 
-		if (!activePlayer.hasCrocs()) { 
+		if (!activePlayer.hasCrocs()) {
 			setReason("Player doesn't have any tigers!");
 			return false;
 		}
 
-		if (crocodilePlaced) { 
+		if (crocodilePlaced) {
 			setReason("Already placed a Crocodile!");
 			return false;
 		}
@@ -813,32 +813,32 @@ public class boardObjectBackup {
 		Terrain[] terrains = last.getTerrains();
 		CrocodileObject hatchling = activePlayer.removeCroc();
 
-		for (Terrain terrain : terrains) { 
-			int regionID = 0; 
-			if (terrain instanceof LakeTerrain || terrain instanceof TrailTerrain) { 
+		for (Terrain terrain : terrains) {
+			int regionID = 0;
+			if (terrain instanceof LakeTerrain || terrain instanceof TrailTerrain) {
 				regionID = terrain.getRegionID();
 
 				Region region = allRegions.get(regionID);
 
-				if(region == null) { 
+				if(region == null) {
 					break;
 				}
-				if (!region.hasCrocodiles()) { 
+				if (!region.hasCrocodiles()) {
 					region.addCrocodile(hatchling);
 				}
 			}
 		}
 
 		crocodilePlaced = true;
-		return true;		
+		return true;
 	}
 
 
-	public void setPending(boolean pending) { 
+	public void setPending(boolean pending) {
 		pending = pending;
 	}
 
-	public void setStart(int x, int y) { 
+	public void setStart(int x, int y) {
 		startX = x;
 		startY = y;
 	}
@@ -861,7 +861,7 @@ public class boardObjectBackup {
 	/**
 	 * start() begins the game by placing the starting tile based on the specified
 	 * starting location and orientation. Every specified location from there is
-	 * therefore relative to it. 
+	 * therefore relative to it.
 	 */
 	public void start(TigerTile startTile, int startX, int startY, int orientation) {
 		setStart(startX, startY);
@@ -869,13 +869,13 @@ public class boardObjectBackup {
 		pending = false;
 	}
 
-	public void end() { 
+	public void end() {
 		//end game logic and scoring
 
 		for(Map.Entry<Integer, Region> entry : incompleteRegions.entrySet()) {
 			Region region = entry.getValue();
 
-			if (region instanceof JungleRegion) { 
+			if (region instanceof JungleRegion) {
 
 				//get the adjacent lakes and dens along the jungle region
 				Set<Integer> dens = ((JungleRegion) region).getDens();
@@ -884,17 +884,17 @@ public class boardObjectBackup {
 				int completeLakes = 0;
 
 				//get the number of completed dens
-				for (Integer den : dens) { 
+				for (Integer den : dens) {
 					Region denRegion = allRegions.get(den);
-					if (denRegion.isCompleted()) { 
+					if (denRegion.isCompleted()) {
 						completeDens++;
 					}
 				}
 
 				//get the number of completed lakes
-				for (Integer lake : lakes) { 
+				for (Integer lake : lakes) {
 					Region lakeRegion = allRegions.get(lake);
-					if (lakeRegion.isCompleted()) { 
+					if (lakeRegion.isCompleted()) {
 						completeLakes++;
 					}
 				}
@@ -913,7 +913,7 @@ public class boardObjectBackup {
 				if (owner != -1) adjustScore(owner, score);
 
 			}
-			else if (region instanceof LakeRegion) { 
+			else if (region instanceof LakeRegion) {
 
 				//distribute scores for incomplete lakes
 				int score = ((LakeRegion)region).getPotential();
@@ -924,18 +924,18 @@ public class boardObjectBackup {
 		printScores();
 	}
 
-	public int regionOwner(Region region) { 
+	public int regionOwner(Region region) {
 		ArrayList<TigerObject> tigers = region.getTigers();
 		int player1count = 0;
 		int player2count = 0;
 
 		//determine who had more tigers
-		for (TigerObject tiger : tigers) { 
+		for (TigerObject tiger : tigers) {
 			if(tiger.getTigerOwner().equals(players[0])) { player1count++; }
 			else { player2count++; }
 		}
 
-		if(player1count != 0 && player2count != 0 && player1count == player2count) { 
+		if(player1count != 0 && player2count != 0 && player1count == player2count) {
 			return 2;
 		}
 		else if (player1count > player2count) { return 0; }
@@ -943,7 +943,7 @@ public class boardObjectBackup {
 		return -1;
 	}
 
-	public boolean canPlace(TigerTile tile) { 
+	public boolean canPlace(TigerTile tile) {
 
 		ArrayList<Location> spots = availableSpots;
 		TileEdges edges = tile.getEdges();
@@ -955,8 +955,8 @@ public class boardObjectBackup {
 		char[] edgeTypes270 = {terrains[6].getType(),terrains[7].getType(),terrains[0].getType(),terrains[1].getType(),terrains[2].getType(),terrains[3].getType(),terrains[4].getType(),terrains[5].getType(),};
 
 		boolean canPlace = false;
-		
-		for (Location spot : spots) { 
+
+		for (Location spot : spots) {
 
 			TigerTile north = null, east = null, south = null, west = null;
 
@@ -980,11 +980,11 @@ public class boardObjectBackup {
 				edgeCompare[1] = north.getEdgeType(5);
 				compare.add(1);
 			}
-			if (connectedeast) { 
+			if (connectedeast) {
 				edgeCompare[3] = east.getEdgeType(7);
 				compare.add(3);
 			}
-			if (connectedsouth) { 
+			if (connectedsouth) {
 				edgeCompare[5] = south.getEdgeType(1);
 				compare.add(5);
 			}
@@ -992,58 +992,58 @@ public class boardObjectBackup {
 				edgeCompare[7] = west.getEdgeType(3);
 				compare.add(7);
 			}
-			
+
 			boolean canPlace0 = true, canPlace90 = true, canPlace180 = true, canPlace270 = true;
-			
+
 			//check 0
-			for (Integer integer : compare) { 
-				if (edgeCompare[integer] != edgeTypes0[integer]) { 
+			for (Integer integer : compare) {
+				if (edgeCompare[integer] != edgeTypes0[integer]) {
 					canPlace0 = false;
 					break;
 				}
 			}
 
 			//check 90
-			for (Integer integer : compare) { 
-				if (edgeCompare[integer] != edgeTypes90[integer]) { 
+			for (Integer integer : compare) {
+				if (edgeCompare[integer] != edgeTypes90[integer]) {
 					canPlace90 = false;
 					break;
 				}
 			}
-			
+
 			//check 180
-			for (Integer integer : compare) { 
-				if (edgeCompare[integer] != edgeTypes180[integer]) { 
+			for (Integer integer : compare) {
+				if (edgeCompare[integer] != edgeTypes180[integer]) {
 					canPlace180 = false;
 					break;
 				}
 			}
 
 			//check 270
-			for (Integer integer : compare) { 
-				if (edgeCompare[integer] != edgeTypes270[integer]) { 
+			for (Integer integer : compare) {
+				if (edgeCompare[integer] != edgeTypes270[integer]) {
 					canPlace270 = false;
 					break;
 				}
-			}			
-			
-			if (canPlace0) { 
+			}
+
+			if (canPlace0) {
 				possibleTileSpots.add(new TilePair(spot, 0));
 			}
-			
-			if (canPlace90) { 
-				possibleTileSpots.add(new TilePair(spot, 90));				
+
+			if (canPlace90) {
+				possibleTileSpots.add(new TilePair(spot, 90));
 			}
-			
-			if (canPlace180) { 
+
+			if (canPlace180) {
 				possibleTileSpots.add(new TilePair(spot, 180));
 			}
-			
-			if (canPlace270) { 
+
+			if (canPlace270) {
 				possibleTileSpots.add(new TilePair(spot, 270));
 			}
-			
-			if (canPlace0 || canPlace90 || canPlace180 || canPlace270) { 
+
+			if (canPlace0 || canPlace90 || canPlace180 || canPlace270) {
 				canPlace = true;
 			}
 
@@ -1053,16 +1053,16 @@ public class boardObjectBackup {
 
 
 	public void adjustScore(int index, int score) {
-		if (index == 2) { 
+		if (index == 2) {
 			players[0].addScore(score);
 			players[1].addScore(score);
 		}
-		else { 
+		else {
 			players[index].addScore(score);
 		}
 	}
 
-	public void printScores() { 
+	public void printScores() {
 		System.out.println(players[0]);
 		System.out.println(players[1]);
 	}

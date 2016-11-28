@@ -1,7 +1,7 @@
 /* Based on Scoring Rules stated in Tiger Zone V2.2 */
 /* only method not presently in Region is getNumberOfCrocodiles	*/
 import java.util.*;
-
+/*
 import entities.Region;
 public class ScoringSystem {
 	public static void main(String[] args) {}
@@ -197,9 +197,10 @@ public class ScoringSystem {
 	{ 	//condition is why it was called.  1 for time out, 2 for illegal move, 3 for bad formatting
 		if (condition == 1)
 		{
-			/*Player clock doesn't seem to exist. 
+			/*Player clock doesn't seem to exist.
 			 *If board doesn't receive tile placement in 1 second after prev. tile placed, call this.*/
 			//error message for time out
+			/*
 			if (playerID == 1)
 			{
 				System.out.println("Player 1 has exceeded time allowed.\n");
@@ -246,3 +247,4 @@ public class ScoringSystem {
 		return -1; // error condition
 	}
 }
+*/

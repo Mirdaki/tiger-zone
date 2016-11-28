@@ -1,6 +1,6 @@
 package tests;
 
-import static org.junit.Assert.*;
+/*import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ public class LakeTerrainTest {
 		ArrayList<Integer> tileConnections = new ArrayList<>(Arrays.asList(2, 5, 6));
 		Animal a1 = new Animal('D');
 		LakeTerrain t1 = new LakeTerrain(8, tileConnections, a1);
-		
+
 		assertEquals(true, t1.hasAnimal());
 		assertEquals(8, t1.getTerrainID());
 		assertEquals("Lake", t1.getType());
@@ -35,14 +35,14 @@ public class LakeTerrainTest {
 		Player p1 = new Player(1);
 		TigerObject tiger = new TigerObject(1, 'K', p1, 8);
 		t1.addTiger(tiger);
-		
+
 		//check if tiger was added to terrain
 		assertEquals(true, t1.hasTiger());
 		//check if tiger can be removed
 		t1.removeTiger();
 		assertEquals(false, t1.hasTiger());
 	}
-	
+
 	@Test
 	public void addTigerExceptionTest() {
 		boolean thrown = false;
@@ -60,7 +60,7 @@ public class LakeTerrainTest {
 		}
 		assertTrue(thrown);
 	}
-	
+
 	@Test
 	public void lakeTerrainToStringTest() {
 		ArrayList<Integer> tileConnections = new ArrayList<>(Arrays.asList(2, 5, 6));
@@ -68,7 +68,8 @@ public class LakeTerrainTest {
 		Player p1 = new Player(1);
 		TigerObject tiger = new TigerObject(1, 'K', p1, 8);
 		t1.addTiger(tiger);
-		
+
 		assertEquals("The terrain 8 of type Lake has a Meepel and 3 tile connection(s)", t1.toString());
 	}
 }
+*/
