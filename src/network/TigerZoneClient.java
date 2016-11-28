@@ -7,6 +7,8 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import entities.TigerTile;
+import entities.TileDeck;
 import game.Game;
 
 public class TigerZoneClient {
@@ -46,7 +48,7 @@ public class TigerZoneClient {
 			String fromTourneyServer, fromHandler, fromAI;
 
 			//variable declarations - information from server
-			String gameID;
+			String gameID, ourGame = "weAreNumberOne";
 			String currentPlayerID;
 			String opponentName;
 			int challengeID, numChallenges;
@@ -74,6 +76,10 @@ public class TigerZoneClient {
 			// Games themselves
 			Game gameA;
 			Game gameB;
+			gameA = null;
+			gameB = null;
+			moveANum = 1;
+			moveBNum = 1;
 
 			//tile AI wants to place
 			String tileToPlace;
@@ -92,7 +98,7 @@ public class TigerZoneClient {
 				}
 				else if (fromTourneyServer.equals("HELLO!")) {  //if request accepted, send authentication
 					out.println("I AM " + userName + " " + userPass);
-					System.out.println("Server: " + "I AM " + userName + " " + userPass);
+//					System.out.println("Server: " + "I AM " + userName + " " + userPass);
 				}
 				else if (fromTourneyServer.equals("THANK YOU FOR PLAYING! GOODBYE")) { //if end of tournament, exit from this
 					// Exit everything
@@ -157,7 +163,7 @@ public class TigerZoneClient {
 					case "MAKE": //send off move based on current tile
 						gameID = tokenizedMessage[5];
 						tileToPlace = tokenizedMessage[12];
-
+						response = "";
 						// Pass the move to the game
 						if (gameID.equals("A"))
 						{
@@ -214,11 +220,11 @@ public class TigerZoneClient {
 							// Place the tile in the game
 							if (gameID.equals("A")) {
 								moveANum++;
-								gameA.placeTile(tilePlaced, tilePlacedX, tilePlacedY, tileOrientation, animal,
+								gameA.placeTile(tilePlacedX, tilePlacedY, tileOrientation, animal,
 										userName.equals(currentPlayerID), animalZone);
 							} else if (gameID.equals("B")) {
 								moveBNum++;
-								gameB.placeTile(tilePlaced, tilePlacedX, tilePlacedY, tileOrientation, animal,
+								gameB.placeTile(tilePlacedX, tilePlacedY, tileOrientation, animal,
 										userName.equals(currentPlayerID), animalZone);
 							}
 
@@ -240,7 +246,10 @@ public class TigerZoneClient {
 							{
 								// When a tiger is added or retrived
 								String addOrReplace = tokenizedMessage[9];
-								boolean addTiger;
+								boolean addTiger = false;
+								tilePlacedX = 0; 
+								tilePlacedY = 0;
+								
 								if (addOrReplace.equals("RETRIEVED"))
 								{
 									addTiger = false;

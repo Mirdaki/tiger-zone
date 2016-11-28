@@ -30,6 +30,7 @@ public class LakeTerrain extends Terrain {
 		theEndOfLake 	   = aEndOfLake;
 		theCrocodile 	   = null;
 		terrainMin 		   = aTileConnections.get(0);
+		
 	}
 
 	// Getters

@@ -9,10 +9,12 @@ public class artificialIntelligence {
 	TigerTile currentTile;
 	private static String ourMove = null;
 	ArrayList<Region> descendingRegions = new ArrayList<Region>();
+	protected int moveCount; 
 
 	public artificialIntelligence(BoardObject currentBoard, TigerTile currentTile) {
 		this.currentTile = currentTile;
 		this.currentBoard = currentBoard;
+		moveCount = 0;
 	}
 
 	public ArrayList<Region> orderedListOfRegions(BoardObject aCurrentBoard) {
@@ -69,7 +71,7 @@ public class artificialIntelligence {
 	}
 
 	public String getMove() {
-		Region tigerPlacer;
+		Region tigerPlacer = null;
 		if(!currentBoard.canPlace(currentTile)) {
 		//iff we have 0 tigers left
 		//pass
@@ -79,21 +81,21 @@ public class artificialIntelligence {
 			if(currentBoard.getPlayer(0).getNumOfTigers() == 0) { 
 				//pop out random tiger
 				ArrayList<Region> otherTempArray = orderedListOfRegions(currentBoard);
-				for(int i = otherTempArray.size() - 1; i >= 0; i--)
-				{
+				for(int i = otherTempArray.size() - 1; i >= 0; i--) {
 					int tigers[] = checkOurTigers(otherTempArray.get(i));
 					if(tigers[0] > 0) {
 						//place Tiger
 						for(int j = 0; j < otherTempArray.get(i).getNumOfTigers(); j++) {
 							if(otherTempArray.get(i).theTigers.get(j).owner == currentBoard.getPlayer(0)) {
 								Location thisisitTwo = otherTempArray.get(i).theTigers.get(j).getLocation();
-								ourMove.concat("UNPLACEABLE RETRIEVE TIGER AT" + " " + thisisitTwo.getX() + " " + thisisitTwo.getY());
+								ourMove += "UNPLACEABLE RETRIEVE TIGER AT " + thisisitTwo.getX() + " " + thisisitTwo.getY();
+								break;
 							}
 						}
+						break;
 					}
 				}
 				
-				//ourMove.concat("UNPLACEABLE RETRIEVE TIGER AT" + " " + thisisit.getX() + " " + thisisit.getY());
 			}
 			else if(currentBoard.getPlayer(0).getNumOfTigers() > 1) {
 				ArrayList<Region> tempArray = orderedListOfRegions(currentBoard);
@@ -101,11 +103,15 @@ public class artificialIntelligence {
 
 					int tigers[] = checkOurTigers(tempArray.get(i));
 					if(tigers[1] - tigers[0] == 1) {
+	
 						//place Tiger
 						for(int j = 0; j < tempArray.get(i).getNumOfTigers(); j++) {
+
 							if(tempArray.get(i).theTigers.get(j).owner == currentBoard.getPlayer(0)) {
+
 								Location thisisit = tempArray.get(i).theTigers.get(j).getLocation();
 								ourMove.concat("UNPLACEABLE ADD ANOTHER TIGER TO" + " " + thisisit.getX() + " " + thisisit.getY());
+								break;
 							}
 						}
 						break;
@@ -113,105 +119,121 @@ public class artificialIntelligence {
 				}
 			}
 			else {
-				ourMove.concat("UNPLACEABLE PASS");
+				ourMove += "UNPLACEABLE PASS";
 			}
-
 		}
 		else {
 			ourMove = "PLACE " + currentTile.getType() + " ";
+			
+			
 			BoardObject tempBoard = new BoardObject(currentBoard);
 			ArrayList<Region> tempArray = orderedListOfRegions(tempBoard);
 			ArrayList<TilePair> tempPS = currentBoard.getPossibleSpots();
-			HashMap<Location, Integer> uniqueLocation = new HashMap<Location, Integer>();
+			Map<Location, Integer> uniqueLocation = new HashMap<Location, Integer>();
 
-			for(int i = 0; i < tempPS.size(); i++) {
-				if(!uniqueLocation.contains(tempPS.get(i))) {
-					uniqueLocation.put(tempPS.get(i).getLocation(), 0);
-				}
-				else 
-				{
-					int curVal = uniqueLocation.get(tempPS.get(i).getLocation());
-					uniqueLocation.put(tempPS.get(i).getLocation(), curVal+1);
-				}
-			}
+//			for(int i = 0; i < tempPS.size(); i++) {
+//				if(!uniqueLocation.containsKey(tempPS.get(i))) {
+//					uniqueLocation.put(tempPS.get(i).getLocation(), tempPS.get(i).getOrientation());
+//				}
+//				else 
+//				{
+//					int curVal = uniqueLocation.get(tempPS.get(i).getLocation());
+//					uniqueLocation.put(tempPS.get(i).getLocation(), curVal+1);
+//				}
+//			}
 			// Step 1 - pick tile.
-			for(int i = 0; i < tempArray.size(); i++) {
-				Region temp = tempArray.get(i);
-				Set<Integer> ourTileList = temp.getTileList();
-				Iterator<Integer> it = ourTileList.iterator();
-				int or;
-     			while(it.hasNext())
-     			{
-
-     				TigerTile tiletoplay = tempBoard.tileDeck.get(it.next());
-     				Location tileLoc = tiletoplay.getCoord();
-     				for(Map.Entry<Location, Integer> entry : uniqueLocation.entrySet()) {
-     					if(isAdjacent(entry.getKey(), tileLoc))
-     					{
-     						tempBoard.place(currentTile, tileLoc);
-     						for(int y = 0; y < tempPS.size(); y++)
-     						{
-     							if(tempPS.get(i).getLocation() == tileLoc)
-     							{
-     								tigerPlacer = temp;
-     								or = tempPS.get(i).getOrientation();
-     								/*int or2;
-     								switch(or)
-     								{
-     									case 0: 
-     										or2 = 0;
-     										break;
-     									case 90:
-     										or2 = 1;
-     										break;
-     									case 180:
-     										or2 = 2;
-     										break;
-     									case 270:
-     										or2 = 3;
-     										break;
-     								}*/
-     								//currentTile.setOrientation(or2);
-     							}
-     						}
-     						
-     						ourMove.concat("AT " + tileLoc.getX() + " " + tileLoc.getY() + " " + or);
-
-     						break;
-     					}
-     				}
-     				break;
-     			}
-     			break;
-			}
-
-			//check tiles in regions
-			//if any playable spot is adjacent to tile in region place tile
-
-			if(tempBoard.getPlayer(0).getNumOfTigers() == 0) 
-				{
-					if(tempBoard.getPlayer(0).getNumOfCrocs() == 0)
-					{
-						ourMove.concat(" NONE");
-					}
-					else
-					{
-						for(int i = 0; i < tempArray.size(); i++) {
-							int tigers[] = checkOurTigers(tempArray.get(i));
-							if(tigers[1] != 0 && tigers[0] == 0) {
-								// place croc
-								ourMove.concat(" CROCODILE");
-									
-							break;
-							}
-						}
-					}
-				}
-			else
-				{
-					// first legal?
-					ourMove.concat(" TIGER " + tigerPlacer.getRecentMin()); //decide region
-				}
+			
+			Random randomGenerator = new Random();
+			int index = randomGenerator.nextInt(tempPS.size());
+			
+			TilePair tempSpot = currentBoard.getPossibleSpots().get(index);
+			Location tileLoc = tempSpot.getLocation();
+			int orientation = tempSpot.getOrientation();
+			
+			int row = tileLoc.getY();
+			int col = tileLoc.getX();
+			
+			int adjustedY = BoardObject.startY + (BoardObject.COLSIZE/2 - row);
+			int adjustedX = BoardObject.startX + (col - BoardObject.ROWSIZE/2);
+			
+			ourMove += "AT " + adjustedX + " " + adjustedY + " " + orientation; 
+			
+			
+//			for(int i = 0; i < tempArray.size(); i++) {
+//				Region temp = tempArray.get(i);
+//				Set<Integer> ourTileList = temp.getTileList();
+//				Iterator<Integer> it = ourTileList.iterator();
+//				int or = 0;
+//     			while(it.hasNext()) {
+//
+//     				TigerTile tiletoplay = tempBoard.tiles.get(it.next());
+//
+//     				Location tileLoc = tiletoplay.getCoord();
+//     				for(Map.Entry<Location, Integer> entry : uniqueLocation.entrySet()) {
+//     					if(isAdjacent(entry.getKey(), tileLoc)) {
+//     						tempBoard.place(currentTile, tileLoc);
+//     						for(int y = 0; y < tempPS.size(); y++) {
+//
+//     							if(tempPS.get(i).getLocation() == tileLoc) {
+//     								tigerPlacer = temp;
+//     								or = tempPS.get(i).getOrientation();
+//     								/*int or2;
+//     								switch(or)
+//     								{
+//     									case 0: 
+//     										or2 = 0;
+//     										break;
+//     									case 90:
+//     										or2 = 1;
+//     										break;
+//     									case 180:
+//     										or2 = 2;
+//     										break;
+//     									case 270:
+//     										or2 = 3;
+//     										break;
+//     								}*/
+//     								//currentTile.setOrientation(or2);
+//     							}
+//     						}
+//     						
+//     						ourMove.concat("AT " + tileLoc.getX() + " " + tileLoc.getY() + " " + or);
+//
+//     						break;
+//     					}
+//     				}
+//     				break;
+//     			}
+//     			break;
+//			}
+//
+//			//check tiles in regions
+//			//if any playable spot is adjacent to tile in region place tile
+//
+//			if(tempBoard.getPlayer(0).getNumOfTigers() == 0) 
+//				{
+//					if(tempBoard.getPlayer(0).getNumOfCrocs() == 0)
+//					{
+//						ourMove.concat(" NONE");
+//					}
+//					else
+//					{
+//						for(int i = 0; i < tempArray.size(); i++) {
+//							int tigers[] = checkOurTigers(tempArray.get(i));
+//							if(tigers[1] != 0 && tigers[0] == 0) {
+//								// place croc
+//								ourMove.concat(" CROCODILE");
+//									
+//							break;
+//							}
+//						}
+//					}
+//				}
+//			else
+//				{
+//					// first legal?
+//					ourMove.concat(" TIGER " + tigerPlacer.getRecentMin()); //decide region
+//				}
 		}
 		return ourMove;
 	}

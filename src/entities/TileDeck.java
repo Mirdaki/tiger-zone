@@ -66,7 +66,10 @@ public class TileDeck {
 
 						//add a tile of said type for each multiplicity into array list
 						for (int j = 0; j < multiplicity; j++, tileCount++) { 
-							tigerDeck.put(tileCount, new TigerTile(eElement));
+							
+							TigerTile newTiler = new TigerTile(eElement);
+							givenDeck.add(newTiler);
+							tigerDeck.put(tileCount, newTiler);
 						}
 					}
 				}
@@ -125,6 +128,10 @@ public class TileDeck {
 	
 	public String getNext(int next) { 
 		return givenDeck.get(next).getType();
+	}
+	
+	public ArrayList<TigerTile> getGiven() { 
+		return givenDeck;
 	}
 
 }//class

@@ -8,7 +8,7 @@ public class Game {
 
 	protected String gameID;
 	protected Player[] players;
-	protected BoardObject board; 
+	protected BoardObject board;
 
 	public Game(String gameID) {
 		this.gameID = gameID;
@@ -74,11 +74,13 @@ public class Game {
 		//If placeable, pass tile string to AI, get the move, and pass to client.
 		TigerTile tile = new TigerTile(tileType, 0);
 		artificialIntelligence AI = new artificialIntelligence(board, tile);
+		
 		return AI.getMove();
 	}
 
 	//If player1 == true, it is player 1's turn
-	public void placeTile(String tileType, int tileX, int tileY, int orientation, String animal, boolean player1, int tigerZone) {
+	public void placeTile(int tileX, int tileY, int orientation, String animal, boolean player1, int tigerZone) {
+
 		Location loc = new Location(tileX, tileY);
 		TigerTile tile = board.getTile(orientation);
 		if (player1 == true){
@@ -87,13 +89,16 @@ public class Game {
 		else if (player1 == false) {
 			board.switchToActivePlayer(players[1]);
 		}
+
 		board.place(tile, loc);
+		
 		if (animal.equals("TIGER")){
 			board.placeTiger(tigerZone);
 		}
 		else if (animal.equals("CROCODILE")){
 			board.placeCrocodile();
 		}
+
 		board.confirm();
 	}
 
