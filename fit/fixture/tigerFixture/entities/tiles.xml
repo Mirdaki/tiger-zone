@@ -1,0 +1,560 @@
+<?xml version="1.0"?>
+
+<tileStack>
+    <tile type="JJJJ-" count="1">
+        <center>J</center>
+        <edges>
+            <north>J J J</north>
+            <east>J J J</east>
+            <south>J J J</south>
+            <west>J J J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="1">0</jungle>
+            </jungles>
+        </regions>
+    </tile>
+
+    <tile type="JJJJX" count="4">
+        <center>X</center>
+        <edges>
+            <north>J J J</north>
+            <east>J J J</east>
+            <south>J J J</south>
+            <west>J J J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="2">0</jungle>
+            </jungles>
+        </regions>
+    </tile>
+
+    <tile type="JJTJX" count="2">
+        <center>X</center>
+        <edges>
+            <north>J J J</north>
+            <east>J J J</east>
+            <south>J T J</south>
+            <west>J J J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="3">0</jungle>
+            </jungles>
+            <trails>
+                <trail id="1">1</trail>
+            </trails>
+        </regions>
+    </tile>
+
+    <tile type="TTTT-" count="1">
+        <center>X</center>
+        <edges>
+            <north>J T J</north>
+            <east>J T J</east>
+            <south>J T J</south>
+            <west>J T J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="4">0</jungle>
+                <jungle id="5">0</jungle>
+                <jungle id="6">0</jungle>
+                <jungle id="7">0</jungle>
+            </jungles>
+            <trails>
+                <trail id="2">1</trail>
+                <trail id="3">1</trail>
+                <trail id="4">1</trail>
+                <trail id="5">1</trail>
+            </trails>
+        </regions>
+    </tile>
+
+    <tile type="TJTJ-" count="8">
+        <center>T</center>
+        <edges>
+            <north>J T J</north>
+            <east>J J J</east>
+            <south>J T J</south>
+            <west>J J J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="8">0</jungle>
+                <jungle id="9">0</jungle>
+            </jungles>
+            <trails>
+                <trail id="6">2</trail>
+            </trails>
+        </regions>
+    </tile>
+
+    <tile type="TJJT-" count="9">
+        <center>T</center>
+        <edges>
+            <north>J T J</north>
+            <east>J J J</east>
+            <south>J J J</south>
+            <west>J T J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="10">0</jungle>
+                <jungle id="11">0</jungle>
+            </jungles>
+            <trails>
+                <trail id="7">2</trail>
+            </trails>
+        </regions>
+    </tile>
+
+    <tile type="TJTT-" count="4">
+        <center>X</center>
+        <edges>
+            <north>J T J</north>
+            <east>J J J</east>
+            <south>J T J</south>
+            <west>J T J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="12">0</jungle>
+                <jungle id="13">0</jungle>
+                <jungle id="14">0</jungle>
+            </jungles>
+            <trails>
+                <trail id="8">1</trail>
+                <trail id="9">1</trail>
+                <trail id="10">1</trail>
+            </trails>
+        </regions>
+    </tile>
+
+    <tile type="LLLL-" count="1">
+        <center>L</center>
+        <edges>
+            <north>L L L</north>
+            <east>L L L</east>
+            <south>L L L</south>
+            <west>L L L</west>
+        </edges>
+        <regions>
+            <lakes>
+                <lake id="1">4</lake>
+            </lakes>
+        </regions>
+    </tile>
+
+    <tile type="JLLL-" count="4">
+        <center>L</center>
+        <edges>
+            <north>J J J</north>
+            <east>L L L</east>
+            <south>L L L</south>
+            <west>L L L</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="15">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="2">3</lake>
+            </lakes>
+        </regions>
+    </tile>
+
+    <tile type="LLJJ-" count="5">
+        <center>L</center>
+        <edges>
+            <north>L L L</north>
+            <east>L L L</east>
+            <south>J J J</south>
+            <west>J J J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="16">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="3">2</lake>
+            </lakes>
+        </regions>
+    </tile>
+
+    <tile type="JLJL-" count="3">
+        <center>L</center>
+        <edges>
+            <north>J J J</north>
+            <east>L L L</east>
+            <south>J J J</south>
+            <west>L L L</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="17">0</jungle>
+                <jungle id="18">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="4">2</lake>
+            </lakes>
+        </regions>
+    </tile>
+
+    <tile type="LJLJ-" count="3">
+        <center>J</center>
+        <edges>
+            <north>L L L</north>
+            <east>J J J</east>
+            <south>L L L</south>
+            <west>J J J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="19">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="5">1</lake>
+                <lake id="6">1</lake>
+            </lakes>
+        </regions>
+    </tile>
+
+    <tile type="LJJJ-" count="5">
+        <center>J</center>
+        <edges>
+            <north>L L L</north>
+            <east>J J J</east>
+            <south>J J J</south>
+            <west>J J J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="20">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="7">1</lake>
+            </lakes>
+        </regions>
+    </tile>
+
+    <tile type="JLLJ-" count="2">
+        <center>J</center>
+        <edges>
+            <north>J J J</north>
+            <east>L L L</east>
+            <south>L L L</south>
+            <west>J J J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="21">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="8">1</lake>
+                <lake id="9">1</lake>
+            </lakes>
+        </regions>
+    </tile>
+
+    <tile type="TLJT-" count="1">
+        <center>T</center>
+        <edges>
+            <north>J T J</north>
+            <east>L L L</east>
+            <south>J J J</south>
+            <west>J T J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="22">0</jungle>
+                <jungle id="23">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="10">1</lake>
+            </lakes>
+            <trails>
+                <trail id="11">1</trail>
+            </trails>
+        </regions>
+    </tile>
+
+    <tile type="TLJTP" count="2">
+        <center>T</center>
+        <edges>
+            <north>J T J</north>
+            <east>L L L</east>
+            <south>J J J</south>
+            <west>J T J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="24">0</jungle>
+                <jungle id="25">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="11">1</lake>
+            </lakes>
+            <trails>
+                <trail id="12">2</trail>
+            </trails>
+        </regions>
+
+    </tile>
+
+    <tile type="JLTT-" count="1">
+        <center>T</center>
+        <edges>
+            <north>J J J</north>
+            <east>L L L</east>
+            <south>J T J</south>
+            <west>J T J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="26">0</jungle>
+                <jungle id="27">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="12">1</lake>
+            </lakes>
+            <trails>
+                <trail id="13">2</trail>
+            </trails>
+        </regions>
+    </tile>
+
+    <tile type="JLTTB" count="2">
+        <center>T</center>
+        <edges>
+            <north>J J J</north>
+            <east>L L L</east>
+            <south>J T J</south>
+            <west>J T J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="28">0</jungle>
+                <jungle id="29">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="13">1</lake>
+            </lakes>
+            <trails>
+                <trail id="14">2</trail>
+            </trails>
+        </regions>
+
+    </tile>
+
+    <tile type="TLTJ-" count="3">
+        <center>T</center>
+        <edges>
+            <north>J T J</north>
+            <east>L L L</east>
+            <south>J T J</south>
+            <west>J J J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="30">0</jungle>
+                <jungle id="31">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="14">1</lake>
+            </lakes>
+            <trails>
+                <trail id="15">2</trail>
+            </trails>
+        </regions>
+    </tile>
+
+    <tile type="TLTJD" count="2">
+        <center>T</center>
+        <edges>
+            <north>J T J</north>
+            <east>L L L</east>
+            <south>J T J</south>
+            <west>J J J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="32">0</jungle>
+                <jungle id="33">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="15">1</lake>
+            </lakes>
+            <trails>
+                <trail id="16">2</trail>
+            </trails>
+        </regions>
+
+    </tile>
+
+    <tile type="TLLL-" count="3">
+        <center>L</center>
+        <edges>
+            <north>J T J</north>
+            <east>L L L</east>
+            <south>L L L</south>
+            <west>L L L</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="34">0</jungle>
+                <jungle id="35">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="16">3</lake>
+            </lakes>
+            <trails>
+                <trail id="17">1</trail>
+            </trails>
+        </regions>
+    </tile>
+
+    <tile type="TLTT-" count="1">
+        <center>X</center>
+        <edges>
+            <north>J T J</north>
+            <east>L L L</east>
+            <south>J T J</south>
+            <west>J T J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="36">0</jungle>
+                <jungle id="37">0</jungle>
+                <jungle id="38">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="17">1</lake>
+            </lakes>
+            <trails>
+                <trail id="18">1</trail>
+                <trail id="19">1</trail>
+                <trail id="20">1</trail>
+            </trails>
+        </regions>
+    </tile>
+
+    <tile type="TLTTP" count="2">
+        <center>X</center>
+        <edges>
+            <north>J T J</north>
+            <east>L L L</east>
+            <south>J T J</south>
+            <west>J T J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="39">0</jungle>
+                <jungle id="40">0</jungle>
+                <jungle id="41">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="18">1</lake>
+            </lakes>
+            <trails>
+                <trail id="21">1</trail>
+                <trail id="22">1</trail>
+                <trail id="23">1</trail>
+            </trails>
+        </regions>
+
+    </tile>
+
+    <tile type="TLLT-" count="3">
+        <center>L</center>
+        <edges>
+            <north>J T J</north>
+            <east>L L L</east>
+            <south>L L L</south>
+            <west>J T J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="42">0</jungle>
+                <jungle id="43">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="19">2</lake>
+            </lakes>
+            <trails>
+                <trail id="24">2</trail>
+            </trails>
+        </regions>
+    </tile>
+
+    <tile type="TLLTB" count="2">
+        <center>L</center>
+        <edges>
+            <north>J T J</north>
+            <east>L L L</east>
+            <south>L L L</south>
+            <west>J T J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="44">0</jungle>
+                <jungle id="45">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="20">2</lake>
+            </lakes>
+            <trails>
+                <trail id="25">2</trail>
+            </trails>
+        </regions>
+
+    </tile>
+
+    <tile type="LJTJ-" count="1">
+        <center>L</center>
+        <edges>
+            <north>L L L</north>
+            <east>J J J</east>
+            <south>J T J</south>
+            <west>J J J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="46">0</jungle>
+                <jungle id="47">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="21">1</lake>
+            </lakes>
+            <trails>
+                <trail id="25">1</trail>
+            </trails>
+        </regions>
+    </tile>
+
+    <tile type="LJTJD" count="2">
+        <center>L</center>
+        <edges>
+            <north>L L L</north>
+            <east>J J J</east>
+            <south>J T J</south>
+            <west>J J J</west>
+        </edges>
+        <regions>
+            <jungles>
+                <jungle id="48">0</jungle>
+                <jungle id="49">0</jungle>
+            </jungles>
+            <lakes>
+                <lake id="22">1</lake>
+            </lakes>
+            <trails>
+                <trail id="26">1</trail>
+            </trails>
+        </regions>
+
+    </tile>
+
+</tileStack>

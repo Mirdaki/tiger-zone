@@ -1,0 +1,16 @@
+---
+Suite
+Suites: use cases, tiger zone
+---
+!define TEST_SYSTEM {slim}
+ 
+!define COLLAPSE_SETUP {true}
+!define COLLAPSE_TEARDOWN {true}
+
+
+!1 1st Generation Use Case Test Suite
+Test suite for testing use cases from our product backlog.
+Fixture code is found at the path:
+!path /Users/conward1/Desktop/CEN3031/fit/fixture/
+!path /Users/conward1/Desktop/CEN3031/fit/fitnesse-standalone.jar
+!contents -R2 -g -p -f -h

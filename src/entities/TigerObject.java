@@ -11,7 +11,8 @@ public class TigerObject
 	//Attributes
 	protected Player owner;
 	protected int regionID;
-
+	
+	protected Location associatedLocation;
 	//Constructors
 	public TigerObject() { 
 		
@@ -28,7 +29,13 @@ public class TigerObject
 	}
 
 	//ACCESSORSS 
+	public Location getLocation() {
+		return associatedLocation;
+	}
 
+	public void setLocation(Location x) {
+		this.associatedLocation = x;
+	}
 	/**
 	* Get Tiger Owner
 	* @return char

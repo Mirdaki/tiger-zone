@@ -1,0 +1,21 @@
+---
+Help: Main Page
+Suite
+Suites: index, tigerzone
+---
+!define TEST_SYSTEM {slim}
+|import|
+|tigerFixture|
+ 
+!define COLLAPSE_SETUP {true}
+!define COLLAPSE_TEARDOWN {true}
+
+!1 Tiger Zone Test Suite (unit tests)
+Test suite for testing Tiger Zone a variation of Carcassonne.
+Fixture code is found at the path:
+!path /Users/conward1/Desktop/CEN3031/fit/fixture/
+!path /Users/conward1/Desktop/CEN3031/fit/fitnesse-standalone.jar
+
+Note: Fixture code uses round about ways to pass complex values into methods as simple data types.
+
+!contents -R2 -g -p -f -h

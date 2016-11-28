@@ -1,0 +1,22 @@
+---
+Suites: player, entity
+Test
+---
+!define TEST_SYSTEM {slim}
+!path /Users/conward1/Desktop/CEN3031/fit/fixture
+
+!path /Users/conward1/Desktop/CEN3031/fit/fitnesse-standalone.jar
+
+|import|
+|tigerFixture|
+|entities.Player|
+ 
+!define COLLAPSE_SETUP {true}
+!define COLLAPSE_TEARDOWN {true}
+!1 Testing For Player Entity
+!|playerFixture|
+|NumTiger|Score|ID|First|AI   |getTigerTest?|getScoreTest?|getIDTest?|isFirst?|isAI?|
+|7       |0    |50|true |false|7            |0            |50        |true	  |false|
+|3       |1    |20|false|true |3            |1            |20        |false   |true |
+|3       |1    |20|false|true |7            |0            |50        |true    |false|
+|7       |0    |50|true |false|3            |1            |20        |false	  |true |
