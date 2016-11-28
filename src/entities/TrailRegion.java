@@ -125,6 +125,7 @@ public class TrailRegion extends Region {
 		if (aTerrain.getTerrainMin() < getRecentMin()) { 
 			recentMin = aTerrain.getMin();
 		}
+		
 	}
 
 	public void markComplete() {

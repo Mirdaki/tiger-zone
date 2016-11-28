@@ -35,11 +35,11 @@ public class Location {
 	//ACCESSORSS
 
 	public int getY() {
-		return y;
+		return y + BoardObject.startY;
 	}
 
 	public int getX() {
-		return x;
+		return x - BoardObject.startX;
 	}
 	
 	//MUTATORS

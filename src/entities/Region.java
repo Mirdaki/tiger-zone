@@ -248,6 +248,12 @@ public abstract class Region {
 		return hatchling;
 	}
 
+	public void removeTiger(int index) { 
+		
+		theTigers.remove(index);
+		
+	}
+	
 	// Remove all Tigers
 	/**
 	 * Removes all Tigers from this region and adds them back to the associated players

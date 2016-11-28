@@ -36,10 +36,16 @@ public class BoardObject {
 
 	protected String whyInvalid; //for error reporting
 	protected Location recentPlacement; //the most recently placed TigerTile
+	protected TigerTile recentTile;
 	protected boolean tigerPlaced; //to indicate if a tiger has been placed or not
 	protected boolean crocodilePlaced;
 	protected boolean pending; //pending confirmation (probably unnecessary)
+	protected ArrayList<TilePair> possibleTileSpots;
 
+	
+	public ArrayList<TilePair> getPossibleSpots() {
+		return possibleTileSpots;
+	}
 
 	//CONSTRUCTORS
 
@@ -59,6 +65,7 @@ public class BoardObject {
 		tiles = tileStack.getTiles();
 		pending = false;
 		whyInvalid = "";
+		possibleTileSpots = new ArrayList<TilePair>();
 
 		//preliminary example players
 		players = new Player[2];
@@ -82,6 +89,8 @@ public class BoardObject {
 		tiles = tileStack.getTiles();
 		pending = false;
 		whyInvalid = "";
+		possibleTileSpots = new ArrayList<TilePair>();
+
 		this.players = players;
 
 	} //end constructor
@@ -117,7 +126,7 @@ public class BoardObject {
 	public Map<Integer, Region> getAll() { 
 		return allRegions;
 	}
-	
+
 	public Map<Integer, Region> getIncomplete() {
 		return incompleteRegions;
 	}
@@ -134,8 +143,8 @@ public class BoardObject {
 	public ArrayList<Location> getMoore(Location coord) { 
 
 		//adjust ARRAY coordinates based on given starting position
-		int row = coord.getY() + startY;
-		int col = coord.getX() - startX;
+		int row = coord.getY();
+		int col = coord.getX();
 
 		ArrayList<Location> mooreHood = new ArrayList<Location>();
 
@@ -145,7 +154,7 @@ public class BoardObject {
 			return mooreHood;
 		}
 		mooreHood.add(coord);
-		
+
 		//obtain the neighboring tiles
 		TigerTile north = null, east = null, south = null, west = null;
 		if(row > 0) north = board[row - 1][col];
@@ -335,8 +344,8 @@ public class BoardObject {
 			minSpots.clear();
 
 			//get coordinates
-			int row = coord.getY() + startY;
-			int col = coord.getX() - startX;
+			int row = coord.getY();
+			int col = coord.getX();
 			int adjustedY = startY + (COLSIZE/2 - row);
 			int adjustedX = startX + (col - ROWSIZE/2);
 			String type = tile.getType();
@@ -421,6 +430,7 @@ public class BoardObject {
 			tile.tiger.setLocation(coord);
 			board[row][col] = tile;
 			recentPlacement = coord;
+			recentTile = tile;
 			tileStack.removeTile(type);
 			pending = true;
 
@@ -436,6 +446,8 @@ public class BoardObject {
 		updateDens();
 		moveCompleted();
 		switchPlayers(activePlayer);
+		possibleTileSpots.clear();
+		
 		pending = false;
 		tigerPlaced = false;
 		crocodilePlaced = false;
@@ -682,27 +694,55 @@ public class BoardObject {
 		}
 	}
 
+	public boolean removeTiger(Location location) {
+		
+		TigerTile tile = getTile(location);
+		TigerObject stray = tile.getTiger();
+		int regionID = stray.getRegionID();
+		Player owner = stray.getTigerOwner();
+		
+		Region region = allRegions.get(regionID); 
+				
+		ArrayList<TigerObject> tigers = region.getTigers();
+		//determine who had more tigers
+		
+		for (int i = 0; i < tigers.size(); i++) {
+			if (tigers.get(i).getTigerOwner().getID().equals(owner.getID())) { 
+				region.removeTiger(i);
+				break;
+			}
+		}
+
+		return true;
+		
+	}
 	public boolean placeTiger(int index) {
 
 		if (index > 9 || index < 1) {
+			possibleTileSpots.clear();
 			setReason("Index out of bounds");
 			return false;
 		}
 
 		if (!activePlayer.hasTigers()) { 
+			possibleTileSpots.clear();
+
 			setReason("Player doesn't have any tigers!");
 			return false;
 		}
 
-		Location recent = recentPlacement;
-		TigerTile last = getTile(recent);
+		TigerTile last = recentTile;
 		if (last == null) { 
+			possibleTileSpots.clear();
+
 			setReason("Error: no placed tile?");
 			return false;
 		}
 
 
 		if (tigerPlaced) { 
+			possibleTileSpots.clear();
+
 			setReason("Already placed a Tiger!");
 			return false;
 		}
@@ -719,28 +759,42 @@ public class BoardObject {
 		}
 
 		if(region == null) { 
+			possibleTileSpots.clear();
+
 			setReason("ERROR: Region wasn't found.");
 			return false;
 		}
 
 		if (index == 5 && last.getCenter() != 'X') {
+			possibleTileSpots.clear();
+
 			setReason("This isn't a den!");
-			return false;
-		}
-		int min = index;
-		if (!minSpots.containsKey(regionID)) { 
-			min = region.getRecentMin();
-		}
-		if(min != index) { 
-			setReason("Specified index was not the minimum");
 			return false;
 		}
 
 		if(region.hasTigers()) { 
+			possibleTileSpots.clear();
+
 			setReason("Region at index already has a Tiger!");
 			return false;
 		}
-		region.addTiger(activePlayer.removeTiger());
+
+		int min = index;
+		if (minSpots.containsKey(regionID)) { 
+			min = region.getRecentMin();
+		}
+		if(min != index) { 
+			possibleTileSpots.clear();
+
+			setReason("Specified index was not the minimum");
+			return false;
+		}
+
+		TigerObject stray = activePlayer.removeTiger();
+		stray.setRegionID(regionID);
+		region.addTiger(stray);
+		recentTile.setTiger(stray);
+		
 		tigerPlaced = true;
 		return true;		
 	}
@@ -766,7 +820,7 @@ public class BoardObject {
 
 		Terrain[] terrains = last.getTerrains();
 		CrocodileObject hatchling = activePlayer.removeCroc();
-	
+
 		for (Terrain terrain : terrains) { 
 			int regionID = 0; 
 			if (terrain instanceof LakeTerrain || terrain instanceof TrailTerrain) { 
@@ -788,8 +842,8 @@ public class BoardObject {
 	}
 
 
-	public void setPending() { 
-		pending = true;
+	public void setPending(boolean pending) { 
+		pending = pending;
 	}
 
 	public void setStart(int x, int y) { 
@@ -861,7 +915,7 @@ public class BoardObject {
 
 			}
 			else if (region instanceof TrailRegion) {
-				
+
 				//distribute scores for incomplete trails
 				int score = ((TrailRegion)region).getPotential();
 				int owner = regionOwner(region);
@@ -869,7 +923,7 @@ public class BoardObject {
 
 			}
 			else if (region instanceof LakeRegion) { 
-				
+
 				//distribute scores for incomplete lakes
 				int score = ((LakeRegion)region).getPotential();
 				int owner = regionOwner(region);
@@ -897,6 +951,115 @@ public class BoardObject {
 		else if (player2count > player1count) { return 1; }
 		return -1;
 	}
+
+	public boolean canPlace(TigerTile tile) { 
+
+		ArrayList<Location> spots = availableSpots;
+		TileEdges edges = tile.getEdges();
+		Terrain[] terrains = edges.getTerrains();
+
+		char[] edgeTypes0 = {terrains[0].getType(),terrains[1].getType(),terrains[2].getType(),terrains[3].getType(),terrains[4].getType(),terrains[5].getType(),terrains[6].getType(),terrains[7].getType(),};
+		char[] edgeTypes90 = {terrains[2].getType(),terrains[3].getType(),terrains[4].getType(),terrains[5].getType(),terrains[6].getType(),terrains[7].getType(),terrains[0].getType(),terrains[1].getType(),};
+		char[] edgeTypes180 = {terrains[4].getType(),terrains[5].getType(),terrains[6].getType(),terrains[7].getType(),terrains[0].getType(),terrains[1].getType(),terrains[2].getType(),terrains[3].getType(),};
+		char[] edgeTypes270 = {terrains[6].getType(),terrains[7].getType(),terrains[0].getType(),terrains[1].getType(),terrains[2].getType(),terrains[3].getType(),terrains[4].getType(),terrains[5].getType(),};
+
+		boolean canPlace = false;
+		
+		for (Location spot : spots) { 
+
+			TigerTile north = null, east = null, south = null, west = null;
+
+			int row = spot.getY();
+			int col = spot.getX();
+
+			if (row > 0) north = board[row - 1][col];
+			if (col < COLSIZE-1) east = board[row][col + 1];
+			if (row < ROWSIZE-1) south = board[row + 1][col];
+			if (col > 0) west = board[row][col - 1];
+
+			boolean connectednorth = (north != null) ? true : false,
+					connectedeast = (east != null) ? true : false,
+							connectedsouth = (south != null) ? true : false,
+									connectedwest = (west != null) ? true : false;
+
+			Set<Integer> compare = new LinkedHashSet<Integer>();
+
+			char[] edgeCompare = new char[8];
+			if (connectednorth) {
+				edgeCompare[1] = north.getEdgeType(5);
+				compare.add(1);
+			}
+			if (connectedeast) { 
+				edgeCompare[3] = east.getEdgeType(7);
+				compare.add(3);
+			}
+			if (connectedsouth) { 
+				edgeCompare[5] = south.getEdgeType(1);
+				compare.add(5);
+			}
+			if (connectedwest) {
+				edgeCompare[7] = west.getEdgeType(3);
+				compare.add(7);
+			}
+			
+			boolean canPlace0 = true, canPlace90 = true, canPlace180 = true, canPlace270 = true;
+			
+			//check 0
+			for (Integer integer : compare) { 
+				if (edgeCompare[integer] != edgeTypes0[integer]) { 
+					canPlace0 = false;
+					break;
+				}
+			}
+
+			//check 90
+			for (Integer integer : compare) { 
+				if (edgeCompare[integer] != edgeTypes90[integer]) { 
+					canPlace90 = false;
+					break;
+				}
+			}
+			
+			//check 180
+			for (Integer integer : compare) { 
+				if (edgeCompare[integer] != edgeTypes180[integer]) { 
+					canPlace180 = false;
+					break;
+				}
+			}
+
+			//check 270
+			for (Integer integer : compare) { 
+				if (edgeCompare[integer] != edgeTypes270[integer]) { 
+					canPlace270 = false;
+					break;
+				}
+			}			
+			
+			if (canPlace0) { 
+				possibleTileSpots.add(new TilePair(spot, 0));
+			}
+			
+			if (canPlace90) { 
+				possibleTileSpots.add(new TilePair(spot, 90));				
+			}
+			
+			if (canPlace180) { 
+				possibleTileSpots.add(new TilePair(spot, 180));
+			}
+			
+			if (canPlace270) { 
+				possibleTileSpots.add(new TilePair(spot, 270));
+			}
+			
+			if (canPlace0 || canPlace90 || canPlace180 || canPlace270) { 
+				canPlace = true;
+			}
+
+		}
+		return canPlace;
+	}
+
 
 	public void adjustScore(int index, int score) {
 		if (index == 2) { 

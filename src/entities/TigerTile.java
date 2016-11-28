@@ -32,7 +32,7 @@ public class TigerTile extends TileObject {
 	protected Player owner;
 	protected String type;
 	protected char center;
-	protected TigerObject tiger;
+	protected ArrayList<TigerObject> tigers;
 	protected CrocodileObject croc;
 	protected char special;
 	protected Terrain[] terrains;
@@ -58,6 +58,7 @@ public class TigerTile extends TileObject {
 		type = eElement.getAttribute("type");
 		special = type.charAt(4);
 		center = eElement.getElementsByTagName("center").item(0).getTextContent().charAt(0);
+		tigers = new ArrayList<TigerObject>();
 
 		//obtain all of the regions associated with a tie and put into a list of terrains
 		NodeList regions = eElement.getElementsByTagName("region");
@@ -161,6 +162,7 @@ public class TigerTile extends TileObject {
 				XPath xpath = xPathfactory.newXPath();
 				XPathExpression expr = xpath.compile("//tile[@type=\"" + type +"\"]");
 				NodeList nList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+				
 
 				//get first found element
 				Node nNode = nList.item(0);
@@ -175,6 +177,7 @@ public class TigerTile extends TileObject {
 					this.type = type;
 					special = type.charAt(4);
 					center = eElement.getElementsByTagName("center").item(0).getTextContent().charAt(0);
+					tigers = new ArrayList<TigerObject>();
 
 					//obtain all of the regions associated with a tie and put into a list of terrains
 					NodeList regions = eElement.getElementsByTagName("region");
@@ -310,9 +313,10 @@ public class TigerTile extends TileObject {
 	 * getTiger() gets the tile's current tiger
 	 * @return the tile's current tiger
 	 */
-	public TigerObject getTiger() {
-		return tiger;
+	public ArrayList<TigerObject> getTigers() {
+		return tigers;
 	}
+	
 	
 	public CrocodileObject getCroc() { 
 		return croc;
@@ -355,14 +359,10 @@ public class TigerTile extends TileObject {
 		this.owner = owner;
 	}
 
-	/**
-	 * setTiger() sets the tile's object to the specified tiger
-	 * @param tiger the new tiger to set
-	 */
-	public void setTiger(TigerObject tiger) {
-		this.tiger = tiger;
+	public void setTigers(ArrayList<TigerObject> tigers) { 
+		this.tigers = tigers;
 	}
-
+	
 	public void setCroc(CrocodileObject croc) { 
 		this.croc = croc;
 	}

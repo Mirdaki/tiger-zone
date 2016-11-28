@@ -53,9 +53,7 @@ public class TrailTerrain extends Terrain
 		theAnimal          = anAnimal;
 		theCrocodile       = null;
 		terrainMin 		   = aTileConnections.get(0);
-
 	}
-
 
 	// Getters
 

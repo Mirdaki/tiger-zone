@@ -13,10 +13,12 @@ public class TigerZone {
 
 		TileDeck deck = new TileDeck();
 		deck.start("TLTJ-");
-				
+		TigerTile tile = deck.getRandom();		
+
 		BoardObject test = new BoardObject(); //create the board
-		test.start("TLTJ-",0,0,0);
+		test.start("TTTT-",0,0,0);
 		test.print();
+
 
 		Scanner in = new Scanner(System.in);
 		String input = "";
@@ -41,35 +43,44 @@ public class TigerZone {
 				test.printSpots();
 				break;
 			case 1: 
-				if (test.getPending()) { 
-					System.out.println("Your last move is still pending!");
+				TigerTile random = deck.getRandom();
+
+				System.out.println("Your tile to place is " + random.getType());
+
+
+				System.out.println("Tile to place: [TYPE]");
+				input = in.nextLine();
+				TigerTile testTile = test.getTile(input,0);
+
+				test.canPlace(testTile);
+
+
+
+				System.out.println(test.getPossibleSpots());
+
+
+				System.out.println("[X] [Y] [ORIENTATION] [TIGER INDEX]");
+				input = in.nextLine();
+
+				String[] result = input.split("\\s");
+				Location location = new Location(Integer.parseInt(result[0]),Integer.parseInt(result[1]));					
+				testTile.setOrientation(Integer.parseInt(result[2]) / 90);
+
+
+				if(!test.place(testTile, location)) { 
+					System.out.println("Couldn't place tile. REASON: " + test.getReason());
 				}
 				else { 
-					TigerTile random = deck.getRandom();
-					
-					System.out.println("Your tile to place is " + random.getType());
-					System.out.println("Tile to place: [TYPE] [X] [Y] [ORIENTATION] [TIGER INDEX]");
-					input = in.nextLine();
+					if (result.length > 3)
+						if (result[3].equals("CROC")) { 
+							if(!test.placeCrocodile()) { System.out.println("Couldn't place Crocodile. REASON: " + test.getReason()); break; }
+						}
+						else 
+							if(!test.placeTiger(Integer.parseInt(result[3]))) { System.out.println("Couldn't place Tiger. REASON: " + test.getReason()); test.setPending(false); break; }
 
-					String[] result = input.split("\\s");
-					TigerTile testTile = test.getTile(result[0],Integer.parseInt(result[3]) / 90);
-					Location location = new Location(Integer.parseInt(result[1]),Integer.parseInt(result[2]));
-
-
-					if(!test.place(testTile, location)) { 
-						System.out.println("Couldn't place tile. REASON: " + test.getReason());
-					}
-					else { 
-						if (result.length > 4)
-							if (result[4].equals("CROC")) { 
-								if(!test.placeCrocodile()) { System.out.println("Couldn't place Crocodile. REASON: " + test.getReason()); break; }
-							}
-							else 
-								if(!test.placeTiger(Integer.parseInt(result[4]))) { System.out.println("Couldn't place Tiger. REASON: " + test.getReason()); break; }
-
-						System.out.println("Successfully \"placed\" tile! Hit 6 to confirm.");
-					}
+					System.out.println("Successfully \"placed\" tile! Hit 6 to confirm.");
 				}
+
 				break;
 			case 2:
 				System.out.println("INCOMPLETE REGIONS");

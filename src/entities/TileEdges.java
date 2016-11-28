@@ -54,6 +54,29 @@ public class TileEdges {
 	public char getEdge(int index) {
 		return terrainPoints[linear(index)].getType();
 	}
+	
+	public char[] getEntireEdge(int index) { 
+		if (index == 0) { 
+			return new char[]{getEdge(0), getEdge(1), getEdge(2)};
+		}
+		else if (index == 1) { 
+			return new char[]{getEdge(2), getEdge(3), getEdge(4)};			
+		}
+		else if (index == 2) { 
+			return new char[]{getEdge(4), getEdge(5), getEdge(6)};
+		}
+		else if (index == 3) { 
+			return new char[]{getEdge(6), getEdge(7), getEdge(0)};
+		}
+		return null;
+	}
+	
+	public boolean equals(char[] edge1, char[] edge2) { 
+		if(edge1[0] == edge2[0] && edge1[1] == edge2[1] && edge1[2] == edge2[2]) { 
+			return true;
+		}
+		return false;
+	}
 		
 	//MUTATORS
 

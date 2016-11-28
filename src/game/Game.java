@@ -8,7 +8,7 @@ public class Game {
 	protected Player[] players;
 	protected BoardObject board; 
 	
-	Game(String gameID) { 
+	Game(String gameID, Player[] players) { 
 		this.gameID = gameID;
 		players = new Player[2];
 		board = new BoardObject();
