@@ -10,7 +10,7 @@ public class Game {
 	protected Player[] players;
 	protected BoardObject board; 
 	
-	Game(String gameID, Player[] players) { 
+	Game(String gameID) { 
 		this.gameID = gameID;
 		players = new Player[2];
 		board = new BoardObject();
@@ -34,9 +34,9 @@ public class Game {
 		this.gameID = gameID;
 	}
 	
-	public void setPlayers(Player[] players) {
+	/*public void setPlayers(Player[] players) {
 		this.players = players;
-	}
+	}*/
 	
 	public void setBoard(BoardObject board) {
 		this.board = board;
@@ -52,7 +52,9 @@ public class Game {
 	}
 	
 	public void setStartTile(String startType, int startX, int startY, int startOrientation) {
-		board.start(startType, startX, startY, startOrientation);
+		
+		TigerTile startTile = new TigerTile(startType, startOrientation);
+		board.start(startTile, startX, startY, startOrientation);
 	}
 	
 	
@@ -66,18 +68,19 @@ public class Game {
 		board.setTileDeck(givenDeck);
 	}
 	
-	public String makeMove(BoardObject board, String tileType) {
+	public String makeMove(String tileType) {
 		//AI will let this method know if tile is unplaceable. 
 		//If unplaceable, AI will decide what to do with current turn.
-		//Pass this action to client.
 		//If placeable, pass tile string to AI, get the move, and pass to client.
-		return 
+		TigerTile tile = new TigerTile(tileType, 0);
+		artificialIntelligence AI = new artificialIntelligence(board, tile);
+		return AI.getMove();
 	}
 	
 	//If player1 == true, it is player 1's turn
 	public void placeTile(String tileType, int tileX, int tileY, int orientation, String animal, boolean player1, int tigerZone) {
 		Location loc = new Location(tileX, tileY);
-		TigerTile tile = board.getTile(tileType, orientation);
+		TigerTile tile = board.getTile(orientation);
 		if (player1 == true){
 			board.switchToActivePlayer(players[0]);
 		}
@@ -94,26 +97,31 @@ public class Game {
 		board.confirm();
 	}
 	
+	public void pass() {
+		board.getTile(0);
+	}
+	
 	//if boolean addTiger = true, add a tiger to the zone
 	public void unplaceableTile(boolean player1, boolean addTiger, int tileX, int tileY) {
+		board.getTile(0);
 		if (addTiger == true){
 			if (player1 == true){
 				board.switchToActivePlayer(players[0]);
-				board.placeTiger(tileX, tileY);
+				board.placeTiger(new Location(tileX, tileY));
 			}
 			else if (player1 == false) {
 				board.switchToActivePlayer(players[1]);
-				board.placeTiger(tileX, tileY);
+				board.placeTiger(new Location(tileX, tileY));
 			}
 		}
 		else if (addTiger == false){
 			if (player1 == true){
 				board.switchToActivePlayer(players[0]);
-				board.removeTiger(tileX, tileY);
+				board.removeTiger(new Location(tileX, tileY));
 			}
 			else if (player1 == false){
 				board.switchToActivePlayer(players[1]);
-				board.removeTiger(tileX, tileY);
+				board.removeTiger(new Location(tileX, tileY));
 			}
 		}
 		board.confirm();
