@@ -13,7 +13,7 @@ import java.util.Set;
  * It is representative of the board game itself, and has a statically defined 
  * size that is adjustable as needed.
  */
-public class BoardObject {
+public class boardObjectBackup {
 
 	//BOARD ATTRIBUTES
 	public static final int ROWSIZE = 11, COLSIZE = 11;
@@ -424,6 +424,7 @@ public class BoardObject {
 			board[row][col] = tile;
 			recentPlacement = coord;
 			recentTile = tile;
+			tileStack.removeTile(type);
 			pending = true;
 
 			return true;
@@ -450,10 +451,6 @@ public class BoardObject {
 		else { activePlayer = players[0]; } 
 	}
 
-	public void switchToActivePlayer(Player player) {
-		activePlayer = player;
-	}
-	
 	public boolean isSurrounded(Location coord) {
 
 		int row = coord.getY();
@@ -711,20 +708,6 @@ public class BoardObject {
 		return true;
 	}
 
-	public boolean placeTiger(Location location) { 
-
-		TigerTile tile = getTile(location);
-		int regionID = tile.getTiger().getRegionID();
-		Region region = allRegions.get(regionID);		
-		TigerObject stray = activePlayer.removeTiger();
-		stray.setRegionID(regionID);
-		stray.setLocation(location);
-		region.addTiger(stray);
-		tile.addTiger(stray);		
-		return true;
-	
-	}
-	
 	public boolean placeTiger(int index) {
 
 		if (index > 9 || index < 1) {

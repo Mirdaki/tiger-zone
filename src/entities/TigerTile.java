@@ -316,6 +316,18 @@ public class TigerTile extends TileObject {
 	public ArrayList<TigerObject> getTigers() {
 		return tigers;
 	}
+
+	/**
+	 * getTiger() gets the tile's current tiger
+	 * @return the tile's current tiger
+	 */
+	public TigerObject getTiger() {
+		return tigers.get(0);
+	}
+
+	public void removeTiger() { 
+		tigers.remove(0);
+	}
 	
 	
 	public CrocodileObject getCroc() { 
@@ -367,6 +379,10 @@ public class TigerTile extends TileObject {
 		this.croc = croc;
 	}
 
+	public void addTiger(TigerObject tiger) { 
+		tigers.add(tiger);
+	}
+	
 	/**
 	 * setTerrains() sets the current tile's terrains to a new set of terrains
 	 * @param terrains sets the terrains to the specified set of terrains
