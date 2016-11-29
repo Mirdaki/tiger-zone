@@ -25,7 +25,7 @@ public class TigerZone {
 
 		BoardObject board = game.getBoardObject();
 		game.setPlayers("fuck", "you");
-		game.setStartTile("TLTJ-",5,5,0);
+		game.setStartTile("JJJJ-",5,5,0);
 
 //		ArrayList<String> what = new ArrayList<String>();
 //		what.add("JJTJX");
@@ -35,7 +35,33 @@ public class TigerZone {
 
 //		game.setTileStack(what);
 
-		while(game.play()) { }
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+		game.play();
+//		while() { }
 		board.print();
 		board.end();
 		
@@ -51,7 +77,7 @@ public class TigerZone {
 //			for (Terrain terrain : entry.getValue().getTerrains())
 //				System.out.println("\t" + terrain);
 		}
-
+//
 //		Scanner in = new Scanner(System.in);
 //		System.out.println("Option: ");
 //		String input = "";
