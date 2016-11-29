@@ -1,44 +1,153 @@
 package tests;
 
-/*import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Test;
 
+import entities.CrocodileObject;
 import entities.DenRegion;
 import entities.DenTerrain;
-import entities.LakeRegion;
-import entities.LakeTerrain;
+import entities.Location;
 import entities.Player;
+import entities.Region;
+import entities.Terrain;
 import entities.TigerObject;
 
 public class DenRegionTest {
 
-	//Tests constructor and getter after a terrain is added to the region
 	@Test
 	public void denConstructorAndGetterTest() {
-		//Create DenTerrain t1 which is connected to t2
-		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(8));
-		DenTerrain t1 = new DenTerrain(7, c1);
-		//Create DenTerrain t2 which is connected to t1
-		ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(7));
-		DenTerrain t2 = new DenTerrain(8, c2);
-		//Create DenRegion r1 which consists of DenTerrain t1
-		DenRegion r1 = new DenRegion(t1);
-		//Add DenTerrain t2 to DenRegion r1
-		r1.addTerain(t2);
-		r1.updateTigers();
+		DenRegion r1 = new DenRegion(1);
 
-		assertEquals(7, r1.getRegionID());
-		assertEquals("Den", r1.getType());
-		//Should number of terrains be 2 or 1 since they are the same type?
-		assertEquals(2, r1.getNumberOfTerrains());
+		assertEquals(1, r1.getRegionID());
+		assertEquals('D', r1.getType());
 		assertEquals(false, r1.hasTigers());
+		assertEquals(0, r1.getNumOfTigers());
+		assertEquals(0, r1.getNumOfTerrains());
+		assertFalse(r1.isCompleted());
+		assertFalse(r1.isScored());
 	}
 
 	@Test
+	//Test if 2 terrains can be added to a region
+	public void addTerrainTest() {
+		//Create DenTerrain t1 which is connected to t2
+		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(8));
+		DenTerrain t1 = new DenTerrain(c1, 7);
+		//Create DenTerrain t2 which is connected to t1
+		ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(7));
+		DenTerrain t2 = new DenTerrain(c2, 8);
+		//Create DenRegion r1 which consists of DenTerrain t1
+		ArrayList<Terrain> terrains = new ArrayList<Terrain>();
+		terrains.add(t1);
+		terrains.add(t2);
+		DenRegion r1 = new DenRegion(1);
+		//Add DenTerrain t2 to DenRegion r1
+		r1.addTerrain(terrains, 1);
+		
+		assertEquals(2, r1.getTerrains().size());
+	}
+	
+	@Test
+	//Test if tiger can be added and removed from region
+	public void addRemoveTigerTest() {
+		DenRegion r1 = new DenRegion(1);
+		Player p1 = new Player("Red", true);
+		TigerObject t1 = new TigerObject(p1);
+		r1.addTiger(t1);
+		
+		assertTrue(r1.hasTigers());
+		
+		r1.removeTiger(0);
+		
+		assertFalse(r1.hasTigers());
+	}
+	
+	/*@Test
+	//Test if croc can be added and removed from region
+	public void addRemoveCrocTest() {
+		DenRegion r1 = new DenRegion(1);
+		Player p1 = new Player("Red", true);
+		CrocodileObject c1 = new CrocodileObject(p1);
+		r1.addCrocodile(c1);
+		
+		assertTrue(r1.hasCrocodiles());
+		
+		r1.removeCrocodile();
+		
+		assertFalse(r1.hasCrocodiles());
+	}*/
+	
+	@Test
+	//Test if all tigers can be removed from region
+	public void removeAllTigerTest() {
+		DenRegion r1 = new DenRegion(1);
+		Player p1 = new Player("Red", true);
+		TigerObject t1 = new TigerObject(p1);
+		r1.addTiger(t1);
+		
+		assertEquals(1, r1.getNumOfTigers());
+		
+		r1.removeAllTigers();
+		
+		assertEquals(0, r1.getNumOfTigers());
+	}
+	
+	@Test
+	//Tests number of neighboring tiles to a den
+	public void getNumberOfNeighboringTilesTest() {
+		DenRegion r1 = new DenRegion(1);
+		Location l1 = new Location(0,0);
+		Location l2 = new Location(1,0);
+		ArrayList<Location> neighbors = new ArrayList<Location>();
+		neighbors.add(l1);
+		neighbors.add(l2);
+		r1.setMoore(neighbors);
+
+		assertEquals(2, r1.getNumberOfNeighboringTiles());
+	}
+	
+	@Test
+	//Tests if den is complete
+	public void denCompleteTest() {
+		DenRegion r1 = new DenRegion(1);
+		Location l1 = new Location(0,0);
+		Location l2 = new Location(1,0);
+		Location l3 = new Location(2,0);
+		Location l4 = new Location(3,0);
+		Location l5 = new Location(4,0);
+		Location l6 = new Location(5,0);
+		Location l7 = new Location(6,0);
+		Location l8 = new Location(7,0);
+		Location l9 = new Location(8,0);
+		ArrayList<Location> neighbors = new ArrayList<Location>();
+		neighbors.add(l1);
+		neighbors.add(l2);
+		neighbors.add(l3);
+		neighbors.add(l4);
+		neighbors.add(l5);
+		neighbors.add(l6);
+		neighbors.add(l7);
+		neighbors.add(l8);
+		neighbors.add(l9);
+		r1.setMoore(neighbors);
+
+		assertEquals(9, r1.getNumberOfNeighboringTiles());
+		assertTrue(r1.isCompleted());
+	}
+	
+	@Test
+	public void toStringDenRegionTest() {
+		DenRegion r1 = new DenRegion(1);
+
+		assertEquals("The region 1 of type D has 0 Tiger(s), and 0 Terrain(s).", r1.toString());
+	}
+	
+	//DEPRECATED
+	/*@Test
 	public void updateTigersTest() {
 		//Create DenTerrain t1 which is connected to t2
 		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 8));
@@ -61,9 +170,9 @@ public class DenRegionTest {
 		t2.addTiger(tiger2);
 		r1.addTerain(t2);
 		assertEquals(2, r1.getTigers().size());
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void removeAllTigersTest() {
 		//Create DenTerrain t1 which is connected to t2
 		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 8));
@@ -84,9 +193,9 @@ public class DenRegionTest {
 		r1.removeAllTigers();
 
 		assertEquals(false, r1.hasTigers());
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void addRegionTest() {
 		//Create DenTerrain t1 which is connected to t2
 		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(8));
@@ -101,9 +210,9 @@ public class DenRegionTest {
 		r1.addRegion(r2);
 
 		assertEquals(2, r1.getNumberOfTerrains());
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void addRegionExceptionTest() {
 		boolean thrown = false;
 		try {
@@ -122,9 +231,9 @@ public class DenRegionTest {
 			thrown = true;
 		}
 		assertTrue(thrown);
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void addTerrainExceptionTest() {
 		boolean thrown = false;
 		try {
@@ -141,37 +250,6 @@ public class DenRegionTest {
 			thrown = true;
 		}
 		assertTrue(thrown);
-	}
-
-	//TODO
-	// Not complete/correct yet - need to actually place tiles on board in order to test
-	@Test
-	public void getNumberOfNeighboringTilesTest() {
-		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2));
-		DenTerrain t1 = new DenTerrain(1, c1);
-		DenRegion r1 = new DenRegion(t1);
-		ArrayList<Integer> c2 = new ArrayList<>();
-		LakeTerrain t2 = new LakeTerrain(2, c2);
-		ArrayList<Integer> c3 = new ArrayList<>(Arrays.asList(1));
-		DenTerrain t3 = new DenTerrain(3, c3);
-		r1.addTerain(t3);
-
-		assertEquals(1, r1.getNumberOfNeighboringTiles());
-	}
-
-	//TODO
-	@Test
-	public void updateNeighboringTilesTest() {
-
-	}
-
-	@Test
-	public void toStringDenRegionTest() {
-		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 6));
-		DenTerrain t1 = new DenTerrain(7, c1);
-		DenRegion r1 = new DenRegion(t1);
-
-		assertEquals("The region 7 of type Den has 0 Meepel(s) and 1 Terrain(s)", r1.toString());
-	}
+	}*/
 }
-*/
+

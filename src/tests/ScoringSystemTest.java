@@ -1,5 +1,5 @@
 package tests;
-
+//DEPRECATED
 /*import static org.junit.Assert.*;
 
 import java.util.ArrayList;

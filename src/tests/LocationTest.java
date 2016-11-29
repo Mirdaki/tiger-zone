@@ -1,6 +1,6 @@
 package tests;
 
-/*import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -12,14 +12,11 @@ public class LocationTest {
 	public void locationConstructorAndGetterTest() {
 		Location l1 = new Location();
 		Location l2 = new Location(2, 3);
-		Location l3 = new Location(l2);
 
-		assertEquals(0, l1.getRow());
-		assertEquals(0, l1.getCol());
-		assertEquals(7, l2.getRow());
-		assertEquals(8, l2.getCol());
-		assertEquals(7, l3.getRow());
-		assertEquals(8, l2.getCol());
+		assertEquals(5, l1.getX());
+		assertEquals(5, l1.getY());
+		assertEquals(7, l2.getX());
+		assertEquals(2, l2.getY());
 	}
 
 	@Test
@@ -37,4 +34,3 @@ public class LocationTest {
 		assertEquals("(2,3)", l1.toString());
 	}
 }
-*/

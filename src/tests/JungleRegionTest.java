@@ -1,44 +1,141 @@
 package tests;
 
-/*import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Test;
 
+import entities.CrocodileObject;
+import entities.DenRegion;
+import entities.DenTerrain;
 import entities.JungleRegion;
 import entities.JungleTerrain;
 import entities.LakeRegion;
 import entities.LakeTerrain;
 import entities.Player;
+import entities.Terrain;
 import entities.TigerObject;
 
 public class JungleRegionTest {
 
 	//Tests constructor and getter after a terrain is added to the region
-	@Test
+	/*@Test
 	public void jungleConstructorAndGetterTest() {
-		//Create JungleTerrain t1 which is connected to t2
+		//Create JungleTerrain t1
 		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(8));
-		JungleTerrain t1 = new JungleTerrain(7, c1);
-		//Create JungleTerrain t2 which is connected to t1
-		ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(7));
-		JungleTerrain t2 = new JungleTerrain(8, c2);
+		JungleTerrain t1 = new JungleTerrain(c1, 7);
 		//Create JungleRegion r1 which consists of JungleTerrain t1
 		JungleRegion r1 = new JungleRegion(t1);
-		//Add JungleTerrain t2 to JungleRegion r1
-		r1.addTerain(t2);
-		r1.updateTigers();
 
-		assertEquals(7, r1.getRegionID());
-		assertEquals("Jungle", r1.getType());
-		//Should number of terrains be 2 or 1 since they are the same type?
-		assertEquals(2, r1.getNumberOfTerrains());
+		assertEquals(1, r1.getRegionID());
+		assertEquals('J', r1.getType());
 		assertEquals(false, r1.hasTigers());
+		assertEquals(0, r1.getNumOfTigers());
+		assertEquals(0, r1.getNumOfTerrains());
+	}*/
+	
+	/*@Test
+	//Test if 2 terrains can be added to a region
+	public void addTerrainTest() {
+		//Create JungleTerrain t1 which is connected to t2
+		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(8));
+		JungleTerrain t1 = new JungleTerrain(c1, 7);
+		//Create JungleTerrain t2 which is connected to t1
+		ArrayList<Integer> c2 = new ArrayList<>(Arrays.asList(7));
+		JungleTerrain t2 = new JungleTerrain(c2, 8);
+		//Create JungleRegion r1 which consists of JungleTerrain t1 and t2
+		ArrayList<Terrain> terrains = new ArrayList<Terrain>();
+		terrains.add(t1);
+		terrains.add(t2);
+		JungleRegion r1 = new JungleRegion(1);
+		//Add JungleTerrain t2 to JungleRegion r1
+		r1.addTerrain(terrains, 1);
+		
+		assertEquals(2, r1.getTerrains().size());
+	}*/
+	
+	@Test
+	//Test if tiger can be added and removed from region
+	public void addRemoveTigerTest() {
+		JungleRegion r1 = new JungleRegion(1);
+		Player p1 = new Player("Red", true);
+		TigerObject t1 = new TigerObject(p1);
+		r1.addTiger(t1);
+		
+		assertTrue(r1.hasTigers());
+		
+		r1.removeTiger(0);
+		
+		assertFalse(r1.hasTigers());
+	}
+	
+	/*@Test
+	//Test if croc can be added and removed from region
+	public void addRemoveCrocTest() {
+		JungleRegion r1 = new JungleRegion(1);
+		Player p1 = new Player("Red", true);
+		CrocodileObject c1 = new CrocodileObject(p1);
+		r1.addCrocodile(c1);
+		
+		assertTrue(r1.hasCrocodiles());
+		
+		r1.removeCrocodile();
+		
+		assertFalse(r1.hasCrocodiles());
+	}*/
+	
+	@Test
+	//Test if all tigers can be removed from region
+	public void removeAllTigerTest() {
+		JungleRegion r1 = new JungleRegion(1);
+		Player p1 = new Player("Red", true);
+		TigerObject t1 = new TigerObject(p1);
+		r1.addTiger(t1);
+		
+		assertEquals(1, r1.getNumOfTigers());
+		
+		r1.removeAllTigers();
+		
+		assertEquals(0, r1.getNumOfTigers());
+	}
+	
+	@Test
+	//Test if den can be added from region
+	public void denAddTest() {
+		DenRegion r1 = new DenRegion(1);
+		JungleRegion r2 = new JungleRegion(2);
+		r2.addDen(1);
+		
+		assertEquals(1, r2.getDens().size());
+	}
+	
+	@Test
+	//Test if den can be added from region
+	public void denRemoveTest() {
+		DenRegion r1 = new DenRegion(1);
+		JungleRegion r2 = new JungleRegion(2);
+		r2.addDen(1);
+		
+		assertEquals(1, r2.getDens().size());
+		
+		r2.removeDen(1);
+		
+		assertEquals(0, r2.getDens().size());
 	}
 
-	@Test
+	/*@Test
+	public void toStringJungleRegionTest() {
+		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 6));
+		JungleTerrain t1 = new JungleTerrain(c1, 7);
+		JungleRegion r1 = new JungleRegion(t1);
+
+		assertEquals("The region 1 of type J has 0 Tiger(s), and 1 Terrain(s).", r1.toString());
+	}*/
+	
+	//DEPRECATED
+	/*@Test
 	public void updateTigersTest() {
 		//Create JungleTerrain t1 which is connected to t2
 		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 8));
@@ -61,9 +158,9 @@ public class JungleRegionTest {
 		t2.addTiger(tiger2);
 		r1.addTerain(t2);
 		assertEquals(2, r1.getTigers().size());
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void removeAllTigersTest() {
 		//Create JungleTerrain t1 which is connected to t2
 		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 8));
@@ -84,9 +181,9 @@ public class JungleRegionTest {
 		r1.removeAllTigers();
 
 		assertEquals(false, r1.hasTigers());
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void addRegionTest() {
 		//Create JungleTerrain t1 which is connected to t2
 		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(8));
@@ -101,9 +198,9 @@ public class JungleRegionTest {
 		r1.addRegion(r2);
 
 		assertEquals(2, r1.getNumberOfTerrains());
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void addRegionExceptionTest() {
 		boolean thrown = false;
 		try {
@@ -122,9 +219,9 @@ public class JungleRegionTest {
 			thrown = true;
 		}
 		assertTrue(thrown);
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void addTerrainExceptionTest() {
 		boolean thrown = false;
 		try {
@@ -141,11 +238,9 @@ public class JungleRegionTest {
 			thrown = true;
 		}
 		assertTrue(thrown);
-	}
+	}*/
 
-	//TODO
-	// Not complete/correct yet - need to actually place tiles on board in order to test
-	@Test
+	/*@Test
 	public void getNumberOfNeighboringLakesTest() {
 		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 3));
 		JungleTerrain t1 = new JungleTerrain(1, c1);
@@ -162,15 +257,6 @@ public class JungleRegionTest {
 		r1.addTerain(t5);
 
 		assertEquals(2, r1.getNumberOfNeighboringLakes());
-	}
-
-	@Test
-	public void toStringJungleRegionTest() {
-		ArrayList<Integer> c1 = new ArrayList<>(Arrays.asList(2, 5, 6));
-		JungleTerrain t1 = new JungleTerrain(7, c1);
-		JungleRegion r1 = new JungleRegion(t1);
-
-		assertEquals("The region 7 of type Jungle has 0 Meepel(s) and 1 Terrain(s)", r1.toString());
-	}
+	}*/
 }
-*/
+

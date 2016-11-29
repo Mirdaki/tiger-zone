@@ -1,6 +1,6 @@
 package tests;
 
-/*import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -13,14 +13,54 @@ public class BoardObjectTest {
 
 	@Test
 	public void boardObjectConstructorAndGetterTest() {
-		BoardObject test = new BoardObject(); //create the board
-
-		//Test if first available spot is (0,0) after constructed
-		assertEquals(5, test.getAS().get(0).getRow());
-		assertEquals(5, test.getAS().get(0).getCol());
+		BoardObject board = new BoardObject(); //create the board
+		TigerTile t = new TigerTile("TLTJ-", 0);
+		Player[] players = new Player[2];
+		Player p1 = new Player("Red", true);
+		Player p2 = new Player("Blue", false);
+		players[0] = p1;
+		players[1] = p2;
+		board.setPlayers(players);
+		board.start(t, 0, 0, 0);
+		
+		assertEquals(5, board.getAS().get(0).getX());
+		assertEquals(4, board.getAS().get(0).getY());
 	}
 
 	@Test
+	public void boardSetPlayersTest() {
+		Player[] players = new Player[2];
+		Player p1 = new Player("Red", true);
+		Player p2 = new Player("Blue", false);
+		players[0] = p1;
+		players[1] = p2;
+		BoardObject board = new BoardObject();
+		board.setPlayers(players);
+		
+		assertEquals("Red", board.getPlayer(0).getID());
+		assertEquals("Blue", board.getPlayer(1).getID());
+	}
+	
+	@Test
+	public void boardActivePlayerTest() {
+		BoardObject board = new BoardObject(); //create the board
+		TigerTile t = new TigerTile("TLTJ-", 0);
+		Player[] players = new Player[2];
+		Player p1 = new Player("Red", true);
+		Player p2 = new Player("Blue", false);
+		players[0] = p1;
+		players[1] = p2;
+		board.setPlayers(players);
+		board.start(t, 0, 0, 0);
+		
+		assertEquals("Red", board.getActivePlayer().getID());
+		
+		board.switchToActivePlayer(p2);
+		
+		assertEquals("Blue", board.getActivePlayer().getID());
+	}
+	
+	/*@Test
 	public void validTest() {
 		BoardObject test = new BoardObject(); //create the board
 		test.start();
@@ -104,6 +144,6 @@ public class BoardObjectTest {
 		//Get player info
 		assertEquals(0, test.getPlayer(0).getID());
 		assertEquals(1, test.getPlayer(1).getID());
-	}
+	}*/
 }
-*/
+
