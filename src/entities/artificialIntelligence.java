@@ -195,13 +195,14 @@ public class artificialIntelligence {
 					maxPotential = potentials.get(i);
 				}
 			}
-			
+			boolean placeprinted = false;
 			if(maxPotential != -1) { 
 				if(currentBoard.getPlayer(0).getNumOfTigers() == 0) 
 				{
 					if(currentBoard.getPlayer(0).getNumOfCrocs() == 0)
 					{
 						ourMove += " NONE";
+						placeprinted = true;
 					}
 					else
 					{
@@ -212,6 +213,7 @@ public class artificialIntelligence {
 								if(tigers[1] != 0 && tigers[0] == 0) {
 								// place croc
 								ourMove += " CROCODILE";	
+								placeprinted = true;
 								}
 							}
 					}
@@ -224,7 +226,8 @@ public class artificialIntelligence {
 					else
 						ourMove += " NONE";	
 				}	
-
+				if(!placeprinted)
+					ourMove += " NONE";	
 			}
 			else
 			{
