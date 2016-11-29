@@ -167,6 +167,7 @@ public class Game {
 
 	public void pass() {
 		board.getTile(move);
+		board.confirm();
 		move++;
 	}
 
