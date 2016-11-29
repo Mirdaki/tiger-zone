@@ -15,9 +15,28 @@ public class Game {
 		this.gameID = gameID;
 		players = new Player[2];
 		board = new BoardObject();
+		AI ai = new AI(board);
 		move = 0;
 	}
 
+	
+	public boolean play() { 
+		
+		System.out.print(makeMove2(tile));
+		
+	}
+	
+	public String makeMove2() {
+		//AI will let this method know if tile is unplaceable.
+		//If unplaceable, AI will decide what to do with current turn.
+		//If placeable, pass tile string to AI, get the move, and pass to client.
+		TigerTile tile = board.getTile(move++);
+		String value = ai.getMove(tile);
+		return value;
+	}
+
+	
+	
 	//ACCESSORS
 	public String getGameID() {
 		return gameID;

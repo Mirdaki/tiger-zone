@@ -408,6 +408,8 @@ public class BoardObject {
 		board[row][col] = tile;
 		recentPlacement = coord;
 		recentTile = tile;
+		
+		
 		return true;
 	}
 
@@ -542,6 +544,15 @@ public class BoardObject {
 		pending = false;
 		tigerPlaced = false;
 		crocodilePlaced = false;
+		
+		if (activePlayer.equals(players[0]))
+		{
+			activePlayer = players[1];
+		}
+		else { 
+			activePlayer = players[0];
+		}
+
 	}	
 
 	//	public void switchPlayers(Player player) { 
@@ -988,6 +999,8 @@ public class BoardObject {
 		setStart(startX, startY);
 		availableSpots.add(new Location(startX,startY));
 		place(startTile, new Location(startX,startY));
+		activePlayer = players[0];
+
 		pending = false;
 	}
 
