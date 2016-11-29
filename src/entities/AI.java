@@ -26,18 +26,18 @@ public class AI {
 		}
 		//Collections.sort(descendingRegions, Collections.reverseOrder());
 		int n = descendingRegions.size();
-       	Region temp;
-        for(int i=0; i < n; i++){
-            for(int j=1; j < (n-i); j++){          
-               	if(descendingRegions.get(j-1).getPotential() < descendingRegions.get(j).getPotential()){
-                    //swap the elements!
-                    temp = descendingRegions.get(j-1);
-                    descendingRegions.add((j-1), descendingRegions.get(j));
-                    descendingRegions.add(j,temp);
-                }               
-            }
-        }
-        return descendingRegions;
+		Region temp;
+		for(int i=0; i < n; i++){
+			for(int j=1; j < (n-i); j++){          
+				if(descendingRegions.get(j-1).getPotential() < descendingRegions.get(j).getPotential()){
+					//swap the elements!
+					temp = descendingRegions.get(j-1);
+					descendingRegions.add((j-1), descendingRegions.get(j));
+					descendingRegions.add(j,temp);
+				}               
+			}
+		}
+		return descendingRegions;
 	}
 
 	public int[] checkOurTigers(Region tempRegion) {
@@ -54,7 +54,7 @@ public class AI {
 		return theArray;
 
 	}
-/*
+	/*
 	public boolean isAdjacent(Location ps, Location r)
 	{
 		if((ps.getX() == r.getX() && (Math.abs(ps.getY()- r.getY()) == 1)) || (ps.getY()==r.getY() && (Math.abs(ps.getX()-r.getX())==1))) 
@@ -66,13 +66,13 @@ public class AI {
 			return false;
 		}
 	}
-*/
+	 */
 	public String getMove(TigerTile currentTile) {
 		movenumber++;
 		if(!currentBoard.canPlace(currentTile)) {
 			ourMove = "TILE " + currentTile.getType() + " ";
-			if(currentBoard.getactivePlayer().getNumOfTigers() == 0) { 
-			// pop out tiger we own from least valued incomplete region.
+			if(currentBoard.getActivePlayer().getNumOfTigers() == 0) { 
+				// pop out tiger we own from least valued incomplete region.
 				ArrayList<Region> dlist = orderedListOfRegions();
 				for(int i = dlist.size() - 1; i >= 0; i--) {	// starting from least valued region
 					int tigers[] = checkOurTigers(dlist.get(i));
@@ -85,30 +85,35 @@ public class AI {
 								break;
 							}
 						}
-					break;
-				   }
+						break;
+					}
 				}
 			}
-			else if(currentBoard.getactivePlayer().getNumOfTigers() > 1) {
+			else if(currentBoard.getActivePlayer().getNumOfTigers() > 1) {
+
 				ArrayList<Region> desclist = orderedListOfRegions();
 				for(int i = 0; i < desclist.size(); i++) {
 					int tigers[] = checkOurTigers(desclist.get(i));
 					if(tigers[1] - tigers[0] == 1) {
 						//place Tiger
 						for(int j = 0; j < desclist.get(i).getNumOfTigers(); j++) {
-							if(desclist.get(i).theTigers.get(j).getTigerOwner() == currentBoard.getactivePlayer()) {
+							if(desclist.get(i).theTigers.get(j).getTigerOwner() == currentBoard.getActivePlayer()) {
 								Location addhere = desclist.get(i).theTigers.get(j).getLocation();
 								ourMove += "UNPLACEABLE ADD ANOTHER TIGER TO" + " " + addhere.getX() + " " + addhere.getY();
-							break;
+								break;
+							}
 						}
-						}
+						break;
+					} else {
+						ourMove += "UNPLACEABLE PASS";
 						break;
 					}
 				}
+
 			}
 			else {
 				ourMove += "UNPLACEABLE PASS";
-     		}
+			}
 		}
 		else {
 			ourMove = "PLACE " + currentTile.getType() + " ";	
@@ -133,49 +138,50 @@ public class AI {
 				int maxMoore = -1;
 				Location bestloc = null;;
 				for (HashMap.Entry<Location, Integer> entry : uniqueLocation.entrySet()) {
-				    Location location = entry.getKey();
-				    if(currentBoard.getMoore(location).size() > maxMoore)
-				    {
-				    	maxMoore = currentBoard.getMoore(location).size();
-				    	bestloc = location;
-				    }
+					Location location = entry.getKey();
+					if(currentBoard.getMoore(location).size() > maxMoore)
+					{
+						maxMoore = currentBoard.getMoore(location).size();
+						bestloc = location;
 					}
-			   for (int i = 0; i < tempPS.size(); i++)
-			   {
-				   if(tempPS.get(i).getLocation()==bestloc)
-				   {
-					   index = i;
-				   }
-			   }
+				}
+				for (int i = 0; i < tempPS.size(); i++)
+				{
+					if(tempPS.get(i).getLocation()==bestloc)
+					{
+						index = i;
+					}
+				}
+
 			}
 			// Step 1 - pick random spot out of eligible ones.
 			else
 			{
-			 	Random randomGenerator = new Random();
-			 	index = randomGenerator.nextInt(tempPS.size());
+				Random randomGenerator = new Random();
+				index = randomGenerator.nextInt(tempPS.size());
 			}
 			TilePair tempSpot = tempPS.get(index);
 			Location tileLoc = tempSpot.getLocation();
 			int orientation = tempSpot.getOrientation();
-			
+
 			int row = tileLoc.getY();
 			int col = tileLoc.getX();
-			
+
 			int adjustedY = BoardObject.startY + (BoardObject.COLSIZE/2 - row);
 			int adjustedX = BoardObject.startX + (col - BoardObject.ROWSIZE/2);
-			
+
 			ourMove += "AT " + adjustedX + " " + adjustedY + " " + orientation; 
-			
+
 			currentTile.setOrientation(orientation / 90);
 			currentBoard.place(currentTile, new Location(adjustedX, adjustedY));
 			TigerTile temp = currentBoard.getRecentTile();
 			Terrain[] terrains = temp.getTerrains();
 			Map<Integer, Region> allRegions = currentBoard.getAll();
-			
+
 			ArrayList<Integer> potentials = new ArrayList<Integer>();
 			ArrayList<Integer> potentialRegionID = new ArrayList<Integer>();
 			ArrayList<Boolean> prevstatus = new ArrayList<Boolean>();
-			
+
 			for (int i = 0; i < terrains.length; i++) { 
 				int regionID = terrains[i].getRegionID();
 				Region region = allRegions.get(regionID);
@@ -185,35 +191,35 @@ public class AI {
 					potentialRegionID.add(region.getRegionID());
 				}
 			}
-			
+
 			int maxPotential = -1;
 			int maxIndex = 0;
-			
+
 			for (int i = 0; i < potentials.size(); i++) {
 				if(potentials.get(i) > maxPotential) { 
 					maxIndex = i;
 					maxPotential = potentials.get(i);
 				}
 			}
-			
+
 			if(maxPotential != -1) { 
-				if(currentBoard.getactivePlayer().getNumOfTigers() == 0) 
+				if(currentBoard.getActivePlayer().getNumOfTigers() == 0) 
 				{
-					if(currentBoard.getactivePlayer().getNumOfCrocs() == 0)
+					if(currentBoard.getActivePlayer().getNumOfCrocs() == 0)
 					{
 						ourMove += " NONE";
 					}
 					else
 					{
 						Region theregion = allRegions.get(potentialRegionID.get(maxIndex));
-							if(theregion.getType()=='L')
-							{
-								int tigers[] = checkOurTigers(theregion);
-								if(tigers[1] != 0 && tigers[0] == 0) {
+						if(theregion.getType()=='L')
+						{
+							int tigers[] = checkOurTigers(theregion);
+							if(tigers[1] != 0 && tigers[0] == 0) {
 								// place croc
 								ourMove += " CROCODILE";	
-								}
 							}
+						}
 					}
 				}
 				else
@@ -221,68 +227,70 @@ public class AI {
 					Region region = allRegions.get(potentialRegionID.get(maxIndex));
 					if((prevstatus.get(maxIndex)==false && region.isCompleted==true) || currentTile.getCenter()=='X' || movenumber%4==0)
 						ourMove += " TIGER " + region.getRecentMin();	
-					else
+					else { 
 						ourMove += " NONE";	
+					}
 				}	
-
+				ourMove += " NONE";
 			}
 			else
 			{
+
 				ourMove += " NONE";	
 			}
-						
-//			for(int i = 0; i < tempArray.size(); i++) {
-//				Region temp = tempArray.get(i);
-//				Set<Integer> ourTileList = temp.getTileList();
-//				Iterator<Integer> it = ourTileList.iterator();
-//				int or = 0;
-//     			while(it.hasNext()) {
-//
-//     				TigerTile tiletoplay = currentBoard.tiles.get(it.next());
-//
-//     				Location tileLoc = tiletoplay.getCoord();
-//     				for(Map.Entry<Location, Integer> entry : uniqueLocation.entrySet()) {
-//     					if(isAdjacent(entry.getKey(), tileLoc)) {
-//     						currentBoard.place(currentTile, tileLoc);
-//     						for(int y = 0; y < tempPS.size(); y++) {
-//
-//     							if(tempPS.get(i).getLocation() == tileLoc) {
-//     								tigerPlacer = temp;
-//     								or = tempPS.get(i).getOrientation();
-//     								/*int or2;
-//     								switch(or)
-//     								{
-//     									case 0: 
-//     										or2 = 0;
-//     										break;
-//     									case 90:
-//     										or2 = 1;
-//     										break;
-//     									case 180:
-//     										or2 = 2;
-//     										break;
-//     									case 270:
-//     										or2 = 3;
-//     										break;
-//     								}*/
-//     								//currentTile.setOrientation(or2);
-//     							}
-//     						}
-//     						
-//     						ourMove += "AT " + tileLoc.getX() + " " + tileLoc.getY() + " " + or;
-//
-//     						break;
-//     					}
-//     				}
-//     				break;
-//     			}
-//     			break;
-//			}
-//
-//			//check tiles in regions
-//			//if any playable spot is adjacent to tile in region place tile
+
+			//			for(int i = 0; i < tempArray.size(); i++) {
+			//				Region temp = tempArray.get(i);
+			//				Set<Integer> ourTileList = temp.getTileList();
+			//				Iterator<Integer> it = ourTileList.iterator();
+			//				int or = 0;
+			//     			while(it.hasNext()) {
+			//
+			//     				TigerTile tiletoplay = currentBoard.tiles.get(it.next());
+			//
+			//     				Location tileLoc = tiletoplay.getCoord();
+			//     				for(Map.Entry<Location, Integer> entry : uniqueLocation.entrySet()) {
+			//     					if(isAdjacent(entry.getKey(), tileLoc)) {
+			//     						currentBoard.place(currentTile, tileLoc);
+			//     						for(int y = 0; y < tempPS.size(); y++) {
+			//
+			//     							if(tempPS.get(i).getLocation() == tileLoc) {
+			//     								tigerPlacer = temp;
+			//     								or = tempPS.get(i).getOrientation();
+			//     								/*int or2;
+			//     								switch(or)
+			//     								{
+			//     									case 0: 
+			//     										or2 = 0;
+			//     										break;
+			//     									case 90:
+			//     										or2 = 1;
+			//     										break;
+			//     									case 180:
+			//     										or2 = 2;
+			//     										break;
+			//     									case 270:
+			//     										or2 = 3;
+			//     										break;
+			//     								}*/
+			//     								//currentTile.setOrientation(or2);
+			//     							}
+			//     						}
+			//     						
+			//     						ourMove += "AT " + tileLoc.getX() + " " + tileLoc.getY() + " " + or;
+			//
+			//     						break;
+			//     					}
+			//     				}
+			//     				break;
+			//     			}
+			//     			break;
+			//			}
+			//
+			//			//check tiles in regions
+			//			//if any playable spot is adjacent to tile in region place tile
 		} 
-		
+
 		return ourMove;
 	} // end of get move
 

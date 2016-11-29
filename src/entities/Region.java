@@ -41,6 +41,7 @@ public abstract class Region {
 		theTerrains = new ArrayList<Terrain>();
 		theTigers   = new ArrayList<TigerObject>();
 		tileList	= new LinkedHashSet<Integer>();
+		theCrocodiles = new ArrayList<CrocodileObject>();
 	}
 
 	/**
@@ -56,6 +57,7 @@ public abstract class Region {
 		theTerrains = new ArrayList<Terrain>();
 		theTigers   = new ArrayList<TigerObject>();
 		tileList	= new LinkedHashSet<Integer>();
+		theCrocodiles = new ArrayList<CrocodileObject>();
 		addTerrain(aTerrain, theRegionID);
 	}
 
@@ -71,6 +73,7 @@ public abstract class Region {
 		theTerrains = new ArrayList<Terrain>();
 		theTigers   = new ArrayList<TigerObject>();
 		tileList	= new LinkedHashSet<Integer>();
+		theCrocodiles = new ArrayList<CrocodileObject>();
 
 		// Add all and update objects
 		addTerrain(aTerrains, theRegionID);

@@ -156,7 +156,7 @@ public abstract class Terrain {
 	public void setOrientation(int orientation) {
 
 		for (int i = 0; i < theTileConnections.size(); i++) {
-			int newConnect = Math.floorMod((theTileConnections.get(i) + 2 * orientation),8);
+			int newConnect = Math.floorMod((theTileConnections.get(i) - 2 * orientation),8);
 			theTileConnections.set(i, newConnect);
 		}
 //		this.orientation = orientation;

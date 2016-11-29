@@ -10,33 +10,62 @@ public class Game {
 	protected Player[] players;
 	protected BoardObject board;
 	protected int move;
+	protected AI ai;
+	protected TileDeck randomDeck;
 
 	public Game(String gameID) {
 		this.gameID = gameID;
 		players = new Player[2];
 		board = new BoardObject();
-		AI ai = new AI(board);
+		ai = new AI(board);
 		move = 0;
+		randomDeck = new TileDeck();
 	}
 
-	
+
 	public boolean play() { 
-		
-		System.out.print(makeMove2(tile));
-		
+
+		System.out.print(makeMove2());
+		System.out.println();
+		if (move < 77) return true;
+		return false;
 	}
-	
+
 	public String makeMove2() {
 		//AI will let this method know if tile is unplaceable.
 		//If unplaceable, AI will decide what to do with current turn.
 		//If placeable, pass tile string to AI, get the move, and pass to client.
-		TigerTile tile = board.getTile(move++);
+		TigerTile tile = randomDeck.getRandom();
+		move++;
 		String value = ai.getMove(tile);
+		
+		String[] results = value.split("\\s+");
+//		System.out.println(results[0]);
+		if (results[0].equals("PLACE")) {
+			if (results[6].equals("TIGER")) { 
+				board.placeTiger(Integer.parseInt(results[7]));
+			}
+//			else if (results[6].equals("CROCODILE")) { 
+//				board.placeCrocodile();
+//			}
+		}
+
+		//		if (animal.equals("TIGER")){
+		//			board.placeTiger(tigerZone);
+		//		}
+		//		else if (animal.equals("CROCODILE")){
+		//			board.placeCrocodile();
+		//		}
+
+
+
+
+		board.confirm();
 		return value;
 	}
 
-	
-	
+
+
 	//ACCESSORS
 	public String getGameID() {
 		return gameID;
@@ -102,14 +131,14 @@ public class Game {
 		String value = AI.getMove(tile);
 		return value;
 	}
-	
-	
+
+
 	public void placeTile(String tileType, int tileX, int tileY, int orientation) { 
-		
+
 		TigerTile tile = new TigerTile(tileType, orientation);
-		
+
 		board.place(tile, new Location(tileX, tileY));
-		
+
 	}
 
 	//If player1 == true, it is player 1's turn

@@ -25,56 +25,73 @@ public class TigerZone {
 
 		BoardObject board = game.getBoardObject();
 		game.setPlayers("fuck", "you");
-
-		ArrayList<String> what = new ArrayList<String>();
-		what.add("TLJT-");
-		what.add("JLLJ-");
-		what.add("LLLL-");
-		what.add("TTTT-");
-
 		game.setStartTile("TLTJ-",5,5,0);
-		game.setTileStack(what);
 
-		Scanner in = new Scanner(System.in);
-		System.out.println("Option: ");
-		String input = "";
+//		ArrayList<String> what = new ArrayList<String>();
+//		what.add("JJTJX");
+//		what.add("JLLJ-");
+//		what.add("LLLL-");
+//		what.add("TTTT-");
 
+//		game.setTileStack(what);
+
+		while(game.play()) { }
+		board.print();
+		board.end();
 		
-		board.canPlace(new TigerTile("TLTJ-", 0));
-		System.out.println(board.getPossibleSpots());
 		
-		while(true) { 
-			int choice = in.nextInt();
-			in.nextLine();
-			if (choice == 1) { 
-				board.print();
-			}
-			else if (choice == 2) { 
+		System.out.println("COMPLETE REGIONS");				
+		if (board.getComplete().size() == 0) System.out.println("No complete regions");
+		else for (Region region : board.getComplete()) System.out.println(region);
 
-				System.out.print("[TYPE] [X] [Y] [O]");
-				input = in.nextLine();
+		System.out.println("INCOMPLETE REGIONS");
+		for (Map.Entry<Integer, Region> entry : board.getIncomplete().entrySet()) {
+			System.out.println(entry.getKey() + "/" + entry.getValue());
 
-				String[] result = input.split("\\s");								
-				game.placeTile(result[0], Integer.parseInt(result[1]),  Integer.parseInt(result[2]), Integer.parseInt(result[3]));
-//				System.out.print(board.getPossibleSpots());
-				board.confirm();
-			}
-			else if (choice == 3) { 
-				board.printSpots();
-				
-				System.out.println("COMPLETE REGIONS");				
-				if (board.getComplete().size() == 0) System.out.println("No complete regions");
-				else for (Region region : board.getComplete()) System.out.println(region);
-
-				System.out.println("INCOMPLETE REGIONS");
-				for (Map.Entry<Integer, Region> entry : board.getIncomplete().entrySet()) {
-					System.out.println(entry.getKey() + "/" + entry.getValue());
-
-//					for (Terrain terrain : entry.getValue().getTerrains())
-//						System.out.println("\t" + terrain);
-				}
-			}
+//			for (Terrain terrain : entry.getValue().getTerrains())
+//				System.out.println("\t" + terrain);
 		}
+
+//		Scanner in = new Scanner(System.in);
+//		System.out.println("Option: ");
+//		String input = "";
+//
+//		
+//		board.canPlace(new TigerTile("TLTJ-", 0));
+//		System.out.println(board.getPossibleSpots());
+//		
+//		while(true) { 
+//			int choice = in.nextInt();
+//			in.nextLine();
+//			if (choice == 1) { 
+//				board.print();
+//			}
+//			else if (choice == 2) { 
+//
+//				System.out.print("[TYPE] [X] [Y] [O]");
+//				input = in.nextLine();
+//
+//				String[] result = input.split("\\s");								
+//				game.placeTile(result[0], Integer.parseInt(result[1]),  Integer.parseInt(result[2]), Integer.parseInt(result[3]));
+////				System.out.print(board.getPossibleSpots());
+//				board.confirm();
+//			}
+//			else if (choice == 3) { 
+//				board.printSpots();
+//				
+//				System.out.println("COMPLETE REGIONS");				
+//				if (board.getComplete().size() == 0) System.out.println("No complete regions");
+//				else for (Region region : board.getComplete()) System.out.println(region);
+//
+//				System.out.println("INCOMPLETE REGIONS");
+//				for (Map.Entry<Integer, Region> entry : board.getIncomplete().entrySet()) {
+//					System.out.println(entry.getKey() + "/" + entry.getValue());
+//
+////					for (Terrain terrain : entry.getValue().getTerrains())
+////						System.out.println("\t" + terrain);
+//				}
+//			}
+//		}
 
 		//		System.out.println(values[0]);
 		//		 game.placeTile(Integer.parseInt(values[3]), Integer.parseInt(values[4]), Integer.parseInt(values[5]), values[6], true, Integer.parseInt(values[7]));

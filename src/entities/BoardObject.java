@@ -16,7 +16,7 @@ import java.util.Set;
 public class BoardObject {
 
 	//BOARD ATTRIBUTES
-	public static final int ROWSIZE = 11, COLSIZE = 11;
+	public static final int ROWSIZE = 25, COLSIZE = 25;
 	public static int startX = 0;
 	public static int startY = 0;
 
@@ -336,10 +336,10 @@ public class BoardObject {
 		String type = tile.getType();		
 
 		TigerTile north = null, east = null, south = null, west = null;
-		north = board[row - 1][col];
-		east = board[row][col + 1];
-		south = board[row + 1][col];
-		west = board[row][col - 1];
+		if(row > 0) north = board[row - 1][col];
+		if(col < COLSIZE-1) east = board[row][col + 1];
+		if(row < ROWSIZE-1) south = board[row + 1][col];
+		if(col > 0) west = board[row][col - 1];
 
 		Location addnorth = null, addeast = null, addwest = null, addsouth = null;
 
@@ -560,6 +560,12 @@ public class BoardObject {
 	//		else { activePlayer = players[0]; } 
 	//	}
 
+	public Player getActivePlayer() { 
+		
+		return activePlayer;
+		
+	}
+	
 	public void switchToActivePlayer(Player player) {
 		activePlayer = player;
 	}
@@ -597,7 +603,7 @@ public class BoardObject {
 	public void updateDens() {
 
 		//find each den in the map of incomplete regions
-		for(Map.Entry<Integer, Region> entry : incompleteRegions.entrySet()) {
+		for(Map.Entry<Integer, Region> entry : allRegions.entrySet()) {
 
 			//get the potential den and ID
 			Region denRegion = entry.getValue();
@@ -623,7 +629,7 @@ public class BoardObject {
 						if(terrain instanceof JungleTerrain) { 
 							int jungleRegionID = terrain.getRegionID();
 							Region jungleRegion = incompleteRegions.get(jungleRegionID); 
-							((JungleRegion) jungleRegion).addDen(denRegionID);
+							if (jungleRegion != null) ((JungleRegion) jungleRegion).addDen(denRegionID);
 						}
 					}
 				}
@@ -645,8 +651,8 @@ public class BoardObject {
 				int owner = regionOwner(region);
 				if (owner != -1) adjustScore(owner, score);
 
-				region.removeAllCrocodile();
-				region.removeAllTigers();
+				if (region.hasCrocodiles()) region.removeAllCrocodile();
+				if (region.hasTigers()) region.removeAllTigers();
 
 			}
 		}
@@ -696,24 +702,29 @@ public class BoardObject {
 		default: break;
 		}
 
-		Region aRegion = incompleteRegions.get(aMid.getRegionID());
-		Region bRegion = incompleteRegions.get(bMid.getRegionID());
+		Region aRegion = allRegions.get(aMid.getRegionID());
+		Region bRegion = allRegions.get(bMid.getRegionID());
 		ArrayList<Integer> tileConnections = bMid.getTileConnections();
-		ArrayList<TigerObject> tigers = bRegion.getTigers();
-		ArrayList<CrocodileObject> crocodiles = bRegion.getCrocodiles();
-		Iterator<TigerObject> it = tigers.iterator();				
-		Iterator<CrocodileObject> itCrocs = crocodiles.iterator();
-
-		int oldRegionID = bRegion.getRegionID();
+		ArrayList<TigerObject> tigers;
+		ArrayList<CrocodileObject> crocodiles = null;
+		Iterator<TigerObject> it = null;
+		Iterator<CrocodileObject> itCrocs = null;
+		
+		int oldRegionID;
 
 		if(aRegion != null && bRegion != null && aRegion.getRegionID() != bRegion.getRegionID()) { 
-
+			tigers = bRegion.getTigers();
+			crocodiles = bRegion.getCrocodiles();
+			it = tigers.iterator();				
+			itCrocs = crocodiles.iterator();
+			oldRegionID = bRegion.getRegionID();
+			
 			for (Integer entry : tileConnections) bEdges.setEdge(entry, aRegion.getRegionID());
 
 			aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
 
-			while(it.hasNext()) { aRegion.addTiger(bRegion.removeTiger()); }	
-			while(itCrocs.hasNext()) { aRegion.addCrocodile(bRegion.removeCrocodile()); }
+			if (aRegion.hasTigers()) while(it.hasNext()) { aRegion.addTiger(bRegion.removeTiger()); }	
+			if (aRegion.hasCrocodiles()) while(itCrocs.hasNext()) { aRegion.addCrocodile(bRegion.removeCrocodile()); }
 
 			updateMin(aRegion.getRegionID(),aRegion.getRecentMin());
 			incompleteRegions.remove(oldRegionID);
@@ -723,13 +734,14 @@ public class BoardObject {
 		if (bMid.getType() == 'T') { 
 
 			//top
-			aRegion = incompleteRegions.get(aTop.getRegionID());
-			bRegion = incompleteRegions.get(bTop.getRegionID());
-			tigers = bRegion.getTigers();
-			it = tigers.iterator();
-			itCrocs = crocodiles.iterator();
+			aRegion = allRegions.get(aTop.getRegionID());
+			bRegion = allRegions.get(bTop.getRegionID());
 
 			if(aRegion != null && bRegion != null && aRegion.getRegionID() != bRegion.getRegionID()) { 
+				tigers = bRegion.getTigers();
+				if(tigers != null) it = tigers.iterator();
+				if (crocodiles != null) itCrocs = crocodiles.iterator();
+
 				oldRegionID = bRegion.getRegionID();
 
 				tileConnections = bTop.getTileConnections();
@@ -737,21 +749,22 @@ public class BoardObject {
 
 				aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
 
-				while(it.hasNext()) { aRegion.addTiger(bRegion.removeTiger()); }	
-				while(itCrocs.hasNext()) { aRegion.addCrocodile(bRegion.removeCrocodile()); }
+				if (aRegion.hasTigers()) while(it.hasNext()) { aRegion.addTiger(bRegion.removeTiger()); }	
+				if (aRegion.hasCrocodiles()) while(itCrocs.hasNext()) { aRegion.addCrocodile(bRegion.removeCrocodile()); }
 
 				updateMin(aRegion.getRegionID(),aRegion.getRecentMin());
 				incompleteRegions.remove(oldRegionID);
 			} 
 
 			//bottom
-			aRegion = incompleteRegions.get(aBot.getRegionID());
-			bRegion = incompleteRegions.get(bBot.getRegionID());
-			tigers = bRegion.getTigers();
-			it = tigers.iterator();
-			itCrocs = crocodiles.iterator();
+			aRegion = allRegions.get(aBot.getRegionID());
+			bRegion = allRegions.get(bBot.getRegionID());
 
 			if(aRegion != null && bRegion != null && aRegion.getRegionID() != bRegion.getRegionID()) { 
+				tigers = bRegion.getTigers();
+				if(tigers != null) it = tigers.iterator();
+				if (crocodiles != null) itCrocs = crocodiles.iterator();
+
 				oldRegionID = bRegion.getRegionID();
 
 				tileConnections = bBot.getTileConnections();
@@ -759,8 +772,8 @@ public class BoardObject {
 
 				aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
 
-				while(it.hasNext()) { aRegion.addTiger(bRegion.removeTiger()); }	
-				while(itCrocs.hasNext()) { aRegion.addCrocodile(bRegion.removeCrocodile()); }
+				if (aRegion.hasTigers()) while(it.hasNext()) { aRegion.addTiger(bRegion.removeTiger()); }	
+				if (aRegion.hasCrocodiles()) while(itCrocs.hasNext()) { aRegion.addCrocodile(bRegion.removeCrocodile()); }
 
 				updateMin(aRegion.getRegionID(),aRegion.getRecentMin());
 				incompleteRegions.remove(oldRegionID);
@@ -1183,6 +1196,8 @@ public class BoardObject {
 			}
 
 		}
+		
+//		System.out.print(possibleTileSpots);
 		return canPlace;
 	}
 
