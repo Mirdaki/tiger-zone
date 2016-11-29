@@ -98,8 +98,8 @@ public class Game {
 		//If unplaceable, AI will decide what to do with current turn.
 		//If placeable, pass tile string to AI, get the move, and pass to client.
 		TigerTile tile = board.getTile(move);
-		artificialIntelligence AI = new artificialIntelligence(board, tile);
-		String value = AI.getMove();
+		artificialIntelligence AI = new artificialIntelligence(board);
+		String value = AI.getMove(tile);
 		return value;
 	}
 	

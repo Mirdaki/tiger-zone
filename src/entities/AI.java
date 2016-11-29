@@ -2,7 +2,7 @@ package entities;
 
 import java.util.*;
 
-public class artificialIntelligence {
+public class AI {
 	private static int movenumber = 0;
 	BoardObject currentBoard;
 	//int choiceX, choiceY, orientation;
@@ -12,7 +12,7 @@ public class artificialIntelligence {
 	ArrayList<Region> descendingRegions = new ArrayList<Region>();
 	protected int moveCount; 
 
-	public artificialIntelligence(BoardObject currentBoard) {
+	public AI(BoardObject currentBoard) {
 		this.currentBoard = currentBoard;
 	}
 
@@ -71,7 +71,7 @@ public class artificialIntelligence {
 		movenumber++;
 		if(!currentBoard.canPlace(currentTile)) {
 			ourMove = "TILE " + currentTile.getType() + " ";
-			if(currentBoard.getPlayer(0).getNumOfTigers() == 0) { 
+			if(currentBoard.getactivePlayer().getNumOfTigers() == 0) { 
 			// pop out tiger we own from least valued incomplete region.
 				ArrayList<Region> dlist = orderedListOfRegions();
 				for(int i = dlist.size() - 1; i >= 0; i--) {	// starting from least valued region
@@ -89,14 +89,14 @@ public class artificialIntelligence {
 				   }
 				}
 			}
-			else if(currentBoard.getPlayer(0).getNumOfTigers() > 1) {
+			else if(currentBoard.getactivePlayer().getNumOfTigers() > 1) {
 				ArrayList<Region> desclist = orderedListOfRegions();
 				for(int i = 0; i < desclist.size(); i++) {
 					int tigers[] = checkOurTigers(desclist.get(i));
 					if(tigers[1] - tigers[0] == 1) {
 						//place Tiger
 						for(int j = 0; j < desclist.get(i).getNumOfTigers(); j++) {
-							if(desclist.get(i).theTigers.get(j).getTigerOwner() == currentBoard.getPlayer(0)) {
+							if(desclist.get(i).theTigers.get(j).getTigerOwner() == currentBoard.getactivePlayer()) {
 								Location addhere = desclist.get(i).theTigers.get(j).getLocation();
 								ourMove += "UNPLACEABLE ADD ANOTHER TIGER TO" + " " + addhere.getX() + " " + addhere.getY();
 							break;
@@ -197,9 +197,9 @@ public class artificialIntelligence {
 			}
 			
 			if(maxPotential != -1) { 
-				if(currentBoard.getPlayer(0).getNumOfTigers() == 0) 
+				if(currentBoard.getactivePlayer().getNumOfTigers() == 0) 
 				{
-					if(currentBoard.getPlayer(0).getNumOfCrocs() == 0)
+					if(currentBoard.getactivePlayer().getNumOfCrocs() == 0)
 					{
 						ourMove += " NONE";
 					}
