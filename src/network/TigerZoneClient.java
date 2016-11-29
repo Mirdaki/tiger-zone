@@ -283,12 +283,9 @@ public class TigerZoneClient {
 						break;
 
 					default:
-						System.out.println(fromTourneyServer);
 					//break;
 					}
 				}
-				//out.println(fromTourneyServer); //TO COMMENT OUT
-				//System.out.println("Loop of while");
 			}
 			//System.out.println("While ended");
 		} catch (UnknownHostException e) {
@@ -301,28 +298,3 @@ public class TigerZoneClient {
 		}
 	}
 }
-
-//		TigerZoneClient client = new TigerZoneClient();
-//		client.run();
-//	}
-//
-//	public void run() throws Exception
-//	{
-//		//Requires IP and port information
-//		Socket socket = new Socket("localhost", 4444);
-//		OutputStream outToServer = socket.getOutputStream();
-//		PrintWriter pwrite = new PrintWriter(outToServer, true);
-//		InputStream istream = socket.getInputStream();
-//		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(istream));
-//		String receiveMessage;
-//
-//		//Continuously fetch message from server
-//		while (true) {
-//			receiveMessage = inFromServer.readLine();
-//			while (receiveMessage != null){
-//				respond(receiveMessage, pwrite);
-//			}
-//		}
-//	}
-//
-//}
