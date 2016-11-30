@@ -109,7 +109,6 @@ public class Game {
 	public void setStartTile(String startType, int startX, int startY, int startOrientation) {
 
 		TigerTile startTile = new TigerTile(startType, startOrientation / 90);
-		System.out.println(startTile);
 		board.start(startTile, startX, startY, startOrientation / 90);
 	}
 
@@ -133,11 +132,15 @@ public class Game {
 		//If unplaceable, AI will decide what to do with current turn.
 		//If placeable, pass tile string to AI, get the move, and pass to client.
 		TigerTile tile = board.getTile(move);
-		artificialIntelligence AI = new artificialIntelligence(board);
-		String value = AI.getMove(tile);
+	//	artificialIntelligence AI = new artificialIntelligence(board);
+		String value = ai.getMove(tile);
+		// move++;
 		return value;
 	}
 
+public void inc() {
+	move++;
+}
 
 	public void placeTile(String tileType, int tileX, int tileY, int orientation) {
 
@@ -152,6 +155,7 @@ public class Game {
 
 		Location loc = new Location(tileX, tileY);
 		TigerTile tile = board.getTile(move++);
+		System.out.println(tile);
 		tile.setOrientation(orientation / 90);
 		if (player1 == true){
 			board.switchToActivePlayer(players[0]);
@@ -169,6 +173,7 @@ public class Game {
 		}
 
 		board.confirm();
+		// move++;
 	}
 
 	public void pass() {

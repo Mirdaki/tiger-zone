@@ -36,7 +36,6 @@ public class TileDeck {
 		tigerDeck = new HashMap<Integer, TigerTile>();
 		tileCount = 0;
 		randomDeck = new TigerTile[77];
-		System.out.println("Path is " + System.getProperty("user.dir"));
 
 		try { //attempt to parse XML file of tiles
 

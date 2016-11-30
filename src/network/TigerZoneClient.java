@@ -93,12 +93,12 @@ public class TigerZoneClient {
 				System.out.println("Server: " + fromTourneyServer);
 
 				if (fromTourneyServer.equals("THIS IS SPARTA!")) { //if first message, send join request
-					out.println("JOIN " + serverPass);
-					System.out.println("Client: " + "JOIN " + serverPass);
+					out.println("JOIN " + serverPass + "\r");
+					System.out.println("Client: " + "JOIN " + serverPass + "\r");
 				}
 				else if (fromTourneyServer.equals("HELLO!")) {  //if request accepted, send authentication
-					out.println("I AM " + userName + " " + userPass);
-					System.out.println("Client: " + "I AM " + userName + " " + userPass);
+					out.println("I AM " + userName + " " + userPass + "\r");
+					System.out.println("Client: " + "I AM " + userName + " " + userPass + "\r");
 				}
 				else if (fromTourneyServer.equals("THANK YOU FOR PLAYING! GOODBYE")) { //if end of tournament, exit from this
 					// Exit everything
@@ -124,6 +124,7 @@ public class TigerZoneClient {
 						// Create games
 						gameA = new Game("A");
 						gameB = new Game("B");
+						//gameB.inc();
 						moveANum = 1;
 						moveBNum = 1;
 						break;
@@ -162,8 +163,22 @@ public class TigerZoneClient {
 
 					case "MAKE": //send off move based on current tile
 						gameID = tokenizedMessage[5];
-						if(GameA == null) GameA = gameID;
-						else if(GameB == null) GameB = gameID;
+						String tempMove = tokenizedMessage[10];
+						// Set the right values for the first and second game
+						if (GameA == null && (tempMove.equals("1") || tempMove.equals("2"))){
+							GameA = gameID;
+							if (tempMove.equals("2")){
+								moveANum++;
+								gameA.inc();
+							}
+						}
+						else if(GameB == null && ((tempMove.equals("1") || tempMove.equals("2")))){
+							GameB = gameID;
+							if (tempMove.equals("2")){
+								moveBNum++;
+								gameB.inc();
+							}
+						}
 
 						tileToPlace = tokenizedMessage[12];
 						response = "";
@@ -172,18 +187,18 @@ public class TigerZoneClient {
 						{
 							response = gameA.makeMove();
 							// Add the starting information to the move
-							response = "GAME A MOVE " + moveANum + " " + response;
+							response = "GAME " + GameA + " MOVE " + moveANum + " " + response;
 						}
 						else if (gameID.equals(GameB))
 						{
 							response = gameB.makeMove();
 							// Add the starting information to the move
-							response = "GAME B MOVE " + moveBNum + " " + response;
+							response = "GAME " + GameB + " MOVE " + moveBNum + " " + response;
 						}
 
 						// Send our move
-						out.println(response);
-						System.out.println("Client: " + response);
+						out.println(response + "\r");
+						System.out.println("Client: " + response + "\r");
 						break;
 
 					case "GAME": //game logic
@@ -196,13 +211,13 @@ public class TigerZoneClient {
 							if (gameID.equals(GameA))
 							{
 								GameA = null;
-								gameA.endGame();
+								if (gameA != null) gameA.endGame();
 								gameA = null;
 							}
 							else if (gameID.equals(GameB))
 							{
 								GameB = null;
-								gameB.endGame();
+								if (gameB != null) gameB.endGame();
 								gameB = null;
 							}
 						}

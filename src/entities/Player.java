@@ -18,14 +18,14 @@ public class Player {
 		this.isFirst = isFirst;
 
 		//add in 7 tiger objects
-		for (int i = 0; i < 2; i++) { 
+		for (int i = 0; i < 7; i++) {
 			theTigers.add(new TigerObject(this));
 		}
 
 		//add in 2 crocodile objects
-		for (int i = 0; i < 2; i++) { 
+		for (int i = 0; i < 2; i++) {
 			theCrocodiles.add(new CrocodileObject(this));
-		}		
+		}
 	}
 
 	//ACCESSORSS
@@ -41,7 +41,7 @@ public class Player {
 		return theTigers;
 	}
 
-	public int getNumOfTigers() { 
+	public int getNumOfTigers() {
 		return theTigers.size();
 	}
 
@@ -49,25 +49,25 @@ public class Player {
 		return theCrocodiles;
 	}
 
-	public int getNumOfCrocs() { 
+	public int getNumOfCrocs() {
 		return theCrocodiles.size();
 	}
 
 	public boolean isFirst() {
 		return isFirst;
 	}
-	
-	public boolean hasTigers() { 
+
+	public boolean hasTigers() {
 		if (theTigers.size() > 0) return true;
 		return false;
 	}
 
-	public boolean hasCrocs() { 
+	public boolean hasCrocs() {
 		if (theCrocodiles.size() > 0) return true;
 		return false;
 	}
 
-	//MUTATORS 
+	//MUTATORS
 	public void setScore(int theScore) {
 		this.theScore = theScore;
 	}
@@ -79,41 +79,41 @@ public class Player {
 		this.theID = theID;
 	}
 
-	public void setTigers(ArrayList<TigerObject> theTigers) { 
+	public void setTigers(ArrayList<TigerObject> theTigers) {
 		this.theTigers = theTigers;
 	}
 
-	public void setCrocodiles(ArrayList<CrocodileObject> theCrocodiles) { 
+	public void setCrocodiles(ArrayList<CrocodileObject> theCrocodiles) {
 		this.theCrocodiles = theCrocodiles;
 	}
 
 	public void setFirst(boolean isFirst) {
 		this.isFirst = isFirst;
 	}
-	
-	public void addTiger(TigerObject stray) { 
+
+	public void addTiger(TigerObject stray) {
 		theTigers.add(stray);
 	}
-	
-	public void addCroc(CrocodileObject hatchling) { 
+
+	public void addCroc(CrocodileObject hatchling) {
 		theCrocodiles.add(hatchling);
 	}
 
-	public TigerObject removeTiger() { 
+	public TigerObject removeTiger() {
 		return theTigers.remove(0);
 	}
-	
-	public CrocodileObject removeCroc() { 
+
+	public CrocodileObject removeCroc() {
 		return theCrocodiles.remove(0);
 	}
 
-	
+
 	//METHODS
-	public boolean equals(Player player) { 
+	public boolean equals(Player player) {
 		if (player.getID().equals(this.theID)) return true;
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		String isFirst = "This is the second player.";
@@ -122,8 +122,8 @@ public class Player {
 		String id = getID();
 		int score = getScore();
 		int numTigers = getNumOfTigers();
-		int numCrocs = getNumOfCrocs(); 
+		int numCrocs = getNumOfCrocs();
 
-		return "Player ID: " + id + "\nScore: " + score + "\nTigers left: " + numTigers + "\nCrocs left: " + numCrocs + "\n" + isFirst + "\n"; 
+		return "Player ID: " + id + "\nScore: " + score + "\nTigers left: " + numTigers + "\nCrocs left: " + numCrocs + "\n" + isFirst + "\n";
 	}
 }
