@@ -18,7 +18,7 @@ public class Player {
 		this.isFirst = isFirst;
 
 		//add in 7 tiger objects
-		for (int i = 0; i < 7; i++) { 
+		for (int i = 0; i < 2; i++) { 
 			theTigers.add(new TigerObject(this));
 		}
 

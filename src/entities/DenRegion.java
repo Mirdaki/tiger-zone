@@ -100,6 +100,7 @@ public class DenRegion extends Region {
 		theTigers           = new ArrayList<TigerObject>();
 		theCrocodiles		= new ArrayList<CrocodileObject>();
 		theType             = 'D';
+		recentMin = 5;
 		mooreHood = new ArrayList<Location>();
 	}
 
@@ -110,6 +111,7 @@ public class DenRegion extends Region {
 		theTigers           = new ArrayList<TigerObject>();
 		theCrocodiles		= new ArrayList<CrocodileObject>();
 		theType             = 'D';
+		recentMin = 5;
 		this.mooreHood = mooreHood;
 	}
 
@@ -119,6 +121,7 @@ public class DenRegion extends Region {
 		theTigers           = new ArrayList<TigerObject>();
 		theCrocodiles		= new ArrayList<CrocodileObject>();
 		theType             = 'D';
+		recentMin = 5;
 		this.location 		= location;
 	}
 

@@ -69,6 +69,8 @@ public class AI {
 	 */
 	public String getMove(TigerTile currentTile) {
 		movenumber++;
+		boolean placeprinted = false;
+
 		if(!currentBoard.canPlace(currentTile)) {
 			ourMove = "TILE " + currentTile.getType() + " ";
 			if(currentBoard.getActivePlayer().getNumOfTigers() == 0) { 
@@ -201,13 +203,13 @@ public class AI {
 					maxPotential = potentials.get(i);
 				}
 			}
-
 			if(maxPotential != -1) { 
 				if(currentBoard.getActivePlayer().getNumOfTigers() == 0) 
 				{
 					if(currentBoard.getActivePlayer().getNumOfCrocs() == 0)
 					{
 						ourMove += " NONE";
+						placeprinted = true;
 					}
 					else
 					{
@@ -218,25 +220,43 @@ public class AI {
 							if(tigers[1] != 0 && tigers[0] == 0) {
 								// place croc
 								ourMove += " CROCODILE";	
+								placeprinted = true;
 							}
 						}
 					}
 				}
 				else
 				{
+					//					if (currentTile.getCenter() == 'X') { 
+					//						System.out.println("test");
+					//						ourMove += " TIGER " + 5;
+					//						return ourMove;
+					//					}
 					Region region = allRegions.get(potentialRegionID.get(maxIndex));
-					if((prevstatus.get(maxIndex)==false && region.isCompleted==true) || currentTile.getCenter()=='X' || movenumber%4==0)
-						ourMove += " TIGER " + region.getRecentMin();	
+					if((prevstatus.get(maxIndex)==false && region.isCompleted==true) || currentTile.getCenter()=='X' || movenumber%1==0) { 
+						
+						if (currentTile.getCenter()=='X') {
+							ourMove += " TIGER " + 5;	
+							
+						}
+						else ourMove += " TIGER " + region.getRecentMin();	
+						placeprinted = true;
+
+					}
 					else { 
 						ourMove += " NONE";	
+						placeprinted = true;
+
 					}
 				}	
-				ourMove += " NONE";
 			}
 			else
 			{
+				System.out.println("here");
 
-				ourMove += " NONE";	
+
+//				ourMove += " NONE";	
+//				placeprinted = true;
 			}
 
 			//			for(int i = 0; i < tempArray.size(); i++) {
@@ -289,6 +309,8 @@ public class AI {
 			//
 			//			//check tiles in regions
 			//			//if any playable spot is adjacent to tile in region place tile
+			if(!placeprinted) ourMove += " NONE";
+
 		} 
 
 		return ourMove;

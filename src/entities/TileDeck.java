@@ -45,9 +45,7 @@ public class TileDeck {
 			File file = new File("../resources/tiles.xml");
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
-			System.out.println("here");
 			Document doc = dBuilder.parse(file);
-			System.out.println("here2");
 
 			//if there was stuff inside of the XML file
 			if (doc.hasChildNodes()) {

@@ -35,7 +35,12 @@ public class Game {
 		//AI will let this method know if tile is unplaceable.
 		//If unplaceable, AI will decide what to do with current turn.
 		//If placeable, pass tile string to AI, get the move, and pass to client.
-		TigerTile tile = randomDeck.getRandom();
+
+		TigerTile tile = null;
+//		if (move < 9) tile = new TigerTile("JJJJ-",0);
+//		else if (move == 9) tile = new TigerTile("LLLL-",0);
+		tile = randomDeck.getRandom();
+//		TigerTile tile = new TigerTile("JJJJ-",0);
 		move++;
 		String value = ai.getMove(tile);
 
@@ -45,9 +50,9 @@ public class Game {
 			if (results[6].equals("TIGER")) {
 				board.placeTiger(Integer.parseInt(results[7]));
 			}
-//			else if (results[6].equals("CROCODILE")) {
-//				board.placeCrocodile();
-//			}
+			else if (results[6].equals("CROCODILE")) {
+				board.placeCrocodile();
+			}
 		}
 
 		//		if (animal.equals("TIGER")){
