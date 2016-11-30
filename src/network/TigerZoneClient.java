@@ -15,9 +15,6 @@ public class TigerZoneClient {
 
 	public static void main(String[] args) throws Exception {
 
-		Game gameC = new Game("C");
-		System.out.println("After gameC");
-
 		//if format not followed, specify
 		if (args.length != 5) {
 			System.err.println(
@@ -133,7 +130,6 @@ public class TigerZoneClient {
 
 					case "YOUR": //take in opponent information
 						opponentName = tokenizedMessage[4];
-						System.out.println(userName + " " + opponentName);
 						gameA.setPlayers(userName, opponentName);
 						gameB.setPlayers(userName, opponentName);
 						break;
@@ -174,13 +170,13 @@ public class TigerZoneClient {
 						// Pass the move to the game
 						if (gameID.equals(GameA))
 						{
-							response = gameA.makeMove(/*tileToPlace*/);
+							response = gameA.makeMove();
 							// Add the starting information to the move
 							response = "GAME A MOVE " + moveANum + " " + response;
 						}
 						else if (gameID.equals(GameB))
 						{
-							response = gameB.makeMove(/*tileToPlace*/);
+							response = gameB.makeMove();
 							// Add the starting information to the move
 							response = "GAME B MOVE " + moveBNum + " " + response;
 						}
