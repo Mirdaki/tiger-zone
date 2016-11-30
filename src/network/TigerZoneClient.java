@@ -227,7 +227,7 @@ public class TigerZoneClient {
 							tilePlaced = tokenizedMessage[7];
 							tilePlacedX = Integer.parseInt(tokenizedMessage[9]);
 							tilePlacedY = Integer.parseInt(tokenizedMessage[10]);
-							tileOrientation = Integer.parseInt(tokenizedMessage[11]) / 90;
+							tileOrientation = Integer.parseInt(tokenizedMessage[11]);
 							animal = tokenizedMessage[12];
 							animalZone = -1; // Default value
 

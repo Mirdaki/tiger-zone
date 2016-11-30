@@ -134,6 +134,9 @@ public class Game {
 		TigerTile tile = board.getTile(move);
 	//	artificialIntelligence AI = new artificialIntelligence(board);
 		String value = ai.getMove(tile);
+
+		//System.out.println("**LOG**:This is AI move: " + move + ". With tile: " + tile.getType());
+
 		// move++;
 		return value;
 	}

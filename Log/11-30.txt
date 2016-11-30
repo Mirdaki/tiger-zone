@@ -1,0 +1,810 @@
+MacNerd:src MacNerd$ java -classpath . network.TigerZoneClient 192.168.1.19 4444 TIGERZONE TEAME IAME
+Server: THIS IS SPARTA!
+Client: JOIN TIGERZONE
+Server: HELLO!
+Client: I AM TEAME IAME
+Server: WELCOME TEAME PLEASE WAIT FOR THE NEXT CHALLENGE
+Server: NEW CHALLENGE 1 YOU WILL PLAY 13 MATCHES
+Server: BEGIN ROUND 1 OF 13
+Server: YOUR OPPONENT IS PLAYER TEAMR
+Server: STARTING TILE IS TLTJ- AT 0 0 0
+Server: THE REMAINING 76 TILES ARE [ TJJT- LLJJ- LJLJ- TLLT- JLLJ- JLJL- LLLL- LJTJD TLLTB TJTT- TLTTP TLLLC JLTT- TJTJ- LLJJ- JLJL- LLJJ- LJJJ- TLLTB TJJT- TLLT- TJJT- TLJT- LLJJ- LJLJ- LJTJ- JJTJX TLTJ- JLTTB JLLL- TJJT- TLTT- LJTJD JLLL- TJJT- LJJJ- JJJJX TJTJ- JJTJX LJJJ- TLLLC TJTJ- JJJJ- TJTJ- JJJJX TJTJ- TJJT- LJJJ- TJTT- LJJJ- TJTT- JLLL- TLTJD TJJT- TJTJ- JLTTB JJJJX TJJT- JJJJX JLLL- TLJTP TLLT- TLJTP TLTTP TJJT- TLTJD TTTT- LJLJ- TLTJ- TJTJ- JLJL- TLLL- JLLJ- LLJJ- TJTJ- TJTT- ]
+Server: MATCH BEGINS IN 10 SECONDS
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 1 PLACE TJJT-
+Client: GAME 2 MOVE 1 PLACE TJJT- AT 0 -1 0 NONE
+Server: GAME 1 MOVE 1 PLAYER TEAMR PLACED TJJT- AT 0 1 90 TIGER 1
+Server: GAME 2 MOVE 1 PLAYER TEAME PLACED TJJT- AT 0 -1 0 NONE
+ID: 156
+(x,y) coordinate: (0,-1)
+Orientation: 0
+Type: TJJT-
+Center: T
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	J	T	J
+MID:	T		J
+BOT:	J	J	J
+Server: MAKE YOUR MOVE IN GAME 1 WITHIN 1 SECOND: MOVE 2 PLACE LLJJ-
+Client: GAME 1 MOVE 2 PLACE LLJJ- AT -1 0 90 TIGER 1
+Server: GAME 1 MOVE 2 PLAYER TEAME PLACED LLJJ- AT -1 0 90 TIGER 1
+ID: 233
+(x,y) coordinate: (-1,0)
+Orientation: 1
+Type: LLJJ-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 2
+
+Edges:
+TOP:	L	L	J
+MID:	L		J
+BOT:	J	J	J
+Server: GAME 2 MOVE 2 PLAYER TEAMR PLACED LLJJ- AT 1 -1 270 NONE
+ID: 157
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: LLJJ-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 2
+
+Edges:
+TOP:	J	L	L
+MID:	J		L
+BOT:	J	J	J
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 3 PLACE LJLJ-
+Client: GAME 2 MOVE 3 PLACE LJLJ- AT 1 0 90 NONE
+Server: GAME 1 MOVE 3 PLAYER TEAMR PLACED LJLJ- AT -1 -1 270 NONE
+ID: 234
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: LJLJ-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	L	L	L
+MID:	J		J
+BOT:	L	L	L
+Server: GAME 2 MOVE 3 PLAYER TEAME PLACED LJLJ- AT 1 0 90 NONE
+ID: 158
+(x,y) coordinate: (1,0)
+Orientation: 1
+Type: LJLJ-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	L	J	L
+MID:	L		L
+BOT:	L	J	L
+Server: MAKE YOUR MOVE IN GAME 1 WITHIN 1 SECOND: MOVE 4 PLACE TLLT-
+Client: GAME 1 MOVE 4 PLACE TLLT- AT 0 1 180 TIGER 2
+Server: GAME 1 MOVE 4 PLAYER TEAME FORFEITED: ILLEGAL TILE PLACEMENT
+Player ID: TEAME
+Score: 1
+Tigers left: 6
+Crocs left: 2
+This is the first player.
+
+Player ID: TEAMR
+Score: 0
+Tigers left: 7
+Crocs left: 2
+This is the second player.
+
+Server: GAME 2 MOVE 4 PLAYER TEAMR PLACED TLLT- AT 0 1 180 NONE
+ID: 159
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: TLLT-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 4
+
+Edges:
+TOP:	J	T	J
+MID:	T		L
+BOT:	J	L	L
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 5 PLACE JLLJ-
+Client: GAME 2 MOVE 5 PLACE JLLJ- AT -1 0 180 NONE
+Server: GAME 2 MOVE 5 PLAYER TEAME PLACED JLLJ- AT -1 0 180 NONE
+ID: 160
+(x,y) coordinate: (-1,0)
+Orientation: 2
+Type: JLLJ-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	J	L	J
+MID:	L		J
+BOT:	J	J	J
+Server: GAME 2 MOVE 6 PLAYER TEAMR PLACED JLJL- AT -2 0 0 NONE
+ID: 161
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: JLJL-
+Center: L
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	J	J	J
+MID:	L		L
+BOT:	J	J	J
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 7 PLACE LLLL-
+Client: GAME 2 MOVE 7 PLACE LLLL- AT 1 -2 0 TIGER 1
+Server: GAME 2 MOVE 7 PLAYER TEAME PLACED LLLL- AT 1 -2 0 TIGER 1
+ID: 162
+(x,y) coordinate: (1,-2)
+Orientation: 0
+Type: LLLL-
+Center: L
+Owner: null
+Specialty: -
+Terrain(s): 1
+
+Edges:
+TOP:	L	L	L
+MID:	L		L
+BOT:	L	L	L
+Server: GAME 2 MOVE 8 PLAYER TEAMR PLACED LJTJD AT 0 2 180 CROCODILE
+ID: 163
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: LJTJD
+Center: T
+Owner: null
+Specialty: D
+Terrain(s): 4
+
+Edges:
+TOP:	J	L	J
+MID:	J		J
+BOT:	J	T	J
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 9 PLACE TLLTB
+Client: GAME 2 MOVE 9 PLACE TLLTB AT -3 0 90 NONE
+Server: GAME 2 MOVE 9 PLAYER TEAME PLACED TLLTB AT -3 0 90 NONE
+ID: 164
+(x,y) coordinate: (-3,0)
+Orientation: 1
+Type: TLLTB
+Center: J
+Owner: null
+Specialty: B
+Terrain(s): 4
+
+Edges:
+TOP:	J	L	L
+MID:	T		L
+BOT:	J	T	L
+Server: GAME 2 MOVE 10 PLAYER TEAMR PLACED TJTT- AT -2 -1 90 NONE
+ID: 165
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: TJTT-
+Center: T
+Owner: null
+Specialty: -
+Terrain(s): 6
+
+Edges:
+TOP:	J	T	J
+MID:	T		J
+BOT:	J	T	J
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 11 PLACE TLTTP
+Client: GAME 2 MOVE 11 PLACE TLTTP AT -4 0 270 TIGER 6
+Server: GAME 2 MOVE 11 PLAYER TEAME PLACED TLTTP AT -4 0 270 TIGER 6
+ID: 166
+(x,y) coordinate: (-4,0)
+Orientation: 3
+Type: TLTTP
+Center: T
+Owner: null
+Specialty: P
+Terrain(s): 7
+
+Edges:
+TOP:	J	T	J
+MID:	T		T
+BOT:	J	L	J
+Server: GAME 2 MOVE 12 PLAYER TEAMR PLACED TLLLC AT -4 -1 90 NONE
+ID: 167
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: TLLLC
+Center: L
+Owner: null
+Specialty: C
+Terrain(s): 4
+
+Edges:
+TOP:	J	T	J
+MID:	L		L
+BOT:	L	L	L
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 13 PLACE JLTT-
+Client: GAME 2 MOVE 13 PLACE JLTT- AT 0 -2 0 NONE
+Server: GAME 2 MOVE 13 PLAYER TEAME PLACED JLTT- AT 0 -2 0 NONE
+ID: 168
+(x,y) coordinate: (0,-2)
+Orientation: 0
+Type: JLTT-
+Center: T
+Owner: null
+Specialty: -
+Terrain(s): 4
+
+Edges:
+TOP:	J	J	J
+MID:	T		L
+BOT:	J	T	J
+Server: GAME 2 MOVE 14 PLAYER TEAMR PLACED TJTJ- AT -5 0 90 NONE
+ID: 169
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: TJTJ-
+Center: T
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	J	T	J
+MID:	J		J
+BOT:	J	T	J
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 15 PLACE LLJJ-
+Client: GAME 2 MOVE 15 PLACE LLJJ- AT -3 1 270 TIGER 2
+Server: GAME 2 MOVE 15 PLAYER TEAME FORFEITED: INVALID MEEPLE PLACEMENT
+Player ID: TEAME
+Score: 9
+Tigers left: 5
+Crocs left: 2
+This is the first player.
+
+Player ID: TEAMR
+Score: 0
+Tigers left: 7
+Crocs left: 1
+This is the second player.
+
+Server: GAME 1 OVER PLAYER TEAMR WIN PLAYER TEAME FORFEITED
+Server: GAME 2 OVER PLAYER TEAME FORFEITED PLAYER TEAMR WIN
+Server: END OF ROUND 1 OF 13 PLEASE WAIT FOR THE NEXT MATCH
+Server: BEGIN ROUND 2 OF 13
+Server: YOUR OPPONENT IS PLAYER TEAMG
+Server: STARTING TILE IS TLTJ- AT 0 0 0
+Server: THE REMAINING 76 TILES ARE [ TJJT- LLJJ- LJLJ- TLLT- JLLJ- JLJL- LLLL- LJTJD TLLTB TJTT- TLTTP TLLLC JLTT- TJTJ- LLJJ- JLJL- LLJJ- LJJJ- TLLTB TJJT- TLLT- TJJT- TLJT- LLJJ- LJLJ- LJTJ- JJTJX TLTJ- JLTTB JLLL- TJJT- TLTT- LJTJD JLLL- TJJT- LJJJ- JJJJX TJTJ- JJTJX LJJJ- TLLLC TJTJ- JJJJ- TJTJ- JJJJX TJTJ- TJJT- LJJJ- TJTT- LJJJ- TJTT- JLLL- TLTJD TJJT- TJTJ- JLTTB JJJJX TJJT- JJJJX JLLL- TLJTP TLLT- TLJTP TLTTP TJJT- TLTJD TTTT- LJLJ- TLTJ- TJTJ- JLJL- TLLL- JLLJ- LLJJ- TJTJ- TJTT- ]
+Server: MATCH BEGINS IN 10 SECONDS
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 1 PLACE TJJT-
+Client: GAME 2 MOVE 1 PLACE TJJT- AT 0 -1 270 NONE
+Server: GAME 1 MOVE 1 PLAYER TEAMG PLACED TJJT- AT 0 1 180 TIGER 5
+Server: GAME 2 MOVE 1 PLAYER TEAME PLACED TJJT- AT 0 -1 270 NONE
+ID: 464
+(x,y) coordinate: (0,-1)
+Orientation: 3
+Type: TJJT-
+Center: T
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	J	T	J
+MID:	J		T
+BOT:	J	J	J
+Server: MAKE YOUR MOVE IN GAME 1 WITHIN 1 SECOND: MOVE 2 PLACE LLJJ-
+Client: GAME 1 MOVE 2 PLACE LLJJ- AT -1 0 90 TIGER 1
+Server: GAME 1 MOVE 2 PLAYER TEAME PLACED LLJJ- AT -1 0 90 TIGER 1
+ID: 617
+(x,y) coordinate: (-1,0)
+Orientation: 1
+Type: LLJJ-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 2
+
+Edges:
+TOP:	L	L	J
+MID:	L		J
+BOT:	J	J	J
+Server: GAME 2 MOVE 2 PLAYER TEAMG PLACED LLJJ- AT -1 0 180 TIGER 4
+ID: 465
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: LLJJ-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 2
+
+Edges:
+TOP:	J	L	L
+MID:	J		L
+BOT:	J	J	J
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 3 PLACE LJLJ-
+Client: GAME 2 MOVE 3 PLACE LJLJ- AT -1 1 90 NONE
+Server: GAME 1 MOVE 3 PLAYER TEAMG PLACED LJLJ- AT -1 1 0 TIGER 2
+ID: 618
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: LJLJ-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	L	L	L
+MID:	J		J
+BOT:	L	L	L
+Server: GAME 2 MOVE 3 PLAYER TEAME PLACED LJLJ- AT -1 1 90 NONE
+ID: 466
+(x,y) coordinate: (-1,1)
+Orientation: 1
+Type: LJLJ-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	L	J	L
+MID:	L		L
+BOT:	L	J	L
+Server: MAKE YOUR MOVE IN GAME 1 WITHIN 1 SECOND: MOVE 4 PLACE TLLT-
+Client: GAME 1 MOVE 4 PLACE TLLT- AT -2 0 0 TIGER 2
+Server: GAME 1 MOVE 4 PLAYER TEAME PLACED TLLT- AT -2 0 0 TIGER 2
+ID: 619
+(x,y) coordinate: (-2,0)
+Orientation: 0
+Type: TLLT-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 4
+
+Edges:
+TOP:	J	T	J
+MID:	T		L
+BOT:	J	L	L
+Server: GAME 2 MOVE 4 PLAYER TEAMG PLACED TLLT- AT 0 1 180 TIGER 1
+ID: 467
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: TLLT-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 4
+
+Edges:
+TOP:	J	T	J
+MID:	T		L
+BOT:	J	L	L
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 5 PLACE JLLJ-
+Client: GAME 2 MOVE 5 PLACE JLLJ- AT 0 2 270 NONE
+Server: GAME 1 MOVE 5 PLAYER TEAMG PLACED JLLJ- AT 1 0 270 TIGER 4
+ID: 620
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: JLLJ-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	J	J	J
+MID:	J		L
+BOT:	J	L	J
+Server: GAME 2 MOVE 5 PLAYER TEAME PLACED JLLJ- AT 0 2 270 NONE
+ID: 468
+(x,y) coordinate: (0,2)
+Orientation: 3
+Type: JLLJ-
+Center: J
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	J	J	J
+MID:	L		J
+BOT:	J	L	J
+Server: MAKE YOUR MOVE IN GAME 1 WITHIN 1 SECOND: MOVE 6 PLACE JLJL-
+Client: GAME 1 MOVE 6 PLACE JLJL- AT 1 -1 90 TIGER 2
+Server: GAME 1 MOVE 6 PLAYER TEAME PLACED JLJL- AT 1 -1 90 TIGER 2
+ID: 621
+(x,y) coordinate: (1,-1)
+Orientation: 1
+Type: JLJL-
+Center: L
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	J	L	J
+MID:	J		J
+BOT:	J	L	J
+Server: GAME 2 MOVE 6 PLAYER TEAMG PLACED JLJL- AT -2 0 0 TIGER 1
+ID: 469
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: JLJL-
+Center: L
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	J	J	J
+MID:	L		L
+BOT:	J	J	J
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 7 PLACE LLLL-
+Client: GAME 2 MOVE 7 PLACE LLLL- AT -3 0 180 NONE
+Server: GAME 1 MOVE 7 PLAYER TEAMG PLACED LLLL- AT -2 -1 90 NONE
+ID: 622
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: LLLL-
+Center: L
+Owner: null
+Specialty: -
+Terrain(s): 1
+
+Edges:
+TOP:	L	L	L
+MID:	L		L
+BOT:	L	L	L
+Server: GAME 2 MOVE 7 PLAYER TEAME PLACED LLLL- AT -3 0 180 NONE
+ID: 470
+(x,y) coordinate: (-3,0)
+Orientation: 2
+Type: LLLL-
+Center: L
+Owner: null
+Specialty: -
+Terrain(s): 1
+
+Edges:
+TOP:	L	L	L
+MID:	L		L
+BOT:	L	L	L
+Server: MAKE YOUR MOVE IN GAME 1 WITHIN 1 SECOND: MOVE 8 PLACE LJTJD
+Client: GAME 1 MOVE 8 PLACE LJTJD AT 2 -1 180 TIGER 8
+Server: GAME 1 MOVE 8 PLAYER TEAME PLACED LJTJD AT 2 -1 180 TIGER 8
+ID: 623
+(x,y) coordinate: (2,-1)
+Orientation: 2
+Type: LJTJD
+Center: T
+Owner: null
+Specialty: D
+Terrain(s): 4
+
+Edges:
+TOP:	J	T	J
+MID:	J		J
+BOT:	J	L	J
+Server: GAME 2 MOVE 8 PLAYER TEAMG PLACED LJTJD AT 0 3 270 TIGER 4
+ID: 471
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: LJTJD
+Center: T
+Owner: null
+Specialty: D
+Terrain(s): 4
+
+Edges:
+TOP:	J	L	J
+MID:	J		J
+BOT:	J	T	J
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 9 PLACE TLLTB
+Client: GAME 2 MOVE 9 PLACE TLLTB AT 1 1 0 NONE
+Server: GAME 1 MOVE 9 PLAYER TEAMG PLACED TLLTB AT -1 2 0 TIGER 2
+ID: 624
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: TLLTB
+Center: J
+Owner: null
+Specialty: B
+Terrain(s): 4
+
+Edges:
+TOP:	J	T	J
+MID:	T		L
+BOT:	J	L	L
+Server: GAME 2 MOVE 9 PLAYER TEAME PLACED TLLTB AT 1 1 0 NONE
+ID: 472
+(x,y) coordinate: (1,1)
+Orientation: 0
+Type: TLLTB
+Center: J
+Owner: null
+Specialty: B
+Terrain(s): 4
+
+Edges:
+TOP:	J	T	J
+MID:	T		L
+BOT:	J	L	L
+Server: MAKE YOUR MOVE IN GAME 1 WITHIN 1 SECOND: MOVE 10 PLACE TJTT-
+Client: GAME 1 MOVE 10 PLACE TJTT- AT 1 1 270 TIGER 6
+Server: GAME 1 MOVE 10 PLAYER TEAME PLACED TJTT- AT 1 1 270 TIGER 6
+ID: 625
+(x,y) coordinate: (1,1)
+Orientation: 3
+Type: TJTT-
+Center: T
+Owner: null
+Specialty: -
+Terrain(s): 6
+
+Edges:
+TOP:	J	T	J
+MID:	T		T
+BOT:	J	J	J
+Server: GAME 2 MOVE 10 PLAYER TEAMG PLACED TJTT- AT 0 4 270 TIGER 2
+ID: 473
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: TJTT-
+Center: T
+Owner: null
+Specialty: -
+Terrain(s): 6
+
+Edges:
+TOP:	J	T	J
+MID:	T		J
+BOT:	J	T	J
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 11 PLACE TLTTP
+Client: GAME 2 MOVE 11 PLACE TLTTP AT -1 3 270 NONE
+Server: GAME 1 MOVE 11 PLAYER TEAMG PLACED TLTTP AT -1 3 0 TIGER 2
+ID: 626
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: TLTTP
+Center: T
+Owner: null
+Specialty: P
+Terrain(s): 7
+
+Edges:
+TOP:	J	T	J
+MID:	T		L
+BOT:	J	T	J
+Server: GAME 2 MOVE 11 PLAYER TEAME PLACED TLTTP AT -1 3 270 NONE
+ID: 474
+(x,y) coordinate: (-1,3)
+Orientation: 3
+Type: TLTTP
+Center: T
+Owner: null
+Specialty: P
+Terrain(s): 7
+
+Edges:
+TOP:	J	T	J
+MID:	T		T
+BOT:	J	L	J
+Server: MAKE YOUR MOVE IN GAME 1 WITHIN 1 SECOND: MOVE 12 PLACE TLLLC
+Client: GAME 1 MOVE 12 PLACE TLLLC AT 1 2 180 TIGER 2
+Server: GAME 1 MOVE 12 PLAYER TEAME FORFEITED: INVALID MEEPLE PLACEMENT
+Player ID: TEAME
+Score: 10
+Tigers left: 2
+Crocs left: 2
+This is the first player.
+
+Player ID: TEAMG
+Score: 16
+Tigers left: 4
+Crocs left: 2
+This is the second player.
+
+Server: GAME 2 MOVE 12 PLAYER TEAMG PLACED TLLLC AT 0 5 180 TIGER 1
+ID: 475
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: TLLLC
+Center: L
+Owner: null
+Specialty: C
+Terrain(s): 4
+
+Edges:
+TOP:	J	T	J
+MID:	L		L
+BOT:	L	L	L
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 13 PLACE JLTT-
+Client: GAME 2 MOVE 13 PLACE JLTT- AT 1 4 0 NONE
+Server: GAME 2 MOVE 13 PLAYER TEAME PLACED JLTT- AT 1 4 0 NONE
+ID: 476
+(x,y) coordinate: (1,4)
+Orientation: 0
+Type: JLTT-
+Center: T
+Owner: null
+Specialty: -
+Terrain(s): 4
+
+Edges:
+TOP:	J	J	J
+MID:	T		L
+BOT:	J	T	J
+Server: GAME 2 MOVE 14 PLAYER TEAMG PLACED TJTJ- AT -2 3 270 TIGER 4
+ID: 477
+(x,y) coordinate: (0,0)
+Orientation: 0
+Type: TJTJ-
+Center: T
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	J	T	J
+MID:	J		J
+BOT:	J	T	J
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 15 PLACE LLJJ-
+Client: GAME 2 MOVE 15 PLACE LLJJ- AT -2 1 0 TIGER 1
+Server: GAME 2 MOVE 15 PLAYER TEAME FORFEITED: ILLEGAL MEEPLE PLACEMENT
+Player ID: TEAME
+Score: 0
+Tigers left: 7
+Crocs left: 2
+This is the first player.
+
+Player ID: TEAMG
+Score: 19
+Tigers left: 2
+Crocs left: 2
+This is the second player.
+
+Server: GAME 1 OVER PLAYER TEAMG WIN PLAYER TEAME FORFEITED
+Server: GAME 2 OVER PLAYER TEAME FORFEITED PLAYER TEAMG WIN
+Server: END OF ROUND 2 OF 13 PLEASE WAIT FOR THE NEXT MATCH
+Server: BEGIN ROUND 3 OF 13
+Server: YOUR OPPONENT IS PLAYER TEAMN
+Server: STARTING TILE IS TLTJ- AT 0 0 0
+Server: THE REMAINING 76 TILES ARE [ TJJT- LLJJ- LJLJ- TLLT- JLLJ- JLJL- LLLL- LJTJD TLLTB TJTT- TLTTP TLLLC JLTT- TJTJ- LLJJ- JLJL- LLJJ- LJJJ- TLLTB TJJT- TLLT- TJJT- TLJT- LLJJ- LJLJ- LJTJ- JJTJX TLTJ- JLTTB JLLL- TJJT- TLTT- LJTJD JLLL- TJJT- LJJJ- JJJJX TJTJ- JJTJX LJJJ- TLLLC TJTJ- JJJJ- TJTJ- JJJJX TJTJ- TJJT- LJJJ- TJTT- LJJJ- TJTT- JLLL- TLTJD TJJT- TJTJ- JLTTB JJJJX TJJT- JJJJX JLLL- TLJTP TLLT- TLJTP TLTTP TJJT- TLTJD TTTT- LJLJ- TLTJ- TJTJ- JLJL- TLLL- JLLJ- LLJJ- TJTJ- TJTT- ]
+Server: MATCH BEGINS IN 10 SECONDS
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 1 PLACE TJJT-
+Client: GAME 2 MOVE 1 PLACE TJJT- AT 0 1 180 NONE
+Server: GAME 1 MOVE 1 PLAYER TEAMN FORFEITED: ILLEGAL MESSAGE RECEIVED
+Server: GAME 2 MOVE 1 PLAYER TEAME PLACED TJJT- AT 0 1 180 NONE
+ID: 924
+(x,y) coordinate: (0,1)
+Orientation: 2
+Type: TJJT-
+Center: T
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	J	J	J
+MID:	J		T
+BOT:	J	T	J
+Server: GAME 2 MOVE 2 PLAYER TEAMN FORFEITED: ILLEGAL MESSAGE RECEIVED
+Player ID: TEAME
+Score: 0
+Tigers left: 7
+Crocs left: 2
+This is the first player.
+
+Player ID: TEAMN
+Score: 0
+Tigers left: 7
+Crocs left: 2
+This is the second player.
+
+Server: GAME 1 OVER PLAYER TEAMN FORFEITED PLAYER TEAME WIN
+Server: GAME 2 OVER PLAYER TEAME WIN PLAYER TEAMN FORFEITED
+Server: END OF ROUND 3 OF 13 PLEASE WAIT FOR THE NEXT MATCH
+Server: BEGIN ROUND 4 OF 13
+Server: YOUR OPPONENT IS PLAYER TEAMU
+Server: STARTING TILE IS TLTJ- AT 0 0 0
+Server: THE REMAINING 76 TILES ARE [ TJJT- LLJJ- LJLJ- TLLT- JLLJ- JLJL- LLLL- LJTJD TLLTB TJTT- TLTTP TLLLC JLTT- TJTJ- LLJJ- JLJL- LLJJ- LJJJ- TLLTB TJJT- TLLT- TJJT- TLJT- LLJJ- LJLJ- LJTJ- JJTJX TLTJ- JLTTB JLLL- TJJT- TLTT- LJTJD JLLL- TJJT- LJJJ- JJJJX TJTJ- JJTJX LJJJ- TLLLC TJTJ- JJJJ- TJTJ- JJJJX TJTJ- TJJT- LJJJ- TJTT- LJJJ- TJTT- JLLL- TLTJD TJJT- TJTJ- JLTTB JJJJX TJJT- JJJJX JLLL- TLJTP TLLT- TLJTP TLTTP TJJT- TLTJD TTTT- LJLJ- TLTJ- TJTJ- JLJL- TLLL- JLLJ- LLJJ- TJTJ- TJTT- ]
+Server: MATCH BEGINS IN 10 SECONDS
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 1 PLACE TJJT-
+Client: GAME 2 MOVE 1 PLACE TJJT- AT 0 1 180 TIGER 2
+Server: GAME 1 MOVE 1 PLAYER TEAMU FORFEITED: ILLEGAL MESSAGE RECEIVED
+Server: GAME 2 MOVE 1 PLAYER TEAME FORFEITED: INVALID MEEPLE PLACEMENT
+Player ID: TEAME
+Score: 0
+Tigers left: 7
+Crocs left: 2
+This is the first player.
+
+Player ID: TEAMU
+Score: 0
+Tigers left: 7
+Crocs left: 2
+This is the second player.
+
+Server: GAME 1 OVER PLAYER TEAMU FORFEITED PLAYER TEAME WIN
+Server: GAME 2 OVER PLAYER TEAME FORFEITED PLAYER TEAMU WIN
+Server: END OF ROUND 4 OF 13 PLEASE WAIT FOR THE NEXT MATCH
+Server: BEGIN ROUND 5 OF 13
+Server: YOUR OPPONENT IS PLAYER TEAMC
+Server: STARTING TILE IS TLTJ- AT 0 0 0
+Server: THE REMAINING 76 TILES ARE [ TJJT- LLJJ- LJLJ- TLLT- JLLJ- JLJL- LLLL- LJTJD TLLTB TJTT- TLTTP TLLLC JLTT- TJTJ- LLJJ- JLJL- LLJJ- LJJJ- TLLTB TJJT- TLLT- TJJT- TLJT- LLJJ- LJLJ- LJTJ- JJTJX TLTJ- JLTTB JLLL- TJJT- TLTT- LJTJD JLLL- TJJT- LJJJ- JJJJX TJTJ- JJTJX LJJJ- TLLLC TJTJ- JJJJ- TJTJ- JJJJX TJTJ- TJJT- LJJJ- TJTT- LJJJ- TJTT- JLLL- TLTJD TJJT- TJTJ- JLTTB JJJJX TJJT- JJJJX JLLL- TLJTP TLLT- TLJTP TLTTP TJJT- TLTJD TTTT- LJLJ- TLTJ- TJTJ- JLJL- TLLL- JLLJ- LLJJ- TJTJ- TJTT- ]
+Server: MATCH BEGINS IN 10 SECONDS
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 1 PLACE TJJT-
+Client: GAME 2 MOVE 1 PLACE TJJT- AT -1 0 90 NONE
+Server: GAME 1 MOVE 1 PLAYER TEAMC FORFEITED: TIMEOUT
+Server: GAME 2 MOVE 1 PLAYER TEAME PLACED TJJT- AT -1 0 90 NONE
+ID: 2300
+(x,y) coordinate: (-1,0)
+Orientation: 1
+Type: TJJT-
+Center: T
+Owner: null
+Specialty: -
+Terrain(s): 3
+
+Edges:
+TOP:	J	J	J
+MID:	T		J
+BOT:	J	T	J
+Server: GAME 2 MOVE 2 PLAYER TEAMC FORFEITED: TIMEOUT
+Player ID: TEAME
+Score: 0
+Tigers left: 7
+Crocs left: 2
+This is the first player.
+
+Player ID: TEAMC
+Score: 0
+Tigers left: 7
+Crocs left: 2
+This is the second player.
+
+Server: GAME 1 OVER PLAYER TEAMC FORFEITED PLAYER TEAME WIN
+Server: GAME 2 OVER PLAYER TEAME WIN PLAYER TEAMC FORFEITED
+Server: END OF ROUND 5 OF 13 PLEASE WAIT FOR THE NEXT MATCH
+Server: BEGIN ROUND 6 OF 13
+Server: YOUR OPPONENT IS PLAYER TEAMO
+Server: STARTING TILE IS TLTJ- AT 0 0 0
+Server: THE REMAINING 76 TILES ARE [ TJJT- LLJJ- LJLJ- TLLT- JLLJ- JLJL- LLLL- LJTJD TLLTB TJTT- TLTTP TLLLC JLTT- TJTJ- LLJJ- JLJL- LLJJ- LJJJ- TLLTB TJJT- TLLT- TJJT- TLJT- LLJJ- LJLJ- LJTJ- JJTJX TLTJ- JLTTB JLLL- TJJT- TLTT- LJTJD JLLL- TJJT- LJJJ- JJJJX TJTJ- JJTJX LJJJ- TLLLC TJTJ- JJJJ- TJTJ- JJJJX TJTJ- TJJT- LJJJ- TJTT- LJJJ- TJTT- JLLL- TLTJD TJJT- TJTJ- JLTTB JJJJX TJJT- JJJJX JLLL- TLJTP TLLT- TLJTP TLTTP TJJT- TLTJD TTTT- LJLJ- TLTJ- TJTJ- JLJL- TLLL- JLLJ- LLJJ- TJTJ- TJTT- ]
+Server: MATCH BEGINS IN 10 SECONDS
+Server: MAKE YOUR MOVE IN GAME 2 WITHIN 1 SECOND: MOVE 1 PLACE TJJT-
+Client: GAME 2 MOVE 1 PLACE TJJT- AT -1 0 90 TIGER 8
+Server: GAME 1 MOVE 1 PLAYER TEAMO PLACED TJJT- AT 0 1 90 NONE
+Server: GAME 2 MOVE 1 PLAYER TEAME FORFEITED: INVALID MEEPLE PLACEMENT
+Player ID: TEAME
+Score: 0
+Tigers left: 7
+Crocs left: 2
+This is the first player.
+
+Player ID: TEAMO
+Score: 0
+Tigers left: 7
+Crocs left: 2
+This is the second player.
+
+Server: MAKE YOUR MOVE IN GAME 1 WITHIN 1 SECOND: MOVE 2 PLACE LLJJ-
+Exception in thread "main" java.lang.NullPointerException
+	at network.TigerZoneClient.main(TigerZoneClient.java:172)
+MacNerd:src MacNerd$
