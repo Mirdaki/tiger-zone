@@ -23,11 +23,12 @@ public class BoardObjectTest {
 		board.setPlayers(players);
 		board.start(t, 0, 0, 0);
 		
-		assertEquals(5, board.getAS().get(0).getX());
-		assertEquals(4, board.getAS().get(0).getY());
+		assertEquals(12, board.getAS().get(0).getX());
+		assertEquals(11, board.getAS().get(0).getY());
 	}
 
 	@Test
+	//Test if board's players are set
 	public void boardSetPlayersTest() {
 		Player[] players = new Player[2];
 		Player p1 = new Player("Red", true);
@@ -42,6 +43,7 @@ public class BoardObjectTest {
 	}
 	
 	@Test
+	//Test if switchToActivePlayer works correctly
 	public void boardActivePlayerTest() {
 		BoardObject board = new BoardObject(); //create the board
 		TigerTile t = new TigerTile("TLTJ-", 0);
@@ -60,19 +62,118 @@ public class BoardObjectTest {
 		assertEquals("Blue", board.getActivePlayer().getID());
 	}
 	
-	/*@Test
+	@Test
+	//Test if confirm correctly changes active player
+	public void boardConfirmTest() {
+		BoardObject board = new BoardObject(); //create the board
+		TigerTile t = new TigerTile("TLTJ-", 0);
+		Player[] players = new Player[2];
+		Player p1 = new Player("Red", true);
+		Player p2 = new Player("Blue", false);
+		players[0] = p1;
+		players[1] = p2;
+		board.setPlayers(players);
+		board.start(t, 0, 0, 0);
+		board.confirm();
+		
+		assertEquals("Blue", board.getActivePlayer().getID());
+	}
+	
+	@Test
+	//Test if a tile was placed on board
+	public void boardPlaceTest() {
+		BoardObject board = new BoardObject(); //create the board
+		TigerTile t = new TigerTile("TLTJ-", 0);
+		Player[] players = new Player[2];
+		Player p1 = new Player("Red", true);
+		Player p2 = new Player("Blue", false);
+		players[0] = p1;
+		players[1] = p2;
+		board.setPlayers(players);
+		board.start(t, 0, 0, 0);
+		TigerTile t2 = new TigerTile("JJJJ-", 0);
+		Location l = new Location(-1, 0);
+		board.place(t2, l);
+		
+		assertEquals("JJJJ-", board.getTile(l).getType());
+	}
+	
+	@Test
+	//Test if tiger was placed on board
+	public void boardPlaceTigerTest() {
+		BoardObject board = new BoardObject(); //create the board
+		TigerTile t = new TigerTile("TLTJ-", 0);
+		Player[] players = new Player[2];
+		Player p1 = new Player("Red", true);
+		Player p2 = new Player("Blue", false);
+		players[0] = p1;
+		players[1] = p2;
+		board.setPlayers(players);
+		board.start(t, 0, 0, 0);
+		TigerTile t2 = new TigerTile("JJJJ-", 0);
+		Location l = new Location(-1, 0);
+		board.place(t2, l);
+		board.placeTiger(1);
+		
+		assertEquals(1, board.getTile(l).getTigers().size());
+	}
+	
+	@Test
+	//Test if adjacent tiles can accept incoming tile
 	public void validTest() {
-		BoardObject test = new BoardObject(); //create the board
-		test.start();
-		TigerTile s = test.getTile("JJTJX",0);
+		BoardObject board = new BoardObject(); //create the board
+		TigerTile t = new TigerTile("TLTJ-", 0);
+		Player[] players = new Player[2];
+		Player p1 = new Player("Red", true);
+		Player p2 = new Player("Blue", false);
+		players[0] = p1;
+		players[1] = p2;
+		board.setPlayers(players);
+		board.start(t, 0, 0, 0);
+		TigerTile s = new TigerTile("JJTJX", 0);
 
 		//Placement at (-1,0) should be valid
-		assertTrue(test.valid(s, new Location(-1, 0)));
-		//Placement at (-3,0) should not be valid
-		assertFalse(test.valid(s, new Location(-3, 0)));
+		assertTrue(board.valid(s, new Location(-1, 0)));
 	}
-
+	
 	@Test
+	//Test if we can check all permuatations of a tile according to the available spots and place it
+	public void canPlaceTest() {
+		BoardObject board = new BoardObject(); //create the board
+		TigerTile t = new TigerTile("TLTJ-", 0);
+		Player[] players = new Player[2];
+		Player p1 = new Player("Red", true);
+		Player p2 = new Player("Blue", false);
+		players[0] = p1;
+		players[1] = p2;
+		board.setPlayers(players);
+		board.start(t, 0, 0, 0);
+		TigerTile s = new TigerTile("JJTJX", 0);
+		
+		assertTrue(board.canPlace(s));
+	}
+	
+	/*@Test
+	public void boardPlaceCrocodileTest() {
+		BoardObject board = new BoardObject(); //create the board
+		TigerTile t = new TigerTile("TLTJ-", 0);
+		Player[] players = new Player[2];
+		Player p1 = new Player("Red", true);
+		Player p2 = new Player("Blue", false);
+		players[0] = p1;
+		players[1] = p2;
+		board.setPlayers(players);
+		board.start(t, 0, 0, 0);
+		TigerTile t2 = new TigerTile("JLTTB", 2);
+		Location l = new Location(1, 0);
+		board.place(t2, l);
+		board.placeCrocodile();
+		
+		assertEquals(, board.getTile(l).getCroc());
+	}*/
+
+	//DEPRECATED
+	/*@Test
 	public void isSurroundedTest() {
 		BoardObject test = new BoardObject(); //create the board
 		test.start();
