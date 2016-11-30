@@ -1,0 +1,44 @@
+13 Rounds, we played 6.
+
+STARTING TILE IS TLTJ- AT 0 0 0 // happens all 6 times. The tile stack is identical in all cases as well.
+
+Round 1 against TEAMR
+Game 1 they play first
+FORFEIT b/c: The 2nd time we place in this game, we try to place a tile in correct orientation where Team R had already placed a tile in their very first move. Maybe our board didn’t update for their move? Tiger orientation was already wrong. 
+Game 2 we play first
+We didn’t place a tiger even though we went first because of the alternate placing. 
+We didn’t place a tiger when we completed a lake with our 2nd placement (region didn’t update to complete status or check was incorrect).
+FORFEIT b/c: In move #15 (our 8th), we put tiger in new jungle region but called zone 2 instead of 1 (the minimum). INVALID.
+
+Round 2 against TEAMG
+Game 1 they play first
+FORFEIT b/c: In move #12 (our 5th), we put tiger in new lake but called zone 2 instead of 1 (the minimum). INVALID
+Probably shouldn’t have tried placing tiger there since that tile came with a crocodile. 
+Game 2 we play first 
+FORFEIT b/c: In move #15 (our 8th), we put tiger in a jungle region that already had one of G’s which was place in move #6. ILLEGAL
+
+Round 3 against TEAMN
+Game 1 they play first 
+In their 1st move, they gave illegal message so we WON.
+Game 2 we play first
+In their 1st move, they gave illegal message so we WON.
+
+Round 4 against TEAMU
+Game 1 they play first 
+In their 1st move, they gave illegal message so we WON.
+Game 2 we play first
+FORFEIT b/c In our 1st move, we put tiger in new jungle region but called zone 2 instead of 1 (the minimum). INVALID.
+
+Round 5 against TEAMC
+Game 1 they play first 
+In their 1st move, they timed out so we WON.
+Game 2 we play first
+In their 1st move, they timed out so we WON.
+
+Round 6 against TEAMO
+Game 1 they play first 
+FORFEIT & Connection lost:
+ Server: MAKE YOUR MOVE IN GAME 1 WITHIN 1 SECOND: MOVE 2 PLACE LLJJ-
+Exception in thread "main" java.lang.NullPointerException at gameA.inc(); 
+Game 2 we play first
+FORFEIT b/c in our 1st move, we put tiger in new trail region but call zone 8 instead of 4 (the minimum). INVALID.
