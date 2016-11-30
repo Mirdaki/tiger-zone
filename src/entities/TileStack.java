@@ -26,7 +26,7 @@ public class TileStack {
     protected Map<String, ArrayList<TigerTile>> tileStack;
     protected int tileCount;
 
-    
+
     //constructors
     /**
 	 * TileStack() constructor, initialize the variables
@@ -65,19 +65,19 @@ public class TileStack {
 
                         //add a tile of said type for each multiplicity into array list
                         for (int j = 0; j < multiplicity; j++, tileCount++) { newTile.add(new TigerTile(eElement)); }
-            
+
                         //place tile types and their multiplicities into the tileStack
                         tileStack.put(type,newTile);
                     }
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error");
+            System.out.println("Error: TileStack");
         }
     }//constructor
 
-    //ACCESSORS 
-    
+    //ACCESSORS
+
     /**
 	 * getTiles() will return the tile stack
      * @return the tileStack
@@ -119,8 +119,8 @@ public class TileStack {
         return tileCount;
     }
 
-    //MUTATORS 
-    
+    //MUTATORS
+
     public void removeTile(String type) {
         tileCount--;
         ArrayList<TigerTile> tile = tileStack.get(type);

@@ -38,7 +38,7 @@ public class TigerTile extends TileObject {
 	protected Terrain[] terrains;
 
 	//constructors
-	public TigerTile() { 
+	public TigerTile() {
 
 	}
 
@@ -65,11 +65,11 @@ public class TigerTile extends TileObject {
 		terrains = new Terrain[regions.getLength()];
 
 		Animal prey = null;
-		if (special != '-') 
+		if (special != '-')
 			prey = new Animal(special);
 
-		int i = 0; 
-		for (int j = 0; j < regions.getLength(); j++) { 
+		int i = 0;
+		for (int j = 0; j < regions.getLength(); j++) {
 
 			Element element = (Element)regions.item(j);
 			ArrayList<Integer> edgeConnections = new ArrayList<Integer>();
@@ -84,20 +84,20 @@ public class TigerTile extends TileObject {
 			}
 
 			if (regionType.equalsIgnoreCase("jungle")) { terrains[i] = new JungleTerrain(edgeConnections); }
-			else if (regionType.equalsIgnoreCase("trail")) { 
+			else if (regionType.equalsIgnoreCase("trail")) {
 				char trailType = element.getAttribute("type").charAt(0);
 				//if the trail type is connecting, pass false (not an end); else, pass true
 				if (trailType == 'C') {	terrains[i] = new TrailTerrain(edgeConnections, false, prey); }
 				else { terrains[i] = new TrailTerrain(edgeConnections, true, prey); }
 			}
-			else if (regionType.equalsIgnoreCase("lake")) { 
+			else if (regionType.equalsIgnoreCase("lake")) {
 				char lakeType = element.getAttribute("type").charAt(0);
-				
+
 				//if the lake type is connecting, pass false (not an end); else, pass true
 				if (lakeType == 'C') { terrains[i] = new LakeTerrain(edgeConnections, false, prey); }
 				else { terrains[i] = new LakeTerrain(edgeConnections, true, prey); }
 			}
-			
+
 			//set the terrain's tile ID to current tile and increase counter to next spot
 			terrains[i++].setTileID(tileID);
 		}
@@ -116,10 +116,10 @@ public class TigerTile extends TileObject {
 		//this is done by checking to our left and right, and if we are
 		//adjacent to any lakes, then we add the lakes to the SET associated
 		//with the jungle. It is based on regionID
-		for (int j = 0; j < edgeTerrains.length; j++) { 
-			if(edgeTerrains[j] instanceof JungleTerrain) { 
+		for (int j = 0; j < edgeTerrains.length; j++) {
+			if(edgeTerrains[j] instanceof JungleTerrain) {
 
-				//get the lakes 
+				//get the lakes
 				ArrayList<Integer> adjacents = ((JungleTerrain) edgeTerrains[j]).getLakes();
 
 				//look to our left
@@ -127,7 +127,7 @@ public class TigerTile extends TileObject {
 				int leftRegionID = left.getRegionID();
 
 				//if a lake and isn't already in the list, add
-				if (left instanceof LakeTerrain && !adjacents.contains(leftRegionID)) { 
+				if (left instanceof LakeTerrain && !adjacents.contains(leftRegionID)) {
 					((JungleTerrain) edgeTerrains[j]).addLake(leftRegionID);
 				}
 
@@ -136,7 +136,7 @@ public class TigerTile extends TileObject {
 				int rightRegionID = right.getRegionID();
 
 				//if a lake and isn't already in the list, add
-				if (right instanceof LakeTerrain && !adjacents.contains(rightRegionID)) { 
+				if (right instanceof LakeTerrain && !adjacents.contains(rightRegionID)) {
 					((JungleTerrain) edgeTerrains[j]).addLake(rightRegionID);
 				}
 
@@ -150,7 +150,7 @@ public class TigerTile extends TileObject {
 		try { //attempt to parse XML file of tiles
 
 			//file to parse
-			File file = new File("resources/tiles.xml");
+			File file = new File("../resources/tiles.xml");
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			Document doc = dBuilder.parse(file);
 
@@ -161,7 +161,7 @@ public class TigerTile extends TileObject {
 				XPath xpath = xPathfactory.newXPath();
 				XPathExpression expr = xpath.compile("//tile[@type=\"" + type +"\"]");
 				NodeList nList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-				
+
 
 				//get first found element
 				Node nNode = nList.item(0);
@@ -187,10 +187,10 @@ public class TigerTile extends TileObject {
 					if (special != '-') { prey = new Animal(special); }
 
 					//i is a counter variable for the next terrain
-					int i = 0; 
+					int i = 0;
 
 					//for every region found for the specified tile, create them
-					for (int j = 0; j < regions.getLength(); j++) { 
+					for (int j = 0; j < regions.getLength(); j++) {
 
 						Element element = (Element)regions.item(j);
 						ArrayList<Integer> edgeConnections = new ArrayList<Integer>();
@@ -206,15 +206,15 @@ public class TigerTile extends TileObject {
 							edgeConnections.add(Math.floorMod(temp + 2 * orientation, 8));
 						}
 
-						if (regionType.equalsIgnoreCase("jungle")) { terrains[i] = new JungleTerrain(edgeConnections); } 
-						else if (regionType.equalsIgnoreCase("trail")) { 
+						if (regionType.equalsIgnoreCase("jungle")) { terrains[i] = new JungleTerrain(edgeConnections); }
+						else if (regionType.equalsIgnoreCase("trail")) {
 							char trailType = element.getAttribute("type").charAt(0);
 
 							//if the trail type is connecting, pass false (not an end); else, pass true
 							if (trailType == 'C') { terrains[i] = new TrailTerrain(edgeConnections, false, prey); }
 							else { terrains[i] = new TrailTerrain(edgeConnections, true, prey); }
 						}
-						else if (regionType.equalsIgnoreCase("lake")) { 
+						else if (regionType.equalsIgnoreCase("lake")) {
 							char lakeType = element.getAttribute("type").charAt(0);
 
 							//if the lake type is connecting, pass false (not an end); else, pass true
@@ -243,10 +243,10 @@ public class TigerTile extends TileObject {
 					//with the jungle. It is based on regionID
 
 					//for every jungle terrain
-					for (int j = 0; j < edgeTerrains.length; j++) { 
-						if(edgeTerrains[j] instanceof JungleTerrain) { 
+					for (int j = 0; j < edgeTerrains.length; j++) {
+						if(edgeTerrains[j] instanceof JungleTerrain) {
 
-							//get the lakes 
+							//get the lakes
 							ArrayList<Integer> adjacents = ((JungleTerrain) edgeTerrains[j]).getLakes();
 
 							//look to our left
@@ -254,7 +254,7 @@ public class TigerTile extends TileObject {
 							int leftRegionID = left.getRegionID();
 
 							//if a lake and isn't already in the list, add
-							if (left instanceof LakeTerrain && !adjacents.contains(leftRegionID)) { 
+							if (left instanceof LakeTerrain && !adjacents.contains(leftRegionID)) {
 								((JungleTerrain) edgeTerrains[j]).addLake(leftRegionID);
 							}
 
@@ -263,19 +263,20 @@ public class TigerTile extends TileObject {
 							int rightRegionID = right.getRegionID();
 
 							//if a lake and isn't already in the list, add
-							if (right instanceof LakeTerrain && !adjacents.contains(rightRegionID)) { 
+							if (right instanceof LakeTerrain && !adjacents.contains(rightRegionID)) {
 								((JungleTerrain) edgeTerrains[j]).addLake(rightRegionID);
 							}
 						}
 					}
 				}
-			} 
+			}
 		} catch (Exception e) { //if there was an error with generating the independent tile
-			System.out.println("Error");
+			System.out.println("Error: TigerTile");
+			System.out.println(e);
 		}
 	}
 
-	// ACCESSORSS 
+	// ACCESSORSS
 	public Terrain getEdge(int index) {
 		return edges.getTerrain(index);
 	}
@@ -324,12 +325,12 @@ public class TigerTile extends TileObject {
 		return tigers.get(0);
 	}
 
-	public void removeTiger() { 
+	public void removeTiger() {
 		tigers.remove(0);
 	}
-	
-	
-	public CrocodileObject getCroc() { 
+
+
+	public CrocodileObject getCroc() {
 		return croc;
 	}
 
@@ -341,7 +342,7 @@ public class TigerTile extends TileObject {
 		return terrains;
 	}
 
-	//MUTATORS 
+	//MUTATORS
 	public void setSpecial(char special) {
 		this.special = special;
 	}
@@ -370,18 +371,18 @@ public class TigerTile extends TileObject {
 		this.owner = owner;
 	}
 
-	public void setTigers(ArrayList<TigerObject> tigers) { 
+	public void setTigers(ArrayList<TigerObject> tigers) {
 		this.tigers = tigers;
 	}
-	
-	public void setCroc(CrocodileObject croc) { 
+
+	public void setCroc(CrocodileObject croc) {
 		this.croc = croc;
 	}
 
-	public void addTiger(TigerObject tiger) { 
+	public void addTiger(TigerObject tiger) {
 		tigers.add(tiger);
 	}
-	
+
 	/**
 	 * setTerrains() sets the current tile's terrains to a new set of terrains
 	 * @param terrains sets the terrains to the specified set of terrains

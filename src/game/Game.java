@@ -23,7 +23,7 @@ public class Game {
 	}
 
 
-	public boolean play() { 
+	public boolean play() {
 
 		System.out.print(makeMove2());
 		System.out.println();
@@ -38,14 +38,14 @@ public class Game {
 		TigerTile tile = randomDeck.getRandom();
 		move++;
 		String value = ai.getMove(tile);
-		
+
 		String[] results = value.split("\\s+");
 //		System.out.println(results[0]);
 		if (results[0].equals("PLACE")) {
-			if (results[6].equals("TIGER")) { 
+			if (results[6].equals("TIGER")) {
 				board.placeTiger(Integer.parseInt(results[7]));
 			}
-//			else if (results[6].equals("CROCODILE")) { 
+//			else if (results[6].equals("CROCODILE")) {
 //				board.placeCrocodile();
 //			}
 		}
@@ -104,6 +104,7 @@ public class Game {
 	public void setStartTile(String startType, int startX, int startY, int startOrientation) {
 
 		TigerTile startTile = new TigerTile(startType, startOrientation / 90);
+		System.out.println(startTile);
 		board.start(startTile, startX, startY, startOrientation / 90);
 	}
 
@@ -133,7 +134,7 @@ public class Game {
 	}
 
 
-	public void placeTile(String tileType, int tileX, int tileY, int orientation) { 
+	public void placeTile(String tileType, int tileX, int tileY, int orientation) {
 
 		TigerTile tile = new TigerTile(tileType, orientation);
 
@@ -201,9 +202,9 @@ public class Game {
 	public void endGame() {
 		board.end();
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		//Things to address: our moves not being made on board b/c placetile not being called - what is placing for us?
 		//when placetile is called for player1, NullPtrException?
 		//Initialize pre-game
@@ -224,49 +225,49 @@ public class Game {
 		gameB.setTileStack(remainingTiles);
 		gameA.setStartTile("TLTJ-", 0, 0, 0);
 		gameB.setStartTile("TLTJ-", 0, 0, 0);
-		
+
 		gameA.placeTile(0, 1, 90, "TIGER", true, 8);
 		gameB.placeTile(0, 1, 90, "TIGER", false, 8);
 		gameA.board.print();
 		System.out.println();
 		gameB.board.print();
 		System.out.println();
-		
+
 		gameB.placeTile(0, 2, 180, "TIGER", true, 8);
 		gameA.placeTile(0, 2, 180, "TIGER", false, 8);
 		gameA.board.print();
 		System.out.println();
 		gameB.board.print();
 		System.out.println();
-		
+
 		gameA.placeTile(1, 0, 0, "NONE", true, -1);
 		gameB.placeTile(1, 0, 0, "TIGER", false, 4);
 		gameA.board.print();
 		System.out.println();
 		gameB.board.print();
 		System.out.println();
-		
+
 		gameB.placeTile(1, 1, 270, "TIGER", true, 5);
 		gameA.placeTile(1, 1, 270, "TIGER", false, 5);
 		gameA.board.print();
 		System.out.println();
 		gameB.board.print();
 		System.out.println();
-		
+
 		gameA.placeTile(2, 0, 180, "TIGER", true, 1);
 		gameB.placeTile(2, 0, 180, "TIGER", false, 1);
 		gameA.board.print();
 		System.out.println();
 		gameB.board.print();
 		System.out.println();
-		
+
 		gameB.placeTile(0, -1, 180, "TIGER", true, 3);
 		gameA.placeTile(0, -1, 180, "CROCODILE", false, -1);
 		gameA.board.print();
 		System.out.println();
 		gameB.board.print();
 		System.out.println();
-		
+
 		gameA.endGame();
 		gameB.endGame();
 	}

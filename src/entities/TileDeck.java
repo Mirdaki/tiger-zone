@@ -16,7 +16,7 @@ import org.w3c.dom.NodeList;
 
 
 /*
- * This class basically mimics the TileStack class, except now in the form of a randomly 
+ * This class basically mimics the TileStack class, except now in the form of a randomly
  * accessible deck. The only way to get a tile is via randomTile(), which will give a random
  * tile and adjust the deck as needed. This is mostly for testing purposes.
  */
@@ -24,9 +24,9 @@ public class TileDeck {
 	//class members
 	protected Map<Integer, TigerTile> tigerDeck;
 	protected int tileCount;
-	protected Object[] randomDeck; 
+	protected Object[] randomDeck;
 	protected ArrayList<TigerTile> givenDeck = new ArrayList<TigerTile>();
-		
+
 	//constructors
 	/**
 	 * TileStack() constructor, initialize the variables
@@ -36,14 +36,18 @@ public class TileDeck {
 		tigerDeck = new HashMap<Integer, TigerTile>();
 		tileCount = 0;
 		randomDeck = new TigerTile[77];
-		
+		System.out.println("Path is " + System.getProperty("user.dir"));
+
 		try { //attempt to parse XML file of tiles
 
+
 			//file to parse
-			File file = new File("resources/tiles.xml");
+			File file = new File("../resources/tiles.xml");
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
+			System.out.println("here");
 			Document doc = dBuilder.parse(file);
+			System.out.println("here2");
 
 			//if there was stuff inside of the XML file
 			if (doc.hasChildNodes()) {
@@ -65,8 +69,8 @@ public class TileDeck {
 					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
 						//add a tile of said type for each multiplicity into array list
-						for (int j = 0; j < multiplicity; j++, tileCount++) { 
-							
+						for (int j = 0; j < multiplicity; j++, tileCount++) {
+
 							TigerTile newTiler = new TigerTile(eElement);
 							givenDeck.add(newTiler);
 							tigerDeck.put(tileCount, newTiler);
@@ -75,13 +79,13 @@ public class TileDeck {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Error");
+			System.out.println("Error: TileDeck");
 		}
 		randomDeck = tigerDeck.values().toArray();
 
 	}//constructor
 
-	//ACCESSORS 
+	//ACCESSORS
 
 	/**
 	 * getTiles() will return the tile stack
@@ -99,7 +103,7 @@ public class TileDeck {
 		return tileCount;
 	}
 
-	public TigerTile getRandom() { 
+	public TigerTile getRandom() {
 		Random generator = new Random();
 		TigerTile randomTile = (TigerTile) randomDeck[generator.nextInt(randomDeck.length)];
 
@@ -109,13 +113,13 @@ public class TileDeck {
 		return randomTile;
 	}
 
-	public Object[] getRandomDeck() { 
+	public Object[] getRandomDeck() {
 		return randomDeck;
 	}
 
-	//MUTATORS 
+	//MUTATORS
 
-	public void start(String type) { 
+	public void start(String type) {
 		for(Map.Entry<Integer, TigerTile> entry : tigerDeck.entrySet()) {
 			TigerTile temp = entry.getValue();
 			if (temp.getType().equals(type)){
@@ -123,20 +127,19 @@ public class TileDeck {
 				randomDeck = tigerDeck.values().toArray();
 				break;
 			}
-		}		
+		}
 	}
-	
-	public void setActual(ArrayList<TigerTile> given) { 
+
+	public void setActual(ArrayList<TigerTile> given) {
 		this.givenDeck = given;
 	}
-	
-	public String getNext(int next) { 
+
+	public String getNext(int next) {
 		return givenDeck.get(next).getType();
 	}
-	
-	public ArrayList<TigerTile> getGiven() { 
+
+	public ArrayList<TigerTile> getGiven() {
 		return givenDeck;
 	}
 
 }//class
-
