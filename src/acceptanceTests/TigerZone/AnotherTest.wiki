@@ -1,0 +1,19 @@
+---
+Suites: tigerzone, test
+---
+!define TEST_SYSTEM {slim}
+!path /Users/conward1/Desktop/CEN3031/fit/fixture/
+!path /Users/conward1/Desktop/CEN3031/fit/fitnesse-standalone.jar
+!path fitnesse.jar
+
+|import|
+|tigerFixture|
+
+!define COLLAPSE_SETUP {true}
+!define COLLAPSE_TEARDOWN {true}
+
+!1 THIS IS A TEST AND NOT PART OF PLAYER
+!|thisIsATest|
+|TigerTest|ScoreTest|getScoreTest?|
+|7           |0           |0	        |	
+|3           |1           |0            |

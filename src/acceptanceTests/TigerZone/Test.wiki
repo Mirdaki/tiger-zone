@@ -1,0 +1,11 @@
+!define TEST_SYSTEM {slim}
+
+This is a test for learning purposes.
+
+!1 Test Table
+
+|eg.Division|
+|numerator|denominator|quotient?|
+|10       |2          |5        |
+|12.6     |3          |4.2      |
+|100      |4          |33       |

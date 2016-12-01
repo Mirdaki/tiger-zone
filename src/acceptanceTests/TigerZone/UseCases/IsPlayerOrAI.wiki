@@ -1,0 +1,22 @@
+---
+Suites: player, ai, use case
+Test
+---
+!define TEST_SYSTEM {slim}
+!path /Users/conward1/Desktop/CEN3031/fit/fixture/entitiesOld
+
+|import|
+|entities|
+
+!define COLLAPSE_SETUP {true}
+!define COLLAPSE_TEARDOWN {true}
+!1 As a Player I want to know if I am playing against an AI.
+Array of players is created and passed into boardObject, player or AI value is set and then checked.
+Anything but a 0 in Array of players will cause the array in boardObject to not be created.
+The index of the player and computer should be mutually exclusive
+
+!|isPlayerOrAI|
+|ArrayOfPlayers|AI   |Human|ThePlayer|TheComputer|isAI?|isPlayer?|
+|0			   |true |false|0	     |1			 |true |true		|
+|0			   |true |true |1	     |0			 |true |true		|
+|0			   |false|false|1		 |0			 |true |true		|

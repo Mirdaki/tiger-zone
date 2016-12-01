@@ -1,0 +1,17 @@
+---
+Suites: place tile, use case
+Test
+---
+!define TEST_SYSTEM {slim}
+!path /Users/conward1/Desktop/CEN3031/fit/fixture/entitiesOld
+
+|import|
+|entities|
+
+!define COLLAPSE_SETUP {true}
+!define COLLAPSE_TEARDOWN {true}
+!1 As a Player I want to be able to place a tile.
+!|wantToPlaceTile|
+|Orientation|SquareTile|wasTilePlaced?|
+|0          |TLTJ-      |true         |
+|90         |TLTJ-      |false		|
