@@ -2,6 +2,17 @@
 
 Game based on carcassonne for CEN3031
 
+# Team E
+
+Group Members and Usernames
+
+- Matthew Booe - mirdaki
+- Charley Chau - charleychau
+- Josiah Crepeau - crepeau
+- Tana Konda - TanaKonda
+- Connor Ward - conward
+- Zak Mills - 
+
 ## Overall Structure
 
 This is the outline for the interactions of the game

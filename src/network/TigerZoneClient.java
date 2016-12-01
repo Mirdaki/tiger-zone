@@ -13,6 +13,10 @@ import game.Game;
 
 public class TigerZoneClient {
 
+	/**
+	 * Connect to the server and run games as instructed
+	 * @param args Host name, port number, server password, username, password
+	 */
 	public static void main(String[] args) throws Exception {
 
 		//if format not followed, specify
@@ -35,20 +39,13 @@ public class TigerZoneClient {
 				Socket serverSocket = new Socket(hostName, portNumber);
 				PrintWriter out = new PrintWriter(serverSocket.getOutputStream(), true);
 				BufferedReader in = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
-
-				//wait for connection from the "AI"
-				//ServerSocket handlerSocket = new ServerSocket(6789);
-				//Socket ai_Socket = handlerSocket.accept();
-				//PrintWriter ai_OUT = new PrintWriter(ai_Socket.getOutputStream(), true);
-				//BufferedReader ai_IN = new BufferedReader(new InputStreamReader(ai_Socket.getInputStream()));
-
 				) {
 
 			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 			String fromTourneyServer = "", fromHandler, fromAI;
 
 			//variable declarations - information from server
-			String gameID, GameA = null, GameB = null;
+			String gameID, GameA = null, GameB = null; // IDs for games
 			String currentPlayerID;
 			String opponentName;
 			int challengeID, numChallenges;
@@ -74,12 +71,14 @@ public class TigerZoneClient {
 			int animalZone;
 
 			// Games themselves
-			Game gameA;
-			Game gameB;
-			gameA = null;
-			gameB = null;
+			Game gameA = null;
+			Game gameB = null;
+			// Game move count
 			moveANum = 1;
 			moveBNum = 1;
+			// Flag for first game
+			boolean firstGame = false;
+			boolean secondGame = false;
 
 			//tile AI wants to place
 			String tileToPlace;
@@ -124,9 +123,10 @@ public class TigerZoneClient {
 						// Create games
 						gameA = new Game("A");
 						gameB = new Game("B");
-						//gameB.inc();
 						moveANum = 1;
 						moveBNum = 1;
+						firstGame = false;
+						secondGame = false;
 						break;
 
 					case "YOUR": //take in opponent information
@@ -165,7 +165,19 @@ public class TigerZoneClient {
 						gameID = tokenizedMessage[5];
 						String tempMove = tokenizedMessage[10];
 						// Set the right values for the first and second game
-						if (GameA == null && (tempMove.equals("1") || tempMove.equals("2"))){
+						if (!firstGame)
+						{
+							GameA = gameID;
+							firstGame = true;
+						}
+						if (!secondGame)
+						{
+							GameB = gameID;
+							secondGame = true;
+							moveBNum++;
+							gameB.inc();
+						}
+						/*if (GameA == null && (tempMove.equals("1") || tempMove.equals("2"))){
 							GameA = gameID;
 							if (tempMove.equals("2")){
 								moveANum++;
@@ -178,7 +190,7 @@ public class TigerZoneClient {
 								moveBNum++;
 								gameB.inc();
 							}
-						}
+						}*/
 
 						tileToPlace = tokenizedMessage[12];
 						response = "";
