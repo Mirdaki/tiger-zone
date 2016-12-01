@@ -15,6 +15,7 @@ public class TilePair {
 		this.orientation = orientation;
 	}
 	
+	//ACCESSORS
 	public Location getLocation() { 
 		return location;
 	}
@@ -23,6 +24,7 @@ public class TilePair {
 		return orientation;
 	}
 	
+	//MUTATORS
 	public void setLocation(Location location) { 
 		this.location = location;
 	}

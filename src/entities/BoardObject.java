@@ -129,7 +129,7 @@ public class BoardObject {
 	public Map<Integer, Region> getIncomplete() {
 		return incompleteRegions;
 	}
-
+	
 	public Set<Region> getComplete() {
 		return completedRegions;
 	}
@@ -326,7 +326,7 @@ public class BoardObject {
 		return true;
 	}
 
-
+	//Places a tile on the board at a given location
 	public boolean place(TigerTile tile, Location coord) {
 
 		int row = coord.getY();
@@ -533,6 +533,7 @@ public class BoardObject {
 	//		return false;
 	//	}
 
+	//Confirms the move that is to be played on the board
 	public void confirm() {
 		//update the dens and move any completed regions to the completed list
 		updateDens();
@@ -566,10 +567,12 @@ public class BoardObject {
 
 	}
 
+	//updates active player
 	public void switchToActivePlayer(Player player) {
 		activePlayer = player;
 	}
 
+	//Determines if a tile is surrounded on all 8 sides
 	public boolean isSurrounded(Location coord) {
 
 		int row = coord.getY();
@@ -658,6 +661,7 @@ public class BoardObject {
 		}
 	}
 
+	//Merges regions of two tiles across a given edge
 	public void mergeTileRegions(TigerTile a, TigerTile b, int edge) {
 		//tile A will serve as the parent, tile B will be the child
 
@@ -1072,6 +1076,8 @@ public class BoardObject {
 		printScores();
 	}
 
+	//Determines owner of particular region
+	//Based upon number of tigers in region and the owners of the tigers in that region
 	public int regionOwner(Region region) {
 		ArrayList<TigerObject> tigers = region.getTigers();
 		int player1count = 0;
@@ -1091,6 +1097,8 @@ public class BoardObject {
 		return -1;
 	}
 
+	//Determines if the next tile to be played has the ability to placed
+	//Used by AI to make gameplay decisions
 	public boolean canPlace(TigerTile tile) {
 
 		ArrayList<Location> spots = availableSpots;

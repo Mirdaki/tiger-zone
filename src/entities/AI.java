@@ -12,21 +12,31 @@ public class AI {
 	ArrayList<Region> descendingRegions = new ArrayList<Region>();
 	protected int moveCount;
 
+	//AI takes in the current state of the board
+	//decides how to proceed with next move
 	public AI(BoardObject currentBoard) {
 		this.currentBoard = currentBoard;
 	}
 
+	//Creates list of available regions for tiger/crocodile placement
+	//Reorders list of regions in descending order of score potential
+	//First entry in the list should have highest priority for tiger/crocodile placement 
 	public ArrayList<Region> orderedListOfRegions() {
 		//currentBoard.allRegions;
 		ArrayList<Region> descendingRegions = new ArrayList<Region>();
+		//Traverses list of all incomplete regions
 		for(Map.Entry<Integer, Region> entry : currentBoard.incompleteRegions.entrySet()) {
 			Region tempRegion = entry.getValue();
 			//int pX = tempRegion.getPotential
+
+			//Transfers entries from Map to ArrayList
 			descendingRegions.add(tempRegion);
 		}
 		//Collections.sort(descendingRegions, Collections.reverseOrder());
 		int n = descendingRegions.size();
 		Region temp;
+
+		//Bubble sort to reorder list in descending order
 		for(int i=0; i < n; i++){
 			for(int j=1; j < (n-i); j++){
 				if(descendingRegions.get(j-1).getPotential() < descendingRegions.get(j).getPotential()){
@@ -40,15 +50,21 @@ public class AI {
 		return descendingRegions;
 	}
 
+	//Checks how many tigers are in a given region
+	//Returns array where the first entry is the amount of tigers our team has
+	//second entry is the amount of tigers opposing team has
 	public int[] checkOurTigers(Region tempRegion) {
 		int ourTigers = 0;
 		if(tempRegion.hasTigers()) {
+			//Traverses list of all tigers in the region and counts how many belong to Player
 			for(int i = 0; i < tempRegion.getNumOfTigers(); i++) {
 				if(tempRegion.theTigers.get(i).getTigerOwner() == currentBoard.getPlayer(0)) {
 					ourTigers++;
 				}
 			}
 		}
+		//Determines number of opponent's tigers in region given Player's tigers and the amount of tigers
+		//in the region
 		int theirTigers = tempRegion.getNumOfTigers() - ourTigers;
 		int theArray[] = {ourTigers, theirTigers};
 		return theArray;
@@ -67,12 +83,19 @@ public class AI {
 		}
 	}
 	 */
+
+	//Returns String to be given to TigerZoneClient
+	//Checks if a tile can be placed
+	//If tile cannot be placed determines if a tiger will be picked up from/added to a region or to pass
+	//If tile can be placed looks at available spots determines location, orientation and possible tiger/crocodile placement
 	public String getMove(TigerTile currentTile) {
 		movenumber++;
 		boolean placeprinted = false;
 
+		//Current tile to be played is unplaceable
 		if(!currentBoard.canPlace(currentTile)) {
 			ourMove = "TILE " + currentTile.getType() + " ";
+			//If the active player does not have any tigers find one to pick up
 			if(currentBoard.getActivePlayer().getNumOfTigers() == 0) {
 				// pop out tiger we own from least valued incomplete region.
 				ArrayList<Region> dlist = orderedListOfRegions();
@@ -91,6 +114,7 @@ public class AI {
 					}
 				}
 			}
+			//If active player has more than one tiger find a region to add another tiger
 			else if(currentBoard.getActivePlayer().getNumOfTigers() > 1) {
 
 				ArrayList<Region> desclist = orderedListOfRegions();
@@ -113,14 +137,18 @@ public class AI {
 				}
 
 			}
+			//If not decision can be made about adding or picking up a tiger do nothing
 			else {
 				ourMove += "UNPLACEABLE PASS";
 			}
 		}
+		//If current tile to be played is placable
 		else {
 			ourMove = "PLACE " + currentTile.getType() + " ";
 			//BoardObject currentBoard = new BoardObject(currentBoard);
 			//ArrayList<Region> tempArray = orderedListOfRegions();	// O(n^2) so if timeout deal with this.
+			
+			//tempPS is an array list of available locations and orientations the current tile can be played in
 			ArrayList<TilePair> tempPS = currentBoard.getPossibleSpots();
 			int index = -1;
 			// Step 0 - override random if tile is a den tile.
