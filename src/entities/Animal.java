@@ -25,7 +25,11 @@ public class Animal {
 	char getType() {
 		return theType;
 	}
-	
+
+	/**
+	 * To string with animal type
+	 * @return String
+	 */
 	public String toString() {
 		return "Animal type: " + theType;
 	}
