@@ -6,6 +6,8 @@ import entities.*;
 
 public class Game {
 
+	// Properties
+
 	protected String gameID;
 	protected Player[] players;
 	protected BoardObject board;
@@ -13,6 +15,13 @@ public class Game {
 	protected AI ai;
 	protected TileDeck randomDeck;
 
+	// Constructor
+
+	/**
+	 * Creat game
+	 * @param  gameID
+	 * @return        Game
+	 */
 	public Game(String gameID) {
 		this.gameID = gameID;
 		players = new Player[2];
@@ -22,7 +31,10 @@ public class Game {
 		randomDeck = new TileDeck();
 	}
 
-
+	/**
+	 * For testing, to play a move and see if out of tiles
+	 * @return boolean Possible to make move
+	 */
 	public boolean play() {
 
 		System.out.print(makeMove2());
@@ -31,6 +43,10 @@ public class Game {
 		return false;
 	}
 
+	/**
+	 * For testing, to place a tile and meeple
+	 * @return String for sending to server
+	 */
 	public String makeMove2() {
 		//AI will let this method know if tile is unplaceable.
 		//If unplaceable, AI will decide what to do with current turn.
@@ -72,19 +88,37 @@ public class Game {
 
 
 	//ACCESSORS
+
+	/**
+	 * Get game ID
+	 * @return String
+	 */
 	public String getGameID() {
 		return gameID;
 	}
 
+	/**
+	 * Get players
+	 * @return Players[]
+	 */
 	public Player[] getPlayers() {
 		return players;
 	}
 
+	/**
+	 * Get board object
+	 * @return board
+	 */
 	public BoardObject getBoardObject() {
 		return board;
 	}
 
 	//MUTATORS
+
+	/**
+	 * Set game ID
+	 * @param gameID String
+	 */
 	public void setGameID(String gameID) {
 		this.gameID = gameID;
 	}
@@ -93,10 +127,19 @@ public class Game {
 		this.players = players;
 	}*/
 
+	/**
+	 * Set board
+	 * @param board BoardObject
+	 */
 	public void setBoard(BoardObject board) {
 		this.board = board;
 	}
 
+	/**
+	 * Set players
+	 * @param  username String
+	 * @param  opponentName String
+	 */
 	public void setPlayers(String username, String opponentName) {
 		players = new Player[2];
 		Player p1 = new Player(username, true);
@@ -106,13 +149,23 @@ public class Game {
 		board.setPlayers(players);
 	}
 
+	/**
+	 * Start Tile
+	 * @param startType String
+	 * @param startX int
+	 * @param startY int
+	 * @param startOrientation int
+	 */
 	public void setStartTile(String startType, int startX, int startY, int startOrientation) {
 
 		TigerTile startTile = new TigerTile(startType, startOrientation / 90);
 		board.start(startTile, startX, startY, startOrientation / 90);
 	}
 
-
+	/**
+	 * Set tiles Stack
+	 * @param tiles ArrayList<String>
+	 */
 	public void setTileStack(ArrayList<String> tiles) {
 		ArrayList<TigerTile> givenDeck = new ArrayList<TigerTile>();
 
@@ -123,10 +176,18 @@ public class Game {
 		board.setTileDeck(givenDeck);
 	}
 
+	/**
+	 * Set tiles with TigerTiles
+	 * @param tiles ArrayList<TigerTiles>
+	 */
 	public void setTileStack2(ArrayList<TigerTile> tiles) {
 		board.setTileDeck(tiles);
 	}
 
+	/**
+	 * Makes move and place tile
+	 * @return String
+	 */
 	public String makeMove() {
 		//AI will let this method know if tile is unplaceable.
 		//If unplaceable, AI will decide what to do with current turn.
@@ -141,10 +202,20 @@ public class Game {
 		return value;
 	}
 
-public void inc() {
-	move++;
-}
+	/**
+	 * Incremnt move counter
+	 */
+	public void inc() {
+		move++;
+	}
 
+	/**
+	 * Place tile
+	 * @param  tileType String
+	 * @param  tileX int
+	 * @param  tileY int
+	 * @param  orientation int
+	 */
 	public void placeTile(String tileType, int tileX, int tileY, int orientation) {
 
 		TigerTile tile = new TigerTile(tileType, orientation);
@@ -153,6 +224,15 @@ public void inc() {
 
 	}
 
+	/**
+	 * Place the tile
+	 * @param  tileX int
+	 * @param  tileY int
+	 * @param  orientation int
+	 * @param  animal String
+	 * @param  player1 boolean
+	 * @param  tigerZone int
+	 */
 	//If player1 == true, it is player 1's turn
 	public void placeTile(int tileX, int tileY, int orientation, String animal, boolean player1, int tigerZone) {
 
@@ -179,12 +259,22 @@ public void inc() {
 		// move++;
 	}
 
+	/**
+	 * Pass on moving tile, so increment tile stack
+	 */
 	public void pass() {
 		board.getTile(move);
 		board.confirm();
 		move++;
 	}
 
+	/**
+	 * Adds only a tiger or crocodile, no tile
+	 * @param  player1 boolean
+	 * @param  addTiger boolean
+	 * @param  tileX int
+	 * @param  tileY int
+	 */
 	//if boolean addTiger = true, add a tiger to the zone
 	public void unplaceableTile(boolean player1, boolean addTiger, int tileX, int tileY) {
 		board.getTile(move);
@@ -212,10 +302,14 @@ public void inc() {
 		move++;
 	}
 
+	// End the game and baord
 	public void endGame() {
 		board.end();
 	}
 
+	/**
+	 * Test function for game
+	 */
 	public static void main(String[] args) {
 
 		//Things to address: our moves not being made on board b/c placetile not being called - what is placing for us?
