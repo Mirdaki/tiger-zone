@@ -1,24 +1,68 @@
-# Tiger Zone
+# TOURNAMENT BASED TIGER ZONE
 
-Game based on carcassonne for CEN3031
+This is a game rendition inspired and based on the popular board game known as Carcassonne by Klaus-Jurgen Wrede. It is in accordance with the "term" project for Introduction to Software Engineering (CEN3031), taught by Dave Small at the University of Florida. The intention is to have a working game capable of having two players, capable of implementing an Artificial Intelligence, and capable of communicating with a tournament server to compete against the rest of the class' implementations.
 
-# Team E
+Any and all design documents procured during the course of this project have been placed inside of the /documentation/ subdirectory. Some are deprecated, and may have been changed since first implemented. The source code provides a much more in depth commentary and structure, and is the most up to date.
 
-Group Members and Usernames
+Any and all current source code have been placed inside of /src/. 
 
-- Matthew Booe - mirdaki
-- Charley Chau - charleychau
-- Josiah Crepeau - crepeau
-- Tana Konda - TanaKonda
-- Connor Ward - conward
-- Zak Mills - 
+Any and all resources have been placed inside of /resources/. This mainly contains XML formatted information to generate our tiles via a factory design pattern. 
 
-## Overall Structure
+# TEAM INFORMATION
+__COURSE__: CEN3031  
+__TEAM__: E  
+__MEMBERS__: 
 
+- Matthew Booe - _mirdaki_
+- Charley Chau - _charleychau_
+- Josiah Crepeau - _crepeau_
+- Tana Konda - _TanaKonda_
+- Connor Ward - _conward_
+- Zak Mills - _N/A_
+
+## OVERALL ARCHITECTURAL STRUCTURE
+
+There are three main architectural systems, each maintaing sub systems integral to the overall design. There is also two additional systems to handle unit testing (through JUnit) and acceptance testing (FITNesse). 
+
+The three main architectural systems, alongside their relevant entities and value objects are as follows: 
+
+- Tournament Network Handler: instantiates two games and communicates between the tournament server and the game
+	- TigerZoneClient
+	- TigerZoneServer (own implementation test)
+	
+- Entities: 
+	- BoardObject: handles the board
+	- AI: artificial intelligence system that creates 
+	- Terrain: individual terrains specific to a tile
+		- DenTerrain
+		- LakeTerrain
+		- JungleTerrain
+		- TrailTerrain
+	- Region: contains all board regions
+		- DenRegion
+		- LakeRegion
+		- JungleRegion
+		- TrailRegion
+	- TileStack: generates our tiles
+		- TileObject
+			- TigerTile
+			- TileEdges
+			- TilePair
+	- TileDeck: maintains deck (and can generate randomly)
+	- Player
+	- TigerObject
+	- CrocodileObject
+	- Animal
+	
+- Game: integrates all of our entity objects and provides communication medium between server 
+- Tests: all JUnits and FITNesse fixture code
+
+# GAME INTERACTION OUTLINE
 This is the outline for the interactions of the game
 
 - Network Communication
-	- Starts games
+	- Instantiates communication between server
+	- Starts
 	- Receives commands  
 	- Sends commands
 - Game
@@ -56,3 +100,18 @@ This is the outline for the interactions of the game
 		- Score given remaining incomplete regions from board
 		- Score turn per region
 		- Ends game 
+		
+# COMPILATION
+In order to compile our code, run from the `src` folder: 
+>javac game/*.java entities/*.java network/*.java
+
+In order to compile our tests, run 
+>
+
+# RUN
+In order to run our network implementation, from the `root` folder: 
+
+>java network/TigerZoneClient <hostname> <port number> <server pasword> <username> <password>
+
+In order to run our game client, from the `root` folder: 
+> java game/Game
