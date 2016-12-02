@@ -82,9 +82,7 @@ This is the outline for the interactions of the game
 In order to compile our code, run from the `src` folder:
 >javac game/\*.java entities/\*.java network/\*.java
 
-In order to compile our tests, run
->
-
+In order to compile our tests, see below.  
 NOTE: If you do not use Eclipse to compile and run the code, you will have to change the filepath in TileDeck and TigerTile from
 > TileDeck Line 43: File file = new File("resources/tiles.xml");  
 
