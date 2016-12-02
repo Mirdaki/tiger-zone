@@ -16,7 +16,7 @@ import java.util.Set;
 public class BoardObject {
 
 	//BOARD ATTRIBUTES
-	public static final int ROWSIZE = 27, COLSIZE = 27;
+	public static final int ROWSIZE = 11, COLSIZE = 11;
 	public static int startX = 0;
 	public static int startY = 0;
 
@@ -267,46 +267,46 @@ public class BoardObject {
 	 */
 	public boolean valid(TigerTile tile, Location coord) {
 
-		//		if (pending) {
-		//			setReason("Pending move still!");
-		//			return false;
-		//		}
-		//
-		//		//check to see if there is any available tiles of the input type
-		//		if (tile == null) return false;
+		if (pending) {
+			setReason("Pending move still!");
+			return false;
+		}
+
+		//check to see if there is any available tiles of the input type
+		if (tile == null) return false;
 
 		//get queried placement
 		int row = coord.getY();
 		int col = coord.getX();
 
-		//		//if out of bounds of the board, or location filled return false automatically
-		//		if ((row<0 || row>ROWSIZE-1) || (col<0 || col>COLSIZE-1)) {
-		//			setReason("Out of board range. Resize the board?");
-		//			return false;
-		//		}
-		//
+		//if out of bounds of the board, or location filled return false automatically
+		if ((row<0 || row>ROWSIZE-1) || (col<0 || col>COLSIZE-1)) {
+			setReason("Out of board range. Resize the board?");
+			return false;
+		}
+
 		if(board[row][col] != null) {
 			setReason("Spot is filled. Try another location.");
 			return false;
 		}
 
-		//		//find if the requested spot is in the list of accumulated available spots
-		//		boolean found = false;
+		//find if the requested spot is in the list of accumulated available spots
+		boolean found = false;
 		int index = 0;
 		for (int i = 0; i < availableSpots.size(); i++) {
 			if (availableSpots.get(i).equals(coord)) {
 				index = i;
-				//				found = true;
+				found = true;
 				break;
 			}
 		}
-		//
-		//		//if wasn't found in the list, return false
-		//		if (!found) {
-		//			setReason("Requested location isn't in the available spots list");
-		//			return false;
-		//		}
-		//
+
+		//if wasn't found in the list, return false
+		if (!found) {
+			setReason("Requested location isn't in the available spots list");
+			return false;
+		}
+
 		//get adjacent tiles
 		TigerTile north = null, east = null, south = null, west = null;
 		if(row > 0) north = board[row - 1][col];
@@ -315,12 +315,12 @@ public class BoardObject {
 		if(col > 0) west = board[row][col - 1];
 
 		//if tile edges dont match north with adjacent touching edges, return false
-		//		setReason("Can't place for given orientation.");
-		//		if(north != null && north.getEdgeType(TileEdges.SOUTH) != tile.getEdgeType(TileEdges.NORTH))  return false;
-		//		if(east != null && east.getEdgeType(TileEdges.WEST) != tile.getEdgeType(TileEdges.EAST)) return false;
-		//		if(south != null && south.getEdgeType(TileEdges.NORTH) != tile.getEdgeType(TileEdges.SOUTH)) return false;
-		//		if(west != null && west.getEdgeType(TileEdges.EAST) != tile.getEdgeType(TileEdges.WEST)) return false;
-		//		setReason("");
+		setReason("Can't place for given orientation.");
+		if(north != null && north.getEdgeType(TileEdges.SOUTH) != tile.getEdgeType(TileEdges.NORTH))  return false;
+		if(east != null && east.getEdgeType(TileEdges.WEST) != tile.getEdgeType(TileEdges.EAST)) return false;
+		if(south != null && south.getEdgeType(TileEdges.NORTH) != tile.getEdgeType(TileEdges.SOUTH)) return false;
+		if(west != null && west.getEdgeType(TileEdges.EAST) != tile.getEdgeType(TileEdges.WEST)) return false;
+		setReason("");
 
 		//else remove location from available spots list, return true
 		availableSpots.remove(index);
@@ -412,7 +412,6 @@ public class BoardObject {
 		recentPlacement = coord;
 		recentTile = tile;
 
-
 		int index = 0;
 		boolean found = false;
 		for (int i = 0; i < availableSpots.size(); i++) {
@@ -443,110 +442,21 @@ public class BoardObject {
 	 *  @param coord The coordinate location to be placed at
 	 *	@return true if placed, false if not
 	 */
-	//	public boolean place(TigerTile tile, Location coord) {
-	//
-	//		//proceed if valid placement/game is starting
-	//
-	//		if (valid(tile,coord)) {
-	//
-	//
-	//			minSpots.clear();
-	//
-	//			//get coordinates
-	//			int row = coord.getY();
-	//			int col = coord.getX();
-	//			int adjustedY = startY + (COLSIZE/2 - row);
-	//			int adjustedX = startX + (col - ROWSIZE/2);
-	//			String type = tile.getType();
-	//
-	//			//get adjacent tiles, if any
-	//			TigerTile north = null, east = null, south = null, west = null;
-	//			if (row > 0) north = board[row - 1][col];
-	//			if (col < COLSIZE-1) east = board[row][col + 1];
-	//			if (row < ROWSIZE-1) south = board[row + 1][col];
-	//			if (col > 0) west = board[row][col - 1];
-	//
-	//			//initialize potential locations to be added to available spots list
-	//			Location addnorth = null, addeast = null, addwest = null, addsouth = null;
-	//
-	//			addnorth = new Location(adjustedX, adjustedY + 1);
-	//			addeast = new Location(adjustedX + 1, adjustedY);
-	//			addsouth = new Location(adjustedX, adjustedY - 1);
-	//			addwest = new Location(adjustedX - 1, adjustedY);
-	//
-	//			//remove potential dnorthlicate values (is there a better way to do this?)
-	//			for (int i = 0; i < availableSpots.size(); i++) {
-	//				if ((addnorth != null && availableSpots.get(i).equals(addnorth)) ||
-	//						(addwest != null && availableSpots.get(i).equals(addwest)) ||
-	//						(addeast != null && availableSpots.get(i).equals(addeast)) ||
-	//						(addsouth != null && availableSpots.get(i).equals(addsouth)) ||
-	//						availableSpots.get(i).equals(coord))
-	//					availableSpots.remove(i);
-	//			}
-	//
-	//			//if adjacent tiles were empty, add them to available spots to plac
-	//			if (north == null && addnorth != null) availableSpots.add(addnorth);
-	//			if (east == null && addeast != null) availableSpots.add(addeast);
-	//			if (south == null && addsouth != null) availableSpots.add(addsouth);
-	//			if (west == null && addwest != null) availableSpots.add(addwest);
-	//
-	//			Terrain[] terrains = tile.getTerrains();
-	//			boolean connectednorth = (north != null) ? true : false,
-	//					connectedeast = (east != null) ? true : false,
-	//							connectedsouth = (south != null) ? true : false,
-	//									connectedwest = (west != null) ? true : false;
-	//
-	//			for (Terrain terrain : terrains) {
-	//				//				if (terrain instanceof DenTerrain) incompleteRegions.put(terrain.getRegionID(),new DenRegion(terrain));
-	//				if (terrain instanceof LakeTerrain) {
-	//					LakeRegion newRegion = new LakeRegion(terrain);
-	//					int regionID = terrain.getRegionID();
-	//
-	//					incompleteRegions.put(regionID,newRegion);
-	//					allRegions.put(regionID, newRegion);
-	//				}
-	//				else if (terrain instanceof TrailTerrain) {
-	//					TrailRegion newRegion = new TrailRegion(terrain);
-	//					int regionID = terrain.getRegionID();
-	//
-	//					incompleteRegions.put(regionID,newRegion);
-	//					allRegions.put(regionID, newRegion);
-	//				}
-	//				else if (terrain instanceof JungleTerrain) {
-	//					JungleRegion newRegion = new JungleRegion(terrain);
-	//					int regionID = terrain.getRegionID();
-	//
-	//					incompleteRegions.put(regionID,newRegion);
-	//					allRegions.put(regionID, newRegion);
-	//				}
-	//			}
-	//
-	//			if (connectedwest) { mergeTileRegions(west,tile,TileEdges.WEST); }
-	//			if (connectedeast) { mergeTileRegions(east,tile,TileEdges.EAST); }
-	//			if (connectednorth) { mergeTileRegions(north,tile,TileEdges.NORTH); }
-	//			if (connectedsouth) { mergeTileRegions(south,tile,TileEdges.SOUTH); }
-	//
-	//			//if den
-	//			if(tile.getCenter() == 'X') {
-	//				DenRegion newDen = new DenRegion(coord);
-	//				int regionID = newDen.getRegionID();
-	//				incompleteRegions.put(regionID, newDen);
-	//				allRegions.put(regionID, newDen);
-	//			}
-	//
-	//			//set the tile's coordinate to it's new spot, place it, remove from stack
-	//			tile.setCoord(coord);
-	//			board[row][col] = tile;
-	//			recentPlacement = coord;
-	//			recentTile = tile;
-	//			pending = true;
-	//
-	//			return true;
-	//		}
-	//
-	//		setReason("Wasn't able to place.");
-	//		return false;
-	//	}
+	public boolean placeTest(TigerTile tile, Location coord) {
+
+		//proceed if valid placement/game is starting
+
+		if (valid(tile,coord)) {
+			
+			place(tile, coord);
+			confirm();
+			
+			return true;
+		}
+
+//		setReason("Wasn't able to place.");
+		return false;
+	}
 
 	//Confirms the move that is to be played on the board
 	public void confirm() {
@@ -955,7 +865,7 @@ public class BoardObject {
 		}
 		if(min != index && index != 5) {
 			possibleTileSpots.clear();
-			System.out.println(min);
+//			System.out.println(min);
 			setReason("Specified index was not the minimum");
 			return false;
 		}

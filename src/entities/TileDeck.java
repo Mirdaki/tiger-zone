@@ -3,6 +3,7 @@ package entities;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
@@ -22,10 +23,9 @@ import org.w3c.dom.NodeList;
  */
 public class TileDeck {
 	//class members
-	protected Map<Integer, TigerTile> tigerDeck;
+	protected ArrayList<String> tigerDeck;
 	protected int tileCount;
 	protected Object[] randomDeck;
-	protected ArrayList<TigerTile> givenDeck = new ArrayList<TigerTile>();
 
 	//constructors
 	/**
@@ -33,15 +33,14 @@ public class TileDeck {
 	 */
 	public TileDeck() {
 
-		tigerDeck = new HashMap<Integer, TigerTile>();
+		tigerDeck = new ArrayList<String>();
 		tileCount = 0;
-		randomDeck = new TigerTile[77];
+		randomDeck = new String[77];
 
 		try { //attempt to parse XML file of tiles
 
-
 			//file to parse
-			File file = new File("../resources/tiles.xml");
+			File file = new File("resources/tiles.xml");
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
 			Document doc = dBuilder.parse(file);
@@ -67,10 +66,7 @@ public class TileDeck {
 
 						//add a tile of said type for each multiplicity into array list
 						for (int j = 0; j < multiplicity; j++, tileCount++) {
-
-							TigerTile newTiler = new TigerTile(eElement);
-							givenDeck.add(newTiler);
-							tigerDeck.put(tileCount, newTiler);
+							tigerDeck.add(type);
 						}
 					}
 				}
@@ -78,8 +74,7 @@ public class TileDeck {
 		} catch (Exception e) {
 			System.out.println("Error: TileDeck");
 		}
-		randomDeck = tigerDeck.values().toArray();
-
+		randomDeck = tigerDeck.toArray();
 	}//constructor
 
 	//ACCESSORS
@@ -88,7 +83,7 @@ public class TileDeck {
 	 * getTiles() will return the tile stack
 	 * @return the tigerDeck
 	 */
-	public Map<Integer, TigerTile> getTiles() {
+	public ArrayList<String> getDeck() {
 		return tigerDeck;
 	}
 
@@ -100,43 +95,22 @@ public class TileDeck {
 		return tileCount;
 	}
 
-	public TigerTile getRandom() {
-		Random generator = new Random();
-		TigerTile randomTile = (TigerTile) randomDeck[generator.nextInt(randomDeck.length)];
-
-		tigerDeck.remove(randomTile.getTileID());
-		randomDeck = tigerDeck.values().toArray();
-
-		return randomTile;
-	}
-
-	public Object[] getRandomDeck() {
-		return randomDeck;
-	}
-
 	//MUTATORS
+	
+	public void shuffle() {
+		Random generator;
+		String randomTile;
 
-	public void start(String type) {
-		for(Map.Entry<Integer, TigerTile> entry : tigerDeck.entrySet()) {
-			TigerTile temp = entry.getValue();
-			if (temp.getType().equals(type)){
-				tigerDeck.remove(temp.getTileID());
-				randomDeck = tigerDeck.values().toArray();
-				break;
-			}
+		ArrayList<String> randomDeckReturn = new ArrayList<String>();
+				
+		for (int i = 0; i < randomDeck.length; i++) { 
+			generator = new Random();
+			randomTile = (String) randomDeck[generator.nextInt(randomDeck.length)];
+			tigerDeck.remove(i);
+			randomDeck = tigerDeck.toArray();
+			randomDeckReturn.add(randomTile);
 		}
-	}
-
-	public void setActual(ArrayList<TigerTile> given) {
-		this.givenDeck = given;
-	}
-
-	public String getNext(int next) {
-		return givenDeck.get(next).getType();
-	}
-
-	public ArrayList<TigerTile> getGiven() {
-		return givenDeck;
+		tigerDeck = randomDeckReturn;
 	}
 
 }//class
