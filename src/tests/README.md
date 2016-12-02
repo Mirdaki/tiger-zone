@@ -20,3 +20,6 @@ javac entities/*.java
 Now run the desired test file by changing the name of the designated test file in the TestRunner.java class. This is found in line 9. It is pointing to AnimalTest.class by default. You may have to recompile the TestRunner.java file each time something is changed in the .java file. In order to run the desired test, use the following command:
 
 java entities/TestRunner
+
+More information, like how to run these tests in Linux or Mac, can be found here:
+https://www.tutorialspoint.com/junit/junit_environment_setup.htm
