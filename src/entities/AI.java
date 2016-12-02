@@ -20,7 +20,7 @@ public class AI {
 
 	//Creates list of available regions for tiger/crocodile placement
 	//Reorders list of regions in descending order of score potential
-	//First entry in the list should have highest priority for tiger/crocodile placement 
+	//First entry in the list should have highest priority for tiger/crocodile placement
 	public ArrayList<Region> orderedListOfRegions() {
 		//currentBoard.allRegions;
 		ArrayList<Region> descendingRegions = new ArrayList<Region>();
@@ -147,7 +147,7 @@ public class AI {
 			ourMove = "PLACE " + currentTile.getType() + " ";
 			//BoardObject currentBoard = new BoardObject(currentBoard);
 			//ArrayList<Region> tempArray = orderedListOfRegions();	// O(n^2) so if timeout deal with this.
-			
+
 			//tempPS is an array list of available locations and orientations the current tile can be played in
 			ArrayList<TilePair> tempPS = currentBoard.getPossibleSpots();
 			int index = -1;
@@ -269,11 +269,12 @@ public class AI {
 							placeprinted = true;
 
 						}
-//						else { 
-//							ourMove += " TIGER " + region.getRecentMin();
-//							placeprinted = true;
-//
-//						}
+						// TODO: Uncomment this to place tiger on regions other than den
+						// else {
+						// 	ourMove += " TIGER " + region.getRecentMin();
+						// 	placeprinted = true;
+						//
+						// }
 
 					}
 					else {
