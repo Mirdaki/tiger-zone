@@ -11,18 +11,18 @@ public class addSubTigers {
 	private ArrayList<Integer> list = new ArrayList<Integer>(Collections.nCopies(1,0));*/
 
 	private LakeTerrain testTerrain = new LakeTerrain();
-	
+
 	//test region
 	private LakeRegion loneRegion = new LakeRegion(testTerrain);
 
 	//lets you add howMany tigers to loneRegion
 	public void setAddATiger(int howMany) {
 		for(int i = 0; i < howMany; i++) {
-			TigerObject stray = new TigerObject()
+			TigerObject stray = new TigerObject();
 			this.loneRegion.addTiger();
 		}
 	}
-	//Fitnesse requires variables be passed into void functions doOrDont 
+	//Fitnesse requires variables be passed into void functions doOrDont
 	//just means should the method run in fitnesse
 	//a value of 0 allows method to run
 	public void setSubTigers(int doOrDont) {

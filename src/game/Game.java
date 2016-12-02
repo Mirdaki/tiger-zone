@@ -240,11 +240,11 @@ public class Game {
 		Location loc = new Location(tileX, tileY);
 		TigerTile tile = board.getTile(move++);
 		tile.setOrientation(orientation / 90);
-//		System.out.println(tile);
+		System.out.println("The tile is " + tile.getType() + "Location x: " + tileX + " y: " + tileY + ". Player is " + player1);
 
 		if (player1 == true){
 			board.switchToActivePlayer(players[0]);
-			board.place(tile, loc);
+			//board.place(tile, loc);
 
 		}
 		else if (player1 == false) {
@@ -381,9 +381,9 @@ public class Game {
 //
 		System.out.println(gameA.board.getPlayers()[0]);
 		System.out.println(gameA.board.getPlayers()[1]);
-		
-		
-		System.out.println("COMPLETE REGIONS");				
+
+
+		System.out.println("COMPLETE REGIONS");
 		if (gameA.board.getComplete().size() == 0) System.out.println("No complete regions");
 		else for (Region region : gameA.board.getComplete()) System.out.println(region);
 

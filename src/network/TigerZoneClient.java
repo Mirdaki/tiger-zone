@@ -170,6 +170,10 @@ public class TigerZoneClient {
 						{
 							GameA = gameID;
 							firstGame = true;
+							if (gameID == "1")
+								GameB = "2";
+							else
+								GameB = '1';
 						}
 						else if (!secondGame)
 						{
@@ -311,6 +315,7 @@ public class TigerZoneClient {
 						break;
 
 					default:
+						//System.out.println("DID NOT CATCH: " + fromTourneyServer);
 					//break;
 					}
 				}
