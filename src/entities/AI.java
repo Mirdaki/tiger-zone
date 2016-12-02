@@ -269,7 +269,7 @@ public class AI {
 							placeprinted = true;
 
 						}
-						// Uncomment this to place tiger on regions other than den
+						// TODO: Uncomment this to place tiger on regions other than den
 						// else {
 						// 	ourMove += " TIGER " + region.getRecentMin();
 						// 	placeprinted = true;
