@@ -86,11 +86,11 @@ In order to compile our tests, run
 >
 
 NOTE: If you do not use Eclipse to compile and run the code, you will have to change the filepath in TileDeck and TigerTile from
-> TileDeck Line 43: File file = new File("resources/tiles.xml");
-to 
+> TileDeck Line 43: File file = new File("resources/tiles.xml");  
+to  
 > File file = new File("../resources/tiles.xml");
 
-and likewise on
+and likewise on  
 > TigerTile Line 153
 
 ## RUN
