@@ -95,16 +95,16 @@ public class LakeRegion extends Region
 
 				//get the connecting points and adjust for the orientation of the specific tile
 				ArrayList<Integer> terrainConnect = theTerrains.get(i).getTileConnections();
-				int adjustment = 2 * theTerrains.get(i).getOrientation();
+				//				int adjustment = 2 * theTerrains.get(i).getOrientation();
 
 				//for each connection
 				for (Integer spot : terrainConnect) {
 
 					//if connection is there, remove it; else, add in the connecting point
-					if(checker.get(checker.size()-1) == (Integer)Math.floorMod(spot - adjustment + 4,8)) {
-						checker.remove((Integer)Math.floorMod(spot - adjustment + 4,8));
+					if(checker.get(checker.size()-1) == (Integer)Math.floorMod(spot + 4,8)) {
+						checker.remove((Integer)Math.floorMod(spot + 4,8));
 					}
-					checker.add((Integer)Math.floorMod(spot - adjustment, 8));
+					checker.add((Integer)Math.floorMod(spot, 8));
 				}
 			}
 			if(checker.isEmpty()) isCompleted = true;
@@ -184,9 +184,7 @@ public class LakeRegion extends Region
 			}
 
 			//readjust minimum for valid Tiger/Crocodile placements
-			if (aTerrain.getTerrainMin() < getRecentMin()) { 
-				recentMin = aTerrain.getMin();
-			}
+			recentMin = aTerrain.getZoneMin();
 		}
 	}
 	//METHODS 

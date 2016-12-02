@@ -27,10 +27,10 @@ public class TileEdges {
 
 	}
 
-	public TileEdges(Terrain[] terrainPoints, Terrain[] uniqueTerrains) {
+	public TileEdges(Terrain[] terrainPoints, Terrain[] uniqueTerrains, int orientation) {
 		this.terrainPoints = terrainPoints;
 		this.uniqueTerrains = uniqueTerrains;
-		this.orientation = 0;
+		this.orientation = orientation;		
 	}
 
 	//ACCESSORSS

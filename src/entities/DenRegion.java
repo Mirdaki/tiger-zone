@@ -121,8 +121,11 @@ public class DenRegion extends Region {
 		theTigers           = new ArrayList<TigerObject>();
 		theCrocodiles		= new ArrayList<CrocodileObject>();
 		theType             = 'D';
-		recentMin = 5;
+		recentMin 			= 5;
 		this.location 		= location;
+		mooreHood 			= new ArrayList<Location>();
+
+		mooreHood.add(location);
 	}
 
 }

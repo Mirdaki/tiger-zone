@@ -122,9 +122,7 @@ public class JungleRegion extends Region {
 			}
 
 			//if the just added min is less than the most recent min, reset
-			if (aTerrain.getTerrainMin() < getRecentMin()) { 
-				recentMin = aTerrain.getMin();
-			}
+			recentMin = aTerrain.getZoneMin();
 		}
 	}
 

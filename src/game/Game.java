@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import entities.*;
 
@@ -159,7 +160,7 @@ public class Game {
 	public void setStartTile(String startType, int startX, int startY, int startOrientation) {
 
 		TigerTile startTile = new TigerTile(startType, startOrientation / 90);
-		board.start(startTile, startX, startY, startOrientation / 90);
+		board.start(startTile, startX, startY);
 	}
 
 	/**
@@ -238,10 +239,13 @@ public class Game {
 
 		Location loc = new Location(tileX, tileY);
 		TigerTile tile = board.getTile(move++);
-		System.out.println(tile);
 		tile.setOrientation(orientation / 90);
+//		System.out.println(tile);
+
 		if (player1 == true){
 			board.switchToActivePlayer(players[0]);
+			board.place(tile, loc);
+
 		}
 		else if (player1 == false) {
 			board.switchToActivePlayer(players[1]);
@@ -249,7 +253,7 @@ public class Game {
 		}
 
 		if (animal.equals("TIGER")){
-			board.placeTiger(tigerZone);
+			System.out.println(board.placeTiger(tigerZone));
 		}
 		else if (animal.equals("CROCODILE")){
 			board.placeCrocodile();
@@ -334,48 +338,64 @@ public class Game {
 		gameB.setStartTile("TLTJ-", 0, 0, 0);
 
 		gameA.placeTile(0, 1, 90, "TIGER", true, 8);
-		gameB.placeTile(0, 1, 90, "TIGER", false, 8);
+//		gameB.placeTile(0, 1, 90, "TIGER", false, 8);
 		gameA.board.print();
 		System.out.println();
-		gameB.board.print();
-		System.out.println();
+//		gameB.board.print();
+//		System.out.println();
 
-		gameB.placeTile(0, 2, 180, "TIGER", true, 8);
+//		gameB.placeTile(0, 2, 180, "TIGER", true, 8);
 		gameA.placeTile(0, 2, 180, "TIGER", false, 8);
 		gameA.board.print();
-		System.out.println();
-		gameB.board.print();
-		System.out.println();
-
+//		System.out.println();
+//		gameB.board.print();
+//		System.out.println();
+//
 		gameA.placeTile(1, 0, 0, "NONE", true, -1);
-		gameB.placeTile(1, 0, 0, "TIGER", false, 4);
+//		gameB.placeTile(1, 0, 0, "TIGER", false, 4);
 		gameA.board.print();
-		System.out.println();
-		gameB.board.print();
-		System.out.println();
-
-		gameB.placeTile(1, 1, 270, "TIGER", true, 5);
+//		System.out.println();
+//		gameB.board.print();
+//		System.out.println();
+//
+//		gameB.placeTile(1, 1, 270, "TIGER", true, 5);
 		gameA.placeTile(1, 1, 270, "TIGER", false, 5);
 		gameA.board.print();
-		System.out.println();
-		gameB.board.print();
-		System.out.println();
-
+//		System.out.println();
+//		gameB.board.print();
+//		System.out.println();
+//
 		gameA.placeTile(2, 0, 180, "TIGER", true, 1);
-		gameB.placeTile(2, 0, 180, "TIGER", false, 1);
+//		gameB.placeTile(2, 0, 180, "TIGER", false, 1);
 		gameA.board.print();
-		System.out.println();
-		gameB.board.print();
-		System.out.println();
+//		System.out.println();
+//		gameB.board.print();
+//		System.out.println();
+//
+//		gameB.placeTile(0, -1, 180, "TIGER", true, 3);
+		gameA.placeTile(0, -1, 270, "CROCODILE", false, -1);
+		gameA.board.printSpots();
+//		System.out.println();
+//		gameB.board.print();
+//		System.out.println();
+//
+		System.out.println(gameA.board.getPlayers()[0]);
+		System.out.println(gameA.board.getPlayers()[1]);
+		
+		
+		System.out.println("COMPLETE REGIONS");				
+		if (gameA.board.getComplete().size() == 0) System.out.println("No complete regions");
+		else for (Region region : gameA.board.getComplete()) System.out.println(region);
 
-		gameB.placeTile(0, -1, 180, "TIGER", true, 3);
-		gameA.placeTile(0, -1, 180, "CROCODILE", false, -1);
-		gameA.board.print();
-		System.out.println();
-		gameB.board.print();
-		System.out.println();
+		System.out.println("INCOMPLETE REGIONS");
+		for (Map.Entry<Integer, Region> entry : gameA.board.getIncomplete().entrySet()) {
+			System.out.println(entry.getKey() + "/" + entry.getValue());
+
+			for (Terrain terrain : entry.getValue().getTerrains())
+				System.out.println("\t" + terrain);
+		}
 
 		gameA.endGame();
-		gameB.endGame();
+//		gameB.endGame();
 	}
 }

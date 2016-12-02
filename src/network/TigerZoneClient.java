@@ -93,7 +93,7 @@ public class TigerZoneClient {
 
 				if (fromTourneyServer.equals("THIS IS SPARTA!")) { //if first message, send join request
 					out.println("JOIN " + serverPass + "\r");
-					System.out.println("Client: " + "JOIN " + serverPass + "\r");
+					System.out.println("Client: " + "JOIN " + serverPass );
 				}
 				else if (fromTourneyServer.equals("HELLO!")) {  //if request accepted, send authentication
 					out.println("I AM " + userName + " " + userPass + "\r");
@@ -146,6 +146,7 @@ public class TigerZoneClient {
 						break;
 
 					case "THE": //take in the randomized tile list
+						tiles = new ArrayList<String>();
 						numTiles = Integer.parseInt(tokenizedMessage[2]);
 
 						for (int i = 0; i < numTiles; i++)
@@ -170,7 +171,7 @@ public class TigerZoneClient {
 							GameA = gameID;
 							firstGame = true;
 						}
-						if (!secondGame)
+						else if (!secondGame)
 						{
 							GameB = gameID;
 							secondGame = true;
@@ -210,7 +211,7 @@ public class TigerZoneClient {
 
 						// Send our move
 						out.println(response + "\r");
-						System.out.println("Client: " + response + "\r");
+						System.out.println("Client: " + response );
 						break;
 
 					case "GAME": //game logic

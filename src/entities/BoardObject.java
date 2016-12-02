@@ -16,7 +16,7 @@ import java.util.Set;
 public class BoardObject {
 
 	//BOARD ATTRIBUTES
-	public static final int ROWSIZE = 25, COLSIZE = 25;
+	public static final int ROWSIZE = 27, COLSIZE = 27;
 	public static int startX = 0;
 	public static int startY = 0;
 
@@ -32,6 +32,7 @@ public class BoardObject {
 	protected Map<Integer, Region> incompleteRegions; //a mapping to keep track of all of the incomplete regions
 	protected Map<Integer, Region> allRegions;
 	protected Set<Region> completedRegions; //a set of all completed regions
+	protected ArrayList<DenRegion> denRegions;
 
 	protected String whyInvalid; //for error reporting
 	protected Location recentPlacement; //the most recently placed TigerTile
@@ -61,6 +62,7 @@ public class BoardObject {
 		allRegions = new HashMap<Integer, Region>();
 		minSpots = new HashMap<Integer, Integer>();
 		completedRegions = new LinkedHashSet<Region>();
+		denRegions = new ArrayList<DenRegion>();
 		board = new TigerTile[ROWSIZE][COLSIZE];
 		pending = false;
 		whyInvalid = "";
@@ -129,7 +131,7 @@ public class BoardObject {
 	public Map<Integer, Region> getIncomplete() {
 		return incompleteRegions;
 	}
-	
+
 	public Set<Region> getComplete() {
 		return completedRegions;
 	}
@@ -401,6 +403,7 @@ public class BoardObject {
 			int regionID = newDen.getRegionID();
 			incompleteRegions.put(regionID, newDen);
 			allRegions.put(regionID, newDen);
+			denRegions.add(newDen);
 		}
 
 		//set the tile's coordinate to it's new spot, place it, remove from stack
@@ -409,6 +412,18 @@ public class BoardObject {
 		recentPlacement = coord;
 		recentTile = tile;
 
+
+		int index = 0;
+		boolean found = false;
+		for (int i = 0; i < availableSpots.size(); i++) {
+			if (availableSpots.get(i).equals(coord)) {
+				index = i;
+				found = true;
+				break;
+			}
+		}
+
+		if (found) availableSpots.remove(index);
 
 		return true;
 	}
@@ -606,10 +621,9 @@ public class BoardObject {
 	public void updateDens() {
 
 		//find each den in the map of incomplete regions
-		for(Map.Entry<Integer, Region> entry : allRegions.entrySet()) {
+		for (DenRegion denRegion : denRegions) { 
 
 			//get the potential den and ID
-			Region denRegion = entry.getValue();
 			int denRegionID = denRegion.getRegionID();
 
 			//if it was an actual Den Region
@@ -642,12 +656,18 @@ public class BoardObject {
 
 	//function to move all of the completed regions and score in time accordingly
 	public void moveCompleted() {
-		for(Map.Entry<Integer, Region> entry : incompleteRegions.entrySet()) {
-			Region region = entry.getValue();
+
+
+		Iterator it = incompleteRegions.entrySet().iterator();
+
+		while(it.hasNext()) { 
+			Map.Entry pair = (Map.Entry)it.next();
+			Region region = (Region) pair.getValue();
 			if(region.isCompleted() && !region.isScored()) {
 
 				int score = region.getPotential();
 				completedRegions.add(region);
+				it.remove();
 				region.setScored(true);
 
 				//distribute scores
@@ -782,7 +802,7 @@ public class BoardObject {
 				updateMin(aRegion.getRegionID(),aRegion.getRecentMin());
 				incompleteRegions.remove(oldRegionID);
 			}
-		}
+		}		
 	}
 
 	public void updateMin(int regionID, int value) {
@@ -859,6 +879,12 @@ public class BoardObject {
 
 	public boolean placeTiger(int index) {
 
+		for (Terrain terrain : recentTile.getTerrains()) { 
+			if (!minSpots.containsKey(terrain.getRegionID())) { 
+				minSpots.put(terrain.getRegionID(), terrain.getZoneMin());
+			}
+		}
+
 		if (index > 9 || index < 1) {
 			possibleTileSpots.clear();
 			setReason("Index out of bounds");
@@ -892,7 +918,10 @@ public class BoardObject {
 		Terrain terrain = last.getEdge(terrainPoint);
 		int regionID = terrain.getRegionID();
 
-		Region region = incompleteRegions.get(regionID);
+		Region region; 
+		if (index == 5 && !denRegions.isEmpty()) region = denRegions.get(denRegions.size()-1);
+		else region = incompleteRegions.get(regionID);
+
 		if (region == null) {
 			for (Region reg : completedRegions) {
 				if (reg.getRegionID() == regionID) region = reg;
@@ -924,9 +953,9 @@ public class BoardObject {
 		if (minSpots.containsKey(regionID)) {
 			min = region.getRecentMin();
 		}
-		if(min != index) {
+		if(min != index && index != 5) {
 			possibleTileSpots.clear();
-
+			System.out.println(min);
 			setReason("Specified index was not the minimum");
 			return false;
 		}
@@ -937,6 +966,9 @@ public class BoardObject {
 		region.addTiger(stray);
 		recentTile.addTiger(stray);
 		tigerPlaced = true;
+
+		System.out.println(region);
+
 		return true;
 	}
 
@@ -998,6 +1030,7 @@ public class BoardObject {
 	 */
 	public void setPlayers(Player[] players) {
 		this.players = players;
+		activePlayer = players[0];
 	}
 
 	/**
@@ -1012,7 +1045,7 @@ public class BoardObject {
 	 * starting location and orientation. Every specified location from there is
 	 * therefore relative to it.
 	 */
-	public void start(TigerTile startTile, int startX, int startY, int orientation) {
+	public void start(TigerTile startTile, int startX, int startY) {
 		setStart(startX, startY);
 		availableSpots.add(new Location(startX,startY));
 		place(startTile, new Location(startX,startY));
@@ -1073,6 +1106,12 @@ public class BoardObject {
 				if (owner != -1) adjustScore(owner, score);
 			}
 		}
+
+		for (DenRegion den : denRegions) { 
+			int score = den.getPotential();
+			int owner = regionOwner(den);
+			if (owner != -1) adjustScore(owner, score);			
+		}
 		printScores();
 	}
 
@@ -1101,6 +1140,7 @@ public class BoardObject {
 	//Used by AI to make gameplay decisions
 	public boolean canPlace(TigerTile tile) {
 
+		possibleTileSpots.clear();
 		ArrayList<Location> spots = availableSpots;
 		TileEdges edges = tile.getEdges();
 		Terrain[] terrains = edges.getTerrains();
@@ -1205,7 +1245,7 @@ public class BoardObject {
 
 		}
 
-//		System.out.print(possibleTileSpots);
+		//		System.out.print(possibleTileSpots);
 		return canPlace;
 	}
 

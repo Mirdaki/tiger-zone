@@ -110,7 +110,7 @@ public class TigerTile extends TileObject {
 			for (int j = 0; j < tileConnections.size(); j++) { edgeTerrains[tileConnections.get(j)] = terrain; }
 		}
 
-		edges = new TileEdges(edgeTerrains,terrains);
+		edges = new TileEdges(edgeTerrains,terrains,0);
 
 		//add all of the lake associations to any adjacent jungles
 		//this is done by checking to our left and right, and if we are
@@ -184,7 +184,7 @@ public class TigerTile extends TileObject {
 
 					//if there are prey animals, add them to the terrain
 					Animal prey = null;
-					if (special != '-') { prey = new Animal(special); }
+					if (special != '-' && center != 'X') { prey = new Animal(special); }
 
 					//i is a counter variable for the next terrain
 					int i = 0;
@@ -203,7 +203,7 @@ public class TigerTile extends TileObject {
 						//every terrain has a list of locations that it is connected at on a tile
 						while(tokens.hasMoreTokens()) {
 							int temp = Integer.parseInt(tokens.nextToken());
-							edgeConnections.add(Math.floorMod(temp + 2 * orientation, 8));
+							edgeConnections.add(Math.floorMod((temp - 2 * orientation),8));
 						}
 
 						if (regionType.equalsIgnoreCase("jungle")) { terrains[i] = new JungleTerrain(edgeConnections); }
@@ -234,7 +234,7 @@ public class TigerTile extends TileObject {
 					}
 
 					//associate the tile edges with the unique terrains and the terrain list
-					edges = new TileEdges(edgeTerrains,terrains);
+					edges = new TileEdges(edgeTerrains, terrains, orientation);
 
 
 					//add all of the lake associations to any adjacent jungles

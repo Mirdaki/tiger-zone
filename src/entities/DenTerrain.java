@@ -19,7 +19,7 @@ public class DenTerrain extends Terrain {
 		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'D';
-		terrainMin 		   = 5;
+		zoneMin 		   = 5;
 	}
 
 	// Deprecated
@@ -33,7 +33,7 @@ public class DenTerrain extends Terrain {
 		theRegionID		   = 0;
 		theTileConnections = null;
 		theType			   = 'D';
-		terrainMin		   = 5;
+		zoneMin		   = 5;
 	}
 
 	/**
@@ -48,6 +48,6 @@ public class DenTerrain extends Terrain {
 		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'D';
-		terrainMin 		   = 5;
+		zoneMin 		   = 5;
 	}
 }

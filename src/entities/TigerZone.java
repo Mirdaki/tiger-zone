@@ -13,70 +13,99 @@ import game.*;
 public class TigerZone {
 
 	public static void main(String[] args) {
-
-
-		Game game = new Game("wtf");
-		TileDeck deck = new TileDeck();
-		Object[] randomDeck = deck.getRandomDeck();
-		ArrayList<TigerTile> holyshit = new ArrayList<TigerTile>();
-		for (Object random : randomDeck) { 
-			holyshit.add((TigerTile) random);
-		}
-
-		BoardObject board = game.getBoardObject();
-		game.setPlayers("fuck", "you");
-		game.setStartTile("JJJJ-",5,5,0);
-
-//		ArrayList<String> what = new ArrayList<String>();
-//		what.add("JJTJX");
-//		what.add("JLLJ-");
-//		what.add("LLLL-");
-//		what.add("TTTT-");
-
-//		game.setTileStack(what);
-
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-		game.play();
-//		while() { }
-		board.print();
-		board.end();
+//		TigerTile test = new TigerTile("TLTTP",1);
+////		test.setOrientation(1);
+////		test.setOrientation(1);
+//
+//		for (Terrain terrain : test.getTerrains()) { 
+//			System.out.println(terrain);
+//		}
+//				
+		Game gameA = new Game("A");
+		Game gameB = new Game("B");
+		BoardObject gameABoard = gameA.getBoardObject();
+	
+		gameA.setPlayers("josiah", "drew");
+		ArrayList<String> remainingTiles = new ArrayList<String>();
+		remainingTiles.add("TLTTP");
+		remainingTiles.add("LJTJ-");
+		remainingTiles.add("JLJL-");
+		remainingTiles.add("JJTJX");
+		remainingTiles.add("JLTTB");
+		remainingTiles.add("TLLT-");
+		gameA.setTileStack(remainingTiles);
+		gameA.setStartTile("TLTJ-", 0, 0, 0);
 		
+		gameA.placeTile(0, 1, 90, "TIGER", true, 3);
+		System.out.println(gameABoard.getReason());
 		
-		System.out.println("COMPLETE REGIONS");				
-		if (board.getComplete().size() == 0) System.out.println("No complete regions");
-		else for (Region region : board.getComplete()) System.out.println(region);
-
-		System.out.println("INCOMPLETE REGIONS");
-		for (Map.Entry<Integer, Region> entry : board.getIncomplete().entrySet()) {
-			System.out.println(entry.getKey() + "/" + entry.getValue());
-
-//			for (Terrain terrain : entry.getValue().getTerrains())
-//				System.out.println("\t" + terrain);
-		}
+//		System.out.println(gameABoard.placeTiger(9));
+		gameABoard.print();
+		Player[] players = gameABoard.getPlayers();
+		System.out.print(players[0]);
+		
+//		Game game = new Game("wtf");
+//		TileDeck deck = new TileDeck();
+//		Object[] randomDeck = deck.getRandomDeck();
+//		ArrayList<TigerTile> holyshit = new ArrayList<TigerTile>();
+//		for (Object random : randomDeck) { 
+//			holyshit.add((TigerTile) random);
+//		}
+//
+//		BoardObject board = game.getBoardObject();
+//		game.setPlayers("fuck", "you");
+//		game.setStartTile("JJJJ-",5,5,0);
+//
+////		ArrayList<String> what = new ArrayList<String>();
+////		what.add("JJTJX");
+////		what.add("JLLJ-");
+////		what.add("LLLL-");
+////		what.add("TTTT-");
+//
+////		game.setTileStack(what);
+//
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+//		game.play();
+////		while() { }
+//		board.print();
+//		board.end();
+//		
+//		
+//		System.out.println("COMPLETE REGIONS");				
+//		if (board.getComplete().size() == 0) System.out.println("No complete regions");
+//		else for (Region region : board.getComplete()) System.out.println(region);
+//
+//		System.out.println("INCOMPLETE REGIONS");
+//		for (Map.Entry<Integer, Region> entry : board.getIncomplete().entrySet()) {
+//			System.out.println(entry.getKey() + "/" + entry.getValue());
+//
+////			for (Terrain terrain : entry.getValue().getTerrains())
+////				System.out.println("\t" + terrain);
+//		}
 //
 //		Scanner in = new Scanner(System.in);
 //		System.out.println("Option: ");

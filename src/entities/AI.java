@@ -204,6 +204,7 @@ public class AI {
 
 			currentTile.setOrientation(orientation / 90);
 			currentBoard.place(currentTile, new Location(adjustedX, adjustedY));
+			currentBoard.confirm();
 			TigerTile temp = currentBoard.getRecentTile();
 			Terrain[] terrains = temp.getTerrains();
 			Map<Integer, Region> allRegions = currentBoard.getAll();
@@ -265,10 +266,14 @@ public class AI {
 
 						if (currentTile.getCenter()=='X') {
 							ourMove += " TIGER " + 5;
+							placeprinted = true;
 
 						}
-						//else ourMove += " TIGER " + region.getRecentMin();
-						//placeprinted = true;
+//						else { 
+//							ourMove += " TIGER " + region.getRecentMin();
+//							placeprinted = true;
+//
+//						}
 
 					}
 					else {

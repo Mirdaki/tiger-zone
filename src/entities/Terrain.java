@@ -18,8 +18,8 @@ public abstract class Terrain {
 	protected char theType;
 	protected ArrayList<Integer> theTileConnections;
 	public static int terrainNum = 0;
-	protected int orientation;
-	protected int terrainMin; 
+//	protected int orientation;
+	protected int zoneMin; 
 
 	// Constructors
 	public Terrain() {
@@ -43,24 +43,38 @@ public abstract class Terrain {
 		return tileID;
 	}
 
-	public int getMin() { 
-		return terrainMin;
-	}
-
 	public int getRegionID() {
 		return theRegionID;
 	}
 
-	public int getTerrainMin() {
-		if(terrainMin == 0) return 1;
-		else if (terrainMin == 1) return 2;
-		else if (terrainMin == 2) return 3;
-		else if (terrainMin == 3) return 6;
-		else if (terrainMin == 4) return 9;
-		else if (terrainMin == 5) return 8;
-		else if (terrainMin == 6) return 7;
-		else if (terrainMin == 7) return 4;
-		else return terrainMin;	
+	public int getZoneMin() {
+		return zoneMin;
+	}
+	
+	public int adjust(int value) { 
+		if(value == 0) return 1;
+		else if (value == 1) return 2;
+		else if (value == 2) return 3;
+		else if (value == 3) return 6;
+		else if (value == 4) return 9;
+		else if (value == 5) return 8;
+		else if (value == 6) return 7;
+		else if (value == 7) return 4;
+		else return value;			
+	}
+	
+	public int zoneListMin(ArrayList<Integer> list) { 
+		int min = Integer.MAX_VALUE;
+		if (!list.isEmpty()) { 
+			min = adjust(list.get(0));
+			for (Integer value : list) {
+				int adjustedValue = adjust(value);
+				if (adjustedValue < min) { 
+					min = adjustedValue;
+				}
+			}
+		}
+		return min;
 	}
 
 
@@ -75,10 +89,10 @@ public abstract class Terrain {
 	public char getType() {
 		return theType;
 	}
-	
-	public int getOrientation() {
-		return orientation;
-	}
+//	
+//	public int getOrientation() {
+//		return orientation;
+//	}
 
 	public TigerObject getTiger() {
 		return theTiger;
@@ -109,8 +123,8 @@ public abstract class Terrain {
 		this.theRegionID = theRegionID;
 	}
 
-	public void setMin(int terrainMin) { 
-		this.terrainMin = terrainMin;
+	public void setMin(int zoneMin) { 
+		this.zoneMin = zoneMin;
 	}
 
 	public void setTerrainID(int terrainID) {
@@ -160,8 +174,8 @@ public abstract class Terrain {
 			theTileConnections.set(i, newConnect);
 		}
 //		this.orientation = orientation;
-		int newMin = Collections.min(theTileConnections);
-		terrainMin = newMin;
+		int newMin = zoneListMin(theTileConnections);
+		zoneMin = newMin;
 	}
 	
 	//METHODS
@@ -195,6 +209,6 @@ public abstract class Terrain {
 		}
 		String numberOfConnections = String.valueOf(theTileConnections.size());
 		return "The terrain " + terrainID + " of type " + terrainType + " in region " + theRegionID + " has " +
-		hasTiger + " Tigers and " + numberOfConnections + " tile connection(s) (min= " + getTerrainMin() + ")";
+		hasTiger + " Tigers and " + numberOfConnections + " tile connection(s) (Min INDEX= " + getZoneMin() + ")";
 	}
 }

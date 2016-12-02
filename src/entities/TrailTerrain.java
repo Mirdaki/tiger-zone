@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A Trail terrain. Part of a tile.
@@ -31,7 +32,7 @@ public class TrailTerrain extends Terrain
 		theEndOfTrail      = aEndOfTrail;
 		theAnimal          = null;
 		theCrocodile       = aCrocodile;
-		terrainMin 		   = aTileConnections.get(0);
+		zoneMin 		   = zoneListMin(aTileConnections);
 	}
 
 	/**
@@ -52,7 +53,7 @@ public class TrailTerrain extends Terrain
 		theEndOfTrail      = aEndOfTrail;
 		theAnimal          = anAnimal;
 		theCrocodile       = null;
-		terrainMin 		   = aTileConnections.get(0);
+		zoneMin 		   = zoneListMin(aTileConnections);
 	}
 
 	// Getters
@@ -102,7 +103,7 @@ public class TrailTerrain extends Terrain
 		theTileConnections = aTileConnections;
 		theType            = 'T';
 		theEndOfTrail      = aEndOfTrail;
-		terrainMin 		   = aTileConnections.get(0);
+		zoneMin 		   = zoneListMin(aTileConnections);
 	}
 
 }

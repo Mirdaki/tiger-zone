@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A Jungle terrain. Part of a tile.
@@ -23,7 +24,7 @@ public class JungleTerrain extends Terrain
 		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'J';
-		terrainMin 		   = aTileConnections.get(0);
+		zoneMin 		   = zoneListMin(aTileConnections);
 		adjacentLakes	   = new ArrayList<Integer>();
 	}
 
@@ -76,5 +77,6 @@ public class JungleTerrain extends Terrain
 		theRegionID 	   = theTerrainID;
 		theTileConnections = aTileConnections;
 		theType            = 'J';
+		zoneMin 		   = zoneListMin(aTileConnections);
 	}
 }

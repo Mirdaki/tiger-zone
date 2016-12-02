@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A Lake terrain. Part of a tile.
@@ -29,8 +30,7 @@ public class LakeTerrain extends Terrain {
 		theAnimal          = anAnimal;
 		theEndOfLake 	   = aEndOfLake;
 		theCrocodile 	   = null;
-		terrainMin 		   = aTileConnections.get(0);
-		
+		zoneMin 		   = zoneListMin(aTileConnections);
 	}
 
 	// Getters
@@ -72,6 +72,8 @@ public class LakeTerrain extends Terrain {
 		theTileConnections = aTileConnections;
 		theType            = 'L';
 		theAnimal          = anAnimal;
+		zoneMin 		   = zoneListMin(aTileConnections);
+
 	}
 
 	/**
@@ -87,5 +89,6 @@ public class LakeTerrain extends Terrain {
 		theTileConnections = aTileConnections;
 		theType            = 'L';
 		theAnimal          = null;
+		zoneMin 		   = zoneListMin(aTileConnections);
 	}
 }
