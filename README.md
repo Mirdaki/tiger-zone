@@ -107,7 +107,7 @@ The files in `src/tests` are JUnit tests designed to test the methods of each en
 ##Running Tests via Command Line in Windows
 In order to run the JUnit tests via command line, you will first have to download JUnit. That can be done here: https://sourceforge.net/projects/junit/files/junit/4.10/
 
-After downloading the JUnit .jar, place it in whichever directory you would like. One example would be C:\JUnit. After placing the .jar here, open your command prompt and set the JUnit environment. If your JUnit directory was C:\JUNIT, this can be done by the following command:
+After downloading the JUnit .jar, place it in whichever directory you would like. One example would be C:\JUNIT. After placing the .jar here, open your command prompt and set the JUnit environment. If your JUnit directory was C:\JUNIT, this can be done by the following command:
 
 set JUNIT_HOME=C:\JUNIT
 
