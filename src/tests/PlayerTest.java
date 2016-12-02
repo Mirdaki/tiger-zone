@@ -24,6 +24,7 @@ public class PlayerTest {
 	}
 
 	@Test
+	//Test if player has tigers or crocodiles
 	public void playerHasTigerCrocTest() {
 		Player p1 = new Player("Red", true);
 		
@@ -32,6 +33,7 @@ public class PlayerTest {
 	}
 	
 	@Test
+	//Test if removal of tiger and crocodile works
 	public void removeTigerCrocTest() {
 		Player p1 = new Player("Red", true);
 		p1.removeCroc();
@@ -44,6 +46,7 @@ public class PlayerTest {
 	}
 	
 	@Test
+	//Test if player comparison works
 	public void playerEqualsTest() {
 		Player p1 = new Player("Red", true);
 		Player p2 = new Player("Blue", true);
@@ -52,6 +55,7 @@ public class PlayerTest {
 	}
 	
 	@Test
+	//Test if player scoring works
 	public void playerSetAndAddScoreTest()
 	{
 		Player p1 = new Player("Red", false);
@@ -62,7 +66,9 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void playersFirstAndAITest()
+	//Test if player is first
+	//May not need
+	public void playersFirstTest()
 	{
 		Player p1 = new Player("Red", true);
 

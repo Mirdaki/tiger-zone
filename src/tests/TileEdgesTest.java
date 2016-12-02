@@ -27,7 +27,7 @@ public class TileEdgesTest {
 		terrainPoints[2] = t3;
 		Terrain[] uniqueTerrains = new Terrain[8];
 		uniqueTerrains[0] = t1;
-		TileEdges t = new TileEdges(terrainPoints, uniqueTerrains);
+		TileEdges t = new TileEdges(terrainPoints, uniqueTerrains, 0);
 		
 		assertEquals('L', t.getType(0));
 		assertEquals(8, t.getTerrains().length);
@@ -51,8 +51,8 @@ public class TileEdgesTest {
 		terrainPoints2[2] = t4;
 		Terrain[] uniqueTerrains = new Terrain[8];
 		uniqueTerrains[0] = t1;
-		TileEdges t = new TileEdges(terrainPoints, uniqueTerrains);
-		TileEdges s = new TileEdges(terrainPoints2, uniqueTerrains);
+		TileEdges t = new TileEdges(terrainPoints, uniqueTerrains, 0);
+		TileEdges s = new TileEdges(terrainPoints2, uniqueTerrains, 0);
 		
 		assertFalse(t.equals(s));
 	}
@@ -69,7 +69,7 @@ public class TileEdgesTest {
 		terrainPoints[2] = t3;
 		Terrain[] uniqueTerrains = new Terrain[8];
 		uniqueTerrains[0] = t1;
-		TileEdges t = new TileEdges(terrainPoints, uniqueTerrains);
+		TileEdges t = new TileEdges(terrainPoints, uniqueTerrains, 0);
 		char[] points = t.getEntireEdge(0);
 		
 		assertEquals('L', points[0]);

@@ -28,8 +28,8 @@ public class TigerObjectTest {
 		Location x = new Location(1, 2);
 		testTiger.setLocation(x);
 		
-		assertEquals(13, testTiger.getLocation().getX());
-		assertEquals(10, testTiger.getLocation().getY());
+		assertEquals(14, testTiger.getLocation().getX());
+		assertEquals(11, testTiger.getLocation().getY());
 	}
 	
 	/*@Test

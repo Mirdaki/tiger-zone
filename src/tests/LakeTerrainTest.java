@@ -20,7 +20,7 @@ public class LakeTerrainTest {
 		ArrayList<Integer> tileConnections = new ArrayList<>(Arrays.asList(2, 5, 6));
 		LakeTerrain t1 = new LakeTerrain(tileConnections, true, null);
 
-		assertEquals(2, t1.getMin());
+		assertEquals(3, t1.getZoneMin());
 		assertEquals('L', t1.getType());
 		assertEquals(null, t1.getTiger());
 		assertEquals(null, t1.getCrocodile());

@@ -17,6 +17,15 @@ public class CrocodileObjectTest {
 		assertEquals("Red", croc.getCrocodileOwner().getID());
 		assertEquals(-1, croc.getRegionID());
 	}
+	
+	@Test
+	public void setRegionIDTest() {
+		Player p1 = new Player("Red", true);
+		CrocodileObject croc = new CrocodileObject(p1);
+		croc.setRegionID(12);
+		
+		assertEquals(12, croc.getRegionID());
+	}
 
 	/*@Test
 	public void crocToStringTest() {

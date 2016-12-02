@@ -22,7 +22,7 @@ public class TrailTerrainTest {
 
 		assertEquals(false, t1.isEndOfTrail());
 		assertEquals(7, t1.getTerrainID());
-		assertEquals(2, t1.getMin());
+		assertEquals(3, t1.getZoneMin());
 		assertEquals('T', t1.getType());
 		assertEquals(null, t1.getTiger());
 		assertEquals(null, t1.getCrocodile());

@@ -19,7 +19,7 @@ public class DenTerrainTest {
 		DenTerrain t1 = new DenTerrain(tileConnections, 5);
 
 		assertEquals(5, t1.getTerrainID());
-		assertEquals(5, t1.getMin());
+		assertEquals(5, t1.getZoneMin());
 		assertEquals('D', t1.getType());
 		assertEquals(null, t1.getTiger());
 		assertEquals(null, t1.getCrocodile());

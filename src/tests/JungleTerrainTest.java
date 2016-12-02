@@ -19,7 +19,7 @@ public class JungleTerrainTest {
 		JungleTerrain t1 = new JungleTerrain(tileConnections, 6);
 
 		assertEquals(6, t1.getTerrainID());
-		assertEquals(0, t1.getMin());
+		assertEquals(3, t1.getZoneMin());
 		assertEquals('J', t1.getType());
 		assertEquals(null, t1.getTiger());
 		assertEquals(null, t1.getCrocodile());

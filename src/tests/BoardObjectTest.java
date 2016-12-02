@@ -21,10 +21,14 @@ public class BoardObjectTest {
 		players[0] = p1;
 		players[1] = p2;
 		board.setPlayers(players);
-		board.start(t, 0, 0, 0);
+		board.start(t, 0, 0);
 		
-		assertEquals(12, board.getAS().get(0).getX());
-		assertEquals(11, board.getAS().get(0).getY());
+		assertEquals(13, board.getAS().get(0).getX());
+		assertEquals(12, board.getAS().get(0).getY());
+		assertEquals(2, board.getPlayers().length);
+		assertEquals("TLTJ-", board.getTile(new Location(0, 0)).getType());
+		assertEquals(0, board.getStartX());
+		assertEquals(0, board.getStartY());
 	}
 
 	@Test
@@ -53,7 +57,7 @@ public class BoardObjectTest {
 		players[0] = p1;
 		players[1] = p2;
 		board.setPlayers(players);
-		board.start(t, 0, 0, 0);
+		board.start(t, 0, 0);
 		
 		assertEquals("Red", board.getActivePlayer().getID());
 		
@@ -73,7 +77,7 @@ public class BoardObjectTest {
 		players[0] = p1;
 		players[1] = p2;
 		board.setPlayers(players);
-		board.start(t, 0, 0, 0);
+		board.start(t, 0, 0);
 		board.confirm();
 		
 		assertEquals("Blue", board.getActivePlayer().getID());
@@ -90,7 +94,7 @@ public class BoardObjectTest {
 		players[0] = p1;
 		players[1] = p2;
 		board.setPlayers(players);
-		board.start(t, 0, 0, 0);
+		board.start(t, 0, 0);
 		TigerTile t2 = new TigerTile("JJJJ-", 0);
 		Location l = new Location(-1, 0);
 		board.place(t2, l);
@@ -99,8 +103,8 @@ public class BoardObjectTest {
 	}
 	
 	@Test
-	//Test if tiger was placed on board
-	public void boardPlaceTigerTest() {
+	//Test if tiger can be placed on board and removed
+	public void boardPlaceRemoveTigerTest() {
 		BoardObject board = new BoardObject(); //create the board
 		TigerTile t = new TigerTile("TLTJ-", 0);
 		Player[] players = new Player[2];
@@ -109,13 +113,17 @@ public class BoardObjectTest {
 		players[0] = p1;
 		players[1] = p2;
 		board.setPlayers(players);
-		board.start(t, 0, 0, 0);
+		board.start(t, 0, 0);
 		TigerTile t2 = new TigerTile("JJJJ-", 0);
 		Location l = new Location(-1, 0);
 		board.place(t2, l);
 		board.placeTiger(1);
 		
 		assertEquals(1, board.getTile(l).getTigers().size());
+		
+		board.removeTiger(new Location(-1, 0));
+		
+		assertEquals(0, board.getTile(l).getTigers().size());
 	}
 	
 	@Test
@@ -129,11 +137,33 @@ public class BoardObjectTest {
 		players[0] = p1;
 		players[1] = p2;
 		board.setPlayers(players);
-		board.start(t, 0, 0, 0);
+		board.start(t, 0, 0);
 		TigerTile s = new TigerTile("JJTJX", 0);
 
 		//Placement at (-1,0) should be valid
 		assertTrue(board.valid(s, new Location(-1, 0)));
+	}
+	
+	@Test
+	//Test for placing start tile and setting start location
+	public void startTest() {
+		BoardObject board = new BoardObject(); //create the board
+		TigerTile t = new TigerTile("TLTJ-", 0);
+		Player[] players = new Player[2];
+		Player p1 = new Player("Red", true);
+		Player p2 = new Player("Blue", false);
+		players[0] = p1;
+		players[1] = p2;
+		board.setPlayers(players);
+		board.start(t, 0, 0);
+		
+		assertEquals(0, board.getStartX());
+		assertEquals(0, board.getStartY());
+		assertEquals("TLTJ-", board.getTile(new Location(0, 0)).getType());
+		
+		board.setStart(1, 1);
+		assertEquals(1, board.getStartX());
+		assertEquals(1, board.getStartY());
 	}
 	
 	@Test
@@ -147,7 +177,7 @@ public class BoardObjectTest {
 		players[0] = p1;
 		players[1] = p2;
 		board.setPlayers(players);
-		board.start(t, 0, 0, 0);
+		board.start(t, 0, 0);
 		TigerTile s = new TigerTile("JJTJX", 0);
 		
 		assertTrue(board.canPlace(s));
@@ -163,7 +193,7 @@ public class BoardObjectTest {
 		players[0] = p1;
 		players[1] = p2;
 		board.setPlayers(players);
-		board.start(t, 0, 0, 0);
+		board.start(t, 0, 0);
 		TigerTile t2 = new TigerTile("JLTTB", 2);
 		Location l = new Location(1, 0);
 		board.place(t2, l);

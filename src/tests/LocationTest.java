@@ -13,10 +13,10 @@ public class LocationTest {
 		Location l1 = new Location();
 		Location l2 = new Location(2, 3);
 
-		assertEquals(12, l1.getX());
-		assertEquals(12, l1.getY());
-		assertEquals(14, l2.getX());
-		assertEquals(9, l2.getY());
+		assertEquals(13, l1.getX());
+		assertEquals(13, l1.getY());
+		assertEquals(15, l2.getX());
+		assertEquals(10, l2.getY());
 	}
 
 	@Test
