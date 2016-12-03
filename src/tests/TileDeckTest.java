@@ -15,29 +15,34 @@ public class TileDeckTest {
 	public void tileDeckConstructorAndGetterTest() {
 		TileDeck t = new TileDeck();
 		
-		assertEquals(77, t.getTiles().size());
+		assertEquals(77, t.getDeck().size());
 		assertEquals(77, t.getTileCount());
 	}
 	
-	
 	@Test
-	//Tests if a random tile was able to be pulled from the deck
-	public void tileGetRandomTest() {
-		TileDeck t = new TileDeck();
+	//Test if deck was shuffled
+	public void shuffleTest() {
+		TileDeck t1 = new TileDeck();
+		TileDeck t2 = new TileDeck();
 		
-		assertEquals(0, t.getRandom().getOrientation());
+		assertTrue(t1.getDeck().get(1).equals(t2.getDeck().get(1)));
+		
+		t1.shuffle();
+		
+		assertFalse(t1.getDeck().get(1).equals(t2.getDeck().get(1)));
 	}
 	
-	@Test
+	//DEPRECATED
+	/*@Test
 	//Tests if start properly takes the start tile away from deck
 	public void startTest() {
 		TileDeck t = new TileDeck();
 		t.start("TLTJ-");
 		
 		assertEquals(76, t.getTiles().size());
-	}
+	}*/
 
-	@Test
+	/*@Test
 	//Tests if tiledeck can be set and if getNext retrieves the next tile in the deck
 	public void tiledeckSetAndGetNextTest() {
 		TileDeck t = new TileDeck();
@@ -51,6 +56,13 @@ public class TileDeckTest {
 
 		assertEquals("JJJJ-", t.getNext(0));
 		assertEquals("JJJJX", t.getNext(1));
-	}
+	}*/
 
+	/*@Test
+	//Tests if a random tile was able to be pulled from the deck
+	public void tileGetRandomTest() {
+		TileDeck t = new TileDeck();
+		
+		assertEquals(0, t.getRandom().getOrientation());
+	}*/
 }
