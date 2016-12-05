@@ -40,7 +40,7 @@ public class TileDeck {
 		try { //attempt to parse XML file of tiles
 
 			//file to parse
-			File file = new File("resources/tiles.xml");
+			File file = new File("../resources/tiles.xml");
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
 			Document doc = dBuilder.parse(file);
@@ -96,14 +96,14 @@ public class TileDeck {
 	}
 
 	//MUTATORS
-	
+
 	public void shuffle() {
 		Random generator;
 		String randomTile;
 
 		ArrayList<String> randomDeckReturn = new ArrayList<String>();
-				
-		for (int i = 0; i < randomDeck.length; i++) { 
+
+		for (int i = 0; i < randomDeck.length; i++) {
 			generator = new Random();
 			randomTile = (String) randomDeck[generator.nextInt(randomDeck.length)];
 			tigerDeck.remove(i);

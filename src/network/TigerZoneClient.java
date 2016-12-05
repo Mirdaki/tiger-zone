@@ -125,6 +125,8 @@ public class TigerZoneClient {
 						gameB = new Game("B");
 						moveANum = 1;
 						moveBNum = 1;
+						GameA = "1";
+						GameB = "2";
 						firstGame = false;
 						secondGame = false;
 						break;
@@ -141,6 +143,7 @@ public class TigerZoneClient {
 						startingY = Integer.parseInt(tokenizedMessage[6]);
 						startingOrientation = Integer.parseInt(tokenizedMessage[7]);
 						// Give games starting spots
+						//System.out.println("LOG: Starting Tile " + startingTile + " X " + startingX + " Y " + startingY + " Orientation " + startingOrientation);
 						gameA.setStartTile(startingTile, startingX, startingY, startingOrientation);
 						gameB.setStartTile(startingTile, startingX, startingY, startingOrientation);
 						break;
@@ -166,22 +169,36 @@ public class TigerZoneClient {
 						gameID = tokenizedMessage[5];
 						String tempMove = tokenizedMessage[10];
 						// Set the right values for the first and second game
-						if (!firstGame)
+						/*if (!firstGame)
+						{
+							firstGame = true;
+							if (gameID.equals(GameA))
+							{
+								gameB.inc();
+								moveBNum++;
+							}
+							else
+							{
+								gameA.inc();
+								moveANum++;
+							}
+						}*/
+						/*if (!firstGame)
 						{
 							GameA = gameID;
 							firstGame = true;
 							if (gameID == "1")
-								GameB = "2";
+								GameA = "2";
 							else
-								GameB = '1';
+								GameB = "1";
 						}
 						else if (!secondGame)
 						{
 							GameB = gameID;
 							secondGame = true;
-							moveBNum++;
-							gameB.inc();
-						}
+							//moveBNum++;
+							//gameB.inc();
+						}*/
 						/*if (GameA == null && (tempMove.equals("1") || tempMove.equals("2"))){
 							GameA = gameID;
 							if (tempMove.equals("2")){

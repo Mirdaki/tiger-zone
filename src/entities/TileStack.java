@@ -39,7 +39,7 @@ public class TileStack {
         try { //attempt to parse XML file of tiles
 
             //file to parse
-			File file = new File("resources/tiles.xml");
+			File file = new File("../resources/tiles.xml");
        		DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
        		Document doc = dBuilder.parse(file);
