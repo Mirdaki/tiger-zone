@@ -16,7 +16,7 @@ import java.util.Set;
 public class BoardObject {
 
 	//BOARD ATTRIBUTES
-	public static final int ROWSIZE = 11, COLSIZE = 11;
+	public static final int ROWSIZE = 27, COLSIZE = 27;
 	public static int startX = 0;
 	public static int startY = 0;
 
@@ -471,13 +471,12 @@ public class BoardObject {
 		tigerPlaced = false;
 		crocodilePlaced = false;
 
-		if (activePlayer.equals(players[0]))
-		{
-			activePlayer = players[1];
-		}
-		else {
-			activePlayer = players[0];
-		}
+//		if (activePlayer.equals(players[0])) {
+//			activePlayer = players[1];
+//		}
+//		else {
+//			activePlayer = players[0];
+//		}
 
 	}
 
@@ -657,8 +656,8 @@ public class BoardObject {
 
 			aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
 
-			if (aRegion.hasTigers()) while(it.hasNext()) { aRegion.addTiger(bRegion.removeTiger()); }
-			if (aRegion.hasCrocodiles()) while(itCrocs.hasNext()) { aRegion.addCrocodile(bRegion.removeCrocodile()); }
+			if (bRegion.hasTigers()) while(it.hasNext()) { aRegion.addTiger(bRegion.removeTiger()); }
+			if (bRegion.hasCrocodiles()) while(itCrocs.hasNext()) { aRegion.addCrocodile(bRegion.removeCrocodile()); }
 
 			updateMin(aRegion.getRegionID(),aRegion.getRecentMin());
 			incompleteRegions.remove(oldRegionID);
@@ -683,8 +682,8 @@ public class BoardObject {
 
 				aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
 
-				if (aRegion.hasTigers()) while(it.hasNext()) { aRegion.addTiger(bRegion.removeTiger()); }
-				if (aRegion.hasCrocodiles()) while(itCrocs.hasNext()) { aRegion.addCrocodile(bRegion.removeCrocodile()); }
+				if (bRegion.hasTigers()) while(it.hasNext()) { aRegion.addTiger(bRegion.removeTiger()); }
+				if (bRegion.hasCrocodiles()) while(itCrocs.hasNext()) { aRegion.addCrocodile(bRegion.removeCrocodile()); }
 
 				updateMin(aRegion.getRegionID(),aRegion.getRecentMin());
 				incompleteRegions.remove(oldRegionID);
@@ -706,8 +705,8 @@ public class BoardObject {
 
 				aRegion.addTerrain(bRegion.getTerrains(),aRegion.getRegionID());
 
-				if (aRegion.hasTigers()) while(it.hasNext()) { aRegion.addTiger(bRegion.removeTiger()); }
-				if (aRegion.hasCrocodiles()) while(itCrocs.hasNext()) { aRegion.addCrocodile(bRegion.removeCrocodile()); }
+				if (bRegion.hasTigers()) while(it.hasNext()) { aRegion.addTiger(bRegion.removeTiger()); }
+				if (bRegion.hasCrocodiles()) while(itCrocs.hasNext()) { aRegion.addCrocodile(bRegion.removeCrocodile()); }
 
 				updateMin(aRegion.getRegionID(),aRegion.getRecentMin());
 				incompleteRegions.remove(oldRegionID);
@@ -787,7 +786,7 @@ public class BoardObject {
 
 	}
 
-	public boolean placeTiger(int index) {
+	public boolean placeTigerTest(int index) {
 
 		for (Terrain terrain : recentTile.getTerrains()) { 
 			if (!minSpots.containsKey(terrain.getRegionID())) { 
@@ -877,12 +876,63 @@ public class BoardObject {
 		recentTile.addTiger(stray);
 		tigerPlaced = true;
 
-		System.out.println(region);
+//		System.out.println(region);
+
+		return true;
+	}
+	
+	public boolean placeTiger(int index) {
+		
+		int terrainPoint = adjustIndex(index, true);
+		Terrain terrain = recentTile.getEdge(terrainPoint);
+		int regionID = terrain.getRegionID();
+
+		Region region; 
+		if (index == 5 && !denRegions.isEmpty()) region = denRegions.get(denRegions.size()-1);
+		else region = incompleteRegions.get(regionID);
+
+		if (region == null) {
+			for (Region reg : completedRegions) {
+				if (reg.getRegionID() == regionID) region = reg;
+			}
+		}
+
+		TigerObject stray = activePlayer.removeTiger();
+		stray.setRegionID(regionID);
+		stray.setLocation(recentPlacement);
+		region.addTiger(stray);
+		recentTile.addTiger(stray);
 
 		return true;
 	}
 
 	public boolean placeCrocodile() {
+
+		TigerTile last = recentTile;
+
+		Terrain[] terrains = last.getTerrains();
+		CrocodileObject hatchling = activePlayer.removeCroc();
+
+		for (Terrain terrain : terrains) {
+			int regionID = 0;
+			if (terrain instanceof LakeTerrain || terrain instanceof TrailTerrain) {
+				regionID = terrain.getRegionID();
+
+				Region region = allRegions.get(regionID);
+
+				if(region == null) {
+					break;
+				}
+				if (!region.hasCrocodiles()) {
+					region.addCrocodile(hatchling);
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public boolean placeCrocodileTest() {
 
 		Location recent = recentPlacement;
 		TigerTile last = getTile(recent);
@@ -1022,7 +1072,7 @@ public class BoardObject {
 			int owner = regionOwner(den);
 			if (owner != -1) adjustScore(owner, score);			
 		}
-		printScores();
+//		printScores();
 	}
 
 	//Determines owner of particular region

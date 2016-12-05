@@ -130,12 +130,13 @@ public class Game {
 	 * Makes move and place tile
 	 * @return String
 	 */
-	public String makeMove() {
+	public String makeMove(int move) {
 		//AI will let this method know if tile is unplaceable.
 		//If unplaceable, AI will decide what to do with current turn.
 		//If placeable, pass tile string to AI, get the move, and pass to client.
 
-		TigerTile tile = board.getTile(++move);
+		board.switchToActivePlayer(players[0]);
+		TigerTile tile = board.getTile(move-1);
 		String value = ai.getMove(tile);
 		return value;
 	}
@@ -169,18 +170,14 @@ public class Game {
 	 * @param  tigerZone int
 	 */
 	//If player1 == true, it is player 1's turn
-	public void placeTile(int tileX, int tileY, int orientation, String animal, boolean player1, int tigerZone) {
+	public void placeTile(int tileX, int tileY, int orientation, String animal, boolean player1, int tigerZone, int move) {
 
 		Location loc = new Location(tileX, tileY);
-		TigerTile tile = board.getTile(move++);
+		TigerTile tile = board.getTile(move-1);
 		tile.setOrientation(orientation / 90);
 		//		System.out.println(tile);
 
-		if (player1 == true){
-			board.switchToActivePlayer(players[0]);
-			//			board.place(tile, loc);
-			System.out.println("The tile is " + tile.getType() + "Location x: " + tileX + " y: " + tileY + ". Player is " + player1);
-		}
+
 		if (player1 == true){
 			board.switchToActivePlayer(players[0]);
 			//board.place(tile, loc);
@@ -192,14 +189,13 @@ public class Game {
 		}
 
 		if (animal.equals("TIGER")){
-			System.out.println(board.placeTiger(tigerZone));
+			board.placeTiger(tigerZone);
 		}
 		else if (animal.equals("CROCODILE")){
 			board.placeCrocodile();
 		}
 
 		board.confirm();
-		// move++;
 	}
 
 	/**
@@ -245,16 +241,82 @@ public class Game {
 		move++;
 	}
 
-	// End the game and baord
+	// End the game and board
 	public void endGame() {
 		board.end();
 	}
 
+	public int getMove() { 
+		return move;
+	}
 	/**
 	 * Test function for game
 	 */
 	public static void main(String[] args) {
 
+		String username = "Red";
+		String opponent = "Blue";
+		Game gameA = new Game("A");
+		Game gameB = new Game("B");
+		gameA.setPlayers(username, opponent);
+		gameB.setPlayers(username, opponent);
+		ArrayList<String> remainingTiles = new ArrayList<String>();
+		remainingTiles.add("TLTTP");
+		remainingTiles.add("LJTJ-");
+		remainingTiles.add("JLJL-");
+		remainingTiles.add("JJTJX");
+		remainingTiles.add("JLTTB");
+		remainingTiles.add("TLLT-");
+		gameA.setTileStack(remainingTiles);
+		gameB.setTileStack(remainingTiles);
+		gameA.setStartTile("TLTJ-", 0, 0, 0);
+		gameB.setStartTile("TLTJ-", 0, 0, 0);
+		
+		gameA.placeTile(0, 1, 90, "TIGER", true, 8,1);
+		gameB.placeTile(0, 1, 90, "TIGER", false, 8,1);
+		gameA.board.print();
+		System.out.println();
+		gameB.board.print();
+		System.out.println();
+		
+		gameB.placeTile(0, 2, 180, "TIGER", true, 8,2);
+		gameA.placeTile(0, 2, 180, "TIGER", false, 8,2);
+		gameA.board.print();
+		System.out.println();
+		gameB.board.print();
+		System.out.println();
+		
+		gameA.placeTile(1, 0, 0, "NONE", true, -1,3);
+		gameB.placeTile(1, 0, 0, "TIGER", false, 4,3);
+		gameA.board.print();
+		System.out.println();
+		gameB.board.print();
+		System.out.println();
+		
+		gameB.placeTile(1, 1, 270, "TIGER", true, 5,4);
+		gameA.placeTile(1, 1, 270, "TIGER", false, 5,4);
+		gameA.board.print();
+		System.out.println();
+		gameB.board.print();
+		System.out.println();
+		
+		gameA.placeTile(2, 0, 180, "TIGER", true, 1,5);
+		gameB.placeTile(2, 0, 180, "TIGER", false, 1,5);
+		gameA.board.print();
+		System.out.println();
+		gameB.board.print();
+		System.out.println();
+		
+		gameB.placeTile(0, -1, 270, "TIGER", true, 3,6);
+		gameA.placeTile(0, -1, 270, "CROCODILE", false, -1,6);
+		gameA.board.print();
+		System.out.println();
+		gameB.board.print();
+		System.out.println();
+		
+		gameA.endGame();
+		gameB.endGame();
+		
 		/* 
 		 * Example game against AI. You are player 1, the AI is player 2. All moves are final,
 		 * will display invalid move and quit the game.
@@ -263,118 +325,118 @@ public class Game {
 		 * its moves automatically. This will treat the starting tile as the first one from the 
 		 * deck. 
 		 */
-		Game game = new Game("test");
-		BoardObject board = game.getBoardObject();
-		TileDeck deck = new TileDeck();
-		deck.shuffle(); //randomize the deck
-		ArrayList<String> deckList = deck.getDeck();
-
-		String player1 = "You";
-		String player2 = "AI";
-		game.setPlayers(player1, player2);
-		game.setTileStack(deck.getDeck());
-		game.setStartTile(deckList.remove(0),0,0,0);
-		int move = 1;
-		Scanner in = new Scanner(System.in);
-		String input = "";
-
-
-		while(true) { 
-			System.out.println("MENU");
-			System.out.println("Type 0 to see the board and available spots." +
-					"\nType 1 to place a tile" + 
-					"\nType 2 to see incomplete regions" + 
-					"\nType 3 to see complete regions" + 
-					"\nType 4 to print scores" + 
-					"\nType 5 to end game"
-					);
-
-			int choice = in.nextInt();
-			in.nextLine();
-			switch(choice) { 
-			case 0: 
-				board.print();
-				board.printSpots();
-				break;
-			case 1: 
-				TigerTile testTile = board.getTile(move++);
-				System.out.println("Your tile is: " + testTile.getType());
-				board.canPlace(testTile);
-
-				System.out.println("Your tile to place is: " + testTile.getType() + "\nAvailable spots and orientations: ");
-				System.out.println(board.getPossibleSpots());
-				System.out.println("SYNTAX: [X] [Y] [ORIENTATION] [TIGER/CROC/NONE] [TIGER INDEX] (leave index empty if nothing)");
-				input = in.nextLine();
-
-				String[] result = input.split("\\s");
-				Location location = new Location(Integer.parseInt(result[0]),Integer.parseInt(result[1]));					
-				testTile.setOrientation(Integer.parseInt(result[2]) / 90);
-
-				if(!board.placeTest(testTile, location)) { 
-					System.out.println("Couldn't place tile. REASON: " + board.getReason());
-					return;
-				}
-				else { 
-					if (result.length > 3)
-						if (result[3].equalsIgnoreCase("CROC")) { 
-							if(!board.placeCrocodile()) { 
-								System.out.println("Couldn't place Crocodile. REASON: " + board.getReason()); 
-								return;
-							}
-						}
-						else if (result[3].equalsIgnoreCase("TIGER")) 
-							if(!board.placeTiger(Integer.parseInt(result[4]))) {
-								System.out.println("Couldn't place Tiger. REASON: " + board.getReason()); 
-								return; 
-							}
-					System.out.println("Successfully \"placed\" tile! AI will now make its move.");
-
-					//					game.inc();
-					//
-					//					String aiMove = game.makeMove();
-					//					String[] aiMoveTokens = aiMove.split("\\s+");
-					//					System.out.println("AI did the following: " + aiMove);
-					//
-					//					int tilePlacedX = Integer.parseInt(aiMoveTokens[3]);
-					//					int tilePlacedY = Integer.parseInt(aiMoveTokens[4]);
-					//					int tileOrientation = Integer.parseInt(aiMoveTokens[5]);
-					//					String animal = aiMoveTokens[6];
-					//					int animalZone = -1; // Default value
-					//
-					//					// Check if the tiger has a zone
-					//					if (animal.equals("TIGER")) {
-					//						animalZone = Integer.parseInt(aiMoveTokens[7]);
-					//					}
-					//					game.placeTile(tilePlacedX, tilePlacedY, tileOrientation, animal,false, animalZone);
-					//					move++;
-				}
-				break;
-			case 2:
-				System.out.println("INCOMPLETE REGIONS");
-				for (Map.Entry<Integer, Region> entry : board.getIncomplete().entrySet()) {
-					System.out.println(entry.getKey() + "/" + entry.getValue());
-
-					for (Terrain terrain : entry.getValue().getTerrains())
-						System.out.println("\t" + terrain);
-				}
-				break;
-
-			case 3:
-				System.out.println("COMPLETE REGIONS");
-				if (board.getComplete().size() == 0) System.out.println("No complete regions");
-				else for (Region region : board.getComplete()) System.out.println(region);
-				break;
-			case 4:
-				board.printScores();
-				break;
-			case 7:
-				board.end();
-				System.exit(0);
-				break;
-			default: 
-				break;
-			}
-			System.out.println();
+//		Game game = new Game("test");
+//		BoardObject board = game.getBoardObject();
+//		TileDeck deck = new TileDeck();
+//		deck.shuffle(); //randomize the deck
+//		ArrayList<String> deckList = deck.getDeck();
+//
+//		String player1 = "You";
+//		String player2 = "AI";
+//		game.setPlayers(player1, player2);
+//		game.setTileStack(deck.getDeck());
+//		game.setStartTile(deckList.remove(0),0,0,0);
+//		int move = 1;
+//		Scanner in = new Scanner(System.in);
+//		String input = "";
+//
+//
+//		while(true) { 
+//			System.out.println("MENU");
+//			System.out.println("Type 0 to see the board and available spots." +
+//					"\nType 1 to place a tile" + 
+//					"\nType 2 to see incomplete regions" + 
+//					"\nType 3 to see complete regions" + 
+//					"\nType 4 to print scores" + 
+//					"\nType 5 to end game"
+//					);
+//
+//			int choice = in.nextInt();
+//			in.nextLine();
+//			switch(choice) { 
+//			case 0: 
+//				board.print();
+//				board.printSpots();
+//				break;
+//			case 1: 
+//				TigerTile testTile = board.getTile(move++);
+//				System.out.println("Your tile is: " + testTile.getType());
+//				board.canPlace(testTile);
+//
+//				System.out.println("Your tile to place is: " + testTile.getType() + "\nAvailable spots and orientations: ");
+//				System.out.println(board.getPossibleSpots());
+//				System.out.println("SYNTAX: [X] [Y] [ORIENTATION] [TIGER/CROC/NONE] [TIGER INDEX] (leave index empty if nothing)");
+//				input = in.nextLine();
+//
+//				String[] result = input.split("\\s");
+//				Location location = new Location(Integer.parseInt(result[0]),Integer.parseInt(result[1]));					
+//				testTile.setOrientation(Integer.parseInt(result[2]) / 90);
+//
+//				if(!board.placeTest(testTile, location)) { 
+//					System.out.println("Couldn't place tile. REASON: " + board.getReason());
+//					return;
+//				}
+//				else { 
+//					if (result.length > 3)
+//						if (result[3].equalsIgnoreCase("CROC")) { 
+//							if(!board.placeCrocodile()) { 
+//								System.out.println("Couldn't place Crocodile. REASON: " + board.getReason()); 
+//								return;
+//							}
+//						}
+//						else if (result[3].equalsIgnoreCase("TIGER")) 
+//							if(!board.placeTiger(Integer.parseInt(result[4]))) {
+//								System.out.println("Couldn't place Tiger. REASON: " + board.getReason()); 
+//								return; 
+//							}
+//					System.out.println("Successfully \"placed\" tile! AI will now make its move.");
+//
+//					//					game.inc();
+//					//
+//					//					String aiMove = game.makeMove();
+//					//					String[] aiMoveTokens = aiMove.split("\\s+");
+//					//					System.out.println("AI did the following: " + aiMove);
+//					//
+//					//					int tilePlacedX = Integer.parseInt(aiMoveTokens[3]);
+//					//					int tilePlacedY = Integer.parseInt(aiMoveTokens[4]);
+//					//					int tileOrientation = Integer.parseInt(aiMoveTokens[5]);
+//					//					String animal = aiMoveTokens[6];
+//					//					int animalZone = -1; // Default value
+//					//
+//					//					// Check if the tiger has a zone
+//					//					if (animal.equals("TIGER")) {
+//					//						animalZone = Integer.parseInt(aiMoveTokens[7]);
+//					//					}
+//					//					game.placeTile(tilePlacedX, tilePlacedY, tileOrientation, animal,false, animalZone);
+//					//					move++;
+//				}
+//				break;
+//			case 2:
+//				System.out.println("INCOMPLETE REGIONS");
+//				for (Map.Entry<Integer, Region> entry : board.getIncomplete().entrySet()) {
+//					System.out.println(entry.getKey() + "/" + entry.getValue());
+//
+//					for (Terrain terrain : entry.getValue().getTerrains())
+//						System.out.println("\t" + terrain);
+//				}
+//				break;
+//
+//			case 3:
+//				System.out.println("COMPLETE REGIONS");
+//				if (board.getComplete().size() == 0) System.out.println("No complete regions");
+//				else for (Region region : board.getComplete()) System.out.println(region);
+//				break;
+//			case 4:
+//				board.printScores();
+//				break;
+//			case 7:
+//				board.end();
+//				System.exit(0);
+//				break;
+//			default: 
+//				break;
+//			}
+//			System.out.println();
 
 			//		gameB.placeTile(0, -1, 180, "TIGER", true, 3);
 			//		gameA.placeTile(0, -1, 270, "CROCODILE", false, -1);
@@ -484,4 +546,3 @@ public class Game {
 			////		gameB.endGame();
 		}
 	}
-}

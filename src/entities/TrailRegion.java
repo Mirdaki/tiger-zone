@@ -155,7 +155,6 @@ public class TrailRegion extends Region {
 					numEnds++;
 				}			
 			}
-			System.out.println(numEnds);
 			if (numEnds == 2) isCompleted = true;
 		}
 

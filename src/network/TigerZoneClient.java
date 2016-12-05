@@ -3,6 +3,8 @@ package network;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,6 +46,14 @@ public class TigerZoneClient {
 			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 			String fromTourneyServer = "", fromHandler, fromAI;
 
+
+			Map<String,Game> games = new HashMap<String, Game>();
+			Game gameFirst = null;
+			Game gameSecond = null;
+			String firstGame = "";
+			String secondGame = "";
+			String activeIn = ""; 
+
 			//variable declarations - information from server
 			String gameID, GameA = null, GameB = null; // IDs for games
 			String currentPlayerID;
@@ -71,14 +81,12 @@ public class TigerZoneClient {
 			int animalZone;
 
 			// Games themselves
-			Game gameA = null;
-			Game gameB = null;
+
+
 			// Game move count
 			moveANum = 1;
 			moveBNum = 1;
 			// Flag for first game
-			boolean firstGame = false;
-			boolean secondGame = false;
 
 			//tile AI wants to place
 			String tileToPlace;
@@ -89,15 +97,15 @@ public class TigerZoneClient {
 			while ((fromTourneyServer = in.readLine()) != null) {
 
 				//display information from server
-				System.out.println("Server: " + fromTourneyServer);
+				System.out.println("Server (" + userName + "): " + fromTourneyServer);
 
 				if (fromTourneyServer.equals("THIS IS SPARTA!")) { //if first message, send join request
-					out.println("JOIN " + serverPass + "\r");
+					out.println("JOIN " + serverPass );
 					System.out.println("Client: " + "JOIN " + serverPass );
 				}
 				else if (fromTourneyServer.equals("HELLO!")) {  //if request accepted, send authentication
-					out.println("I AM " + userName + " " + userPass + "\r");
-					System.out.println("Client: " + "I AM " + userName + " " + userPass + "\r");
+					out.println("I AM " + userName + " " + userPass );
+					System.out.println("Client: " + "I AM " + userName + " " + userPass );
 				}
 				else if (fromTourneyServer.equals("THANK YOU FOR PLAYING! GOODBYE")) { //if end of tournament, exit from this
 					// Exit everything
@@ -120,19 +128,21 @@ public class TigerZoneClient {
 					case "BEGIN": //if round begun (might not need)
 						roundID = Integer.parseInt(tokenizedMessage[2]);
 						numRounds = Integer.parseInt(tokenizedMessage[4]);
+
 						// Create games
-						gameA = new Game("A");
-						gameB = new Game("B");
+						gameFirst = new Game("First Player");
+						gameSecond = new Game("Second Player");
+
 						moveANum = 1;
 						moveBNum = 1;
-						firstGame = false;
-						secondGame = false;
+						firstGame = "";
+						secondGame = "";
 						break;
 
 					case "YOUR": //take in opponent information
 						opponentName = tokenizedMessage[4];
-						gameA.setPlayers(userName, opponentName);
-						gameB.setPlayers(userName, opponentName);
+						gameFirst.setPlayers(userName, opponentName);
+						gameSecond.setPlayers(userName, opponentName);
 						break;
 
 					case "STARTING": //take in starting tile information (hope we dont need)
@@ -141,8 +151,9 @@ public class TigerZoneClient {
 						startingY = Integer.parseInt(tokenizedMessage[6]);
 						startingOrientation = Integer.parseInt(tokenizedMessage[7]);
 						// Give games starting spots
-						gameA.setStartTile(startingTile, startingX, startingY, startingOrientation);
-						gameB.setStartTile(startingTile, startingX, startingY, startingOrientation);
+						gameFirst.setStartTile(startingTile, startingX, startingY, startingOrientation);
+						gameSecond.setStartTile(startingTile, startingX, startingY, startingOrientation);
+
 						break;
 
 					case "THE": //take in the randomized tile list
@@ -153,8 +164,8 @@ public class TigerZoneClient {
 							tiles.add(tokenizedMessage[i+6]);
 
 						// Gove games remaining tiles
-						gameA.setTileStack(tiles);
-						gameB.setTileStack(tiles);
+						gameFirst.setTileStack(tiles);
+						gameSecond.setTileStack(tiles);
 						break;
 
 					case "MATCH": //begin match
@@ -165,56 +176,23 @@ public class TigerZoneClient {
 					case "MAKE": //send off move based on current tile
 						gameID = tokenizedMessage[5];
 						String tempMove = tokenizedMessage[10];
-						// Set the right values for the first and second game
-						if (!firstGame)
-						{
-							GameA = gameID;
-							firstGame = true;
-							if (gameID == "1")
-								GameB = "2";
-							else
-								GameB = '1';
+						activeIn = gameID;
+						int moveNum = Integer.parseInt(tempMove);
+
+						if (firstGame.equals("")) { 
+							firstGame = gameID;
+							games.put(firstGame, gameFirst);
 						}
-						else if (!secondGame)
-						{
-							GameB = gameID;
-							secondGame = true;
-							moveBNum++;
-							gameB.inc();
-						}
-						/*if (GameA == null && (tempMove.equals("1") || tempMove.equals("2"))){
-							GameA = gameID;
-							if (tempMove.equals("2")){
-								moveANum++;
-								gameA.inc();
-							}
-						}
-						else if(GameB == null && ((tempMove.equals("1") || tempMove.equals("2")))){
-							GameB = gameID;
-							if (tempMove.equals("2")){
-								moveBNum++;
-								gameB.inc();
-							}
-						}*/
 
 						tileToPlace = tokenizedMessage[12];
 						response = "";
-						// Pass the move to the game
-						if (gameID.equals(GameA))
-						{
-							response = gameA.makeMove();
-							// Add the starting information to the move
-							response = "GAME " + GameA + " MOVE " + moveANum + " " + response;
-						}
-						else if (gameID.equals(GameB))
-						{
-							response = gameB.makeMove();
-							// Add the starting information to the move
-							response = "GAME " + GameB + " MOVE " + moveBNum + " " + response;
-						}
+
+						Game activeGame = games.get(gameID);
+						response = activeGame.makeMove(moveNum);
+						response = "GAME " + gameID + " MOVE " + moveNum + " " + response;
 
 						// Send our move
-						out.println(response + "\r");
+						out.println(response );
 						System.out.println("Client: " + response );
 						break;
 
@@ -225,21 +203,25 @@ public class TigerZoneClient {
 							//game over logic - i.e. tell AI to stop the two games
 							//or forfeited game logic - ie. tell AI to stop the two games due to forfeit
 							// Get the ended game
-							if (gameID.equals(GameA))
-							{
-								GameA = null;
-								if (gameA != null) gameA.endGame();
-								gameA = null;
+
+							if (games.containsKey(gameID)) { 
+								Game endedGame = games.get(gameID);
+								endedGame.endGame();
+								games.remove(gameID);
 							}
-							else if (gameID.equals(GameB))
-							{
-								GameB = null;
-								if (gameB != null) gameB.endGame();
-								gameB = null;
-							}
+
 						}
 						else if (tokenizedMessage[6].equals("PLACED"))
 						{
+
+							if (secondGame.equals("") && !games.containsKey(gameID)) {
+								secondGame = gameID;
+								games.put(secondGame, gameSecond);
+							}
+							String tempMove1 = tokenizedMessage[3];
+							int moveNum1 = Integer.parseInt(tempMove1);
+
+
 							//a move was made - place onto own board(s)
 							tilePlaced = tokenizedMessage[7];
 							tilePlacedX = Integer.parseInt(tokenizedMessage[9]);
@@ -249,38 +231,26 @@ public class TigerZoneClient {
 							animalZone = -1; // Default value
 
 							// Check if the tiger has a zone
-							if (animal.equals("TIGER"))
-							{
+							if (animal.equals("TIGER")) {
 								animalZone = Integer.parseInt(tokenizedMessage[13]);
 							}
 
-							// Place the tile in the game
-							if (gameID.equals(GameA)) {
-								moveANum++;
-								gameA.placeTile(tilePlacedX, tilePlacedY, tileOrientation, animal,
-										userName.equals(currentPlayerID), animalZone);
-							} else if (gameID.equals(GameB)) {
-								moveBNum++;
-								gameB.placeTile(tilePlacedX, tilePlacedY, tileOrientation, animal,
-										userName.equals(currentPlayerID), animalZone);
+							if (!gameID.equals(activeIn)) { 
+								Game notActive = games.get(gameID);
+								notActive.placeTile(tilePlacedX, tilePlacedY, tileOrientation, animal, false, animalZone, moveNum1);
 							}
 
 						}
-						else if (tokenizedMessage[6].equals("TILE"))
-						{
-							if (tokenizedMessage[7].equals("PASS"))
-							{
+						else if (tokenizedMessage[6].equals("TILE")) {
+							if (tokenizedMessage[7].equals("PASS")) {
 								// Place the tile in the game
-								if (gameID.equals(GameA)) {
-									moveANum++;
-									gameA.pass();
-								} else if (gameID.equals(GameB)) {
-									moveBNum++;
-									gameB.pass();
-								}
+
+
+								Game passGame = games.get(gameID);
+								passGame.pass();
+
 							}
-							else
-							{
+							else {
 								// When a tiger is added or retrived
 								String addOrReplace = tokenizedMessage[9];
 								boolean addTiger = false;
@@ -300,23 +270,16 @@ public class TigerZoneClient {
 									tilePlacedY = Integer.parseInt(tokenizedMessage[14]);
 								}
 
-								// Place the tile in the game
-								if (gameID.equals(GameA)) {
-									moveANum++;
-									gameA.unplaceableTile(userName.equals(currentPlayerID), addTiger,
-											tilePlacedX, tilePlacedY);
-								} else if (gameID.equals(GameB)) {
-									moveBNum++;
-									gameB.unplaceableTile(userName.equals(currentPlayerID), addTiger,
-											tilePlacedX, tilePlacedY);
-								}
+								Game unplaceableGame = games.get(gameID);
+								unplaceableGame.unplaceableTile(userName.equals(currentPlayerID), addTiger, tilePlacedX, tilePlacedY);
+
 							}
 						}
 						break;
 
 					default:
 						//System.out.println("DID NOT CATCH: " + fromTourneyServer);
-					//break;
+						//break;
 					}
 				}
 			}

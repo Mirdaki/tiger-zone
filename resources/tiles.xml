@@ -24,7 +24,7 @@
     </tile>
 
     <tile type="TTTT-" count="1">
-        <center>T</center>
+        <center>X</center>
         <regions>
             <region rtype="jungle" id="4">0</region>
             <region rtype="trail" id="2" type="E">1</region>
@@ -56,7 +56,7 @@
     </tile>
 
     <tile type="TJTT-" count="4">
-        <center>T</center>
+        <center>X</center>
         <regions>
             <region rtype="jungle" id="12">0</region>
             <region rtype="trail" id="8" type="E">1</region>
@@ -102,9 +102,9 @@
     <tile type="LJLJ-" count="3">
         <center>J</center>
         <regions>
-            <region rtype="lake" id="5" type="E">0 1 2</region>
-            <region rtype="jungle" id="19">3 7</region>
-            <region rtype="lake" id="6" type="E">4 5 6</region>
+            <region rtype="lake" id="5" type="E">1</region>
+            <region rtype="jungle" id="19">0 2 3 4 6 7</region>
+            <region rtype="lake" id="6" type="E">5</region>
         </regions>
     </tile>
 
@@ -186,7 +186,7 @@
     </tile>
 
     <tile type="TLLL-" count="1">
-        <center>L</center>
+        <center>T</center>
         <regions>
             <region rtype="jungle" id="34">0</region>
             <region rtype="trail" id="17" type="E">1</region>
@@ -196,7 +196,7 @@
     </tile>
 
     <tile type="TLTT-" count="1">
-        <center>T</center>
+        <center>X</center>
         <regions>
             <region rtype="jungle" id="36">0</region>
             <region rtype="trail" id="18" type="E">1</region>
@@ -209,7 +209,7 @@
     </tile>
 
     <tile type="TLTTP" count="2">
-        <center>T</center>
+        <center>X</center>
         <regions>
             <region rtype="jungle" id="39">0</region>
             <region rtype="trail" id="21" type="E">1</region>
@@ -222,7 +222,7 @@
     </tile>
 
     <tile type="TLLT-" count="3">
-        <center>J</center>
+        <center>T</center>
         <regions>
             <region rtype="jungle" id="42">0</region>
             <region rtype="trail" id="24" type="C">1 7</region>
@@ -232,7 +232,7 @@
     </tile>
 
     <tile type="TLLTB" count="2">
-        <center>J</center>
+        <center>T</center>
         <regions>
             <region rtype="jungle" id="44">0</region>
             <region rtype="trail" id="25" type="C">1 7</region>
@@ -262,7 +262,7 @@
     </tile>
 
     <tile type="TLLLC" count="2">
-        <center>L</center>
+        <center>T</center>
         <regions>
             <region rtype="jungle" id="34">0</region>
             <region rtype="trail" id="17" type="E">1</region>
